@@ -1,0 +1,73 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ActuarialAddIn.sln
+
+    - name: Build
+      run: dotnet build ActuarialAddIn.sln --configuration Release --no-restore
+
+    - name: Run Tests
+      run: dotnet run --project src/ActuarialAddIn.Tests/ActuarialAddIn.Tests.csproj --configuration Release -- test_results.md
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: test_results.md
+
+    - name: Upload Add-In
+      uses: actions/upload-artifact@v4
+      with:
+        name: actuarial-addin
+        path: |
+          src/ActuarialAddIn/bin/Release/net6.0-windows/*.xll
+          src/ActuarialAddIn/bin/Release/net6.0-windows/ActuarialAddIn.dll
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: github.event_name == 'release'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build Release
+      run: dotnet build ActuarialAddIn.sln --configuration Release
+
+    - name: Create Release Package
+      run: |
+        mkdir release
+        copy src\ActuarialAddIn\bin\Release\net6.0-windows\*.xll release\
+        copy src\ActuarialAddIn\bin\Release\net6.0-windows\ActuarialAddIn.dll release\
+
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

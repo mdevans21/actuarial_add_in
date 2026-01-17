@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DnaLibrary Name="Actuarial Add-In" RuntimeVersion="v4.0">
+  <ExternalLibrary Path="ActuarialAddIn.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" />
+</DnaLibrary>
