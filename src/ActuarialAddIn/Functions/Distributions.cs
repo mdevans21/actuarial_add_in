@@ -34,7 +34,20 @@ public static class Distributions
     {
         if (lambda <= 0) return double.NaN;
         if (p < 0 || p > 1) return double.NaN;
-        return Poisson.InvCDF(lambda, p);
+
+        // Binary search for inverse CDF
+        int low = 0;
+        int high = (int)Math.Max(1000, lambda * 10);
+        while (low < high)
+        {
+            int mid = (low + high) / 2;
+            double cdf = Poisson.CDF(lambda, mid);
+            if (cdf < p)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
     }
 
     #endregion
