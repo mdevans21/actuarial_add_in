@@ -166,32 +166,40 @@ class Program
 
     static void TestChainLadder()
     {
-        Log("## 5. Chain Ladder\n");
+        Log("## 5. Chain Ladder (Taylor-Ashe Dataset)\n");
+        Log("Using the Taylor-Ashe triangle from Peter England's bootstrapping presentation.\n");
 
-        // Sample triangle (cumulative paid losses)
+        // Taylor-Ashe triangle (cumulative paid losses)
+        // Source: England & Verrall (1999), Taylor & Ashe (1983)
         var triangle = new double[,]
         {
-            { 100, 150, 170, 180, 185 },
-            { 110, 165, 190, 200, 0 },
-            { 120, 180, 210, 0, 0 },
-            { 130, 195, 0, 0, 0 },
-            { 140, 0, 0, 0, 0 }
+            { 357848, 1124788, 1735330, 2218270, 2745596, 3319994, 3466336, 3606286, 3833515, 3901463 },
+            { 352118, 1236139, 2170033, 3353322, 3799067, 4120063, 4647867, 4914039, 5339085, 0 },
+            { 290507, 1292306, 2218525, 3235179, 3985995, 4132918, 4628910, 4909315, 0, 0 },
+            { 310608, 1418858, 2195047, 3757447, 4029929, 4381982, 4588268, 0, 0, 0 },
+            { 443160, 1136350, 2128333, 2897821, 3402672, 3873311, 0, 0, 0, 0 },
+            { 396132, 1333217, 2180715, 2985752, 3691712, 0, 0, 0, 0, 0 },
+            { 440832, 1288463, 2419861, 3483130, 0, 0, 0, 0, 0, 0 },
+            { 359480, 1421128, 2864498, 0, 0, 0, 0, 0, 0, 0 },
+            { 376686, 1363294, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 344014, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
 
-        Log("### Input Triangle (Cumulative Paid Losses)");
-        Log("| AY\\Dev | 1 | 2 | 3 | 4 | 5 |");
-        Log("|--------|---|---|---|---|---|");
-        for (int i = 0; i < 5; i++)
+        Log("### Input Triangle (Cumulative Paid Losses - Taylor-Ashe)");
+        Log("| AY | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |");
+        Log("|--|--|--|--|--|--|--|--|--|--|--|");
+        for (int i = 0; i < 10; i++)
         {
             var row = $"| {i + 1} |";
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 10; j++)
             {
-                row += triangle[i, j] > 0 ? $" {triangle[i, j]} |" : " - |";
+                row += triangle[i, j] > 0 ? $" {triangle[i, j]:N0} |" : " - |";
             }
             Log(row);
         }
 
         Log("\n### Development Factors");
+        Log("Expected: 3.491, 1.747, 1.457, 1.174, 1.104, 1.086, 1.054, 1.077, 1.018");
         var factors = ChainLadder.ACT_CL_FACTORS(triangle);
         Log("| Period | Factor |");
         Log("|--------|--------|");
@@ -200,26 +208,19 @@ class Program
             Log($"| {i + 1}-{i + 2} | {factors[i]:F4} |");
         }
 
-        Log("\n### Projected Ultimates");
+        Log("\n### Projected Ultimates and IBNR");
+        Log("Expected Total IBNR: ~18,680,856");
         var ultimates = ChainLadder.ACT_CL_ULTIMATE(triangle);
-        Log("| AY | Ultimate |");
-        Log("|----|----------|");
+        var ibnr = ChainLadder.ACT_CL_IBNR(triangle);
+        Log("| AY | Ultimate | IBNR |");
+        Log("|----|----------|------|");
+        double totalIBNR = 0;
         for (int i = 0; i < ultimates.Length; i++)
         {
-            Log($"| {i + 1} | {ultimates[i]:F2} |");
-        }
-
-        Log("\n### IBNR Reserves");
-        var ibnr = ChainLadder.ACT_CL_IBNR(triangle);
-        Log("| AY | IBNR |");
-        Log("|----|------|");
-        double totalIBNR = 0;
-        for (int i = 0; i < ibnr.Length; i++)
-        {
-            Log($"| {i + 1} | {ibnr[i]:F2} |");
+            Log($"| {i + 1} | {ultimates[i]:N0} | {ibnr[i]:N0} |");
             totalIBNR += (double)ibnr[i];
         }
-        Log($"| **Total** | **{totalIBNR:F2}** |");
+        Log($"| **Total** | | **{totalIBNR:N0}** |");
 
         Log("\n### Mack Standard Errors");
         var reserveSE = ChainLadder.ACT_MACK_RESERVE_SE(triangle);
@@ -227,7 +228,7 @@ class Program
         Log("|----|------------|");
         for (int i = 0; i < reserveSE.Length; i++)
         {
-            Log($"| {i + 1} | {reserveSE[i]:F2} |");
+            Log($"| {i + 1} | {reserveSE[i]:N0} |");
         }
         Log("");
     }

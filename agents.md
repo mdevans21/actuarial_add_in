@@ -41,7 +41,10 @@ The following test parameters are used consistently across the test suite and Ex
 
 | Chain Ladder | Data |
 |--------------|------|
-| Triangle | 5x5 cumulative paid losses |
+| Triangle | Taylor-Ashe 10x10 cumulative paid losses |
+| Source | England & Verrall (1999), Taylor & Ashe (1983) |
+| Expected Factors | 3.491, 1.747, 1.457, 1.174, 1.104, 1.086, 1.054, 1.077, 1.018 |
+| Expected Total IBNR | ~18,680,856 |
 
 | Copula | Parameters |
 |--------|------------|
