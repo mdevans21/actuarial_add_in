@@ -2,11 +2,15 @@ using ExcelDna.Integration;
 
 namespace ActuarialAddIn.Functions;
 
+/// <summary>
+/// Reinsurance functions for excess of loss, quota share, and increased limit factor calculations.
+/// Includes return period analysis for catastrophe modeling.
+/// </summary>
 public static class Reinsurance
 {
     #region Excess of Loss Layer Calculations
 
-    [ExcelFunction(Description = "Calculate loss to an excess of loss layer", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate loss to an XOL layer: min(max(0, loss - attachment), limit). Standard formula for layer pricing and allocation.", Category = "Actuarial.Reinsurance")]
     public static double ACT_XOL_LAYER_LOSS(
         [ExcelArgument(Description = "Ground-up loss amount")] double groundUpLoss,
         [ExcelArgument(Description = "Layer attachment point (deductible)")] double attachment,
@@ -39,13 +43,13 @@ public static class Reinsurance
         return Math.Min(excessLoss, aggLimit);
     }
 
-    [ExcelFunction(Description = "Calculate expected layer loss using Pareto severity", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate expected layer loss assuming Pareto Type I severity. Uses LEV (Limited Expected Value) method: E[layer] = freq * P(X>attach) * (LEV(exhaust) - LEV(attach)). Requires alpha > 1 for finite mean.", Category = "Actuarial.Reinsurance")]
     public static double ACT_XOL_EXPECTED_LOSS(
-        [ExcelArgument(Description = "Expected frequency (number of claims)")] double frequency,
+        [ExcelArgument(Description = "Expected frequency (number of claims) at ground-up")] double frequency,
         [ExcelArgument(Description = "Layer attachment point")] double attachment,
         [ExcelArgument(Description = "Layer limit")] double limit,
-        [ExcelArgument(Description = "Pareto alpha parameter")] double alpha,
-        [ExcelArgument(Description = "Pareto minimum (xm)")] double xm)
+        [ExcelArgument(Description = "Pareto alpha parameter (> 1 for finite mean). Typical values: 1.5-3 for liability.")] double alpha,
+        [ExcelArgument(Description = "Pareto minimum (xm) - scale parameter")] double xm)
     {
         if (frequency < 0 || attachment < 0 || limit <= 0) return double.NaN;
         if (alpha <= 1 || xm <= 0) return double.NaN;
@@ -73,11 +77,11 @@ public static class Reinsurance
 
     #region Increased Limit Factors
 
-    [ExcelFunction(Description = "Calculate increased limit factor using Pareto distribution", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate increased limit factor (ILF) using Pareto severity. ILF = LEV(target)/LEV(base). Used for pricing higher limits in liability insurance.", Category = "Actuarial.Reinsurance")]
     public static double ACT_ILF_PARETO(
-        [ExcelArgument(Description = "Target limit")] double targetLimit,
-        [ExcelArgument(Description = "Base limit")] double baseLimit,
-        [ExcelArgument(Description = "Pareto alpha parameter (> 1)")] double alpha)
+        [ExcelArgument(Description = "Target limit (the higher limit)")] double targetLimit,
+        [ExcelArgument(Description = "Base limit (typically $100K or $1M)")] double baseLimit,
+        [ExcelArgument(Description = "Pareto alpha parameter (> 1). Lower alpha = higher ILFs. Typical: 1.5-2.5 for liability.")] double alpha)
     {
         if (targetLimit <= 0 || baseLimit <= 0 || alpha <= 1) return double.NaN;
         if (targetLimit <= baseLimit) return 1.0;
@@ -99,7 +103,7 @@ public static class Reinsurance
 
     #region Return Period Functions
 
-    [ExcelFunction(Description = "Calculate loss from return period using exceedance probability curve", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Interpolate loss for a target return period from an EP curve. Uses log-linear interpolation by default (standard for cat modeling).", Category = "Actuarial.Reinsurance")]
     public static double ACT_RETURN_PERIOD_LOSS(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
         [ExcelArgument(Description = "Corresponding losses (column)")] double[] losses,
@@ -170,7 +174,7 @@ public static class Reinsurance
         return result;
     }
 
-    [ExcelFunction(Description = "Calculate AAL (Average Annual Loss) from OEP curve", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate AAL (Average Annual Loss) from OEP curve via numerical integration. AAL = integral of loss over exceedance probability. Standard cat modeling metric.", Category = "Actuarial.Reinsurance")]
     public static double ACT_AAL_FROM_OEP(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
         [ExcelArgument(Description = "Corresponding OEP losses (column)")] double[] oepLosses)

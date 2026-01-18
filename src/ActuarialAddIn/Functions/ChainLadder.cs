@@ -4,11 +4,20 @@ using System.Linq;
 
 namespace ActuarialAddIn.Functions;
 
+/// <summary>
+/// Chain ladder and reserving methods for general insurance loss reserving.
+/// References:
+/// - Mack, T. (1993). "Distribution-free calculation of the standard error of chain ladder reserve estimates." ASTIN Bulletin 23(2): 213-225.
+/// - Mack, T. (1999). "The standard error of chain ladder reserve estimates: Recursive calculation and inclusion of a tail factor." ASTIN Bulletin 29(2): 361-366.
+/// - England, P.D. and Verrall, R.J. (2002). "Stochastic claims reserving in general insurance." British Actuarial Journal 8(3): 443-518.
+/// - Bornhuetter, R.L. and Ferguson, R.E. (1972). "The actuary and IBNR." Proceedings of the CAS, LIX: 181-195.
+/// - Berquist, J.R. and Sherman, R.E. (1977). "Loss reserve adequacy testing: A comprehensive, systematic approach." Proceedings of the CAS, LXIV: 123-184.
+/// </summary>
 public static class ChainLadder
 {
     #region Basic Chain Ladder
 
-    [ExcelFunction(Description = "Calculate chain ladder development factors", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Calculate volume-weighted chain ladder development factors from a cumulative triangle. Standard reserving method per Mack (1993).", Category = "Actuarial.ChainLadder")]
     public static object[] ACT_CL_FACTORS(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Use only top N (oldest) years; default is all")] double topNYears = double.PositiveInfinity,
@@ -134,7 +143,7 @@ public static class ChainLadder
         return ibnr;
     }
 
-    [ExcelFunction(Description = "Bornhuetter-Ferguson ultimate using development factors and a priori ultimates", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Bornhuetter-Ferguson ultimate: Ult = Paid + Unreported%. Balances actual experience with a priori expectation. Ref: Bornhuetter & Ferguson (1972). Use when data is immature or volatile.", Category = "Actuarial.ChainLadder")]
     public static object[] ACT_BF_ULTIMATE(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Development factors (n-1)")] double[] developmentFactors,
@@ -190,7 +199,7 @@ public static class ChainLadder
 
     #region Mack Chain Ladder
 
-    [ExcelFunction(Description = "Mack chain ladder standard errors for development factors", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Mack chain ladder standard errors for development factors. Distribution-free method per Mack (1993). Measures uncertainty in LDF estimates.", Category = "Actuarial.ChainLadder")]
     public static object[] ACT_MACK_FACTOR_SE(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
     {
@@ -236,7 +245,7 @@ public static class ChainLadder
         return factorSE;
     }
 
-    [ExcelFunction(Description = "Mack chain ladder reserve standard errors", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Mack chain ladder reserve standard errors by origin year. Per Mack (1993, 1999). Use for reserve range and risk margin calculations.", Category = "Actuarial.ChainLadder")]
     public static object[] ACT_MACK_RESERVE_SE(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
     {
@@ -463,7 +472,7 @@ public static class ChainLadder
 
     #region Bootstrap Methods
 
-    [ExcelFunction(Description = "Bootstrap chain ladder reserves - returns percentiles", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Bootstrap chain ladder reserves - returns percentiles. Stochastic reserving method per England & Verrall (2002). Generates full distribution of reserve outcomes.", Category = "Actuarial.ChainLadder")]
     public static object[,] ACT_BOOTSTRAP_CL(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations")] int iterations,
@@ -598,7 +607,7 @@ public static class ChainLadder
 
     #region Berquist-Sherman Adjustment
 
-    [ExcelFunction(Description = "Berquist-Sherman paid loss adjustment for case reserve adequacy changes", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "Berquist-Sherman paid loss adjustment for case reserve adequacy changes. Ref: Berquist & Sherman (1977). Restates historical paids to current adequacy level.", Category = "Actuarial.ChainLadder")]
     public static object[,] ACT_BERQUIST_SHERMAN(
         [ExcelArgument(Description = "Paid loss triangle (n x n cumulative values)")] double[,] paidTriangle,
         [ExcelArgument(Description = "Case reserve triangle (n x n values)")] double[,] caseTriangle,

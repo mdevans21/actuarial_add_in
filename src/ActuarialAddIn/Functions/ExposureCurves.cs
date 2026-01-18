@@ -2,15 +2,22 @@ using ExcelDna.Integration;
 
 namespace ActuarialAddIn.Functions;
 
+/// <summary>
+/// Exposure curve functions for property and casualty insurance pricing.
+/// An exposure curve G(d) gives the proportion of expected losses below d proportion of sum insured.
+/// References:
+/// - Bernegger, S. (1997). "The Swiss Re Exposure Curves and the MBBEFD Distribution Class." ASTIN Bulletin 27(1): 99-111.
+/// - Riegel, U. (2008). "Generalizations of common ILF models." Blätter der DGVFM 29: 45-71.
+/// </summary>
 public static class ExposureCurves
 {
     #region MBBEFD / Swiss Re Curves
 
-    [ExcelFunction(Description = "MBBEFD exposure curve - returns proportion of losses captured at given proportion of sum insured", Category = "Actuarial.ExposureCurves")]
+    [ExcelFunction(Description = "MBBEFD exposure curve (Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac): G(d) gives proportion of losses below d% of sum insured. See Bernegger (1997).", Category = "Actuarial.ExposureCurves")]
     public static double ACT_MBBEFD(
-        [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
-        [ExcelArgument(Description = "b parameter (b > 0, b != 1)")] double b,
-        [ExcelArgument(Description = "g parameter (g > 0, g != 1)")] double g)
+        [ExcelArgument(Description = "Proportion of sum insured (0 to 1). d=0.5 means 50% of TSI.")] double d,
+        [ExcelArgument(Description = "b parameter (b > 0). Higher b = more concentrated exposure.")] double b,
+        [ExcelArgument(Description = "g parameter (g > 0). Higher g = heavier distribution tail.")] double g)
     {
         if (d < 0 || d > 1) return double.NaN;
         if (b <= 0 || g <= 0) return double.NaN;
@@ -42,21 +49,21 @@ public static class ExposureCurves
         return numerator / denominator;
     }
 
-    [ExcelFunction(Description = "Swiss Re exposure curve by curve number (1-5)", Category = "Actuarial.ExposureCurves")]
+    [ExcelFunction(Description = "Swiss Re standard exposure curves (1-5). Curve 1=Light exposure (office risks), 3=Medium (manufacturing), 5=Heavy (petrochemical). Based on MBBEFD parameterization.", Category = "Actuarial.ExposureCurves")]
     public static double ACT_SWISSRE_CURVE(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
-        [ExcelArgument(Description = "Curve number (1 to 5)")] int curveNumber)
+        [ExcelArgument(Description = "Curve number: 1=Light (office), 2=Medium-Light, 3=Medium (manufacturing), 4=Medium-Heavy, 5=Heavy (petrochemical/refinery)")] int curveNumber)
     {
         // Swiss Re standard curves parameterized as MBBEFD
         // These are commonly used b,g parameter combinations
         double b, g;
         switch (curveNumber)
         {
-            case 1: b = 1.5; g = 1.5; break;   // Light
-            case 2: b = 2.0; g = 2.0; break;   // Medium-Light
-            case 3: b = 3.0; g = 3.0; break;   // Medium
-            case 4: b = 4.0; g = 4.0; break;   // Medium-Heavy
-            case 5: b = 5.0; g = 5.0; break;   // Heavy
+            case 1: b = 1.5; g = 1.5; break;   // Light - office, retail
+            case 2: b = 2.0; g = 2.0; break;   // Medium-Light - light industrial
+            case 3: b = 3.0; g = 3.0; break;   // Medium - general manufacturing
+            case 4: b = 4.0; g = 4.0; break;   // Medium-Heavy - heavy industrial
+            case 5: b = 5.0; g = 5.0; break;   // Heavy - petrochemical, refinery
             default: return double.NaN;
         }
         return ACT_MBBEFD(d, b, g);
@@ -66,39 +73,39 @@ public static class ExposureCurves
 
     #region Lloyd's Curves
 
-    [ExcelFunction(Description = "Lloyd's exposure curve", Category = "Actuarial.ExposureCurves")]
+    [ExcelFunction(Description = "Lloyd's Y exposure curves: G(d) = 1 - (1-d)^c. Standard market curves for property insurance by occupancy type.", Category = "Actuarial.ExposureCurves")]
     public static double ACT_LLOYDS_CURVE(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
-        [ExcelArgument(Description = "Curve code: 'Y1', 'Y2', 'Y3', 'Y4', or curve number 1-4")] string curveCode)
+        [ExcelArgument(Description = "Curve code: 'Y1'=Light commercial (c=1.5), 'Y2'=Medium industrial (c=2), 'Y3'=Heavy industrial (c=3), 'Y4'=Petrochemical (c=4). Also accepts 1-4.")] string curveCode)
     {
         if (d < 0 || d > 1) return double.NaN;
         if (d == 0) return 0;
         if (d == 1) return 1;
 
         // Lloyd's Y curves (standard market curves)
-        // Y1: Light industrial/commercial
-        // Y2: Medium industrial
-        // Y3: Heavy industrial
-        // Y4: Petrochemical/refinery
+        // Y1: Light industrial/commercial - lower spread of loss, office buildings
+        // Y2: Medium industrial - warehouses, light manufacturing
+        // Y3: Heavy industrial - factories, processing plants
+        // Y4: Petrochemical/refinery - highly concentrated loss potential
 
         double c;
         switch (curveCode.ToUpper())
         {
             case "Y1":
             case "1":
-                c = 1.5;
+                c = 1.5;  // Light - office, retail, low fire load
                 break;
             case "Y2":
             case "2":
-                c = 2.0;
+                c = 2.0;  // Medium - warehouses, light manufacturing
                 break;
             case "Y3":
             case "3":
-                c = 3.0;
+                c = 3.0;  // Heavy - factories, heavier manufacturing
                 break;
             case "Y4":
             case "4":
-                c = 4.0;
+                c = 4.0;  // Very heavy - petrochemical, chemical plants
                 break;
             default:
                 return double.NaN;
@@ -157,6 +164,71 @@ public static class ExposureCurves
 
         double exponent = 1 - 1 / alpha;
         return 1 - Math.Pow(1 - d, exponent);
+    }
+
+    #endregion
+
+    #region Riebesell Curve
+
+    [ExcelFunction(Description = "Riebesell exposure curve: G(d) = d^n + (1-n)*d*(1-d^n)/(1-d) for d<1. Alternative to MBBEFD with single shape parameter.", Category = "Actuarial.ExposureCurves")]
+    public static double ACT_RIEBESELL_CURVE(
+        [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
+        [ExcelArgument(Description = "n - shape parameter (0 < n <= 1). n=1 gives linear curve; smaller n = heavier concentration of losses.")] double n)
+    {
+        if (d < 0 || d > 1) return double.NaN;
+        if (n <= 0 || n > 1) return double.NaN;
+        if (d == 0) return 0;
+        if (d == 1) return 1;
+
+        // Handle n = 1 (linear case)
+        if (Math.Abs(n - 1) < 1e-10)
+        {
+            return d;
+        }
+
+        // Riebesell formula: G(d) = d^n + (1-n)*d*(1-d^n)/(1-d)
+        double dn = Math.Pow(d, n);
+        return dn + (1 - n) * d * (1 - dn) / (1 - d);
+    }
+
+    [ExcelFunction(Description = "Inverse Riebesell curve - find d given G(d) value using Newton-Raphson iteration.", Category = "Actuarial.ExposureCurves")]
+    public static double ACT_RIEBESELL_CURVE_INV(
+        [ExcelArgument(Description = "Target G(d) value (0 to 1)")] double g,
+        [ExcelArgument(Description = "n - shape parameter (0 < n <= 1)")] double n,
+        [ExcelArgument(Description = "Tolerance for convergence (default 1e-8)")] double tolerance = 1e-8,
+        [ExcelArgument(Description = "Maximum iterations (default 100)")] int maxIterations = 100)
+    {
+        if (g < 0 || g > 1) return double.NaN;
+        if (n <= 0 || n > 1) return double.NaN;
+        if (g == 0) return 0;
+        if (g == 1) return 1;
+
+        // Handle n = 1 (linear case)
+        if (Math.Abs(n - 1) < 1e-10)
+        {
+            return g;
+        }
+
+        // Newton-Raphson to solve G(d) = g
+        double d = g;  // Initial guess
+        for (int i = 0; i < maxIterations; i++)
+        {
+            double currentG = ACT_RIEBESELL_CURVE(d, n);
+            double error = currentG - g;
+            if (Math.Abs(error) < tolerance)
+                return d;
+
+            // Numerical derivative
+            double h = 1e-8;
+            double derivative = (ACT_RIEBESELL_CURVE(d + h, n) - currentG) / h;
+            if (Math.Abs(derivative) < 1e-15)
+                break;
+
+            d = d - error / derivative;
+            d = Math.Max(0, Math.Min(1, d));  // Keep in bounds
+        }
+
+        return d;
     }
 
     #endregion
