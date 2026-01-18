@@ -146,6 +146,30 @@ public static class Reinsurance
             return pairs[pairs.Length - 1].Loss;
     }
 
+    [ExcelFunction(Description = "Generate a return period loss table for target return periods", Category = "Actuarial.Reinsurance")]
+    public static object[,] ACT_RETURN_PERIOD_TABLE(
+        [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
+        [ExcelArgument(Description = "Corresponding losses (column)")] double[] losses,
+        [ExcelArgument(Description = "Target return periods (column)")] double[] targetReturnPeriods,
+        [ExcelArgument(Description = "Interpolation method: 'LOG' (default) or 'LINEAR'")] string method = "LOG")
+    {
+        if (returnPeriods.Length != losses.Length || returnPeriods.Length < 2)
+            return new object[,] { { "Error: Return periods and losses must be same length" } };
+
+        if (targetReturnPeriods.Length < 1)
+            return new object[,] { { "Error: Target return periods required" } };
+
+        var result = new object[targetReturnPeriods.Length, 2];
+        for (int i = 0; i < targetReturnPeriods.Length; i++)
+        {
+            double rp = targetReturnPeriods[i];
+            result[i, 0] = rp;
+            result[i, 1] = ACT_RETURN_PERIOD_LOSS(returnPeriods, losses, rp, method);
+        }
+
+        return result;
+    }
+
     [ExcelFunction(Description = "Calculate AAL (Average Annual Loss) from OEP curve", Category = "Actuarial.Reinsurance")]
     public static double ACT_AAL_FROM_OEP(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,

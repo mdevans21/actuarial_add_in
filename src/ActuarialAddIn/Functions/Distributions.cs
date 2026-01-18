@@ -110,7 +110,9 @@ public static class Distributions
         [ExcelArgument(Description = "Mu - mean of log(X)")] double mu,
         [ExcelArgument(Description = "Sigma - standard deviation of log(X) (> 0)")] double sigma)
     {
-        if (sigma <= 0 || x <= 0) return double.NaN;
+        if (sigma <= 0) return double.NaN;
+        if (x < 0) return double.NaN;
+        if (x == 0) return 0;
         return LogNormal.PDF(mu, sigma, x);
     }
 
