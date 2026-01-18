@@ -1,6 +1,10 @@
 # Actuarial Excel Add-In
 
-A comprehensive Excel add-in for actuarial calculations, built with C# and Excel-DNA.
+A comprehensive Excel add-in for general insurance actuarial calculations, built with C# and Excel-DNA.
+
+This code is in beta and offered without warranty. Please raise bug reports and feature requests through GitHub. 
+
+To install the addin, follow the instructions below, or download the example excel. The example has the add in installed already and shows example usage. 
 
 ## Features
 
