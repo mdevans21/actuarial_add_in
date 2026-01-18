@@ -330,7 +330,10 @@ public static class Distributions
     {
         if (k <= 0 || lambda <= 0) return double.NaN;
         if (p < 0 || p > 1) return double.NaN;
-        return Weibull.InvCDF(k, lambda, p);
+        if (p == 0) return 0;
+        if (p == 1) return double.PositiveInfinity;
+        // Weibull inverse CDF: x = λ * (-ln(1-p))^(1/k)
+        return lambda * Math.Pow(-Math.Log(1 - p), 1.0 / k);
     }
 
     #endregion
