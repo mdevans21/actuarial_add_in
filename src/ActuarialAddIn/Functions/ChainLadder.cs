@@ -669,4 +669,361 @@ public static class ChainLadder
     }
 
     #endregion
+
+    #region Cape Cod Method
+
+    [ExcelFunction(Description = "Cape Cod ultimate: Alternative to B-F that estimates ELR from the data itself. Ult = Paid + ELR * OnLevelPremium * UnreportedPct. Good when a priori ELR is uncertain.", Category = "Actuarial.ChainLadder")]
+    public static object[] ACT_CAPECOD_ULTIMATE(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "On-level earned premium by origin year (n values)")] double[] premium,
+        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[] developmentFactors = null)
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return new object[] { "Error: Triangle must be square" };
+
+        if (premium == null || premium.Length != n)
+            return new object[] { "Error: Premium array must have n values" };
+
+        // Get development factors if not provided
+        double[] factors;
+        if (developmentFactors == null || developmentFactors.Length == 0)
+        {
+            var factorsObj = ACT_CL_FACTORS(triangle);
+            if (factorsObj[0] is string)
+                return factorsObj;
+            factors = factorsObj.Cast<double>().ToArray();
+        }
+        else
+        {
+            if (developmentFactors.Length < n - 1)
+                return new object[] { "Error: Development factors must have n-1 values" };
+            factors = developmentFactors;
+        }
+
+        // Calculate cumulative factors to ultimate (% reported)
+        var pctReported = new double[n];
+        double cumulativeFactor = 1.0;
+        for (int j = n - 2; j >= 0; j--)
+        {
+            cumulativeFactor *= factors[j];
+        }
+        pctReported[0] = 1.0 / cumulativeFactor;
+
+        cumulativeFactor = 1.0;
+        for (int j = n - 2; j >= 0; j--)
+        {
+            cumulativeFactor *= factors[j];
+            int col = n - 1 - j - 1;
+            if (col >= 0 && col < n)
+                pctReported[n - 1 - j] = 1.0 / cumulativeFactor;
+        }
+        pctReported[n - 1] = 1.0;
+
+        // Calculate Cape Cod ELR
+        double sumUsedUp = 0;
+        double sumLatest = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int lastCol = n - 1 - i;
+            double latest = triangle[i, lastCol];
+            double pct = pctReported[lastCol];
+            sumLatest += latest;
+            sumUsedUp += premium[i] * pct;
+        }
+
+        if (sumUsedUp <= 0)
+            return new object[] { "Error: Used-up premium is zero" };
+
+        double elr = sumLatest / sumUsedUp;
+
+        // Calculate ultimates
+        var ultimates = new object[n];
+        for (int i = 0; i < n; i++)
+        {
+            int lastCol = n - 1 - i;
+            double latest = triangle[i, lastCol];
+            double pct = pctReported[lastCol];
+            double unreported = 1.0 - pct;
+            ultimates[i] = latest + elr * premium[i] * unreported;
+        }
+
+        return ultimates;
+    }
+
+    [ExcelFunction(Description = "Cape Cod Expected Loss Ratio: Estimates ELR from triangle and premium data. ELR = ΣLatest / Σ(Premium × PctReported).", Category = "Actuarial.ChainLadder")]
+    public static object ACT_CAPECOD_ELR(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "On-level earned premium by origin year (n values)")] double[] premium,
+        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[] developmentFactors = null)
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return "Error: Triangle must be square";
+
+        if (premium == null || premium.Length != n)
+            return "Error: Premium array must have n values";
+
+        // Get development factors if not provided
+        double[] factors;
+        if (developmentFactors == null || developmentFactors.Length == 0)
+        {
+            var factorsObj = ACT_CL_FACTORS(triangle);
+            if (factorsObj[0] is string)
+                return factorsObj[0];
+            factors = factorsObj.Cast<double>().ToArray();
+        }
+        else
+        {
+            if (developmentFactors.Length < n - 1)
+                return "Error: Development factors must have n-1 values";
+            factors = developmentFactors;
+        }
+
+        // Calculate cumulative factors to ultimate
+        var cdfToUltimate = new double[n];
+        cdfToUltimate[n - 1] = 1.0;
+        for (int j = n - 2; j >= 0; j--)
+        {
+            cdfToUltimate[j] = cdfToUltimate[j + 1] * factors[j];
+        }
+
+        // Calculate Cape Cod ELR
+        double sumUsedUp = 0;
+        double sumLatest = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int lastCol = n - 1 - i;
+            double latest = triangle[i, lastCol];
+            double pctReported = 1.0 / cdfToUltimate[lastCol];
+            sumLatest += latest;
+            sumUsedUp += premium[i] * pctReported;
+        }
+
+        if (sumUsedUp <= 0)
+            return "Error: Used-up premium is zero";
+
+        return sumLatest / sumUsedUp;
+    }
+
+    #endregion
+
+    #region Triangle Utilities
+
+    [ExcelFunction(Description = "Convert cumulative triangle to incremental triangle. Incremental[i,j] = Cumulative[i,j] - Cumulative[i,j-1].", Category = "Actuarial.ChainLadder")]
+    public static object[,] ACT_TRIANGLE_TO_INCREMENTAL(
+        [ExcelArgument(Description = "Cumulative triangle data (n x n)")] double[,] cumulativeTriangle)
+    {
+        int n = cumulativeTriangle.GetLength(0);
+        if (cumulativeTriangle.GetLength(1) != n)
+            return new object[,] { { "Error: Triangle must be square" } };
+
+        var incremental = new object[n, n];
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j <= n - 1 - i; j++)
+            {
+                if (j == 0)
+                    incremental[i, j] = cumulativeTriangle[i, j];
+                else
+                    incremental[i, j] = cumulativeTriangle[i, j] - cumulativeTriangle[i, j - 1];
+            }
+            // Fill remaining with empty
+            for (int j = n - i; j < n; j++)
+            {
+                incremental[i, j] = "";
+            }
+        }
+
+        return incremental;
+    }
+
+    [ExcelFunction(Description = "Convert incremental triangle to cumulative triangle. Cumulative[i,j] = Σ Incremental[i,0..j].", Category = "Actuarial.ChainLadder")]
+    public static object[,] ACT_INCREMENTAL_TO_CUMULATIVE(
+        [ExcelArgument(Description = "Incremental triangle data (n x n)")] double[,] incrementalTriangle)
+    {
+        int n = incrementalTriangle.GetLength(0);
+        if (incrementalTriangle.GetLength(1) != n)
+            return new object[,] { { "Error: Triangle must be square" } };
+
+        var cumulative = new object[n, n];
+
+        for (int i = 0; i < n; i++)
+        {
+            double sum = 0;
+            for (int j = 0; j <= n - 1 - i; j++)
+            {
+                sum += incrementalTriangle[i, j];
+                cumulative[i, j] = sum;
+            }
+            // Fill remaining with empty
+            for (int j = n - i; j < n; j++)
+            {
+                cumulative[i, j] = "";
+            }
+        }
+
+        return cumulative;
+    }
+
+    [ExcelFunction(Description = "Extract the latest diagonal from a triangle (most recent evaluation for each origin year).", Category = "Actuarial.ChainLadder")]
+    public static object[] ACT_TRIANGLE_DIAGONAL(
+        [ExcelArgument(Description = "Triangle data (n x n)")] double[,] triangle,
+        [ExcelArgument(Description = "Diagonal offset (0=latest, 1=one period prior, etc.)")] int offset = 0)
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return new object[] { "Error: Triangle must be square" };
+
+        if (offset < 0 || offset >= n)
+            return new object[] { "Error: Offset must be between 0 and n-1" };
+
+        var diagonal = new object[n];
+        for (int i = 0; i < n; i++)
+        {
+            int col = n - 1 - i - offset;
+            if (col >= 0)
+                diagonal[i] = triangle[i, col];
+            else
+                diagonal[i] = "";
+        }
+
+        return diagonal;
+    }
+
+    [ExcelFunction(Description = "Calculate age-to-age factors (link ratios) for each cell in the triangle.", Category = "Actuarial.ChainLadder")]
+    public static object[,] ACT_TRIANGLE_LINK_RATIOS(
+        [ExcelArgument(Description = "Cumulative triangle data (n x n)")] double[,] triangle)
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return new object[,] { { "Error: Triangle must be square" } };
+
+        var linkRatios = new object[n, n - 1];
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n - 1 - i; j++)
+            {
+                if (triangle[i, j] > 0)
+                    linkRatios[i, j] = triangle[i, j + 1] / triangle[i, j];
+                else
+                    linkRatios[i, j] = "";
+            }
+            // Fill remaining with empty
+            for (int j = n - 1 - i; j < n - 1; j++)
+            {
+                linkRatios[i, j] = "";
+            }
+        }
+
+        return linkRatios;
+    }
+
+    #endregion
+
+    #region Calendar Year Adjustments
+
+    [ExcelFunction(Description = "Adjust triangle for calendar year inflation/trend. Restates all values to latest calendar year dollars.", Category = "Actuarial.ChainLadder")]
+    public static object[,] ACT_CL_CALENDAR_ADJUST(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Annual trend rate (e.g., 0.03 for 3%)")] double trendRate)
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return new object[,] { { "Error: Triangle must be square" } };
+
+        var adjusted = new object[n, n];
+
+        // Calendar year = origin year + development period
+        // Latest calendar year = (n-1) + 0 = n-1 (for origin year n-1, dev period 0)
+        // Actually latest calendar year is n-1 (0-indexed)
+        int latestCalendarYear = n - 1;
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j <= n - 1 - i; j++)
+            {
+                int calendarYear = i + j;
+                int yearsToAdjust = latestCalendarYear - calendarYear;
+                double adjustmentFactor = Math.Pow(1 + trendRate, yearsToAdjust);
+                adjusted[i, j] = triangle[i, j] * adjustmentFactor;
+            }
+            // Fill remaining with empty
+            for (int j = n - i; j < n; j++)
+            {
+                adjusted[i, j] = "";
+            }
+        }
+
+        return adjusted;
+    }
+
+    [ExcelFunction(Description = "Calculate calendar year totals from a triangle (sum along diagonals).", Category = "Actuarial.ChainLadder")]
+    public static object[] ACT_CL_CALENDAR_TOTALS(
+        [ExcelArgument(Description = "Incremental triangle data (n x n)")] double[,] incrementalTriangle)
+    {
+        int n = incrementalTriangle.GetLength(0);
+        if (incrementalTriangle.GetLength(1) != n)
+            return new object[] { "Error: Triangle must be square" };
+
+        // Calendar years go from 0 to 2*(n-1), but only 0 to n-1 have data
+        var calendarTotals = new object[n];
+
+        for (int cy = 0; cy < n; cy++)
+        {
+            double sum = 0;
+            // Calendar year cy = origin year i + development period j
+            // So for each cy, iterate over valid (i, j) pairs where i + j = cy
+            for (int i = 0; i <= cy; i++)
+            {
+                int j = cy - i;
+                if (i < n && j < n && j <= n - 1 - i)
+                {
+                    sum += incrementalTriangle[i, j];
+                }
+            }
+            calendarTotals[cy] = sum;
+        }
+
+        return calendarTotals;
+    }
+
+    [ExcelFunction(Description = "Weighted average of multiple ultimate estimates. Weights should sum to 1.", Category = "Actuarial.ChainLadder")]
+    public static object[] ACT_CL_WEIGHTED_AVERAGE(
+        [ExcelArgument(Description = "First set of ultimates (n values)")] double[] ultimates1,
+        [ExcelArgument(Description = "Weight for first set (0 to 1)")] double weight1,
+        [ExcelArgument(Description = "Second set of ultimates (n values)")] double[] ultimates2,
+        [ExcelArgument(Description = "Weight for second set (0 to 1)")] double weight2,
+        [ExcelArgument(Description = "Third set of ultimates (optional)")] double[] ultimates3 = null,
+        [ExcelArgument(Description = "Weight for third set (optional)")] double weight3 = 0)
+    {
+        if (ultimates1 == null || ultimates2 == null)
+            return new object[] { "Error: Ultimates arrays required" };
+
+        int n = ultimates1.Length;
+        if (ultimates2.Length != n)
+            return new object[] { "Error: All ultimate arrays must be same length" };
+
+        if (ultimates3 != null && ultimates3.Length != n)
+            return new object[] { "Error: All ultimate arrays must be same length" };
+
+        double totalWeight = weight1 + weight2 + weight3;
+        if (Math.Abs(totalWeight - 1.0) > 0.01)
+            return new object[] { $"Warning: Weights sum to {totalWeight:F2}, not 1.0" };
+
+        var result = new object[n];
+        for (int i = 0; i < n; i++)
+        {
+            double weighted = ultimates1[i] * weight1 + ultimates2[i] * weight2;
+            if (ultimates3 != null)
+                weighted += ultimates3[i] * weight3;
+            result[i] = weighted;
+        }
+
+        return result;
+    }
+
+    #endregion
 }
