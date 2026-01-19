@@ -312,7 +312,6 @@ class Program
         
         var triangle = GetTaylorAsheTriangle();
 
-        // Debug: Check deterministic values first
         Log("### Deterministic Chain Ladder Results");
         var factors = ChainLadder.ACT_CL_FACTORS(triangle);
         Log("Development Factors:");
@@ -331,22 +330,29 @@ class Program
         Log($"  Total: {totalIBNR:N0}");
         Log($"Expected Total IBNR: 18,680,856\n");
 
-        Log("### Bootstrap Results (1,000 iterations, seed=42)");
-        Log("E&V Reference: Year 1 SE=0, Year 2 SE=112,379, Total SE=3,087,570\n");
+        Log("### Bootstrap Results (10,000 iterations, seed=123)");
+        Log("Reference: E&V 2002 ODP Bootstrap (non-constant scale target)\n");
 
-        var originStats = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(triangle, 1000, 42);
+        var originStats = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(triangle, 10000, 123);
         
-        Log("| AY | Mean | StdDev | E&V SE |");
-        Log("|----|------|--------|--------|");
-        double[] evSE = {0, 112379, 178443, 209399, 286636, 440310, 571035, 820842, 1258296, 2046223};
+        Log("| AY | Mean | StdDev | E&V Non-Const | Ratio |");
+        Log("|----|------|--------|---------------|-------|");
+        // E&V 2002 Non-Constant Scale ODP Bootstrap results (Taylor-Ashe)
+        double[] evNonConst = {0, 43882, 109449, 141509, 256031, 398377, 529898, 735245, 809457, 1285560};
         for (int i = 1; i < originStats.GetLength(0); i++)
         {
-            Log($"| {originStats[i, 0]} | {originStats[i, 1]:N0} | {originStats[i, 2]:N0} | {evSE[i-1]:N0} |");
+            double ourSE = Convert.ToDouble(originStats[i, 2]);
+            double evSE = evNonConst[i-1];
+            string ratio = evSE > 0 ? $"{ourSE / evSE:P0}" : "-";
+            Log($"| {originStats[i, 0]} | {originStats[i, 1]:N0} | {originStats[i, 2]:N0} | {evSE:N0} | {ratio} |");
         }
         
-        var bootstrap = ChainLadder.ACT_CL_BOOTSTRAP(triangle, 1000, 42);
-        Log($"\nTotal Bootstrap: Mean={bootstrap[0, 1]:N0}, StdDev={bootstrap[1, 1]:N0}");
-        Log($"E&V Reference: Mean=18,680,856, StdDev=3,087,570\n");
+        var bootstrap = ChainLadder.ACT_CL_BOOTSTRAP(triangle, 10000, 123);
+        double totalSE = Convert.ToDouble(bootstrap[1, 1]);
+        Log($"\nTotal Bootstrap: Mean={bootstrap[0, 1]:N0}, StdDev={totalSE:N0}");
+        Log($"E&V Non-Constant Total SE: 2,228,677 (Ratio: {totalSE / 2228677:P0})");
+        Log("\nImplementation: E&V 2002 ODP Bootstrap with non-constant scale parameters.");
+        Log("Period-specific phi values and stratified residual sampling.\n");
     }
 
     static void TestBerquistSherman()
