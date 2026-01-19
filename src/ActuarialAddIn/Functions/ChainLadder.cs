@@ -818,7 +818,7 @@ public static class ChainLadder
     public static object[] ACT_CAPECOD_ULTIMATE(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "On-level earned premium by origin year (n values)")] double[] premium,
-        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[] developmentFactors = null)
+        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[]? developmentFactors = null)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
@@ -897,7 +897,7 @@ public static class ChainLadder
     public static object ACT_CAPECOD_ELR(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "On-level earned premium by origin year (n values)")] double[] premium,
-        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[] developmentFactors = null)
+        [ExcelArgument(Description = "Development factors (n-1). If omitted, calculated from triangle.")] double[]? developmentFactors = null)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)

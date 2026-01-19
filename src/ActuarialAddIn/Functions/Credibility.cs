@@ -41,7 +41,7 @@ public static class Credibility
     public static object ACT_CREDIBILITY_K(
         [ExcelArgument(Description = "Array of observed means by group")] double[] groupMeans,
         [ExcelArgument(Description = "Array of exposure/weight by group")] double[] groupWeights,
-        [ExcelArgument(Description = "Array of within-group variances (optional, estimated if omitted)")] double[] groupVariances = null)
+        [ExcelArgument(Description = "Array of within-group variances (optional, estimated if omitted)")] double[]? groupVariances = null)
     {
         if (groupMeans == null || groupWeights == null)
             return "Error: Group means and weights required";
@@ -109,7 +109,7 @@ public static class Credibility
     public static object[] ACT_BUHLMANN_STRAUB_PARAMS(
         [ExcelArgument(Description = "Array of loss ratios or pure premiums by group")] double[] groupMeans,
         [ExcelArgument(Description = "Array of exposure weights by group")] double[] groupWeights,
-        [ExcelArgument(Description = "Array of within-group sum of squared deviations (optional)")] double[] groupSSE = null)
+        [ExcelArgument(Description = "Array of within-group sum of squared deviations (optional)")] double[]? groupSSE = null)
     {
         if (groupMeans == null || groupWeights == null)
             return new object[] { "Error: Group means and weights required" };
@@ -393,8 +393,8 @@ public static class Credibility
     public static object ACT_BURNING_COST(
         [ExcelArgument(Description = "Historical losses by year")] double[] losses,
         [ExcelArgument(Description = "Earned premium by year")] double[] premium,
-        [ExcelArgument(Description = "Loss trend factors by year (to bring to current level)")] double[] lossTrend,
-        [ExcelArgument(Description = "Premium on-level factors by year")] double[] premiumOnLevel)
+        [ExcelArgument(Description = "Loss trend factors by year (to bring to current level)")] double[]? lossTrend = null,
+        [ExcelArgument(Description = "Premium on-level factors by year")] double[]? premiumOnLevel = null)
     {
         if (losses == null || premium == null)
             return "Error: Losses and premium arrays required";
@@ -754,7 +754,7 @@ public static class Credibility
     [ExcelFunction(Description = "Composite rate: blends experience from multiple years with declining weights.", Category = "Actuarial.Credibility")]
     public static object ACT_COMPOSITE_RATE(
         [ExcelArgument(Description = "Array of loss ratios by year (most recent first)")] double[] lossRatios,
-        [ExcelArgument(Description = "Array of weights by year (most recent first). If omitted, uses declining weights.")] double[] weights = null,
+        [ExcelArgument(Description = "Array of weights by year (most recent first). If omitted, uses declining weights.")] double[]? weights = null,
         [ExcelArgument(Description = "Decay factor for automatic weights (e.g., 0.8 means each year is 80% of prior)")] double decay = 0.8)
     {
         if (lossRatios == null || lossRatios.Length == 0)
