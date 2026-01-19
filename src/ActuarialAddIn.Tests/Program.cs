@@ -40,55 +40,55 @@ class Program
         Log("|---|-----|-----|");
         for (int k = 0; k <= 10; k++)
         {
-            var pdf = Distributions.ACT_POISSON_PDF(k, 5);
-            var cdf = Distributions.ACT_POISSON_CDF(k, 5);
+            var pdf = Distributions.ACT_DIST_POISSON_PDF(k, 5);
+            var cdf = Distributions.ACT_DIST_POISSON_CDF(k, 5);
             Log($"| {k} | {pdf:F6} | {cdf:F6} |");
         }
-        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_POISSON_INV(0.5, 5)}\n");
+        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_DIST_POISSON_INV(0.5, 5)}\n");
 
         Log("### Negative Binomial Distribution (r=5, p=0.3)");
         Log("| k | PDF | CDF |");
         Log("|---|-----|-----|");
         for (int k = 0; k <= 10; k++)
         {
-            var pdf = Distributions.ACT_NEGBIN_PDF(k, 5, 0.3);
-            var cdf = Distributions.ACT_NEGBIN_CDF(k, 5, 0.3);
+            var pdf = Distributions.ACT_DIST_NEGBIN_PDF(k, 5, 0.3);
+            var cdf = Distributions.ACT_DIST_NEGBIN_CDF(k, 5, 0.3);
             Log($"| {k} | {pdf:F6} | {cdf:F6} |");
         }
-        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_NEGBIN_INV(0.5, 5, 0.3)}\n");
+        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_DIST_NEGBIN_INV(0.5, 5, 0.3)}\n");
 
         Log("### Lognormal Distribution (μ=0, σ=1)");
         Log("| x | PDF | CDF |");
         Log("|---|-----|-----|");
         foreach (var x in new[] { 0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0 })
         {
-            var pdf = Distributions.ACT_LOGNORM_PDF(x, 0, 1);
-            var cdf = Distributions.ACT_LOGNORM_CDF(x, 0, 1);
+            var pdf = Distributions.ACT_DIST_LOGNORM_PDF(x, 0, 1);
+            var cdf = Distributions.ACT_DIST_LOGNORM_CDF(x, 0, 1);
             Log($"| {x} | {pdf:F6} | {cdf:F6} |");
         }
-        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_LOGNORM_INV(0.5, 0, 1):F6}\n");
+        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_DIST_LOGNORM_INV(0.5, 0, 1):F6}\n");
 
         Log("### Gamma Distribution (α=2, β=1)");
         Log("| x | PDF | CDF |");
         Log("|---|-----|-----|");
         foreach (var x in new[] { 0.0, 0.5, 1.0, 2.0, 3.0, 5.0 })
         {
-            var pdf = Distributions.ACT_GAMMA_PDF(x, 2, 1);
-            var cdf = Distributions.ACT_GAMMA_CDF(x, 2, 1);
+            var pdf = Distributions.ACT_DIST_GAMMA_PDF(x, 2, 1);
+            var cdf = Distributions.ACT_DIST_GAMMA_CDF(x, 2, 1);
             Log($"| {x} | {pdf:F6} | {cdf:F6} |");
         }
-        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_GAMMA_INV(0.5, 2, 1):F6}\n");
+        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_DIST_GAMMA_INV(0.5, 2, 1):F6}\n");
 
         Log("### Pareto Distribution (α=2, xm=1)");
         Log("| x | PDF | CDF |");
         Log("|---|-----|-----|");
         foreach (var x in new[] { 0.0, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0 })
         {
-            var pdf = Distributions.ACT_PARETO_PDF(x, 2, 1);
-            var cdf = Distributions.ACT_PARETO_CDF(x, 2, 1);
+            var pdf = Distributions.ACT_DIST_PARETO_PDF(x, 2, 1);
+            var cdf = Distributions.ACT_DIST_PARETO_CDF(x, 2, 1);
             Log($"| {x} | {pdf:F6} | {cdf:F6} |");
         }
-        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_PARETO_INV(0.5, 2, 1):F6}\n");
+        Log($"\nInverse CDF: P(0.5) = {Distributions.ACT_DIST_PARETO_INV(0.5, 2, 1):F6}\n");
     }
 
     static void TestExposureCurves()
@@ -100,7 +100,7 @@ class Program
         Log("|---|------|");
         foreach (var d in new[] { 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 })
         {
-            var g = ExposureCurves.ACT_MBBEFD(d, 2, 3);
+            var g = ExposureCurves.ACT_EXPOSURE_MBBEFD(d, 2, 3);
             Log($"| {d:F1} | {g:F6} |");
         }
 
@@ -109,7 +109,7 @@ class Program
         Log("|-------|--------|");
         for (int c = 1; c <= 5; c++)
         {
-            var g = ExposureCurves.ACT_SWISSRE_CURVE(0.5, c);
+            var g = ExposureCurves.ACT_EXPOSURE_SWISSRE(0.5, c);
             Log($"| {c} | {g:F6} |");
         }
 
@@ -118,14 +118,14 @@ class Program
         Log("|-------|--------|");
         foreach (var curve in new[] { "Y1", "Y2", "Y3", "Y4" })
         {
-            var g = ExposureCurves.ACT_LLOYDS_CURVE(0.5, curve);
+            var g = ExposureCurves.ACT_EXPOSURE_LLOYDS(0.5, curve);
             Log($"| {curve} | {g:F6} |");
         }
 
         Log("\n### Power and Pareto Curves at d=0.5");
-        Log($"- Power curve (n=2): {ExposureCurves.ACT_POWER_CURVE(0.5, 2):F6}");
-        Log($"- Inverse power (n=2): {ExposureCurves.ACT_INVERSE_POWER_CURVE(0.5, 2):F6}");
-        Log($"- Pareto exposure (α=2): {ExposureCurves.ACT_PARETO_EXPOSURE(0.5, 2):F6}\n");
+        Log($"- Power curve (n=2): {ExposureCurves.ACT_EXPOSURE_POWER(0.5, 2):F6}");
+        Log($"- Inverse power (n=2): {ExposureCurves.ACT_EXPOSURE_INVERSE_POWER(0.5, 2):F6}");
+        Log($"- Pareto exposure (α=2): {ExposureCurves.ACT_EXPOSURE_PARETO(0.5, 2):F6}\n");
     }
 
     static void TestReinsurance()
@@ -141,11 +141,6 @@ class Program
             Log($"| {loss:N0} | {layerLoss:N0} |");
         }
 
-        Log("\n### Quota Share (50% cession)");
-        Log($"- Ground-up: 1,000,000 → Ceded: {Reinsurance.ACT_QS_CEDED(1_000_000, 0.5):N0}");
-
-        Log("\n### Aggregate Layer (Deductible=2M, Limit=10M)");
-        Log($"- Aggregate loss 15M → Layer: {Reinsurance.ACT_AGGREGATE_LAYER(15_000_000, 2_000_000, 10_000_000):N0}\n");
     }
 
     static void TestReturnPeriods()
@@ -314,44 +309,44 @@ class Program
     {
         Log("## 7. Bootstrap Chain Ladder\n");
         Log("Using Taylor-Ashe data with ODP bootstrap (England & Verrall, 2002 method).\n");
-        Log("Reference: england.pdf slide 35 (ODP constant vs non-constant scale parameters)\n");
-
+        
         var triangle = GetTaylorAsheTriangle();
 
-        Log("### Bootstrap Results (10,000 iterations, seed=42)");
-        Log("Expected mean reserve: ~18,680,856 (same as deterministic chain ladder)");
-        Log("Expected total prediction error: 2,992,296 (constant scale), 2,228,677 (non-constant scale)");
-        Log("Expected bootstrap SE: ~3,000,000 - 4,000,000 (includes process variance)\n");
-
-        var bootstrap = ChainLadder.ACT_BOOTSTRAP_CL(triangle, 10000, 42);
-
-        Log("| Statistic | Value |");
-        Log("|-----------|-------|");
-        for (int i = 0; i < bootstrap.GetLength(0); i++)
+        // Debug: Check deterministic values first
+        Log("### Deterministic Chain Ladder Results");
+        var factors = ChainLadder.ACT_CL_FACTORS(triangle);
+        Log("Development Factors:");
+        for (int j = 0; j < factors.Length; j++)
+            Log($"  {j+1}-{j+2}: {factors[j]:F4}");
+        
+        var ibnr = ChainLadder.ACT_CL_IBNR(triangle);
+        Log("\nIBNR by Origin:");
+        double totalIBNR = 0;
+        for (int i = 0; i < ibnr.Length; i++)
         {
-            var label = bootstrap[i, 0]?.ToString() ?? "";
-            var value = bootstrap[i, 1];
-            if (value is double d)
-                Log($"| {label} | {d:N0} |");
-            else
-                Log($"| {label} | {value} |");
+            double val = (double)ibnr[i];
+            totalIBNR += val;
+            Log($"  AY{i+1}: {val:N0}");
         }
+        Log($"  Total: {totalIBNR:N0}");
+        Log($"Expected Total IBNR: 18,680,856\n");
 
-        Log("\n### Reconciliation to england.pdf");
-        Log("Taylor-Ashe ODP totals (constant vs non-constant scale): 2,992,296 vs 2,228,677");
-        Log("Typical percentiles for the total reserve (ODP bootstrap):");
-        Log("- 75th percentile: ~20-21M");
-        Log("- 95th percentile: ~24-26M");
-        Log("- 99th percentile: ~27-30M");
-        Log("\n### Bootstrap by Origin Year (1,000 iterations, seed=42)");
-        var originStats = ChainLadder.ACT_BOOTSTRAP_CL_ORIGIN(triangle, 1000, 42);
-        Log("| AY | Mean | StdDev | P50 | P75 | P90 | P95 | P99 |");
-        Log("|----|------|--------|-----|-----|-----|-----|-----|");
+        Log("### Bootstrap Results (1,000 iterations, seed=42)");
+        Log("E&V Reference: Year 1 SE=0, Year 2 SE=112,379, Total SE=3,087,570\n");
+
+        var originStats = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(triangle, 1000, 42);
+        
+        Log("| AY | Mean | StdDev | E&V SE |");
+        Log("|----|------|--------|--------|");
+        double[] evSE = {0, 112379, 178443, 209399, 286636, 440310, 571035, 820842, 1258296, 2046223};
         for (int i = 1; i < originStats.GetLength(0); i++)
         {
-            Log($"| {originStats[i, 0]} | {originStats[i, 1]:N0} | {originStats[i, 2]:N0} | {originStats[i, 3]:N0} | {originStats[i, 4]:N0} | {originStats[i, 5]:N0} | {originStats[i, 6]:N0} | {originStats[i, 7]:N0} |");
+            Log($"| {originStats[i, 0]} | {originStats[i, 1]:N0} | {originStats[i, 2]:N0} | {evSE[i-1]:N0} |");
         }
-        Log("");
+        
+        var bootstrap = ChainLadder.ACT_CL_BOOTSTRAP(triangle, 1000, 42);
+        Log($"\nTotal Bootstrap: Mean={bootstrap[0, 1]:N0}, StdDev={bootstrap[1, 1]:N0}");
+        Log($"E&V Reference: Mean=18,680,856, StdDev=3,087,570\n");
     }
 
     static void TestBerquistSherman()
@@ -447,7 +442,7 @@ class Program
         }
 
         Log("\n### Generated Samples (df=5, 10 samples, seed=42)");
-        var samples = Copulas.ACT_STUDENT_T_COPULA(corrMatrix, 5, 10, 42);
+        var samples = Copulas.ACT_COPULA_STUDENT_T(corrMatrix, 5, 10, 42);
 
         if (samples[0, 0] is string errorMsg)
         {
@@ -468,7 +463,7 @@ class Program
 
         Log("\n### Correlation Validation");
         Log("Generating 10,000 samples to verify correlation structure is preserved...");
-        var largeSample = Copulas.ACT_STUDENT_T_COPULA(corrMatrix, 5, 10000, 123);
+        var largeSample = Copulas.ACT_COPULA_STUDENT_T(corrMatrix, 5, 10000, 123);
 
         if (largeSample[0, 0] is not string)
         {

@@ -13,7 +13,7 @@ public static class Distributions
     #region Poisson Distribution
 
     [ExcelFunction(Description = "Poisson PMF: P(X=k) = λ^k * e^(-λ) / k!. Used for modeling claim counts.", Category = "Actuarial.Distributions")]
-    public static double ACT_POISSON_PDF(
+    public static double ACT_DIST_POISSON_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (non-negative integer)")] int k,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0). Returns NaN if invalid.")] double lambda)
     {
@@ -23,7 +23,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Poisson cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_POISSON_CDF(
+    public static double ACT_DIST_POISSON_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
     {
@@ -33,7 +33,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Poisson inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static double ACT_POISSON_INV(
+    public static double ACT_DIST_POISSON_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
     {
@@ -60,7 +60,7 @@ public static class Distributions
     #region Negative Binomial Distribution
 
     [ExcelFunction(Description = "Negative Binomial probability mass function (PDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_NEGBIN_PDF(
+    public static double ACT_DIST_NEGBIN_PDF(
         [ExcelArgument(Description = "Number of failures (non-negative integer)")] int k,
         [ExcelArgument(Description = "Number of successes required (> 0)")] double r,
         [ExcelArgument(Description = "Probability of success (0 to 1)")] double p)
@@ -71,7 +71,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Negative Binomial cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_NEGBIN_CDF(
+    public static double ACT_DIST_NEGBIN_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Number of successes required (> 0)")] double r,
         [ExcelArgument(Description = "Probability of success (0 to 1)")] double p)
@@ -82,7 +82,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Negative Binomial inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static double ACT_NEGBIN_INV(
+    public static double ACT_DIST_NEGBIN_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double prob,
         [ExcelArgument(Description = "Number of successes required (> 0)")] double r,
         [ExcelArgument(Description = "Probability of success (0 to 1)")] double p)
@@ -110,7 +110,7 @@ public static class Distributions
     #region Lognormal Distribution
 
     [ExcelFunction(Description = "Lognormal probability density function (PDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_LOGNORM_PDF(
+    public static double ACT_DIST_LOGNORM_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (> 0)")] double x,
         [ExcelArgument(Description = "Mu - mean of log(X)")] double mu,
         [ExcelArgument(Description = "Sigma - standard deviation of log(X) (> 0)")] double sigma)
@@ -122,7 +122,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Lognormal cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_LOGNORM_CDF(
+    public static double ACT_DIST_LOGNORM_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Mu - mean of log(X)")] double mu,
         [ExcelArgument(Description = "Sigma - standard deviation of log(X) (> 0)")] double sigma)
@@ -133,7 +133,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Lognormal inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static double ACT_LOGNORM_INV(
+    public static double ACT_DIST_LOGNORM_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Mu - mean of log(X)")] double mu,
         [ExcelArgument(Description = "Sigma - standard deviation of log(X) (> 0)")] double sigma)
@@ -148,7 +148,7 @@ public static class Distributions
     #region Gamma Distribution
 
     [ExcelFunction(Description = "Gamma probability density function (PDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_GAMMA_PDF(
+    public static double ACT_DIST_GAMMA_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= 0)")] double x,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - rate parameter (> 0)")] double beta)
@@ -159,7 +159,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Gamma cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_GAMMA_CDF(
+    public static double ACT_DIST_GAMMA_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - rate parameter (> 0)")] double beta)
@@ -170,7 +170,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Gamma inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static double ACT_GAMMA_INV(
+    public static double ACT_DIST_GAMMA_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - rate parameter (> 0)")] double beta)
@@ -185,7 +185,7 @@ public static class Distributions
     #region Pareto Distribution
 
     [ExcelFunction(Description = "Pareto Type I PDF: f(x) = α*xm^α / x^(α+1) for x >= xm. Heavy-tailed severity distribution.", Category = "Actuarial.Distributions")]
-    public static double ACT_PARETO_PDF(
+    public static double ACT_DIST_PARETO_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= xm)")] double x,
         [ExcelArgument(Description = "Alpha - shape/tail parameter (> 0). Lower alpha = heavier tail. Mean exists only if alpha > 1.")] double alpha,
         [ExcelArgument(Description = "Xm - scale/minimum value (> 0)")] double xm)
@@ -196,7 +196,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Pareto cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
-    public static double ACT_PARETO_CDF(
+    public static double ACT_DIST_PARETO_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Xm - scale/minimum value (> 0)")] double xm)
@@ -207,7 +207,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Pareto Type I inverse CDF (quantile function): x = xm / (1-p)^(1/α)", Category = "Actuarial.Distributions")]
-    public static double ACT_PARETO_INV(
+    public static double ACT_DIST_PARETO_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Alpha - shape/tail parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Xm - scale/minimum value (> 0)")] double xm)
@@ -222,7 +222,7 @@ public static class Distributions
     #region Generalized Pareto Distribution (GPD)
 
     [ExcelFunction(Description = "GPD PDF: Used in Extreme Value Theory for modeling exceedances over thresholds. Shape xi controls tail: xi>0 heavy tail, xi=0 exponential, xi<0 bounded.", Category = "Actuarial.Distributions")]
-    public static double ACT_GPD_PDF(
+    public static double ACT_DIST_GPD_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= 0 if xi >= 0, or 0 <= x <= -sigma/xi if xi < 0)")] double x,
         [ExcelArgument(Description = "Xi - shape parameter. xi > 0: Pareto-like heavy tail; xi = 0: exponential; xi < 0: bounded upper tail")] double xi,
         [ExcelArgument(Description = "Sigma - scale parameter (> 0)")] double sigma)
@@ -249,7 +249,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "GPD CDF: F(x) = 1 - (1 + xi*x/sigma)^(-1/xi). Essential for peaks-over-threshold analysis.", Category = "Actuarial.Distributions")]
-    public static double ACT_GPD_CDF(
+    public static double ACT_DIST_GPD_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Xi - shape parameter")] double xi,
         [ExcelArgument(Description = "Sigma - scale parameter (> 0)")] double sigma)
@@ -276,7 +276,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "GPD inverse CDF: x = sigma * ((1-p)^(-xi) - 1) / xi. Used for VaR calculations.", Category = "Actuarial.Distributions")]
-    public static double ACT_GPD_INV(
+    public static double ACT_DIST_GPD_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Xi - shape parameter")] double xi,
         [ExcelArgument(Description = "Sigma - scale parameter (> 0)")] double sigma)
@@ -300,7 +300,7 @@ public static class Distributions
     #region Weibull Distribution
 
     [ExcelFunction(Description = "Weibull PDF: f(x) = (k/λ)*(x/λ)^(k-1)*exp(-(x/λ)^k). Versatile severity distribution: k<1 decreasing hazard, k=1 exponential, k>1 increasing hazard.", Category = "Actuarial.Distributions")]
-    public static double ACT_WEIBULL_PDF(
+    public static double ACT_DIST_WEIBULL_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= 0)")] double x,
         [ExcelArgument(Description = "k - shape parameter (> 0). Controls hazard rate shape.")] double k,
         [ExcelArgument(Description = "Lambda - scale parameter (> 0)")] double lambda)
@@ -312,7 +312,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Weibull CDF: F(x) = 1 - exp(-(x/λ)^k)", Category = "Actuarial.Distributions")]
-    public static double ACT_WEIBULL_CDF(
+    public static double ACT_DIST_WEIBULL_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "k - shape parameter (> 0)")] double k,
         [ExcelArgument(Description = "Lambda - scale parameter (> 0)")] double lambda)
@@ -323,7 +323,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Weibull inverse CDF: x = λ * (-ln(1-p))^(1/k)", Category = "Actuarial.Distributions")]
-    public static double ACT_WEIBULL_INV(
+    public static double ACT_DIST_WEIBULL_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "k - shape parameter (> 0)")] double k,
         [ExcelArgument(Description = "Lambda - scale parameter (> 0)")] double lambda)
@@ -341,7 +341,7 @@ public static class Distributions
     #region Beta Distribution
 
     [ExcelFunction(Description = "Beta PDF on [0,1]: f(x) = x^(α-1)*(1-x)^(β-1)/B(α,β). Used for loss ratios, proportions, and credibility weights.", Category = "Actuarial.Distributions")]
-    public static double ACT_BETA_PDF(
+    public static double ACT_DIST_BETA_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (0 to 1)")] double x,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - shape parameter (> 0)")] double beta)
@@ -352,7 +352,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Beta CDF: F(x) = I_x(α,β) where I is the regularized incomplete beta function", Category = "Actuarial.Distributions")]
-    public static double ACT_BETA_CDF(
+    public static double ACT_DIST_BETA_CDF(
         [ExcelArgument(Description = "Value at which to evaluate (0 to 1)")] double x,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - shape parameter (> 0)")] double beta)
@@ -364,7 +364,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Beta inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static double ACT_BETA_INV(
+    public static double ACT_DIST_BETA_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Alpha - shape parameter (> 0)")] double alpha,
         [ExcelArgument(Description = "Beta - shape parameter (> 0)")] double beta)
@@ -379,7 +379,7 @@ public static class Distributions
     #region Exponential Distribution
 
     [ExcelFunction(Description = "Exponential PDF: f(x) = λ*exp(-λx). Simplest continuous severity distribution with constant hazard rate.", Category = "Actuarial.Distributions")]
-    public static double ACT_EXP_PDF(
+    public static double ACT_DIST_EXP_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= 0)")] double x,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0). Mean = 1/λ")] double lambda)
     {
@@ -389,7 +389,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Exponential CDF: F(x) = 1 - exp(-λx)", Category = "Actuarial.Distributions")]
-    public static double ACT_EXP_CDF(
+    public static double ACT_DIST_EXP_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
     {
@@ -399,7 +399,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Exponential inverse CDF: x = -ln(1-p)/λ", Category = "Actuarial.Distributions")]
-    public static double ACT_EXP_INV(
+    public static double ACT_DIST_EXP_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
     {
@@ -413,7 +413,7 @@ public static class Distributions
     #region Burr Type XII Distribution
 
     [ExcelFunction(Description = "Burr Type XII PDF: f(x) = ck/λ * (x/λ)^(c-1) / (1+(x/λ)^c)^(k+1). Very flexible heavy-tailed distribution, generalizes Pareto and Loglogistic.", Category = "Actuarial.Distributions")]
-    public static double ACT_BURR_PDF(
+    public static double ACT_DIST_BURR_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (>= 0)")] double x,
         [ExcelArgument(Description = "c - first shape parameter (> 0)")] double c,
         [ExcelArgument(Description = "k - second shape parameter (> 0). Controls tail heaviness.")] double k,
@@ -429,7 +429,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Burr Type XII CDF: F(x) = 1 - (1+(x/λ)^c)^(-k)", Category = "Actuarial.Distributions")]
-    public static double ACT_BURR_CDF(
+    public static double ACT_DIST_BURR_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
         [ExcelArgument(Description = "c - first shape parameter (> 0)")] double c,
         [ExcelArgument(Description = "k - second shape parameter (> 0)")] double k,
@@ -445,7 +445,7 @@ public static class Distributions
     }
 
     [ExcelFunction(Description = "Burr Type XII inverse CDF: x = λ * ((1-p)^(-1/k) - 1)^(1/c)", Category = "Actuarial.Distributions")]
-    public static double ACT_BURR_INV(
+    public static double ACT_DIST_BURR_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
         [ExcelArgument(Description = "c - first shape parameter (> 0)")] double c,
         [ExcelArgument(Description = "k - second shape parameter (> 0)")] double k,

@@ -32,9 +32,9 @@ def fix_chain_ladder_sheet(wb):
         for col in range(3, 12):
             ws.cell(row=41, column=col).value = None
 
-    # Check A89 - ACT_BOOTSTRAP_CL (returns array with statistics)
+    # Check A89 - ACT_CL_BOOTSTRAP (returns array with statistics)
     cell_a89 = ws['A89']
-    if cell_a89.value and 'ACT_BOOTSTRAP_CL' in str(cell_a89.value):
+    if cell_a89.value and 'ACT_CL_BOOTSTRAP' in str(cell_a89.value):
         # This returns a 2-column array (labels and values)
         # Clear area below and to the right
         for r in range(89, 100):
@@ -42,9 +42,9 @@ def fix_chain_ladder_sheet(wb):
                 if r != 89 or c != 1:  # Keep the formula cell
                     ws.cell(row=r, column=c).value = None
 
-    # Check A92 - ACT_BOOTSTRAP_CL_ORIGIN (returns larger array)
+    # Check A92 - ACT_CL_BOOTSTRAP_ORIGIN (returns larger array)
     cell_a92 = ws['A92']
-    if cell_a92.value and 'ACT_BOOTSTRAP_CL_ORIGIN' in str(cell_a92.value):
+    if cell_a92.value and 'ACT_CL_BOOTSTRAP_ORIGIN' in str(cell_a92.value):
         # This returns a multi-row, multi-column array
         # Clear area below and to the right
         for r in range(92, 110):
@@ -118,10 +118,10 @@ def add_array_formula_examples(wb):
     row += 6
 
     # Bootstrap - spills as table
-    ws.cell(row=row, column=1, value="ACT_BOOTSTRAP_CL (spills as table ↓→)").font = HEADER_FONT
+    ws.cell(row=row, column=1, value="ACT_CL_BOOTSTRAP (spills as table ↓→)").font = HEADER_FONT
     row += 1
     ws.cell(row=row, column=1, value="Formula:")
-    ws.cell(row=row, column=2, value=f"=ACT_BOOTSTRAP_CL({tri_range}, 100, 42)")
+    ws.cell(row=row, column=2, value=f"=ACT_CL_BOOTSTRAP({tri_range}, 100, 42)")
     row += 1
     ws.cell(row=row, column=1, value="Result:")
     row += 10

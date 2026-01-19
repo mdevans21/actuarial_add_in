@@ -382,10 +382,15 @@ public static class ChainLadder
             {
                 double current = triangle[i, j];
                 double incremental = j == 0 ? current : current - triangle[i, j - 1];
+                
+                // For j=0, fitted value is the actual value (no development)
+                // For j>0, fitted value is previous cumulative * (factor - 1)
                 double mean = j == 0 ? current : triangle[i, j - 1] * (factors[j - 1] - 1.0);
                 fittedIncremental[i, j] = mean;
 
-                if (mean > 0)
+                // Only calculate residuals for j > 0 (development periods)
+                // j=0 has no development factor applied, so no residual
+                if (j > 0 && mean > 0)
                 {
                     double residual = (incremental - mean) / Math.Sqrt(mean);
                     residuals.Add(residual);
@@ -399,12 +404,18 @@ public static class ChainLadder
             return false;
         }
 
-        phi = residuals.Sum(r => r * r) / (residuals.Count - (n - 1));
+        // Degrees of freedom = number of residuals - number of parameters (n-1 factors)
+        int df = residuals.Count - (n - 1);
+        phi = residuals.Sum(r => r * r) / df;
         if (phi <= 0)
             phi = 1.0;
 
-        double phiSqrt = Math.Sqrt(phi);
-        standardizedResiduals = residuals.Select(r => r / phiSqrt).ToArray();
+        // Adjust residuals for degrees of freedom bias per England & Verrall (2002)
+        // r_adj = r * sqrt(n / (n-p)) where n = number of residuals, p = number of parameters
+        // NOTE: We keep raw Pearson residuals (NOT divided by sqrt(phi))
+        // because the bootstrap formula is: pseudo = fitted + r_adj * sqrt(fitted)
+        double adjFactor = Math.Sqrt((double)residuals.Count / df);
+        standardizedResiduals = residuals.Select(r => r * adjFactor).ToArray();
         return true;
     }
 
@@ -417,51 +428,91 @@ public static class ChainLadder
     {
         int n = triangle.GetLength(0);
         var bootIncremental = new double[n, n];
+        
+        // Build bootstrap incremental triangle (pseudo-data)
+        // Per England & Verrall (2002): pseudo = fitted + residual * sqrt(fitted)
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n - i; j++)
             {
-                double mean = fittedIncremental[i, j];
-                if (mean > 0)
+                if (j == 0)
                 {
-                    double residual = standardizedResiduals[random.Next(standardizedResiduals.Length)];
-                    bootIncremental[i, j] = mean + residual * Math.Sqrt(mean * phi);
+                    // First column: use original values (no development to perturb)
+                    bootIncremental[i, j] = fittedIncremental[i, j];
+                }
+                else
+                {
+                    // Development periods: perturb with resampled residuals
+                    double mean = fittedIncremental[i, j];
+                    if (mean > 0)
+                    {
+                        double residual = standardizedResiduals[random.Next(standardizedResiduals.Length)];
+                        double pseudoValue = mean + residual * Math.Sqrt(mean);
+                        // Ensure non-negative (E&V methodology allows small positive floor)
+                        bootIncremental[i, j] = Math.Max(1.0, pseudoValue);
+                    }
+                    else
+                    {
+                        bootIncremental[i, j] = Math.Max(1.0, mean);
+                    }
                 }
             }
         }
 
-        var bootTriangle = new double[n, n];
+        // Convert pseudo-incremental to pseudo-cumulative
+        var pseudoTriangle = new double[n, n];
         for (int i = 0; i < n; i++)
         {
             double cumulative = 0;
             for (int j = 0; j < n - i; j++)
             {
                 cumulative += bootIncremental[i, j];
-                bootTriangle[i, j] = cumulative;
+                pseudoTriangle[i, j] = cumulative;
             }
         }
 
-        var bootFactors = CalculateFactors(bootTriangle);
+        // Re-estimate factors from pseudo-triangle
+        var bootFactors = CalculateFactors(pseudoTriangle);
 
+        // Project ORIGINAL triangle's latest diagonal using re-estimated factors + process variance
+        // This is the key E&V insight: pseudo-triangle is only used to estimate parameter uncertainty
+        var bootTriangle = new double[n, n];
+        
+        // Copy original observed values
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j <= n - 1 - i; j++)
+            {
+                bootTriangle[i, j] = triangle[i, j];
+            }
+        }
+        
+        // Project future values starting from ORIGINAL latest diagonal
         for (int i = 1; i < n; i++)
         {
             int lastCol = n - 1 - i;
+            double current = triangle[i, lastCol];  // Start from ORIGINAL latest
+            
             for (int j = lastCol; j < n - 1; j++)
             {
-                double current = bootTriangle[i, j];
-                double expected = current * bootFactors[j];
-                double meanIncremental = expected - current;
+                double meanNext = current * bootFactors[j];
+                double meanIncremental = meanNext - current;
+                
                 if (meanIncremental > 0)
                 {
+                    // Gamma distribution for process variance
+                    // E[X] = mean, Var[X] = mean * phi
+                    // MathNet Gamma.Sample uses (shape, RATE) where rate = 1/scale
                     double shape = meanIncremental / phi;
-                    double scale = phi;
-                    double simulatedIncremental = Gamma.Sample(random, shape, scale);
-                    bootTriangle[i, j + 1] = current + simulatedIncremental;
+                    double rate = 1.0 / phi;  // Convert scale to rate
+                    double simulatedIncremental = Gamma.Sample(random, shape, rate);
+                    current = current + simulatedIncremental;
                 }
                 else
                 {
-                    bootTriangle[i, j + 1] = current;
+                    current = meanNext;
                 }
+                bootTriangle[i, j + 1] = current;
             }
         }
 
@@ -473,7 +524,7 @@ public static class ChainLadder
     #region Bootstrap Methods
 
     [ExcelFunction(Description = "Bootstrap chain ladder reserves - returns percentiles. Stochastic reserving method per England & Verrall (2002). Generates full distribution of reserve outcomes.", Category = "Actuarial.ChainLadder")]
-    public static object[,] ACT_BOOTSTRAP_CL(
+    public static object[,] ACT_CL_BOOTSTRAP(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations")] int iterations,
         [ExcelArgument(Description = "Random seed (0 for random)")] int seed = 0)
@@ -504,10 +555,13 @@ public static class ChainLadder
             var bootTriangle = BuildBootstrapTriangle(triangle, fittedIncremental, phi, standardizedResiduals, random);
 
             // Calculate total reserve for this iteration
+            // Note: i=0 (year 1) is fully developed, contributes 0 reserve
             double totalReserve = 0;
             for (int i = 1; i < n; i++)
             {
-                totalReserve += bootTriangle[i, n - 1] - triangle[i, n - 1 - i];
+                int lastCol = n - 1 - i;
+                double latest = triangle[i, lastCol];
+                totalReserve += bootTriangle[i, n - 1] - latest;
             }
             bootstrapReserves[iter] = totalReserve;
         }
@@ -535,7 +589,7 @@ public static class ChainLadder
     }
 
     [ExcelFunction(Description = "Bootstrap chain ladder reserves by origin year - returns statistics", Category = "Actuarial.ChainLadder")]
-    public static object[,] ACT_BOOTSTRAP_CL_ORIGIN(
+    public static object[,] ACT_CL_BOOTSTRAP_ORIGIN(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations")] int iterations,
         [ExcelArgument(Description = "Random seed (0 for random)")] int seed = 0)
@@ -568,8 +622,16 @@ public static class ChainLadder
             for (int i = 0; i < n; i++)
             {
                 int lastCol = n - 1 - i;
-                double latest = triangle[i, lastCol];
-                reservesByOrigin[i][iter] = bootTriangle[i, n - 1] - latest;
+                if (lastCol == n - 1)
+                {
+                    // Fully developed row - no future projection, reserve is exactly 0
+                    reservesByOrigin[i][iter] = 0;
+                }
+                else
+                {
+                    double latest = triangle[i, lastCol];
+                    reservesByOrigin[i][iter] = bootTriangle[i, n - 1] - latest;
+                }
             }
         }
 

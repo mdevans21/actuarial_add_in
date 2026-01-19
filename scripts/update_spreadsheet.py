@@ -24,7 +24,7 @@ def fix_at_formulas(ws):
     return fixed
 
 def add_chain_ladder_examples(wb):
-    """Add examples for ACT_CL_LATEST and ACT_BOOTSTRAP_CL_ORIGIN."""
+    """Add examples for ACT_CL_LATEST and ACT_CL_BOOTSTRAP_ORIGIN."""
     ws = wb['Chain Ladder']
 
     # Find the last used row
@@ -51,14 +51,14 @@ def add_chain_ladder_examples(wb):
     ws.cell(row=start_row, column=2, value="=ACT_CL_LATEST(B5:F9)")
     start_row += 2
 
-    # ACT_BOOTSTRAP_CL_ORIGIN example
-    ws.cell(row=start_row, column=1, value="ACT_BOOTSTRAP_CL_ORIGIN")
+    # ACT_CL_BOOTSTRAP_ORIGIN example
+    ws.cell(row=start_row, column=1, value="ACT_CL_BOOTSTRAP_ORIGIN")
     ws.cell(row=start_row, column=1).font = Font(bold=True)
     ws.cell(row=start_row, column=2, value="Bootstrap reserves by origin year")
     start_row += 1
 
     ws.cell(row=start_row, column=1, value="Origin Year Stats:")
-    ws.cell(row=start_row, column=2, value="=ACT_BOOTSTRAP_CL_ORIGIN(B5:F9, 1000, 42)")
+    ws.cell(row=start_row, column=2, value="=ACT_CL_BOOTSTRAP_ORIGIN(B5:F9, 1000, 42)")
     start_row += 1
 
     return start_row
@@ -86,7 +86,7 @@ def main():
     # Add chain ladder examples if sheet exists
     if 'Chain Ladder' in wb.sheetnames:
         add_chain_ladder_examples(wb)
-        print("Added ACT_CL_LATEST and ACT_BOOTSTRAP_CL_ORIGIN examples")
+        print("Added ACT_CL_LATEST and ACT_CL_BOOTSTRAP_ORIGIN examples")
 
     # Ensure Versions sheet exists and is first
     if "Versions" not in wb.sheetnames:

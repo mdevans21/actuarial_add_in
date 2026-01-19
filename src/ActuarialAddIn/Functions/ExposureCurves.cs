@@ -14,7 +14,7 @@ public static class ExposureCurves
     #region MBBEFD / Swiss Re Curves
 
     [ExcelFunction(Description = "MBBEFD exposure curve (Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac): G(d) gives proportion of losses below d% of sum insured. See Bernegger (1997).", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_MBBEFD(
+    public static double ACT_EXPOSURE_MBBEFD(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1). d=0.5 means 50% of TSI.")] double d,
         [ExcelArgument(Description = "b parameter (b > 0). Higher b = more concentrated exposure.")] double b,
         [ExcelArgument(Description = "g parameter (g > 0). Higher g = heavier distribution tail.")] double g)
@@ -50,7 +50,7 @@ public static class ExposureCurves
     }
 
     [ExcelFunction(Description = "Swiss Re standard exposure curves (1-5). Curve 1=Light exposure (office risks), 3=Medium (manufacturing), 5=Heavy (petrochemical). Based on MBBEFD parameterization.", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_SWISSRE_CURVE(
+    public static double ACT_EXPOSURE_SWISSRE(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "Curve number: 1=Light (office), 2=Medium-Light, 3=Medium (manufacturing), 4=Medium-Heavy, 5=Heavy (petrochemical/refinery)")] int curveNumber)
     {
@@ -66,7 +66,7 @@ public static class ExposureCurves
             case 5: b = 5.0; g = 5.0; break;   // Heavy - petrochemical, refinery
             default: return double.NaN;
         }
-        return ACT_MBBEFD(d, b, g);
+        return ACT_EXPOSURE_MBBEFD(d, b, g);
     }
 
     #endregion
@@ -74,7 +74,7 @@ public static class ExposureCurves
     #region Lloyd's Curves
 
     [ExcelFunction(Description = "Lloyd's Y exposure curves: G(d) = 1 - (1-d)^c. Standard market curves for property insurance by occupancy type.", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_LLOYDS_CURVE(
+    public static double ACT_EXPOSURE_LLOYDS(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "Curve code: 'Y1'=Light commercial (c=1.5), 'Y2'=Medium industrial (c=2), 'Y3'=Heavy industrial (c=3), 'Y4'=Petrochemical (c=4). Also accepts 1-4.")] string curveCode)
     {
@@ -120,7 +120,7 @@ public static class ExposureCurves
     #region Power Curves
 
     [ExcelFunction(Description = "Power exposure curve: G(d) = d^n", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_POWER_CURVE(
+    public static double ACT_EXPOSURE_POWER(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "Power exponent n (> 0)")] double n)
     {
@@ -131,7 +131,7 @@ public static class ExposureCurves
     }
 
     [ExcelFunction(Description = "Inverse power exposure curve: G(d) = 1 - (1-d)^n", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_INVERSE_POWER_CURVE(
+    public static double ACT_EXPOSURE_INVERSE_POWER(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "Power exponent n (> 0)")] double n)
     {
@@ -146,7 +146,7 @@ public static class ExposureCurves
     #region Pareto Exposure Curves
 
     [ExcelFunction(Description = "Pareto exposure curve for excess of loss pricing", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_PARETO_EXPOSURE(
+    public static double ACT_EXPOSURE_PARETO(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "Pareto alpha parameter (> 0)")] double alpha)
     {
@@ -171,7 +171,7 @@ public static class ExposureCurves
     #region Riebesell Curve
 
     [ExcelFunction(Description = "Riebesell exposure curve: G(d) = d^n + (1-n)*d*(1-d^n)/(1-d) for d<1. Alternative to MBBEFD with single shape parameter.", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_RIEBESELL_CURVE(
+    public static double ACT_EXPOSURE_RIEBESELL(
         [ExcelArgument(Description = "Proportion of sum insured (0 to 1)")] double d,
         [ExcelArgument(Description = "n - shape parameter (0 < n <= 1). n=1 gives linear curve; smaller n = heavier concentration of losses.")] double n)
     {
@@ -192,7 +192,7 @@ public static class ExposureCurves
     }
 
     [ExcelFunction(Description = "Inverse Riebesell curve - find d given G(d) value using Newton-Raphson iteration.", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_RIEBESELL_CURVE_INV(
+    public static double ACT_EXPOSURE_RIEBESELL_INV(
         [ExcelArgument(Description = "Target G(d) value (0 to 1)")] double g,
         [ExcelArgument(Description = "n - shape parameter (0 < n <= 1)")] double n,
         [ExcelArgument(Description = "Tolerance for convergence (default 1e-8)")] double tolerance = 1e-8,
@@ -213,14 +213,14 @@ public static class ExposureCurves
         double d = g;  // Initial guess
         for (int i = 0; i < maxIterations; i++)
         {
-            double currentG = ACT_RIEBESELL_CURVE(d, n);
+            double currentG = ACT_EXPOSURE_RIEBESELL(d, n);
             double error = currentG - g;
             if (Math.Abs(error) < tolerance)
                 return d;
 
             // Numerical derivative
             double h = 1e-8;
-            double derivative = (ACT_RIEBESELL_CURVE(d + h, n) - currentG) / h;
+            double derivative = (ACT_EXPOSURE_RIEBESELL(d + h, n) - currentG) / h;
             if (Math.Abs(derivative) < 1e-15)
                 break;
 
@@ -236,7 +236,7 @@ public static class ExposureCurves
     #region Layer Rating using Exposure Curves
 
     [ExcelFunction(Description = "Calculate layer rate on line using exposure curve", Category = "Actuarial.ExposureCurves")]
-    public static double ACT_LAYER_RATE_ON_LINE(
+    public static double ACT_EXPOSURE_LAYER_RATE(
         [ExcelArgument(Description = "Attachment point as proportion of sum insured")] double attachmentPct,
         [ExcelArgument(Description = "Exhaustion point as proportion of sum insured")] double exhaustionPct,
         [ExcelArgument(Description = "Ground-up burning cost (rate on line)")] double burningCost,
@@ -246,8 +246,8 @@ public static class ExposureCurves
         if (attachmentPct < 0 || exhaustionPct > 1 || attachmentPct >= exhaustionPct)
             return double.NaN;
 
-        double gAttach = ACT_MBBEFD(attachmentPct, b, g);
-        double gExhaust = ACT_MBBEFD(exhaustionPct, b, g);
+        double gAttach = ACT_EXPOSURE_MBBEFD(attachmentPct, b, g);
+        double gExhaust = ACT_EXPOSURE_MBBEFD(exhaustionPct, b, g);
 
         // Layer rate = Ground-up rate * (G(exhaust) - G(attach)) / (exhaust - attach)
         double exposureFactor = (gExhaust - gAttach) / (exhaustionPct - attachmentPct);

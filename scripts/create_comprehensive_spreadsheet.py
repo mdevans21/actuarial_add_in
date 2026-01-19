@@ -24,7 +24,7 @@ THIN_BORDER = Border(
 ARRAY_FUNCTIONS = {
     'ACT_CL_FACTORS', 'ACT_CL_LATEST', 'ACT_CL_ULTIMATE', 'ACT_CL_IBNR',
     'ACT_BF_ULTIMATE', 'ACT_MACK_FACTOR_SE', 'ACT_MACK_RESERVE_SE',
-    'ACT_BOOTSTRAP_CL', 'ACT_BOOTSTRAP_CL_ORIGIN',
+    'ACT_CL_BOOTSTRAP', 'ACT_CL_BOOTSTRAP_ORIGIN',
     'ACT_CAPECOD_ULTIMATE', 'ACT_CAPECOD_ELR',
     'ACT_TRIANGLE_TO_INCREMENTAL', 'ACT_INCREMENTAL_TO_CUMULATIVE',
     'ACT_TRIANGLE_DIAGONAL', 'ACT_TRIANGLE_LINK_RATIOS',
@@ -450,13 +450,13 @@ def create_chain_ladder_sheet(wb):
     # Bootstrap - ARRAY FUNCTION (no @)
     ws.cell(row=row, column=1, value="Bootstrap Chain Ladder").font = HEADER_FONT
     row += 1
-    ws.cell(row=row, column=1, value="ACT_BOOTSTRAP_CL").font = BOLD_FONT
-    ws.cell(row=row, column=2, value=f"=ACT_BOOTSTRAP_CL({triangle_range}, 1000, 42)")
+    ws.cell(row=row, column=1, value="ACT_CL_BOOTSTRAP").font = BOLD_FONT
+    ws.cell(row=row, column=2, value=f"=ACT_CL_BOOTSTRAP({triangle_range}, 1000, 42)")
     ws.cell(row=row, column=3, value="← Array output (1000 iterations)")
     row += 2
 
-    ws.cell(row=row, column=1, value="ACT_BOOTSTRAP_CL_ORIGIN").font = BOLD_FONT
-    ws.cell(row=row, column=2, value=f"=ACT_BOOTSTRAP_CL_ORIGIN({triangle_range}, 1000, 42)")
+    ws.cell(row=row, column=1, value="ACT_CL_BOOTSTRAP_ORIGIN").font = BOLD_FONT
+    ws.cell(row=row, column=2, value=f"=ACT_CL_BOOTSTRAP_ORIGIN({triangle_range}, 1000, 42)")
     ws.cell(row=row, column=3, value="← Array output by origin year")
     row += 2
 

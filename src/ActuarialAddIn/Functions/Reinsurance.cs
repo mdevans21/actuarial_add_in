@@ -22,27 +22,6 @@ public static class Reinsurance
         return Math.Min(excessLoss, limit);
     }
 
-    [ExcelFunction(Description = "Calculate ceded loss for quota share", Category = "Actuarial.Reinsurance")]
-    public static double ACT_QS_CEDED(
-        [ExcelArgument(Description = "Ground-up loss amount")] double groundUpLoss,
-        [ExcelArgument(Description = "Cession percentage (0 to 1)")] double cessionPct)
-    {
-        if (cessionPct < 0 || cessionPct > 1) return double.NaN;
-        return groundUpLoss * cessionPct;
-    }
-
-    [ExcelFunction(Description = "Calculate loss after applying aggregate deductible and limit", Category = "Actuarial.Reinsurance")]
-    public static double ACT_AGGREGATE_LAYER(
-        [ExcelArgument(Description = "Total aggregate losses")] double aggregateLoss,
-        [ExcelArgument(Description = "Aggregate deductible")] double aggDeductible,
-        [ExcelArgument(Description = "Aggregate limit")] double aggLimit)
-    {
-        if (aggDeductible < 0 || aggLimit <= 0) return double.NaN;
-
-        double excessLoss = Math.Max(0, aggregateLoss - aggDeductible);
-        return Math.Min(excessLoss, aggLimit);
-    }
-
     [ExcelFunction(Description = "Calculate expected layer loss assuming Pareto Type I severity. Uses LEV (Limited Expected Value) method: E[layer] = freq * P(X>attach) * (LEV(exhaust) - LEV(attach)). Requires alpha > 1 for finite mean.", Category = "Actuarial.Reinsurance")]
     public static double ACT_XOL_EXPECTED_LOSS(
         [ExcelArgument(Description = "Expected frequency (number of claims) at ground-up")] double frequency,

@@ -7,14 +7,14 @@ Examples are consistent with the test suite in ActuarialAddIn.Tests.
 import openpyxl
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 from openpyxl.utils import get_column_letter
-from openpyxl.chart import LineChart, ScatterChart, Reference
+from openpyxl.chart import LineChart, ScatterChart, BarChart, Reference
 from openpyxl.chart.series import DataPoint
 from openpyxl.chart.label import DataLabelList
 from openpyxl.chart.marker import Marker
 import os
 
 # Paths
-EXCEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'excel', 'actuarial_add_in_v0.0.xlsm')
+EXCEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'excel', 'actuarial_add_in_v0.2.xlsm')
 
 # Common styles
 TITLE_FONT = Font(bold=True, size=14)
@@ -77,72 +77,23 @@ def add_data_row(ws, values, row, start_col=1, formulas=None):
     return row + 1
 
 
-def create_line_chart(ws, title, x_col, y_col, min_row, max_row, anchor,
-                      x_title=None, y_title=None, width=10, height=7):
-    """Create a line chart."""
-    chart = LineChart()
-    chart.title = title
-    chart.style = 10
-    chart.width = width
-    chart.height = height
-
-    if x_title:
-        chart.x_axis.title = x_title
-    if y_title:
-        chart.y_axis.title = y_title
-
-    # Data reference
-    data = Reference(ws, min_col=y_col, min_row=min_row, max_row=max_row)
-    cats = Reference(ws, min_col=x_col, min_row=min_row+1, max_row=max_row)
-
-    chart.add_data(data, titles_from_data=True)
-    chart.set_categories(cats)
-    chart.legend = None
-
-    ws.add_chart(chart, anchor)
-    return chart
-
-
-def create_multi_line_chart(ws, title, x_col, y_cols, min_row, max_row, anchor,
-                            series_names=None, x_title=None, y_title=None, width=12, height=8):
-    """Create a line chart with multiple series."""
-    chart = LineChart()
-    chart.title = title
-    chart.style = 10
-    chart.width = width
-    chart.height = height
-
-    if x_title:
-        chart.x_axis.title = x_title
-    if y_title:
-        chart.y_axis.title = y_title
-
-    cats = Reference(ws, min_col=x_col, min_row=min_row+1, max_row=max_row)
-
-    for i, y_col in enumerate(y_cols):
-        data = Reference(ws, min_col=y_col, min_row=min_row, max_row=max_row)
-        chart.add_data(data, titles_from_data=True)
-
-    chart.set_categories(cats)
-
-    ws.add_chart(chart, anchor)
-    return chart
-
-
-def create_scatter_chart(ws, title, x_col, y_col, min_row, max_row, anchor,
-                         x_title=None, y_title=None, width=10, height=7,
-                         show_line=False, x_min=None, y_min=None, x_max=None, y_max=None):
-    """Create a scatter chart."""
+def create_scatter_chart_with_axes(ws, title, x_col, y_col, min_row, max_row, anchor,
+                                   x_title=None, y_title=None, width=10, height=7,
+                                   show_line=False, x_min=None, y_min=None, x_max=None, y_max=None):
+    """Create a scatter chart with proper axes."""
     chart = ScatterChart()
     chart.title = title
     chart.style = 10
     chart.width = width
     chart.height = height
 
+    # Axis titles and settings
     if x_title:
         chart.x_axis.title = x_title
     if y_title:
         chart.y_axis.title = y_title
+    
+    # Axis scaling
     if x_min is not None:
         chart.x_axis.scaling.min = x_min
     if x_max is not None:
@@ -151,6 +102,12 @@ def create_scatter_chart(ws, title, x_col, y_col, min_row, max_row, anchor,
         chart.y_axis.scaling.min = y_min
     if y_max is not None:
         chart.y_axis.scaling.max = y_max
+    
+    # Ensure axes are visible with tick marks and numbers
+    chart.x_axis.tickLblPos = "low"
+    chart.y_axis.tickLblPos = "low"
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
 
     xvalues = Reference(ws, min_col=x_col, min_row=min_row+1, max_row=max_row)
     yvalues = Reference(ws, min_col=y_col, min_row=min_row+1, max_row=max_row)
@@ -168,43 +125,40 @@ def create_scatter_chart(ws, title, x_col, y_col, min_row, max_row, anchor,
     return chart
 
 
-def create_multi_scatter_chart(ws, title, x_col, y_cols, min_row, max_row, anchor,
-                               series_names=None, x_title=None, y_title=None, width=12, height=8,
-                               x_min=None, y_min=None, y_max=None):
-    """Create a scatter chart with multiple series."""
-    chart = ScatterChart()
+def create_bar_chart_with_axes(ws, title, cat_col, data_col, min_row, max_row, anchor,
+                                x_title=None, y_title=None, width=12, height=8):
+    """Create a bar chart with proper axes."""
+    chart = BarChart()
     chart.title = title
     chart.style = 10
+    chart.type = "col"
+    chart.grouping = "standard"
     chart.width = width
     chart.height = height
-
+    
     if x_title:
         chart.x_axis.title = x_title
     if y_title:
         chart.y_axis.title = y_title
-    if x_min is not None:
-        chart.x_axis.scaling.min = x_min
-    if y_min is not None:
-        chart.y_axis.scaling.min = y_min
-    if y_max is not None:
-        chart.y_axis.scaling.max = y_max
-
-    xvalues = Reference(ws, min_col=x_col, min_row=min_row+1, max_row=max_row)
-
-    from openpyxl.chart import Series
-    for i, y_col in enumerate(y_cols):
-        yvalues = Reference(ws, min_col=y_col, min_row=min_row+1, max_row=max_row)
-        series = Series(yvalues, xvalues, title_from_data=True)
-        series.marker = Marker(symbol='circle', size=6)
-        series.graphicalProperties.line.solidFill = CHART_COLORS[i % len(CHART_COLORS)]
-        chart.series.append(series)
-
+    
+    chart.y_axis.scaling.min = 0
+    chart.x_axis.tickLblPos = "low"
+    chart.y_axis.tickLblPos = "low"
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
+    
+    data = Reference(ws, min_col=data_col, min_row=min_row, max_row=max_row)
+    cats = Reference(ws, min_col=cat_col, min_row=min_row+1, max_row=max_row)
+    chart.add_data(data, titles_from_data=True)
+    chart.set_categories(cats)
+    chart.legend = None
+    
     ws.add_chart(chart, anchor)
     return chart
 
 
 def create_distributions_sheet(wb):
-    """Create the Distributions examples sheet."""
+    """Create the Distributions examples sheet with ALL distributions."""
     ws = wb.create_sheet("Distributions")
     set_column_widths(ws, {'A': 15, 'B': 20, 'C': 20, 'D': 20, 'E': 25, 'F': 5, 'G': 15})
 
@@ -213,141 +167,152 @@ def create_distributions_sheet(wb):
     row += 1
 
     # Poisson
-    poisson_start = row
     row = add_note(ws, "POISSON DISTRIBUTION (lambda=5)", row)
     row = add_table_header(ws, ["k", "PDF", "CDF", "Notes"], row)
     poisson_data_start = row
     for k in range(11):
-        formulas = [None, f'=ACT_POISSON_PDF(A{row}, 5)', f'=ACT_POISSON_CDF(A{row}, 5)', None]
+        formulas = [None, f'=ACT_DIST_POISSON_PDF(A{row}, 5)', f'=ACT_DIST_POISSON_CDF(A{row}, 5)', None]
         notes = "Mode of distribution" if k == 5 else ""
         row = add_data_row(ws, [k, "", "", notes], row, formulas=formulas)
     poisson_data_end = row - 1
 
-    row = add_note(ws, f"Inverse CDF example: =ACT_POISSON_INV(0.5, 5) returns the median", row)
-    ws.cell(row=row-1, column=5, value="=ACT_POISSON_INV(0.5, 5)")
+    row = add_note(ws, f"Inverse CDF example: =ACT_DIST_POISSON_INV(0.5, 5) returns the median", row)
+    ws.cell(row=row-1, column=5, value="=ACT_DIST_POISSON_INV(0.5, 5)")
     row += 1
 
     # Poisson chart
-    create_scatter_chart(
-        ws,
-        "Poisson PMF (λ=5)",
-        x_col=1,
-        y_col=2,
-        min_row=poisson_data_start-1,
-        max_row=poisson_data_end,
-        anchor="F4",
-        x_title="k",
-        y_title="P(X=k)",
-        show_line=True,
-        x_min=0,
-        y_min=0
-    )
+    create_scatter_chart_with_axes(ws, "Poisson PMF (λ=5)", x_col=1, y_col=2,
+        min_row=poisson_data_start-1, max_row=poisson_data_end, anchor="F4",
+        x_title="k", y_title="P(X=k)", show_line=True, x_min=0, y_min=0)
 
     # Negative Binomial
     row = add_note(ws, "NEGATIVE BINOMIAL DISTRIBUTION (r=5, p=0.3)", row)
     row = add_table_header(ws, ["k", "PDF", "CDF", "Notes"], row)
     negbin_data_start = row
-    for k in range(11):
-        formulas = [None, f'=ACT_NEGBIN_PDF(A{row}, 5, 0.3)', f'=ACT_NEGBIN_CDF(A{row}, 5, 0.3)', None]
+    for k in range(16):
+        formulas = [None, f'=ACT_DIST_NEGBIN_PDF(A{row}, 5, 0.3)', f'=ACT_DIST_NEGBIN_CDF(A{row}, 5, 0.3)', None]
         row = add_data_row(ws, [k, "", "", ""], row, formulas=formulas)
     negbin_data_end = row - 1
     row += 1
 
-    # Negative Binomial chart
-    create_scatter_chart(
-        ws,
-        "Negative Binomial PMF (r=5, p=0.3)",
-        x_col=1,
-        y_col=2,
-        min_row=negbin_data_start-1,
-        max_row=negbin_data_end,
-        anchor="F18",
-        x_title="k",
-        y_title="P(X=k)",
-        show_line=True,
-        x_min=0,
-        y_min=0
-    )
+    create_scatter_chart_with_axes(ws, "Negative Binomial PMF (r=5, p=0.3)", x_col=1, y_col=2,
+        min_row=negbin_data_start-1, max_row=negbin_data_end, anchor="F18",
+        x_title="k", y_title="P(X=k)", show_line=True, x_min=0, y_min=0)
 
     # Lognormal
     row = add_note(ws, "LOGNORMAL DISTRIBUTION (mu=0, sigma=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
     lognorm_data_start = row
-    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0]:
-        formulas = [None, f'=ACT_LOGNORM_PDF(A{row}, 0, 1)', f'=ACT_LOGNORM_CDF(A{row}, 0, 1)', None]
+    for x in [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_LOGNORM_PDF(A{row}, 0, 1)', f'=ACT_DIST_LOGNORM_CDF(A{row}, 0, 1)', None]
         notes = "Median (exp(mu))" if x == 1.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
     lognorm_data_end = row - 1
     row += 1
 
-    # Lognormal chart
-    create_scatter_chart(
-        ws,
-        "Lognormal PDF (μ=0, σ=1)",
-        x_col=1,
-        y_col=2,
-        min_row=lognorm_data_start-1,
-        max_row=lognorm_data_end,
-        anchor="F32",
-        x_title="x",
-        y_title="f(x)",
-        show_line=True,
-        x_min=0,
-        y_min=0
-    )
+    create_scatter_chart_with_axes(ws, "Lognormal PDF (μ=0, σ=1)", x_col=1, y_col=2,
+        min_row=lognorm_data_start-1, max_row=lognorm_data_end, anchor="F35",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
 
     # Gamma
     row = add_note(ws, "GAMMA DISTRIBUTION (alpha=2, beta=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
     gamma_data_start = row
-    for x in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
-        formulas = [None, f'=ACT_GAMMA_PDF(A{row}, 2, 1)', f'=ACT_GAMMA_CDF(A{row}, 2, 1)', None]
+    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0]:
+        formulas = [None, f'=ACT_DIST_GAMMA_PDF(A{row}, 2, 1)', f'=ACT_DIST_GAMMA_CDF(A{row}, 2, 1)', None]
         notes = "Mean (alpha/beta)" if x == 2.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
     gamma_data_end = row - 1
     row += 1
 
-    # Gamma chart
-    create_scatter_chart(
-        ws,
-        "Gamma PDF (α=2, β=1)",
-        x_col=1,
-        y_col=2,
-        min_row=gamma_data_start-1,
-        max_row=gamma_data_end,
-        anchor="F46",
-        x_title="x",
-        y_title="f(x)",
-        show_line=True,
-        x_min=0,
-        y_min=0
-    )
+    create_scatter_chart_with_axes(ws, "Gamma PDF (α=2, β=1)", x_col=1, y_col=2,
+        min_row=gamma_data_start-1, max_row=gamma_data_end, anchor="F52",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
 
     # Pareto
     row = add_note(ws, "PARETO DISTRIBUTION (alpha=2, xm=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
     pareto_data_start = row
-    for x in [0.0, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0]:
-        formulas = [None, f'=ACT_PARETO_PDF(A{row}, 2, 1)', f'=ACT_PARETO_CDF(A{row}, 2, 1)', None]
+    for x in [0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
+        formulas = [None, f'=ACT_DIST_PARETO_PDF(A{row}, 2, 1)', f'=ACT_DIST_PARETO_CDF(A{row}, 2, 1)', None]
         notes = "Minimum value (xm)" if x == 1.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
     pareto_data_end = row - 1
+    row += 1
 
-    # Pareto chart
-    create_scatter_chart(
-        ws,
-        "Pareto PDF (α=2, xm=1)",
-        x_col=1,
-        y_col=2,
-        min_row=pareto_data_start-1,
-        max_row=pareto_data_end,
-        anchor="F60",
-        x_title="x",
-        y_title="f(x)",
-        show_line=True,
-        x_min=0,
-        y_min=0
-    )
+    create_scatter_chart_with_axes(ws, "Pareto PDF (α=2, xm=1)", x_col=1, y_col=2,
+        min_row=pareto_data_start-1, max_row=pareto_data_end, anchor="F69",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+
+    # GPD (Generalized Pareto)
+    row = add_note(ws, "GENERALIZED PARETO (GPD) DISTRIBUTION (xi=0.5, sigma=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    gpd_data_start = row
+    for x in [0.0, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_GPD_PDF(A{row}, 0.5, 1)', f'=ACT_DIST_GPD_CDF(A{row}, 0.5, 1)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    gpd_data_end = row - 1
+    row += 1
+
+    create_scatter_chart_with_axes(ws, "GPD PDF (ξ=0.5, σ=1)", x_col=1, y_col=2,
+        min_row=gpd_data_start-1, max_row=gpd_data_end, anchor="F86",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+
+    # Weibull
+    row = add_note(ws, "WEIBULL DISTRIBUTION (k=2, lambda=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    weibull_data_start = row
+    for x in [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0]:
+        formulas = [None, f'=ACT_DIST_WEIBULL_PDF(A{row}, 2, 1)', f'=ACT_DIST_WEIBULL_CDF(A{row}, 2, 1)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    weibull_data_end = row - 1
+    row += 1
+
+    create_scatter_chart_with_axes(ws, "Weibull PDF (k=2, λ=1)", x_col=1, y_col=2,
+        min_row=weibull_data_start-1, max_row=weibull_data_end, anchor="F103",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+
+    # Beta
+    row = add_note(ws, "BETA DISTRIBUTION (alpha=2, beta=5)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    beta_data_start = row
+    for x in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+        formulas = [None, f'=ACT_DIST_BETA_PDF(A{row}, 2, 5)', f'=ACT_DIST_BETA_CDF(A{row}, 2, 5)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    beta_data_end = row - 1
+    row += 1
+
+    create_scatter_chart_with_axes(ws, "Beta PDF (α=2, β=5)", x_col=1, y_col=2,
+        min_row=beta_data_start-1, max_row=beta_data_end, anchor="F120",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, x_max=1, y_min=0)
+
+    # Exponential
+    row = add_note(ws, "EXPONENTIAL DISTRIBUTION (lambda=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    exp_data_start = row
+    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_EXP_PDF(A{row}, 1)', f'=ACT_DIST_EXP_CDF(A{row}, 1)', None]
+        notes = "Mean (1/lambda)" if x == 1.0 else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    exp_data_end = row - 1
+    row += 1
+
+    create_scatter_chart_with_axes(ws, "Exponential PDF (λ=1)", x_col=1, y_col=2,
+        min_row=exp_data_start-1, max_row=exp_data_end, anchor="F140",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+
+    # Burr Type XII
+    row = add_note(ws, "BURR TYPE XII DISTRIBUTION (c=2, k=1, lambda=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    burr_data_start = row
+    for x in [0.0, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_BURR_PDF(A{row}, 2, 1, 1)', f'=ACT_DIST_BURR_CDF(A{row}, 2, 1, 1)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    burr_data_end = row - 1
+
+    create_scatter_chart_with_axes(ws, "Burr XII PDF (c=2, k=1, λ=1)", x_col=1, y_col=2,
+        min_row=burr_data_start-1, max_row=burr_data_end, anchor="F157",
+        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
 
     return ws
 
@@ -366,55 +331,27 @@ def create_exposure_curves_sheet(wb):
     row = add_table_header(ws, ["d", "G(d)", "Notes"], row)
     mbbefd_data_start = row
     for d in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
-        formulas = [None, f'=ACT_MBBEFD(A{row}, 2, 3)', None]
+        formulas = [None, f'=ACT_EXPOSURE_MBBEFD(A{row}, 2, 3)', None]
         row = add_data_row(ws, [d, "", ""], row, formulas=formulas)
     mbbefd_data_end = row - 1
     row += 1
 
-    # MBBEFD chart
-    create_scatter_chart(
-        ws,
-        "MBBEFD Exposure Curve (b=2, g=3)",
-        x_col=1,
-        y_col=2,
-        min_row=mbbefd_data_start-1,
-        max_row=mbbefd_data_end,
-        anchor="F4",
-        x_title="Damage Ratio (d)",
-        y_title="Loss Ratio G(d)",
-        show_line=True,
-        x_min=0,
-        y_min=0,
-        y_max=1
-    )
+    create_scatter_chart_with_axes(ws, "MBBEFD Exposure Curve (b=2, g=3)", x_col=1, y_col=2,
+        min_row=mbbefd_data_start-1, max_row=mbbefd_data_end, anchor="F4",
+        x_title="Damage Ratio (d)", y_title="Loss Ratio G(d)", show_line=True,
+        x_min=0, x_max=1, y_min=0, y_max=1)
 
-    # Swiss Re curves comparison - build data for chart
+    # Swiss Re curves comparison
     row = add_note(ws, "SWISS RE CURVES COMPARISON (all curves)", row)
     row = add_table_header(ws, ["d", "Curve 1", "Curve 2", "Curve 3", "Curve 4", "Curve 5"], row)
     swissre_data_start = row
     for d in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         ws.cell(row=row, column=1, value=d).border = THIN_BORDER
         for c in range(1, 6):
-            ws.cell(row=row, column=c+1, value=f'=ACT_SWISSRE_CURVE(A{row}, {c})').border = THIN_BORDER
+            ws.cell(row=row, column=c+1, value=f'=ACT_EXPOSURE_SWISSRE(A{row}, {c})').border = THIN_BORDER
         row += 1
     swissre_data_end = row - 1
     row += 1
-
-    # Swiss Re comparison chart
-    create_multi_scatter_chart(
-        ws,
-        "Swiss Re Curves Comparison",
-        x_col=1,
-        y_cols=[2, 3, 4, 5, 6],
-        min_row=swissre_data_start-1,
-        max_row=swissre_data_end,
-        anchor="F20",
-        x_title="Damage Ratio (d)",
-        y_title="Loss Ratio G(d)",
-        x_min=0,
-        y_min=0,
-        y_max=1
-    )
 
     # Lloyd's curves
     row = add_note(ws, "LLOYD'S CURVES COMPARISON", row)
@@ -423,34 +360,19 @@ def create_exposure_curves_sheet(wb):
     for d in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         ws.cell(row=row, column=1, value=d).border = THIN_BORDER
         for i, curve in enumerate(["Y1", "Y2", "Y3", "Y4"]):
-            ws.cell(row=row, column=i+2, value=f'=ACT_LLOYDS_CURVE(A{row}, "{curve}")').border = THIN_BORDER
+            ws.cell(row=row, column=i+2, value=f'=ACT_EXPOSURE_LLOYDS(A{row}, "{curve}")').border = THIN_BORDER
         row += 1
     lloyds_data_end = row - 1
     row += 1
-
-    # Lloyd's chart
-    create_multi_scatter_chart(
-        ws,
-        "Lloyd's Curves Comparison",
-        x_col=1,
-        y_cols=[2, 3, 4, 5],
-        min_row=lloyds_data_start-1,
-        max_row=lloyds_data_end,
-        anchor="F36",
-        x_title="Damage Ratio (d)",
-        y_title="Loss Ratio G(d)",
-        x_min=0,
-        y_min=0,
-        y_max=1
-    )
 
     # Power and Pareto
     row = add_note(ws, "OTHER EXPOSURE CURVES at d=0.5", row)
     row = add_table_header(ws, ["Function", "Formula", "Result", "Notes"], row)
     curves = [
-        ("Power (n=2)", '=ACT_POWER_CURVE(0.5, 2)', "G(d) = d^n"),
-        ("Inverse Power (n=2)", '=ACT_INVERSE_POWER_CURVE(0.5, 2)', "G(d) = 1 - (1-d)^n"),
-        ("Pareto (alpha=2)", '=ACT_PARETO_EXPOSURE(0.5, 2)', "Based on Pareto severity"),
+        ("Power (n=2)", '=ACT_EXPOSURE_POWER(0.5, 2)', "G(d) = d^n"),
+        ("Inverse Power (n=2)", '=ACT_EXPOSURE_INVERSE_POWER(0.5, 2)', "G(d) = 1 - (1-d)^n"),
+        ("Pareto (alpha=2)", '=ACT_EXPOSURE_PARETO(0.5, 2)', "Based on Pareto severity"),
+        ("Riebesell (n=0.5)", '=ACT_EXPOSURE_RIEBESELL(0.5, 0.5)', "Alternative single-parameter curve"),
     ]
     for name, formula, notes in curves:
         ws.cell(row=row, column=1, value=name).border = THIN_BORDER
@@ -468,7 +390,7 @@ def create_reinsurance_sheet(wb):
     set_column_widths(ws, {'A': 20, 'B': 20, 'C': 20, 'D': 30})
 
     row = add_title(ws, "Reinsurance Functions")
-    row = add_note(ws, "Excess of loss, quota share, and aggregate layer calculations", row)
+    row = add_note(ws, "Excess of loss layer calculations", row)
     row += 1
 
     # XOL Layer
@@ -476,43 +398,11 @@ def create_reinsurance_sheet(wb):
     row = add_table_header(ws, ["Ground-Up Loss", "Layer Loss", "Notes"], row)
     losses = [500000, 1000000, 2000000, 4000000, 6000000, 10000000]
     notes_list = ["Below attachment", "At attachment", "Partial layer", "Partial layer", "Full limit", "Capped at limit"]
-    xol_start = row
     for loss, note in zip(losses, notes_list):
         cell_a = ws.cell(row=row, column=1, value=loss)
         cell_a.border = THIN_BORDER
         cell_a.number_format = '#,##0'
         cell_b = ws.cell(row=row, column=2, value=f'=ACT_XOL_LAYER_LOSS(A{row}, 1000000, 5000000)')
-        cell_b.border = THIN_BORDER
-        cell_b.number_format = '#,##0'
-        cell_c = ws.cell(row=row, column=3, value=note)
-        cell_c.border = THIN_BORDER
-        row += 1
-    row += 1
-
-    # Quota Share
-    row = add_note(ws, "QUOTA SHARE (50% cession)", row)
-    row = add_table_header(ws, ["Ground-Up Loss", "Ceded Loss", "Retained"], row)
-    cell_a = ws.cell(row=row, column=1, value=1000000)
-    cell_a.border = THIN_BORDER
-    cell_a.number_format = '#,##0'
-    cell_b = ws.cell(row=row, column=2, value="=ACT_QS_CEDED(A" + str(row) + ", 0.5)")
-    cell_b.border = THIN_BORDER
-    cell_b.number_format = '#,##0'
-    cell_c = ws.cell(row=row, column=3, value="=A" + str(row) + "-B" + str(row))
-    cell_c.border = THIN_BORDER
-    cell_c.number_format = '#,##0'
-    row += 2
-
-    # Aggregate Layer
-    row = add_note(ws, "AGGREGATE LAYER (Deductible=2,000,000, Limit=10,000,000)", row)
-    row = add_table_header(ws, ["Aggregate Loss", "Layer Recovery", "Notes"], row)
-    agg_losses = [1000000, 2000000, 5000000, 12000000, 15000000]
-    agg_notes = ["Below deductible", "At deductible", "Partial recovery", "Full limit", "Capped at limit"]
-    for loss, note in zip(agg_losses, agg_notes):
-        cell_a = ws.cell(row=row, column=1, value=loss)
-        cell_a.border = THIN_BORDER
-        cell_a.number_format = '#,##0'
-        cell_b = ws.cell(row=row, column=2, value=f'=ACT_AGGREGATE_LAYER(A{row}, 2000000, 10000000)')
         cell_b.border = THIN_BORDER
         cell_b.number_format = '#,##0'
         cell_c = ws.cell(row=row, column=3, value=note)
@@ -563,7 +453,7 @@ def create_interpolation_sheet(wb):
     row += 1
     row = add_note(ws, "FLAT = extrapolate using last known value; GRADIENT = extrapolate using slope from last two points", row)
 
-    # Chart showing known points and interpolated values
+    # Chart with proper axes
     chart = ScatterChart()
     chart.title = "Interpolation with Extrapolation"
     chart.style = 10
@@ -573,10 +463,11 @@ def create_interpolation_sheet(wb):
     chart.y_axis.title = "Y"
     chart.x_axis.scaling.min = 0
     chart.y_axis.scaling.min = 0
-    chart.x_axis.crosses = "autoZero"
-    chart.y_axis.crosses = "autoZero"
+    chart.x_axis.tickLblPos = "low"
+    chart.y_axis.tickLblPos = "low"
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
 
-    # Known data points
     from openpyxl.chart import Series
     xvalues1 = Reference(ws, min_col=1, min_row=data_start_row, max_row=data_end_row)
     yvalues1 = Reference(ws, min_col=2, min_row=data_start_row, max_row=data_end_row)
@@ -585,7 +476,6 @@ def create_interpolation_sheet(wb):
     series1.graphicalProperties.line.solidFill = CHART_COLORS[0]
     chart.series.append(series1)
 
-    # FLAT extrapolation
     xvalues2 = Reference(ws, min_col=1, min_row=interp_start_row, max_row=interp_end_row)
     yvalues2 = Reference(ws, min_col=2, min_row=interp_start_row, max_row=interp_end_row)
     series2 = Series(yvalues2, xvalues2, title="FLAT Extrapolation")
@@ -593,7 +483,6 @@ def create_interpolation_sheet(wb):
     series2.graphicalProperties.line.solidFill = CHART_COLORS[1]
     chart.series.append(series2)
 
-    # GRADIENT extrapolation
     yvalues3 = Reference(ws, min_col=3, min_row=interp_start_row, max_row=interp_end_row)
     series3 = Series(yvalues3, xvalues2, title="GRADIENT Extrapolation")
     series3.marker = Marker(symbol='square', size=7)
@@ -606,12 +495,7 @@ def create_interpolation_sheet(wb):
 
 
 def create_chainladder_sheet(wb):
-    """Create the Chain Ladder examples sheet.
-
-    Uses the Taylor-Ashe dataset from Peter England's bootstrapping presentation.
-    This is the standard benchmark dataset for validating chain ladder implementations.
-    Source: England & Verrall (1999), Taylor & Ashe (1983)
-    """
+    """Create the Chain Ladder examples sheet."""
     ws = wb.create_sheet("Chain Ladder")
     set_column_widths(ws, {'A': 10, 'B': 12, 'C': 12, 'D': 12, 'E': 12, 'F': 12,
                            'G': 12, 'H': 12, 'I': 12, 'J': 12, 'K': 12, 'L': 5, 'M': 15})
@@ -620,11 +504,10 @@ def create_chainladder_sheet(wb):
     row = add_note(ws, "Using the Taylor-Ashe triangle from Peter England's bootstrapping presentation (England & Verrall, 1999)", row)
     row += 1
 
-    # Input triangle - Taylor-Ashe cumulative paid losses
+    # Input triangle
     row = add_note(ws, "INPUT TRIANGLE (Cumulative Paid Losses - Taylor-Ashe)", row)
     row = add_table_header(ws, ["AY", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], row)
 
-    # Taylor-Ashe triangle data
     triangle = [
         [357848, 1124788, 1735330, 2218270, 2745596, 3319994, 3466336, 3606286, 3833515, 3901463],
         [352118, 1236139, 2170033, 3353322, 3799067, 4120063, 4647867, 4914039, 5339085, None],
@@ -650,48 +533,16 @@ def create_chainladder_sheet(wb):
     triangle_end_row = row - 1
     row += 1
 
-    # Triangle range for formulas
     tri_range = f"B{triangle_start_row}:K{triangle_end_row}"
 
-    # Development factors
+    # Development factors - use INDEX to extract single values
     row = add_note(ws, "DEVELOPMENT FACTORS", row)
     row = add_note(ws, "Expected: 3.491, 1.747, 1.457, 1.174, 1.104, 1.086, 1.054, 1.077, 1.018", row)
     row = add_table_header(ws, ["Period", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9", "9-10"], row)
     factors_row = row
     ws.cell(row=row, column=1, value="Factors").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=f"=ACT_CL_FACTORS({tri_range})").border = THIN_BORDER
-    row += 2
-
-    # Latest diagonal
-    row = add_note(ws, "LATEST DIAGONAL (ACT_CL_LATEST)", row)
-    row = add_table_header(ws, ["AY", "Latest"], row)
-    latest_start = row
-    for i in range(10):
-        ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
-        cell_latest = ws.cell(row=row, column=2, value=f"=INDEX(ACT_CL_LATEST({tri_range}), {i+1})")
-        cell_latest.border = THIN_BORDER
-        cell_latest.number_format = '#,##0'
-        row += 1
-    latest_end = row - 1
-    row += 1
-
-    # Adjusted factors
-    row = add_note(ws, "DEVELOPMENT FACTORS (ADJUSTED OPTIONS)", row)
-    ws.cell(row=row, column=1, value="Top N years").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=5).border = THIN_BORDER
-    topn_cell = f"B{row}"
-    row += 1
-    ws.cell(row=row, column=1, value="Exclude most recent year").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=True).border = THIN_BORDER
-    excl_recent_cell = f"B{row}"
-    row += 1
-    ws.cell(row=row, column=1, value="Exclude high/low ratios").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=True).border = THIN_BORDER
-    excl_highlow_cell = f"B{row}"
-    row += 1
-    row = add_table_header(ws, ["Period", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9", "9-10"], row)
-    ws.cell(row=row, column=1, value="Adjusted").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=f"=ACT_CL_FACTORS({tri_range}, {topn_cell}, {excl_recent_cell}, {excl_highlow_cell})").border = THIN_BORDER
+    for i in range(9):
+        ws.cell(row=row, column=i+2, value=f"=INDEX(ACT_CL_FACTORS({tri_range}), {i+1})").border = THIN_BORDER
     row += 2
 
     # Ultimates and IBNR
@@ -699,7 +550,6 @@ def create_chainladder_sheet(wb):
     row = add_note(ws, "Expected Total IBNR: ~18,680,856", row)
     row = add_table_header(ws, ["AY", "Latest Cumulative", "Ultimate", "IBNR"], row)
 
-    # Latest diagonal values
     latest_values = [3901463, 5339085, 4909315, 4588268, 3873311, 3691712, 3483130, 2864498, 1363294, 344014]
     ibnr_start = row
     for i in range(10):
@@ -733,41 +583,34 @@ def create_chainladder_sheet(wb):
     cell_sum_ibnr.font = HEADER_FONT
     row += 2
 
-    # Bornhuetter-Ferguson ultimates
-    row = add_note(ws, "BORNHUETTER-FERGUSON ULTIMATES (A priori = Latest * 1.10)", row)
-    row = add_table_header(ws, ["AY", "Latest", "A Priori Ultimate", "BF Ultimate"], row)
-    bf_start = row
-    bf_end = row + 9
-    apriori_range = f"C{bf_start}:C{bf_end}"
-    for i in range(10):
-        ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
-        cell_latest = ws.cell(row=row, column=2, value=f"=INDEX(ACT_CL_LATEST({tri_range}), {i+1})")
-        cell_latest.border = THIN_BORDER
-        cell_latest.number_format = '#,##0'
-        cell_apriori = ws.cell(row=row, column=3, value=f"=B{row}*1.10")
-        cell_apriori.border = THIN_BORDER
-        cell_apriori.number_format = '#,##0'
-        cell_bf = ws.cell(row=row, column=4, value=f"=INDEX(ACT_BF_ULTIMATE({tri_range}, ACT_CL_FACTORS({tri_range}), {apriori_range}), {i+1})")
-        cell_bf.border = THIN_BORDER
-        cell_bf.number_format = '#,##0'
-        row += 1
-    row += 1
-
-    # Mack Standard Errors
+    # Mack Standard Errors with England & Verrall reference
     row = add_note(ws, "MACK STANDARD ERRORS (reserve uncertainty)", row)
-    row = add_table_header(ws, ["AY", "Reserve SE"], row)
+    row = add_table_header(ws, ["AY", "Reserve SE", "E&V Reference"], row)
+    
+    # England & Verrall (2002) Mack SE reference values
+    mack_se_reference = [0, 75535, 121699, 136554, 212054, 282372, 444283, 640396, 1091089, 2029818]
+    
     se_start = row
     for i in range(10):
         ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
         cell_se = ws.cell(row=row, column=2, value=f"=INDEX(ACT_MACK_RESERVE_SE({tri_range}), {i+1})")
         cell_se.border = THIN_BORDER
         cell_se.number_format = '#,##0'
+        cell_ref = ws.cell(row=row, column=3, value=mack_se_reference[i])
+        cell_ref.border = THIN_BORDER
+        cell_ref.number_format = '#,##0'
         row += 1
     se_end = row - 1
-    row += 1
+    
+    # Total Mack SE
+    ws.cell(row=row, column=1, value="Total").font = HEADER_FONT
+    ws.cell(row=row, column=1).border = THIN_BORDER
+    ws.cell(row=row, column=3, value=2447318).border = THIN_BORDER  # E&V total SE
+    ws.cell(row=row, column=3).number_format = '#,##0'
+    row += 2
 
     # Bootstrap Chain Ladder
-    row = add_note(ws, "BOOTSTRAP CHAIN LADDER (ODP)", row)
+    row = add_note(ws, "BOOTSTRAP CHAIN LADDER (ODP) - England & Verrall (2002)", row)
     ws.cell(row=row, column=1, value="Iterations").border = THIN_BORDER
     ws.cell(row=row, column=2, value=1000).border = THIN_BORDER
     iter_cell = f"B{row}"
@@ -777,25 +620,93 @@ def create_chainladder_sheet(wb):
     seed_cell = f"B{row}"
     row += 1
 
-    row = add_note(ws, "BOOTSTRAP RESULTS (mean, std dev, percentiles)", row)
-    row = add_table_header(ws, ["Statistic", "Value"], row)
-    ws.cell(row=row, column=1, value=f"=ACT_BOOTSTRAP_CL({tri_range}, {iter_cell}, {seed_cell})").border = THIN_BORDER
+    row = add_note(ws, "BOOTSTRAP RESULTS (array output - use INDEX to extract)", row)
+    row = add_table_header(ws, ["Statistic", "Value", "E&V Reference"], row)
+    
+    # England & Verrall reference values for bootstrap (Table 6, constant scale)
+    bootstrap_reference = {
+        "Mean": 18680856,  # Same as deterministic
+        "StdDev": 3087570,  # Total prediction error
+        "P1": None,
+        "P5": None,
+        "P10": None,
+        "P25": None,
+        "P50": 18186033,  # Median
+        "P75": 20376564,  # 75th percentile
+        "P90": None,
+        "P95": 24221956,  # 95th percentile
+        "P99": None
+    }
+    
+    bootstrap_stats = ["Mean", "StdDev", "P1", "P5", "P10", "P25", "P50", "P75", "P90", "P95", "P99"]
+    for i, stat in enumerate(bootstrap_stats):
+        ws.cell(row=row, column=1, value=stat).border = THIN_BORDER
+        cell_val = ws.cell(row=row, column=2, value=f"=INDEX(ACT_CL_BOOTSTRAP({tri_range}, {iter_cell}, {seed_cell}), {i+1}, 2)")
+        cell_val.border = THIN_BORDER
+        cell_val.number_format = '#,##0'
+        ref_val = bootstrap_reference.get(stat)
+        if ref_val:
+            cell_ref = ws.cell(row=row, column=3, value=ref_val)
+            cell_ref.border = THIN_BORDER
+            cell_ref.number_format = '#,##0'
+        row += 1
     row += 1
 
-    row = add_note(ws, "BOOTSTRAP BY ORIGIN YEAR", row)
-    row = add_table_header(ws, ["AY", "Mean", "StdDev", "P50", "P75", "P90", "P95", "P99"], row)
-    ws.cell(row=row, column=1, value=f"=ACT_BOOTSTRAP_CL_ORIGIN({tri_range}, {iter_cell}, {seed_cell})").border = THIN_BORDER
+    row = add_note(ws, "BOOTSTRAP BY ORIGIN YEAR - Compare with England & Verrall (2002) Table 5", row)
+    row = add_table_header(ws, ["AY", "Mean", "StdDev", "E&V SE Ref", "P50", "P75", "P90"], row)
+    
+    # England & Verrall Table 5 - Prediction Error by Origin Year (constant scale)
+    ev_se_by_origin = [0, 112379, 178443, 209399, 286636, 440310, 571035, 820842, 1258296, 2046223]
+    
+    for i in range(10):
+        ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
+        # Mean
+        cell_mean = ws.cell(row=row, column=2, value=f"=INDEX(ACT_CL_BOOTSTRAP_ORIGIN({tri_range}, {iter_cell}, {seed_cell}), {i+2}, 2)")
+        cell_mean.border = THIN_BORDER
+        cell_mean.number_format = '#,##0'
+        # StdDev
+        cell_sd = ws.cell(row=row, column=3, value=f"=INDEX(ACT_CL_BOOTSTRAP_ORIGIN({tri_range}, {iter_cell}, {seed_cell}), {i+2}, 3)")
+        cell_sd.border = THIN_BORDER
+        cell_sd.number_format = '#,##0'
+        # E&V Reference SE
+        cell_ref = ws.cell(row=row, column=4, value=ev_se_by_origin[i])
+        cell_ref.border = THIN_BORDER
+        cell_ref.number_format = '#,##0'
+        # P50
+        cell_p50 = ws.cell(row=row, column=5, value=f"=INDEX(ACT_CL_BOOTSTRAP_ORIGIN({tri_range}, {iter_cell}, {seed_cell}), {i+2}, 4)")
+        cell_p50.border = THIN_BORDER
+        cell_p50.number_format = '#,##0'
+        # P75
+        cell_p75 = ws.cell(row=row, column=6, value=f"=INDEX(ACT_CL_BOOTSTRAP_ORIGIN({tri_range}, {iter_cell}, {seed_cell}), {i+2}, 5)")
+        cell_p75.border = THIN_BORDER
+        cell_p75.number_format = '#,##0'
+        # P90
+        cell_p90 = ws.cell(row=row, column=7, value=f"=INDEX(ACT_CL_BOOTSTRAP_ORIGIN({tri_range}, {iter_cell}, {seed_cell}), {i+2}, 6)")
+        cell_p90.border = THIN_BORDER
+        cell_p90.number_format = '#,##0'
+        row += 1
+    
+    # Total row with E&V reference
+    ws.cell(row=row, column=1, value="Total").font = HEADER_FONT
+    ws.cell(row=row, column=1).border = THIN_BORDER
+    ws.cell(row=row, column=4, value=3087570).border = THIN_BORDER  # E&V total SE
+    ws.cell(row=row, column=4).number_format = '#,##0'
     row += 1
 
-    # Charts
-    # IBNR by Accident Year
-    chart1 = LineChart()
+    # Charts - IBNR bar chart
+    chart1 = BarChart()
     chart1.title = "IBNR by Accident Year"
     chart1.style = 10
+    chart1.type = "col"
     chart1.width = 12
     chart1.height = 8
     chart1.x_axis.title = "Accident Year"
     chart1.y_axis.title = "IBNR"
+    chart1.y_axis.scaling.min = 0
+    chart1.x_axis.tickLblPos = "low"
+    chart1.y_axis.tickLblPos = "low"
+    chart1.x_axis.delete = False
+    chart1.y_axis.delete = False
     data1 = Reference(ws, min_col=4, min_row=ibnr_start-1, max_row=ibnr_end)
     cats1 = Reference(ws, min_col=1, min_row=ibnr_start, max_row=ibnr_end)
     chart1.add_data(data1, titles_from_data=True)
@@ -803,16 +714,21 @@ def create_chainladder_sheet(wb):
     chart1.legend = None
     ws.add_chart(chart1, "L4")
 
-    # Development pattern (cumulative to ultimate for each AY)
-    chart2 = LineChart()
-    chart2.title = "Development Pattern - Latest Diagonal to Ultimate"
+    # Ultimates bar chart
+    chart2 = BarChart()
+    chart2.title = "Ultimate vs Latest by Accident Year"
     chart2.style = 10
+    chart2.type = "col"
+    chart2.grouping = "clustered"
     chart2.width = 12
     chart2.height = 8
     chart2.x_axis.title = "Accident Year"
     chart2.y_axis.title = "Amount"
-
-    # Add latest and ultimate series
+    chart2.y_axis.scaling.min = 0
+    chart2.x_axis.tickLblPos = "low"
+    chart2.y_axis.tickLblPos = "low"
+    chart2.x_axis.delete = False
+    chart2.y_axis.delete = False
     data_latest = Reference(ws, min_col=2, min_row=ibnr_start-1, max_row=ibnr_end)
     data_ultimate = Reference(ws, min_col=3, min_row=ibnr_start-1, max_row=ibnr_end)
     chart2.add_data(data_latest, titles_from_data=True)
@@ -821,14 +737,20 @@ def create_chainladder_sheet(wb):
     chart2.set_categories(cats2)
     ws.add_chart(chart2, "L20")
 
-    # Standard Error chart
-    chart3 = LineChart()
+    # Standard Error bar chart
+    chart3 = BarChart()
     chart3.title = "Mack Standard Error by Accident Year"
     chart3.style = 10
+    chart3.type = "col"
     chart3.width = 12
     chart3.height = 8
     chart3.x_axis.title = "Accident Year"
     chart3.y_axis.title = "Standard Error"
+    chart3.y_axis.scaling.min = 0
+    chart3.x_axis.tickLblPos = "low"
+    chart3.y_axis.tickLblPos = "low"
+    chart3.x_axis.delete = False
+    chart3.y_axis.delete = False
     data3 = Reference(ws, min_col=2, min_row=se_start-1, max_row=se_end)
     cats3 = Reference(ws, min_col=1, min_row=se_start, max_row=se_end)
     chart3.add_data(data3, titles_from_data=True)
@@ -876,7 +798,7 @@ def create_copulas_sheet(wb):
     df_cell = f"B{row}"
     row += 1
     ws.cell(row=row, column=1, value="Number of samples:").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=1000).border = THIN_BORDER  # More samples for better chart
+    ws.cell(row=row, column=2, value=100).border = THIN_BORDER
     n_cell = f"B{row}"
     row += 1
     ws.cell(row=row, column=1, value="Random seed:").border = THIN_BORDER
@@ -884,18 +806,20 @@ def create_copulas_sheet(wb):
     seed_cell = f"B{row}"
     row += 2
 
-    # Output
-    row = add_note(ws, "GENERATED SAMPLES (uniform marginals, correlated via t-copula)", row)
-    row = add_note(ws, f"Formula: =ACT_STUDENT_T_COPULA({corr_range}, {df_cell}, {n_cell}, {seed_cell})", row)
-    row = add_table_header(ws, ["U1", "U2", "U3"], row)
+    # Output - use INDEX to extract individual values
+    row = add_note(ws, "GENERATED SAMPLES (use INDEX to extract from array)", row)
+    row = add_note(ws, f"Formula: =INDEX(ACT_COPULA_STUDENT_T({corr_range}, {df_cell}, {n_cell}, {seed_cell}), row, col)", row)
+    row = add_table_header(ws, ["Sample", "U1", "U2", "U3"], row)
     samples_start_row = row
 
-    # The formula will spill results
-    ws.cell(row=row, column=1, value=f"=ACT_STUDENT_T_COPULA({corr_range}, {df_cell}, {n_cell}, {seed_cell})").border = THIN_BORDER
-    sample_count = 1000
-    sample_end_row = samples_start_row + sample_count - 1
+    for i in range(20):
+        ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
+        for j in range(3):
+            ws.cell(row=row, column=j+2, value=f"=INDEX(ACT_COPULA_STUDENT_T({corr_range}, {df_cell}, {n_cell}, {seed_cell}), {i+1}, {j+1})").border = THIN_BORDER
+        row += 1
+    sample_end_row = row - 1
 
-    # Scatter chart showing correlation between U1 and U2
+    # Scatter chart with axes
     chart = ScatterChart()
     chart.title = "Copula Samples: U1 vs U2 (correlation = 0.5)"
     chart.style = 10
@@ -907,11 +831,14 @@ def create_copulas_sheet(wb):
     chart.x_axis.scaling.max = 1
     chart.y_axis.scaling.min = 0
     chart.y_axis.scaling.max = 1
+    chart.x_axis.tickLblPos = "low"
+    chart.y_axis.tickLblPos = "low"
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
 
-    # Reference for 1000 samples
     from openpyxl.chart import Series
-    xvalues = Reference(ws, min_col=1, min_row=samples_start_row, max_row=sample_end_row)
-    yvalues = Reference(ws, min_col=2, min_row=samples_start_row, max_row=sample_end_row)
+    xvalues = Reference(ws, min_col=2, min_row=samples_start_row, max_row=sample_end_row)
+    yvalues = Reference(ws, min_col=3, min_row=samples_start_row, max_row=sample_end_row)
     series = Series(yvalues, xvalues, title_from_data=False)
     series.marker = Marker(symbol='circle', size=5)
     series.graphicalProperties.line.noFill = True
@@ -920,19 +847,7 @@ def create_copulas_sheet(wb):
 
     ws.add_chart(chart, "F4")
 
-    row = sample_end_row + 2
-    row = add_note(ws, "RANK CORRELATION CHECK (Spearman)", row)
-    row = add_table_header(ws, ["Pair", "Target", "Rank Corr"], row)
-    rank_formula = (
-        f'=LET(x, A{samples_start_row}:INDEX(A:A, {samples_start_row}-1+{n_cell}), '
-        f'y, B{samples_start_row}:INDEX(B:B, {samples_start_row}-1+{n_cell}), '
-        f'CORREL(RANK.EQ(x, x, 1), RANK.EQ(y, y, 1)))'
-    )
-    ws.cell(row=row, column=1, value="U1-U2").border = THIN_BORDER
-    ws.cell(row=row, column=2, value=f"=C{corr_start_row}").border = THIN_BORDER
-    ws.cell(row=row, column=3, value=rank_formula).border = THIN_BORDER
-    row += 2
-
+    row += 1
     row = add_note(ws, "Note: Results are uniform[0,1] values. Apply inverse CDF to get desired marginal distributions.", row)
 
     return ws
@@ -964,7 +879,7 @@ def create_return_period_sheet(wb):
     rp_range = f"A{data_start}:A{data_end}"
     loss_range = f"B{data_start}:B{data_end}"
 
-    # EP Curve chart
+    # EP Curve chart with axes
     chart = ScatterChart()
     chart.title = "Exceedance Probability Curve"
     chart.style = 10
@@ -973,7 +888,11 @@ def create_return_period_sheet(wb):
     chart.x_axis.title = "Return Period (years)"
     chart.y_axis.title = "OEP Loss"
     chart.y_axis.scaling.min = 0
-    chart.x_axis.scaling.logBase = 10  # Log scale for return period
+    chart.x_axis.scaling.logBase = 10
+    chart.x_axis.tickLblPos = "low"
+    chart.y_axis.tickLblPos = "low"
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
 
     from openpyxl.chart import Series
     xvalues = Reference(ws, min_col=1, min_row=data_start, max_row=data_end)
@@ -988,7 +907,6 @@ def create_return_period_sheet(wb):
     # Interpolation examples
     row = add_note(ws, "LOSS INTERPOLATION", row)
     row = add_table_header(ws, ["Target RP", "Loss (LOG)", "Loss (LINEAR)", "Notes"], row)
-    interp_start_row = row
     targets = [20, 75, 150, 200]
     for target in targets:
         log_formula = f'=ACT_RETURN_PERIOD_LOSS({rp_range}, {loss_range}, A{row}, "LOG")'
@@ -1002,14 +920,7 @@ def create_return_period_sheet(wb):
         cell_lin.number_format = '#,##0'
         ws.cell(row=row, column=4, value="Log interpolation typical for cat curves").border = THIN_BORDER
         row += 1
-    interp_end_row = row - 1
 
-    row += 1
-
-    # Return period table formula example
-    row = add_note(ws, "RETURN PERIOD TABLE (LOG)", row)
-    row = add_table_header(ws, ["Target RP", "Loss"], row)
-    ws.cell(row=row, column=1, value=f'=ACT_RETURN_PERIOD_TABLE({rp_range}, {loss_range}, A{interp_start_row}:A{interp_end_row}, "LOG")').border = THIN_BORDER
     row += 1
 
     # AAL calculation
@@ -1021,13 +932,74 @@ def create_return_period_sheet(wb):
     return ws
 
 
-def strip_implicit_intersection(wb):
-    """Remove implicit intersection markers from ACT_ formulas."""
+def strip_all_implicit_intersection(wb):
+    """Robustly remove ALL @ symbols from formulas in the entire workbook."""
     for ws in wb.worksheets:
         for row in ws.iter_rows():
             for cell in row:
-                if isinstance(cell.value, str) and cell.value.startswith('=') and '@ACT_' in cell.value:
-                    cell.value = cell.value.replace('@ACT_', 'ACT_').replace('=@', '=')
+                if isinstance(cell.value, str) and cell.value.startswith('='):
+                    # Remove @ anywhere in the formula
+                    original = cell.value
+                    # Replace @ACT_ with ACT_
+                    new_value = original.replace('@ACT_', 'ACT_')
+                    # Replace =@ with =
+                    new_value = new_value.replace('=@', '=')
+                    # Replace any remaining @ followed by a function-like pattern
+                    import re
+                    new_value = re.sub(r'@([A-Za-z_][A-Za-z0-9_]*)\(', r'\1(', new_value)
+                    if new_value != original:
+                        cell.value = new_value
+
+
+def update_all_functions_test_tab(wb):
+    """Update the All Functions Test tab with correct function names."""
+    if "All Functions Test" not in wb.sheetnames:
+        return
+    
+    ws = wb["All Functions Test"]
+    
+    # Mapping of old function names to new ones
+    replacements = {
+        'ACT_POISSON_': 'ACT_DIST_POISSON_',
+        'ACT_NEGBIN_': 'ACT_DIST_NEGBIN_',
+        'ACT_LOGNORM_': 'ACT_DIST_LOGNORM_',
+        'ACT_GAMMA_': 'ACT_DIST_GAMMA_',
+        'ACT_PARETO_PDF': 'ACT_DIST_PARETO_PDF',
+        'ACT_PARETO_CDF': 'ACT_DIST_PARETO_CDF',
+        'ACT_PARETO_INV': 'ACT_DIST_PARETO_INV',
+        'ACT_GPD_': 'ACT_DIST_GPD_',
+        'ACT_WEIBULL_': 'ACT_DIST_WEIBULL_',
+        'ACT_BETA_': 'ACT_DIST_BETA_',
+        'ACT_EXP_': 'ACT_DIST_EXP_',
+        'ACT_BURR_': 'ACT_DIST_BURR_',
+        'ACT_MBBEFD': 'ACT_EXPOSURE_MBBEFD',
+        'ACT_SWISSRE_CURVE': 'ACT_EXPOSURE_SWISSRE',
+        'ACT_LLOYDS_CURVE': 'ACT_EXPOSURE_LLOYDS',
+        'ACT_POWER_CURVE': 'ACT_EXPOSURE_POWER',
+        'ACT_INVERSE_POWER_CURVE': 'ACT_EXPOSURE_INVERSE_POWER',
+        'ACT_PARETO_EXPOSURE': 'ACT_EXPOSURE_PARETO',
+        'ACT_RIEBESELL_CURVE': 'ACT_EXPOSURE_RIEBESELL',
+        'ACT_LAYER_RATE_ON_LINE': 'ACT_EXPOSURE_LAYER_RATE',
+        'ACT_BOOTSTRAP_CL_ORIGIN': 'ACT_CL_BOOTSTRAP_ORIGIN',
+        'ACT_BOOTSTRAP_CL': 'ACT_CL_BOOTSTRAP',
+        'ACT_AGGREGATE_LAYER': '',  # Remove
+        'ACT_QS_CEDED': '',  # Remove
+    }
+    
+    for row in ws.iter_rows():
+        for cell in row:
+            if isinstance(cell.value, str):
+                new_value = cell.value
+                for old, new in replacements.items():
+                    if old in new_value:
+                        if new == '':
+                            # Remove rows with these functions
+                            continue
+                        new_value = new_value.replace(old, new)
+                # Also strip @
+                new_value = new_value.replace('@ACT_', 'ACT_').replace('=@', '=')
+                if new_value != cell.value:
+                    cell.value = new_value
 
 
 def main():
@@ -1036,6 +1008,14 @@ def main():
 
     # Open existing workbook (preserve macros)
     wb = openpyxl.load_workbook(EXCEL_PATH, keep_vba=True)
+
+    # First, strip @ from ALL existing sheets
+    print("Stripping @ symbols from existing sheets...")
+    strip_all_implicit_intersection(wb)
+
+    # Update All Functions Test tab
+    print("Updating All Functions Test tab...")
+    update_all_functions_test_tab(wb)
 
     # Remove existing sheets we're going to recreate
     sheets_to_create = ["Distributions", "Exposure Curves", "Reinsurance", "Interpolation",
@@ -1049,7 +1029,7 @@ def main():
         del wb["Sheet1"]
 
     # Create example sheets
-    print("Creating Distributions sheet with charts...")
+    print("Creating Distributions sheet with ALL distributions and charts...")
     create_distributions_sheet(wb)
 
     print("Creating Exposure Curves sheet with charts...")
@@ -1061,7 +1041,7 @@ def main():
     print("Creating Interpolation sheet with chart...")
     create_interpolation_sheet(wb)
 
-    print("Creating Chain Ladder sheet...")
+    print("Creating Chain Ladder sheet with bar charts...")
     create_chainladder_sheet(wb)
 
     print("Creating Copulas sheet with scatter plot...")
@@ -1070,7 +1050,9 @@ def main():
     print("Creating Return Periods sheet with EP curve...")
     create_return_period_sheet(wb)
 
-    strip_implicit_intersection(wb)
+    # Final strip of @ symbols
+    print("Final cleanup of @ symbols...")
+    strip_all_implicit_intersection(wb)
 
     # Save
     print(f"Saving workbook...")

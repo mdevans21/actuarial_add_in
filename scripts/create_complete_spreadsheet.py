@@ -41,8 +41,10 @@ COMMITS = [
 # Array-returning functions
 ARRAY_FUNCTIONS = [
     'ACT_CL_FACTORS', 'ACT_CL_LATEST', 'ACT_CL_ULTIMATE', 'ACT_CL_IBNR',
+    # Exposure curves use ACT_EXPOSURE_* prefix
+    # Distributions use ACT_DIST_* prefix
     'ACT_BF_ULTIMATE', 'ACT_MACK_FACTOR_SE', 'ACT_MACK_RESERVE_SE',
-    'ACT_BOOTSTRAP_CL', 'ACT_BOOTSTRAP_CL_ORIGIN',
+    'ACT_CL_BOOTSTRAP', 'ACT_CL_BOOTSTRAP_ORIGIN',
     'ACT_CAPECOD_ULTIMATE', 'ACT_TRIANGLE_TO_INCREMENTAL',
     'ACT_INCREMENTAL_TO_CUMULATIVE', 'ACT_TRIANGLE_DIAGONAL',
     'ACT_TRIANGLE_LINK_RATIOS', 'ACT_CL_CALENDAR_ADJUST',
@@ -378,8 +380,8 @@ def create_all_functions_sheet(wb):
         ("ACT_BF_ULTIMATE - Bornhuetter-Ferguson (array)", None, None),
         ("ACT_MACK_FACTOR_SE - Factor std errors (array)", None, None),
         ("ACT_MACK_RESERVE_SE - Reserve std errors (array)", None, None),
-        ("ACT_BOOTSTRAP_CL - Bootstrap total (array)", None, None),
-        ("ACT_BOOTSTRAP_CL_ORIGIN - Bootstrap by AY (array)", None, None),
+        ("ACT_CL_BOOTSTRAP - Bootstrap total (array)", None, None),
+        ("ACT_CL_BOOTSTRAP_ORIGIN - Bootstrap by AY (array)", None, None),
         ("ACT_CAPECOD_ULTIMATE - Cape Cod (array)", None, None),
         ("ACT_CAPECOD_ELR - Cape Cod ELR", None, None),
         ("ACT_BERQUIST_SHERMAN - Berquist-Sherman (array)", None, None),

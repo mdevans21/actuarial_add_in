@@ -13,8 +13,8 @@ def main():
 
     wb = load_workbook(source_file, data_only=False, keep_vba=True)
 
-    # Look for ACT_CL_LATEST and ACT_BOOTSTRAP_CL_ORIGIN usage
-    target_functions = ['ACT_CL_LATEST', 'ACT_BOOTSTRAP_CL_ORIGIN']
+    # Look for ACT_CL_LATEST and ACT_CL_BOOTSTRAP_ORIGIN usage
+    target_functions = ['ACT_CL_LATEST', 'ACT_CL_BOOTSTRAP_ORIGIN']
 
     print("Searching for specific functions...")
     print("=" * 60)
