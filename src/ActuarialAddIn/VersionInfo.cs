@@ -7,7 +7,7 @@ namespace ActuarialAddIn;
 public static class VersionInfo
 {
     public const string CurrentVersion = "0.1.0";
-    public const string BuildDate = "2026-01-18";
+    public const string BuildDate = "2026-01-21";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
     public record CommitInfo(string ShortHash, string Date, string Message);
@@ -20,6 +20,12 @@ public static class VersionInfo
         // Commit history - updated during build or release
         return new[]
         {
+            new CommitInfo("b1b839f", "2026-01-19", "Repository cleanup: remove obsolete files and fix code quality issues"),
+            new CommitInfo("09491bc", "2026-01-19", "Improve consistency across outputs and documentation"),
+            new CommitInfo("2b8cb04", "2026-01-18", "Fix ODP bootstrap to match England & Verrall (2002)"),
+            new CommitInfo("fd0205a", "2026-01-18", "Add examples for all 10 distributions to Distributions tab"),
+            new CommitInfo("fb7f919", "2026-01-18", "Add tests, utility scripts, and example spreadsheets"),
+            new CommitInfo("97704d9", "2026-01-18", "Add ribbon UI and version tracking system"),
             new CommitInfo("b2a74d4", "2026-01-18", "Add Phase 6: Credibility and experience rating functions"),
             new CommitInfo("8e5109b", "2026-01-18", "Add Phase 5: Reserving enhancements - Cape Cod, triangle utilities, calendar year"),
             new CommitInfo("6a2d830", "2026-01-18", "Add Phase 3: Archimedean copulas and utility functions"),
@@ -33,8 +39,7 @@ public static class VersionInfo
             new CommitInfo("7458388", "2026-01-17", "Add charts to Excel sheets and update Chain Ladder with Taylor-Ashe data"),
             new CommitInfo("dc52de8", "2026-01-17", "Add documentation, examples, and agent instructions"),
             new CommitInfo("1fbd1ef", "2026-01-17", "Rename PRD file to fix double extension"),
-            new CommitInfo("d2323be", "2026-01-17", "Fix Poisson inverse CDF implementation"),
-            new CommitInfo("62c42d7", "2026-01-17", "Initial implementation of Actuarial Excel Add-in"),
+            new CommitInfo("d2323be", "2026-01-17", "Fix Poisson inverse CDF implementation")
         };
     }
 }
