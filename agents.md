@@ -122,6 +122,42 @@ powershell.exe -Command "cd 'C:\Users\matth\Code\actuarial_add_in'; dotnet build
 
 **IMPORTANT: Always rebuild before committing.** When any C# code in `src/ActuarialAddIn/` has been modified, run the build command above before creating a git commit. This ensures the compiled add-in stays in sync with the source code.
 
+### WSL/Windows Filesystem Sync Issues
+
+WSL and Windows may have different views of the same files due to filesystem caching. This can cause builds to use stale code even when source files appear updated in WSL.
+
+**Symptoms of sync issues:**
+- Build succeeds but new functions give #NAME errors in Excel
+- DLL timestamp is old despite successful build
+- `strings` or PowerShell search doesn't find expected function names in DLL
+
+**Prevention - verify after every build:**
+
+1. Check the DLL was actually updated (timestamp should be recent):
+```bash
+powershell.exe -Command "Get-Item 'C:\Users\matth\Code\actuarial_add_in\src\ActuarialAddIn\bin\Release\net6.0-windows\ActuarialAddIn.dll' | Select-Object LastWriteTime"
+```
+
+2. Verify new functions exist in the compiled DLL:
+```bash
+powershell.exe -Command "\$bytes = [System.IO.File]::ReadAllBytes('C:\Users\matth\Code\actuarial_add_in\src\ActuarialAddIn\bin\Release\net6.0-windows\ActuarialAddIn.dll'); \$text = [System.Text.Encoding]::ASCII.GetString(\$bytes); [regex]::Matches(\$text, 'ACT_[A-Z_]+') | ForEach-Object { \$_.Value } | Sort-Object -Unique"
+```
+
+**If sync issues occur:**
+
+1. Force copy files from WSL to Windows:
+```bash
+powershell.exe -Command "Copy-Item -Path '\\wsl.localhost\Ubuntu\home\matth\Code\actuarial_add_in\src\ActuarialAddIn\Functions\*.cs' -Destination 'C:\Users\matth\Code\actuarial_add_in\src\ActuarialAddIn\Functions\' -Force"
+```
+
+2. Delete build cache and rebuild:
+```bash
+rm -rf src/ActuarialAddIn/bin src/ActuarialAddIn/obj
+powershell.exe -Command "cd 'C:\Users\matth\Code\actuarial_add_in'; dotnet build src/ActuarialAddIn/ActuarialAddIn.csproj --configuration Release"
+```
+
+3. If Excel has the add-in locked (build fails with "access denied"), close Excel completely before rebuilding.
+
 **After building:**
 1. Close Excel if open
 2. Reopen the spreadsheet
