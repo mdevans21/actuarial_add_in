@@ -9,15 +9,40 @@ namespace ActuarialAddIn.Functions;
 /// </summary>
 public static class Fitting
 {
+    #region Helper Methods
+
+    /// <summary>
+    /// Flatten a 2D array from Excel into a 1D array.
+    /// Handles both row vectors and column vectors.
+    /// </summary>
+    private static double[] FlattenArray(double[,] data)
+    {
+        int rows = data.GetLength(0);
+        int cols = data.GetLength(1);
+        var result = new double[rows * cols];
+        int idx = 0;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                result[idx++] = data[i, j];
+            }
+        }
+        return result;
+    }
+
+    #endregion
+
     #region Exponential Distribution
 
     [ExcelFunction(Description = "Fit exponential distribution to data. MLE estimate: λ = 1/mean. Returns rate parameter lambda.", Category = "Actuarial.Distributions")]
     public static object ACT_DIST_EXP_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
-        if (data == null || data.Length == 0)
+        if (data2d == null || data2d.Length == 0)
             return "Error: Data array is empty";
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length == 0)
             return "Error: No positive values in data";
@@ -35,11 +60,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit Poisson distribution to count data. MLE estimate: λ = mean. Returns lambda parameter.", Category = "Actuarial.Distributions")]
     public static object ACT_DIST_POISSON_FIT(
-        [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[] data)
+        [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[,] data2d)
     {
-        if (data == null || data.Length == 0)
+        if (data2d == null || data2d.Length == 0)
             return "Error: Data array is empty";
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x >= 0).ToArray();
         if (validData.Length == 0)
             return "Error: No non-negative values in data";
@@ -53,11 +79,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit lognormal distribution to data. MLE: μ = mean(ln(x)), σ = std(ln(x)). Returns array [mu, sigma].", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_LOGNORM_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 positive values" };
@@ -75,11 +102,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit gamma distribution using method of moments. Returns array [alpha (shape), beta (rate)]. Mean = α/β, Var = α/β².", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_GAMMA_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 positive values" };
@@ -104,12 +132,13 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit Pareto Type I distribution. MLE: α = n / Σln(x/xm). Returns array [alpha, xm] where xm = min(data).", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_PARETO_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data,
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d,
         [ExcelArgument(Description = "Known minimum xm (optional, uses min(data) if 0 or omitted)")] double knownXm = 0)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 positive values" };
@@ -137,11 +166,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit Weibull distribution using method of moments approximation. Returns array [k (shape), lambda (scale)].", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_WEIBULL_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 positive values" };
@@ -204,11 +234,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit GPD to exceedance data using probability-weighted moments. Returns array [xi (shape), sigma (scale)]. Data should be exceedances over threshold.", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_GPD_FIT(
-        [ExcelArgument(Description = "Exceedance data (positive values representing amounts over threshold)")] double[] data)
+        [ExcelArgument(Description = "Exceedance data (positive values representing amounts over threshold)")] double[,] data2d)
     {
-        if (data == null || data.Length < 10)
+        if (data2d == null || data2d.Length < 10)
             return new object[] { "Error: Need at least 10 data points for reliable GPD fit" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).OrderBy(x => x).ToArray();
         if (validData.Length < 10)
             return new object[] { "Error: Need at least 10 positive exceedances" };
@@ -248,11 +279,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit beta distribution using method of moments. Returns array [alpha, beta]. Data should be in (0,1).", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_BETA_FIT(
-        [ExcelArgument(Description = "Sample data (values between 0 and 1)")] double[] data)
+        [ExcelArgument(Description = "Sample data (values between 0 and 1)")] double[,] data2d)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0 && x < 1).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 values in (0,1)" };
@@ -288,11 +320,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit negative binomial distribution using method of moments. Returns array [r (successes), p (probability)]. Variance must exceed mean.", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_NEGBIN_FIT(
-        [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[] data)
+        [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[,] data2d)
     {
-        if (data == null || data.Length < 2)
+        if (data2d == null || data2d.Length < 2)
             return new object[] { "Error: Need at least 2 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x >= 0).ToArray();
         if (validData.Length < 2)
             return new object[] { "Error: Need at least 2 non-negative values" };
@@ -322,11 +355,12 @@ public static class Fitting
 
     [ExcelFunction(Description = "Fit Burr Type XII distribution using method of moments. Returns array [c, k, lambda]. Approximate fit - verify with goodness-of-fit tests.", Category = "Actuarial.Distributions")]
     public static object[] ACT_DIST_BURR_FIT(
-        [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
+        [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
-        if (data == null || data.Length < 3)
+        if (data2d == null || data2d.Length < 3)
             return new object[] { "Error: Need at least 3 data points" };
 
+        var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 3)
             return new object[] { "Error: Need at least 3 positive values" };
