@@ -44,11 +44,13 @@ def run_csharp_tests() -> bool:
     )
 
     if result.returncode == 0:
-        # Copy the generated test_results.md to WSL repo
-        if win_results.exists():
+        # Copy the generated test_results.md to WSL repo (if different paths)
+        if win_results.exists() and win_results.resolve() != RESULTS_FILE.resolve():
             import shutil
             shutil.copy(win_results, RESULTS_FILE)
             print(f"\nResults copied to: {RESULTS_FILE}")
+        else:
+            print(f"\nResults written to: {RESULTS_FILE}")
         return True
     else:
         print(f"\nC# tests failed with exit code {result.returncode}")
