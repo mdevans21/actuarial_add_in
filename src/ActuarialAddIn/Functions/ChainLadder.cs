@@ -11,7 +11,6 @@ namespace ActuarialAddIn.Functions;
 /// - Mack, T. (1999). "The standard error of chain ladder reserve estimates: Recursive calculation and inclusion of a tail factor." ASTIN Bulletin 29(2): 361-366.
 /// - England, P.D. and Verrall, R.J. (2002). "Stochastic claims reserving in general insurance." British Actuarial Journal 8(3): 443-518.
 /// - Bornhuetter, R.L. and Ferguson, R.E. (1972). "The actuary and IBNR." Proceedings of the CAS, LIX: 181-195.
-/// - Berquist, J.R. and Sherman, R.E. (1977). "Loss reserve adequacy testing: A comprehensive, systematic approach." Proceedings of the CAS, LXIV: 123-184.
 /// </summary>
 public static class ChainLadder
 {
@@ -857,71 +856,6 @@ public static class ChainLadder
         }
 
         return result;
-    }
-
-    #endregion
-
-    #region Berquist-Sherman Adjustment
-
-    [ExcelFunction(Description = "Berquist-Sherman paid loss adjustment for case reserve adequacy changes. Ref: Berquist & Sherman (1977). Restates historical paids to current adequacy level.", Category = "Actuarial.ChainLadder")]
-    public static object[,] ACT_BERQUIST_SHERMAN(
-        [ExcelArgument(Description = "Paid loss triangle (n x n cumulative values)")] double[,] paidTriangle,
-        [ExcelArgument(Description = "Case reserve triangle (n x n values)")] double[,] caseTriangle,
-        [ExcelArgument(Description = "Trend rate for case reserve adequacy (e.g., 0.05 for 5%)")] double trendRate)
-    {
-        int n = paidTriangle.GetLength(0);
-        if (paidTriangle.GetLength(1) != n || caseTriangle.GetLength(0) != n || caseTriangle.GetLength(1) != n)
-            return new object[,] { { "Error: Triangles must be square and same size" } };
-
-        // Calculate incurred triangle
-        var incurredTriangle = new double[n, n];
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j <= n - 1 - i; j++)
-            {
-                incurredTriangle[i, j] = paidTriangle[i, j] + caseTriangle[i, j];
-            }
-        }
-
-        // Adjust case reserves to common adequacy level (latest diagonal)
-        var adjustedCaseTriangle = new double[n, n];
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j <= n - 1 - i; j++)
-            {
-                int periodsToAdjust = (n - 1 - i) - j;
-                double adjustmentFactor = Math.Pow(1 + trendRate, periodsToAdjust);
-                adjustedCaseTriangle[i, j] = caseTriangle[i, j] * adjustmentFactor;
-            }
-        }
-
-        // Calculate adjusted paid triangle (maintain incurred, adjust paid)
-        var adjustedPaidTriangle = new object[n, n];
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j <= n - 1 - i; j++)
-            {
-                double adjustedIncurred = paidTriangle[i, j] + adjustedCaseTriangle[i, j];
-                double originalIncurred = incurredTriangle[i, j];
-
-                // Adjusted paid = original paid * (adjusted incurred / original incurred)
-                if (originalIncurred > 0)
-                {
-                    adjustedPaidTriangle[i, j] = paidTriangle[i, j] * (adjustedIncurred / originalIncurred);
-                }
-                else
-                {
-                    adjustedPaidTriangle[i, j] = paidTriangle[i, j];
-                }
-            }
-            // Fill remaining with empty
-            for (int j = n - i; j < n; j++)
-            {
-                adjustedPaidTriangle[i, j] = "";
-            }
-        }
-
-        return adjustedPaidTriangle;
     }
 
     #endregion

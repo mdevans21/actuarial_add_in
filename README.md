@@ -162,7 +162,6 @@ Key features:
 | `ACT_BF_ULTIMATE(triangle, factors, a_priori)` | Bornhuetter-Ferguson ultimates     |
 | `ACT_CAPECOD_ULTIMATE(triangle, premiums)`     | Cape Cod method ultimates          |
 | `ACT_CAPECOD_ELR(triangle, premiums)`          | Cape Cod expected loss ratio       |
-| `ACT_BERQUIST_SHERMAN(paid, case_reserves, trend)` | Case reserve adequacy adjustment |
 
 ---
 
