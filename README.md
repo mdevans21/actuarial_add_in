@@ -324,9 +324,16 @@ dotnet build ActuarialAddIn.sln --configuration Release
 
 ## References
 
+### Academic Papers
+
 - England, P.D. and Verrall, R.J. (2002) "Stochastic Claims Reserving in General Insurance", British Actuarial Journal, 8(3), 443-518.
 - Mack, T. (1993) "Distribution-free calculation of the standard error of chain ladder reserve estimates", ASTIN Bulletin, 23(2), 213-225.
 - Taylor, G. and Ashe, F.R. (1983) "Second moments of estimates of outstanding claims", Journal of Econometrics, 23, 37-61.
+- Bernegger, S. (1997) "The Swiss Re Exposure Curves and the MBBEFD Distribution Class", ASTIN Bulletin, 27(1), 99-111.
+
+### Software
+
+- Casualty Actuarial Society (2024). *chainladder-python: Property and Casualty Loss Reserving in Python*. Available at: https://github.com/casact/chainladder-python. Documentation: https://chainladder-python.readthedocs.io/
 
 ## License
 
