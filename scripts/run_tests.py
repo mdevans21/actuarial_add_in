@@ -35,7 +35,8 @@ def run_csharp_tests() -> bool:
 
     # Use the Windows path via /mnt/c
     win_test_dir = Path("/mnt/c/Users/matth/Code/actuarial_add_in/src/ActuarialAddIn.Tests")
-    win_results = Path("/mnt/c/Users/matth/Code/actuarial_add_in/test_results.md")
+    # dotnet run writes to cwd, so test_results.md ends up in the Tests directory
+    win_results = win_test_dir / "test_results.md"
 
     # Run dotnet via cmd.exe from the Windows directory
     result = subprocess.run(
