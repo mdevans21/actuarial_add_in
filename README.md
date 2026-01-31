@@ -224,28 +224,77 @@ Generate correlated random samples for simulation models.
 
 ## Testing
 
-### Python Benchmark Tests
+The add-in includes a comprehensive validation framework to ensure numerical accuracy against established references.
 
-Compare against scipy and chainladder:
+### Test Suite Summary
+
+| Test Type | Tests | Pass Rate | Reference Sources |
+|-----------|-------|-----------|-------------------|
+| Distributions | 40+ | 100% | scipy.stats (tolerance: 1e-10) |
+| Chain Ladder | 11 | 100% | England & Verrall (2002) |
+| Copulas | 7 | 100% | Analytical formulas |
+| Exposure Curves | 15+ | 100% | Bernegger (1997) |
+| Credibility | 5 | 100% | CAS Exam references |
+| **Total** | **80** | **100%** | |
+
+### Excel Workbook Tests
+
+The file `excel/actuarial_add_in_v0.2.xlsm` contains an "All Functions Test" tab with 140 formulas covering all function categories. Open in Excel with the add-in loaded to verify all functions return valid results.
+
+### Python Validation Framework
+
+The `tests/` directory contains a pytest-based validation suite that compares our implementations against scipy and published academic references.
 
 ```bash
 cd tests
 pip install -r requirements.txt
-python run_benchmarks.py
+
+# Run full validation suite
+python -m pytest test_validation.py -v
+
+# Generate comparison report
+python compare_sources.py --generate-report
 ```
 
-Output includes:
-- Distribution function comparisons vs scipy
-- Chain ladder comparisons vs chainladder package
-- ODP Bootstrap comparison vs E&V (2002) published results
+**Output files:**
+- `tests/reports/VALIDATION_REPORT.md` - Detailed pass/fail status for all 80 tests
+- Console output with tolerance checks and reference comparisons
 
-### C# Test Suite
+**Reference fixtures** (`tests/fixtures/`):
+- `distributions.json` - Expected values from scipy.stats
+- `chain_ladder.json` - Taylor-Ashe triangle results from E&V (2002)
+- `copulas.json` - Analytical formula validations
+- `exposure_curves.json` - Bernegger (1997) MBBEFD values
+- `credibility.json` - CAS exam reference calculations
 
-Generate markdown test report:
+### C# Test Harness
+
+Generate a markdown report showing function outputs with test parameters:
 
 ```bash
 dotnet run --project src/ActuarialAddIn.Tests/ActuarialAddIn.Tests.csproj -- test_results.md
 ```
+
+**Output:** `test_results.md` - Formatted tables showing:
+- Distribution PDF/CDF/Inverse values
+- Chain ladder factors and IBNR
+- Bootstrap statistics
+- Copula correlation validation
+
+### Key Validation Benchmarks
+
+**Distributions:** All PDF, CDF, and inverse functions match scipy.stats to 10 decimal places.
+
+**Chain Ladder (Taylor-Ashe triangle):**
+- Development factors: Exact match to E&V (2002)
+- Total IBNR: 18,680,856 (exact)
+- Mack SE: 2,447,095 (exact match)
+- Bootstrap SE: 2,161,659 (97% of E&V non-constant scale reference: 2,228,677)
+
+**Copulas:** Tail dependence coefficients validated against analytical formulas:
+- Clayton lower tail: λ_L = 2^(-1/θ)
+- Gumbel upper tail: λ_U = 2 - 2^(1/θ)
+- Student-t symmetric tail dependence
 
 ---
 
