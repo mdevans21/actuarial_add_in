@@ -120,6 +120,8 @@ powershell.exe -Command "cd 'C:\Users\matth\Code\actuarial_add_in'; dotnet build
 - 32-bit: `src/ActuarialAddIn/bin/Release/net6.0-windows/publish/ActuarialAddIn-AddIn-packed.xll`
 - 64-bit: `src/ActuarialAddIn/bin/Release/net6.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll`
 
+**IMPORTANT: Always rebuild before committing.** When any C# code in `src/ActuarialAddIn/` has been modified, run the build command above before creating a git commit. This ensures the compiled add-in stays in sync with the source code.
+
 **After building:**
 1. Close Excel if open
 2. Reopen the spreadsheet
