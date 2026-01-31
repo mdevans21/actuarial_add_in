@@ -89,7 +89,7 @@ class Program
 
     static string FormatMatch(bool match) => match ? "TRUE" : "**FALSE**";
 
-    // Helper to extract 1D array from Excel object[,] return (assumes vertical column)
+    // Helper to extract 1D array from Excel return (handles object[,] or object[])
     static double[] ToDoubleArray(object excelResult)
     {
         if (excelResult is object[,] arr2d)
@@ -100,7 +100,18 @@ class Program
                 result[i] = Convert.ToDouble(arr2d[i, 0]);
             return result;
         }
-        throw new InvalidOperationException("Expected object[,] from Excel function");
+        if (excelResult is object[] arr1d)
+        {
+            var result = new double[arr1d.Length];
+            for (int i = 0; i < arr1d.Length; i++)
+                result[i] = Convert.ToDouble(arr1d[i]);
+            return result;
+        }
+        if (excelResult is double[] dblArr)
+        {
+            return dblArr;
+        }
+        throw new InvalidOperationException($"Expected object[,] or object[] from Excel function, got {excelResult?.GetType()}");
     }
 
     static void TestDistributions()
