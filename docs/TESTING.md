@@ -38,28 +38,44 @@ tests/fixtures/
 └── sources.json          # URLs and citations for all sources
 ```
 
-## Running Validation
+## Running Tests
 
-### Generate Full Report
+### Unified Test Runner (Recommended)
+
+Run all tests from WSL using the unified script:
 
 ```bash
+# Run all tests (C# + Python + Report)
+python scripts/run_tests.py
+
+# Run only C# tests (generates test_results.md)
+python scripts/run_tests.py --csharp
+
+# Run only Python validation tests
+python scripts/run_tests.py --python
+
+# Generate validation report only
+python scripts/run_tests.py --report
+```
+
+### Individual Commands
+
+If you prefer to run tests individually:
+
+```bash
+# C# Tests (from repo root, requires Windows dotnet)
+cd src/ActuarialAddIn.Tests && dotnet run
+
+# Python Tests
+python -m pytest tests/test_validation.py -v
+
+# Validation Report
 python tests/compare_sources.py --generate-report
 ```
 
-Output: `tests/reports/VALIDATION_REPORT.md`
-
-### Run Pytest Tests
-
-```bash
-python -m pytest tests/test_validation.py -v
-```
-
-### Validate Specific Categories
-
-```bash
-python tests/compare_sources.py --validate-distributions
-python tests/compare_sources.py --validate-chain-ladder
-```
+Output files:
+- `test_results.md` - C# test output with reconciliation tables
+- `tests/reports/VALIDATION_REPORT.md` - Detailed validation report
 
 ## Validation Sources by Category
 
