@@ -1,6 +1,6 @@
 # Actuarial Excel Add-In
 
-A comprehensive Excel add-in for general insurance actuarial calculations, built with C# and Excel-DNA.
+A comprehensive Excel add-in for general insurance actuarial calculations, built with python, C# and Excel-DNA.
 
 The aim of this add-in is to bring models normally restricted to the statistical worlds of R and python to 
 the more user-accessible Microsoft Excel.
@@ -23,9 +23,9 @@ See `excel/actuarial_add_in_v0.2.xlsm` for working examples of all functions.
 | Category      | Functions | Description                              |
 |---------------|-----------|------------------------------------------|
 | Distributions | 30+       | PDF, CDF, Inverse for 10 distributions   |
-| Exposure Curves | 10+     | MBBEFD, Swiss Re, Lloyd's, Power, Pareto |
+| Exposure/ILF/EP | 15+     | MBBEFD, Swiss Re, Lloyd's, ILF, EP Curves |
 | Chain Ladder  | 15+       | Factors, Ultimates, Mack SE, ODP Bootstrap |
-| Reinsurance   | 5+        | XOL, ILF, Return Periods                 |
+| Layer Functions | 2       | XOL layer loss calculations              |
 | Copulas       | 10+       | Gaussian, Student-t, Clayton, Frank, Gumbel |
 | Interpolation | 5+        | Linear, Log-linear, 2D Bilinear          |
 
@@ -62,9 +62,9 @@ PDF, CDF, and Inverse CDF functions for actuarial modeling.
 
 ---
 
-## 2. Exposure Curves
+## 2. Exposure, ILF and EP Curves
 
-First loss scales and exposure rating curves for reinsurance pricing.
+First loss scales, exposure rating curves, and exceedance probability functions for reinsurance pricing.
 
 ### Test Parameters
 
@@ -88,6 +88,20 @@ First loss scales and exposure rating curves for reinsurance pricing.
 | `ACT_EXPOSURE_PARETO(d, alpha)`                       | Pareto exposure curve          | alpha: tail parameter                   |
 | `ACT_EXPOSURE_RIEBESELL(d, c)`                        | Riebesell curve                | c: parameter                            |
 | `ACT_EXPOSURE_LAYER_RATE(xs, xl, M, curve_type, params)` | Layer rate from exposure curve | xs: attachment, xl: limit, M: EPI    |
+
+### Increased Limit Factors
+
+| Function                    | Description                         |
+|-----------------------------|-------------------------------------|
+| `ACT_ILF_PARETO(limit, alpha)` | Increased limit factor (Pareto)  |
+
+### Return Periods and EP Curves
+
+| Function                                                 | Description                      |
+|----------------------------------------------------------|----------------------------------|
+| `ACT_RETURN_PERIOD_LOSS(return_periods, losses, target_rp, [method])` | Interpolate EP curve |
+| `ACT_RETURN_PERIOD_TABLE(return_periods, losses, targets, [method])` | Generate RP table   |
+| `ACT_AAL_FROM_OEP(return_periods, oep_losses)`           | Calculate AAL from OEP curve     |
 
 ---
 
@@ -165,23 +179,12 @@ Key features:
 
 ---
 
-## 4. Reinsurance Functions
-
-### Excess of Loss
+## 4. Layer Functions
 
 | Function                                                  | Description               |
 |-----------------------------------------------------------|---------------------------|
 | `ACT_XOL_LAYER_LOSS(ground_up_loss, attachment, limit)`   | Calculate layer loss      |
 | `ACT_XOL_EXPECTED_LOSS(mean, cv, attachment, limit, [distribution])` | Expected layer loss |
-| `ACT_ILF_PARETO(limit, alpha)`                            | Increased limit factor (Pareto) |
-
-### Return Periods and EP Curves
-
-| Function                                                 | Description              |
-|----------------------------------------------------------|--------------------------|
-| `ACT_RETURN_PERIOD_LOSS(return_periods, losses, target_rp, [method])` | Interpolate EP curve |
-| `ACT_RETURN_PERIOD_TABLE(return_periods, losses, targets, [method])` | Generate RP table   |
-| `ACT_AAL_FROM_OEP(return_periods, oep_losses)`           | Calculate AAL from OEP curve |
 
 ---
 
