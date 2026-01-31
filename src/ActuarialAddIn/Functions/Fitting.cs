@@ -11,8 +11,8 @@ public static class Fitting
 {
     #region Exponential Distribution
 
-    [ExcelFunction(Description = "Fit exponential distribution to data. MLE estimate: λ = 1/mean. Returns rate parameter lambda.", Category = "Actuarial.Fitting")]
-    public static object ACT_EXP_FIT(
+    [ExcelFunction(Description = "Fit exponential distribution to data. MLE estimate: λ = 1/mean. Returns rate parameter lambda.", Category = "Actuarial.Distributions")]
+    public static object ACT_DIST_EXP_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
     {
         if (data == null || data.Length == 0)
@@ -33,8 +33,8 @@ public static class Fitting
 
     #region Poisson Distribution
 
-    [ExcelFunction(Description = "Fit Poisson distribution to count data. MLE estimate: λ = mean. Returns lambda parameter.", Category = "Actuarial.Fitting")]
-    public static object ACT_POISSON_FIT(
+    [ExcelFunction(Description = "Fit Poisson distribution to count data. MLE estimate: λ = mean. Returns lambda parameter.", Category = "Actuarial.Distributions")]
+    public static object ACT_DIST_POISSON_FIT(
         [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[] data)
     {
         if (data == null || data.Length == 0)
@@ -51,8 +51,8 @@ public static class Fitting
 
     #region Lognormal Distribution
 
-    [ExcelFunction(Description = "Fit lognormal distribution to data. MLE: μ = mean(ln(x)), σ = std(ln(x)). Returns array [mu, sigma].", Category = "Actuarial.Fitting")]
-    public static object[] ACT_LOGNORM_FIT(
+    [ExcelFunction(Description = "Fit lognormal distribution to data. MLE: μ = mean(ln(x)), σ = std(ln(x)). Returns array [mu, sigma].", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_LOGNORM_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
     {
         if (data == null || data.Length < 2)
@@ -73,8 +73,8 @@ public static class Fitting
 
     #region Gamma Distribution
 
-    [ExcelFunction(Description = "Fit gamma distribution using method of moments. Returns array [alpha (shape), beta (rate)]. Mean = α/β, Var = α/β².", Category = "Actuarial.Fitting")]
-    public static object[] ACT_GAMMA_FIT(
+    [ExcelFunction(Description = "Fit gamma distribution using method of moments. Returns array [alpha (shape), beta (rate)]. Mean = α/β, Var = α/β².", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_GAMMA_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
     {
         if (data == null || data.Length < 2)
@@ -102,8 +102,8 @@ public static class Fitting
 
     #region Pareto Distribution
 
-    [ExcelFunction(Description = "Fit Pareto Type I distribution. MLE: α = n / Σln(x/xm). Returns array [alpha, xm] where xm = min(data).", Category = "Actuarial.Fitting")]
-    public static object[] ACT_PARETO_FIT(
+    [ExcelFunction(Description = "Fit Pareto Type I distribution. MLE: α = n / Σln(x/xm). Returns array [alpha, xm] where xm = min(data).", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_PARETO_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data,
         [ExcelArgument(Description = "Known minimum xm (optional, uses min(data) if 0 or omitted)")] double knownXm = 0)
     {
@@ -135,8 +135,8 @@ public static class Fitting
 
     #region Weibull Distribution
 
-    [ExcelFunction(Description = "Fit Weibull distribution using method of moments approximation. Returns array [k (shape), lambda (scale)].", Category = "Actuarial.Fitting")]
-    public static object[] ACT_WEIBULL_FIT(
+    [ExcelFunction(Description = "Fit Weibull distribution using method of moments approximation. Returns array [k (shape), lambda (scale)].", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_WEIBULL_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
     {
         if (data == null || data.Length < 2)
@@ -202,8 +202,8 @@ public static class Fitting
 
     #region Generalized Pareto Distribution (GPD)
 
-    [ExcelFunction(Description = "Fit GPD to exceedance data using probability-weighted moments. Returns array [xi (shape), sigma (scale)]. Data should be exceedances over threshold.", Category = "Actuarial.Fitting")]
-    public static object[] ACT_GPD_FIT(
+    [ExcelFunction(Description = "Fit GPD to exceedance data using probability-weighted moments. Returns array [xi (shape), sigma (scale)]. Data should be exceedances over threshold.", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_GPD_FIT(
         [ExcelArgument(Description = "Exceedance data (positive values representing amounts over threshold)")] double[] data)
     {
         if (data == null || data.Length < 10)
@@ -246,8 +246,8 @@ public static class Fitting
 
     #region Beta Distribution
 
-    [ExcelFunction(Description = "Fit beta distribution using method of moments. Returns array [alpha, beta]. Data should be in (0,1).", Category = "Actuarial.Fitting")]
-    public static object[] ACT_BETA_FIT(
+    [ExcelFunction(Description = "Fit beta distribution using method of moments. Returns array [alpha, beta]. Data should be in (0,1).", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_BETA_FIT(
         [ExcelArgument(Description = "Sample data (values between 0 and 1)")] double[] data)
     {
         if (data == null || data.Length < 2)
@@ -286,8 +286,8 @@ public static class Fitting
 
     #region Negative Binomial Distribution
 
-    [ExcelFunction(Description = "Fit negative binomial distribution using method of moments. Returns array [r (successes), p (probability)]. Variance must exceed mean.", Category = "Actuarial.Fitting")]
-    public static object[] ACT_NEGBIN_FIT(
+    [ExcelFunction(Description = "Fit negative binomial distribution using method of moments. Returns array [r (successes), p (probability)]. Variance must exceed mean.", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_NEGBIN_FIT(
         [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[] data)
     {
         if (data == null || data.Length < 2)
@@ -320,8 +320,8 @@ public static class Fitting
 
     #region Burr Type XII Distribution
 
-    [ExcelFunction(Description = "Fit Burr Type XII distribution using method of moments. Returns array [c, k, lambda]. Approximate fit - verify with goodness-of-fit tests.", Category = "Actuarial.Fitting")]
-    public static object[] ACT_BURR_FIT(
+    [ExcelFunction(Description = "Fit Burr Type XII distribution using method of moments. Returns array [c, k, lambda]. Approximate fit - verify with goodness-of-fit tests.", Category = "Actuarial.Distributions")]
+    public static object[] ACT_DIST_BURR_FIT(
         [ExcelArgument(Description = "Sample data (positive values)")] double[] data)
     {
         if (data == null || data.Length < 3)

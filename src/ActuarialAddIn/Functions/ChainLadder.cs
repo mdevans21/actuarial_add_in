@@ -18,21 +18,22 @@ public static class ChainLadder
     #region Basic Chain Ladder
 
     [ExcelFunction(Description = "Calculate volume-weighted chain ladder development factors from a cumulative triangle. Standard reserving method per Mack (1993).", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_CL_FACTORS(
+    public static object ACT_CL_FACTORS(
         [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
         [ExcelArgument(Description = "Use only top N (oldest) years; default is all")] double topNYears = double.PositiveInfinity,
         [ExcelArgument(Description = "Exclude most recent year")] bool excludeMostRecentYear = false,
-        [ExcelArgument(Description = "Exclude highest and lowest ratios")] bool excludeHighLowRatios = false)
+        [ExcelArgument(Description = "Exclude highest and lowest ratios")] bool excludeHighLowRatios = false,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
         int maxYears = int.MaxValue;
         if (!double.IsInfinity(topNYears) && topNYears > 0)
             maxYears = (int)Math.Floor(topNYears);
 
-        var factors = new object[n - 1];
+        var factors = new double[n - 1];
 
         for (int j = 0; j < n - 1; j++)
         {
@@ -64,41 +65,123 @@ public static class ChainLadder
             factors[j] = sumCurrent > 0 ? sumNext / sumCurrent : 1.0;
         }
 
+        if (vertical)
+        {
+            var result = new object[n - 1, 1];
+            for (int i = 0; i < n - 1; i++)
+                result[i, 0] = factors[i];
+            return result;
+        }
+        else
+        {
+            var result = new object[1, n - 1];
+            for (int i = 0; i < n - 1; i++)
+                result[0, i] = factors[i];
+            return result;
+        }
+    }
+
+    // Internal helper that returns double[] for use by other functions
+    private static double[] GetFactorsArray(double[,] triangle)
+    {
+        int n = triangle.GetLength(0);
+        var factors = new double[n - 1];
+
+        for (int j = 0; j < n - 1; j++)
+        {
+            int count = n - j - 1;
+            double sumCurrent = 0;
+            double sumNext = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (triangle[i, j] > 0 && triangle[i, j + 1] > 0)
+                {
+                    sumCurrent += triangle[i, j];
+                    sumNext += triangle[i, j + 1];
+                }
+            }
+            factors[j] = sumCurrent > 0 ? sumNext / sumCurrent : 1.0;
+        }
         return factors;
     }
 
     [ExcelFunction(Description = "Return the latest diagonal of a cumulative triangle", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_CL_LATEST(
-        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
+    public static object ACT_CL_LATEST(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
-        var latest = new object[n];
+        if (vertical)
+        {
+            var result = new object[n, 1];
+            for (int i = 0; i < n; i++)
+            {
+                int lastCol = n - 1 - i;
+                result[i, 0] = triangle[i, lastCol];
+            }
+            return result;
+        }
+        else
+        {
+            var result = new object[1, n];
+            for (int i = 0; i < n; i++)
+            {
+                int lastCol = n - 1 - i;
+                result[0, i] = triangle[i, lastCol];
+            }
+            return result;
+        }
+    }
+
+    // Internal helper that returns double[] for use by other functions
+    private static double[] GetLatestArray(double[,] triangle)
+    {
+        int n = triangle.GetLength(0);
+        var latest = new double[n];
         for (int i = 0; i < n; i++)
         {
             int lastCol = n - 1 - i;
             latest[i] = triangle[i, lastCol];
         }
-
         return latest;
     }
 
     [ExcelFunction(Description = "Project ultimate losses using chain ladder", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_CL_ULTIMATE(
-        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
+    public static object ACT_CL_ULTIMATE(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
-        // Get development factors
-        var factorsObj = ACT_CL_FACTORS(triangle);
-        if (factorsObj[0] is string)
-            return factorsObj;
+        var factors = GetFactorsArray(triangle);
+        var ultimates = GetUltimatesArray(triangle, factors);
 
-        var factors = factorsObj.Cast<double>().ToArray();
+        if (vertical)
+        {
+            var result = new object[n, 1];
+            for (int i = 0; i < n; i++)
+                result[i, 0] = ultimates[i];
+            return result;
+        }
+        else
+        {
+            var result = new object[1, n];
+            for (int i = 0; i < n; i++)
+                result[0, i] = ultimates[i];
+            return result;
+        }
+    }
+
+    // Internal helper that returns double[] for use by other functions
+    private static double[] GetUltimatesArray(double[,] triangle, double[] factors)
+    {
+        int n = triangle.GetLength(0);
 
         // Calculate cumulative factors to ultimate
         var cdfToUltimate = new double[n];
@@ -109,7 +192,7 @@ public static class ChainLadder
         }
 
         // Project ultimates
-        var ultimates = new object[n];
+        var ultimates = new double[n];
         for (int i = 0; i < n; i++)
         {
             int lastCol = n - 1 - i;
@@ -121,26 +204,39 @@ public static class ChainLadder
     }
 
     [ExcelFunction(Description = "Calculate IBNR reserves using chain ladder", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_CL_IBNR(
-        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
+    public static object ACT_CL_IBNR(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
-        var ultimatesObj = ACT_CL_ULTIMATE(triangle);
-        if (ultimatesObj[0] is string)
-            return ultimatesObj;
+        var factors = GetFactorsArray(triangle);
+        var ultimates = GetUltimatesArray(triangle, factors);
 
-        var ibnr = new object[n];
-        for (int i = 0; i < n; i++)
+        if (vertical)
         {
-            int lastCol = n - 1 - i;
-            double latestValue = triangle[i, lastCol];
-            ibnr[i] = (double)ultimatesObj[i] - latestValue;
+            var result = new object[n, 1];
+            for (int i = 0; i < n; i++)
+            {
+                int lastCol = n - 1 - i;
+                double latestValue = triangle[i, lastCol];
+                result[i, 0] = ultimates[i] - latestValue;
+            }
+            return result;
         }
-
-        return ibnr;
+        else
+        {
+            var result = new object[1, n];
+            for (int i = 0; i < n; i++)
+            {
+                int lastCol = n - 1 - i;
+                double latestValue = triangle[i, lastCol];
+                result[0, i] = ultimates[i] - latestValue;
+            }
+            return result;
+        }
     }
 
     [ExcelFunction(Description = "Bornhuetter-Ferguson ultimate: Ult = Paid + Unreported%. Balances actual experience with a priori expectation. Ref: Bornhuetter & Ferguson (1972). Use when data is immature or volatile.", Category = "Actuarial.ChainLadder")]
@@ -200,21 +296,40 @@ public static class ChainLadder
     #region Mack Chain Ladder
 
     [ExcelFunction(Description = "Mack chain ladder standard errors for development factors. Distribution-free method per Mack (1993). Measures uncertainty in LDF estimates.", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_MACK_FACTOR_SE(
-        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
+    public static object ACT_MACK_FACTOR_SE(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
-        var factorsObj = ACT_CL_FACTORS(triangle);
-        if (factorsObj[0] is string)
-            return factorsObj;
+        var factors = GetFactorsArray(triangle);
+        var factorSE = GetFactorSEArray(triangle, factors);
 
-        var factors = factorsObj.Cast<double>().ToArray();
+        if (vertical)
+        {
+            var result = new object[n - 1, 1];
+            for (int i = 0; i < n - 1; i++)
+                result[i, 0] = factorSE[i];
+            return result;
+        }
+        else
+        {
+            var result = new object[1, n - 1];
+            for (int i = 0; i < n - 1; i++)
+                result[0, i] = factorSE[i];
+            return result;
+        }
+    }
+
+    // Internal helper that returns double[] for use by other functions
+    private static double[] GetFactorSEArray(double[,] triangle, double[] factors)
+    {
+        int n = triangle.GetLength(0);
         var sigmaSquared = new double[n - 1];
         var sumWeights = new double[n - 1];
-        var factorSE = new object[n - 1];
+        var factorSE = new double[n - 1];
 
         // Calculate sigma^2 (variance of individual factors)
         for (int j = 0; j < n - 1; j++)
@@ -246,23 +361,17 @@ public static class ChainLadder
     }
 
     [ExcelFunction(Description = "Mack chain ladder reserve standard errors by origin year. Per Mack (1993, 1999). Use for reserve range and risk margin calculations.", Category = "Actuarial.ChainLadder")]
-    public static object[] ACT_MACK_RESERVE_SE(
-        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle)
+    public static object ACT_MACK_RESERVE_SE(
+        [ExcelArgument(Description = "Triangle data (n x n cumulative values)")] double[,] triangle,
+        [ExcelArgument(Description = "Output as column (TRUE) or row (FALSE). Default TRUE.")] bool vertical = true)
     {
         int n = triangle.GetLength(0);
         if (triangle.GetLength(1) != n)
-            return new object[] { "Error: Triangle must be square" };
+            return "Error: Triangle must be square";
 
-        var factorsObj = ACT_CL_FACTORS(triangle);
-        var ultimatesObj = ACT_CL_ULTIMATE(triangle);
-        var factorSEObj = ACT_MACK_FACTOR_SE(triangle);
-
-        if (factorsObj[0] is string || ultimatesObj[0] is string || factorSEObj[0] is string)
-            return new object[] { "Error in calculation" };
-
-        var factors = factorsObj.Cast<double>().ToArray();
-        var ultimates = ultimatesObj.Cast<double>().ToArray();
-        var factorSE = factorSEObj.Cast<double>().ToArray();
+        var factors = GetFactorsArray(triangle);
+        var ultimates = GetUltimatesArray(triangle, factors);
+        var factorSE = GetFactorSEArray(triangle, factors);
 
         // Calculate sigma^2 for each development period
         var sigmaSquared = new double[n - 1];
@@ -275,7 +384,7 @@ public static class ChainLadder
         AdjustSigmaSquaredTail(sigmaSquared);
 
         // Calculate reserve standard errors using Mack formula
-        var reserveSE = new object[n];
+        var reserveSE = new double[n];
         reserveSE[0] = 0.0; // First period has no uncertainty
 
         for (int i = 1; i < n; i++)
@@ -294,7 +403,20 @@ public static class ChainLadder
             reserveSE[i] = Math.Sqrt(variance) * ultimates[i];
         }
 
-        return reserveSE;
+        if (vertical)
+        {
+            var result = new object[n, 1];
+            for (int i = 0; i < n; i++)
+                result[i, 0] = reserveSE[i];
+            return result;
+        }
+        else
+        {
+            var result = new object[1, n];
+            for (int i = 0; i < n; i++)
+                result[0, i] = reserveSE[i];
+            return result;
+        }
     }
 
     private static double GetSumC(double[,] triangle, int col)
@@ -599,7 +721,7 @@ public static class ChainLadder
 
     #region Bootstrap Methods
 
-    [ExcelFunction(Description = "ODP Bootstrap for total reserve distribution. Implements England & Verrall (2002) non-constant scale method with period-specific phi values and stratified residual sampling. Returns mean, std dev, and percentiles (P1 to P99). Target benchmark: 97% match to E&V non-constant.", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "ODP Bootstrap for total reserve distribution. Implements England & Verrall (2002) non-constant scale method with period-specific phi values and stratified residual sampling. Returns statistics with labels: Mean, StdDev, P1, P5, P10, P25, P50, P75, P90, P95, P99.", Category = "Actuarial.ChainLadder")]
     public static object[,] ACT_CL_BOOTSTRAP(
         [ExcelArgument(Description = "Cumulative triangle (n x n, zeros for future cells)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations (recommend 10000+)")] int iterations,
@@ -614,14 +736,10 @@ public static class ChainLadder
 
         var random = seed == 0 ? new Random() : new Random(seed);
 
-        var factorsObj = ACT_CL_FACTORS(triangle);
-        if (factorsObj[0] is string)
-            return new object[,] { { factorsObj[0] } };
-
-        var factors = factorsObj.Cast<double>().ToArray();
+        var factors = GetFactorsArray(triangle);
 
         // Use non-constant scale approach (E&V 2002)
-        if (!TryGetBootstrapInputsNonConstant(triangle, factors, 
+        if (!TryGetBootstrapInputsNonConstant(triangle, factors,
             out var fittedIncremental, out var phi, out var standardizedResiduals,
             out var phiByPeriod, out var residualsByPeriod, out var error))
             return new object[,] { { error } };
@@ -664,7 +782,7 @@ public static class ChainLadder
         return result;
     }
 
-    [ExcelFunction(Description = "ODP Bootstrap reserve distribution by origin year. Implements England & Verrall (2002) non-constant scale method. Returns mean, std dev, and percentiles for each accident year. Key: Year 1 (fully developed) has zero uncertainty.", Category = "Actuarial.ChainLadder")]
+    [ExcelFunction(Description = "ODP Bootstrap reserve distribution by origin year. Implements England & Verrall (2002) non-constant scale method. Returns header row plus data for each accident year with columns: AY, Mean, StdDev, P50, P75, P90, P95, P99.", Category = "Actuarial.ChainLadder")]
     public static object[,] ACT_CL_BOOTSTRAP_ORIGIN(
         [ExcelArgument(Description = "Cumulative triangle (n x n, zeros for future cells)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations (recommend 10000+)")] int iterations,
@@ -679,14 +797,10 @@ public static class ChainLadder
 
         var random = seed == 0 ? new Random() : new Random(seed);
 
-        var factorsObj = ACT_CL_FACTORS(triangle);
-        if (factorsObj[0] is string)
-            return new object[,] { { factorsObj[0] } };
+        var factors = GetFactorsArray(triangle);
 
-        var factors = factorsObj.Cast<double>().ToArray();
-        
         // Use non-constant scale approach (E&V 2002)
-        if (!TryGetBootstrapInputsNonConstant(triangle, factors, 
+        if (!TryGetBootstrapInputsNonConstant(triangle, factors,
             out var fittedIncremental, out var phi, out var standardizedResiduals,
             out var phiByPeriod, out var residualsByPeriod, out var error))
             return new object[,] { { error } };
@@ -831,10 +945,7 @@ public static class ChainLadder
         double[] factors;
         if (developmentFactors == null || developmentFactors.Length == 0)
         {
-            var factorsObj = ACT_CL_FACTORS(triangle);
-            if (factorsObj[0] is string)
-                return factorsObj;
-            factors = factorsObj.Cast<double>().ToArray();
+            factors = GetFactorsArray(triangle);
         }
         else
         {
@@ -910,10 +1021,7 @@ public static class ChainLadder
         double[] factors;
         if (developmentFactors == null || developmentFactors.Length == 0)
         {
-            var factorsObj = ACT_CL_FACTORS(triangle);
-            if (factorsObj[0] is string)
-                return factorsObj[0];
-            factors = factorsObj.Cast<double>().ToArray();
+            factors = GetFactorsArray(triangle);
         }
         else
         {

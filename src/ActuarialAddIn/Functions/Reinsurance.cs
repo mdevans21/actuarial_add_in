@@ -52,6 +52,27 @@ public static class Reinsurance
         return frequency * probExceed * layerLEV / (alpha / (alpha - 1) * xm);
     }
 
+    [ExcelFunction(Description = "Calculate ceded loss under quota share: loss * cession%. Simple proportional reinsurance.", Category = "Actuarial.Reinsurance")]
+    public static double ACT_QS_CEDED(
+        [ExcelArgument(Description = "Ground-up loss amount")] double groundUpLoss,
+        [ExcelArgument(Description = "Quota share cession percentage (e.g., 0.5 for 50%)")] double cessionPercent)
+    {
+        if (cessionPercent < 0 || cessionPercent > 1) return double.NaN;
+        return groundUpLoss * cessionPercent;
+    }
+
+    [ExcelFunction(Description = "Calculate loss to an aggregate excess layer: min(max(0, aggregate - attachment), limit). Used for stop-loss and aggregate XOL treaties.", Category = "Actuarial.Reinsurance")]
+    public static double ACT_AGGREGATE_LAYER(
+        [ExcelArgument(Description = "Aggregate loss amount (total losses over period)")] double aggregateLoss,
+        [ExcelArgument(Description = "Aggregate attachment point")] double attachment,
+        [ExcelArgument(Description = "Aggregate limit")] double limit)
+    {
+        if (attachment < 0 || limit <= 0) return double.NaN;
+
+        double excessLoss = Math.Max(0, aggregateLoss - attachment);
+        return Math.Min(excessLoss, limit);
+    }
+
     #endregion
 
     #region Increased Limit Factors

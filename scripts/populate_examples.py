@@ -5,12 +5,15 @@ Examples are consistent with the test suite in ActuarialAddIn.Tests.
 """
 
 import openpyxl
-from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
+from openpyxl.styles import Font, Alignment, Border, Side, PatternFill, Color
+from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.utils import get_column_letter
 from openpyxl.chart import LineChart, ScatterChart, BarChart, Reference
 from openpyxl.chart.series import DataPoint
 from openpyxl.chart.label import DataLabelList
 from openpyxl.chart.marker import Marker
+from openpyxl.chart.title import Title
+from openpyxl.chart.data_source import StrRef
 import os
 
 # Paths
@@ -79,20 +82,20 @@ def add_data_row(ws, values, row, start_col=1, formulas=None):
 
 def create_scatter_chart_with_axes(ws, title, x_col, y_col, min_row, max_row, anchor,
                                    x_title=None, y_title=None, width=10, height=7,
-                                   show_line=False, x_min=None, y_min=None, x_max=None, y_max=None):
-    """Create a scatter chart with proper axes."""
+                                   x_min=None, y_min=None, x_max=None, y_max=None):
+    """Create a simple line chart with a single series."""
     chart = ScatterChart()
     chart.title = title
-    chart.style = 10
     chart.width = width
     chart.height = height
+    chart.roundedCorners = False  # No rounded corners
 
     # Axis titles and settings
     if x_title:
         chart.x_axis.title = x_title
     if y_title:
         chart.y_axis.title = y_title
-    
+
     # Axis scaling
     if x_min is not None:
         chart.x_axis.scaling.min = x_min
@@ -102,7 +105,7 @@ def create_scatter_chart_with_axes(ws, title, x_col, y_col, min_row, max_row, an
         chart.y_axis.scaling.min = y_min
     if y_max is not None:
         chart.y_axis.scaling.max = y_max
-    
+
     # Ensure axes are visible with tick marks and numbers
     chart.x_axis.tickLblPos = "low"
     chart.y_axis.tickLblPos = "low"
@@ -114,12 +117,10 @@ def create_scatter_chart_with_axes(ws, title, x_col, y_col, min_row, max_row, an
 
     from openpyxl.chart import Series
     series = Series(yvalues, xvalues, title_from_data=False)
-    series.marker = Marker(symbol='circle', size=7)
-    if show_line:
-        series.graphicalProperties.line.solidFill = CHART_COLORS[0]
-    else:
-        series.graphicalProperties.line.noFill = True
+    series.marker = Marker(symbol='none')  # No markers, just line
+    series.graphicalProperties.line.solidFill = CHART_COLORS[0]
     chart.series.append(series)
+    chart.legend = None  # No legend for single series
 
     ws.add_chart(chart, anchor)
     return chart
@@ -130,11 +131,11 @@ def create_bar_chart_with_axes(ws, title, cat_col, data_col, min_row, max_row, a
     """Create a bar chart with proper axes."""
     chart = BarChart()
     chart.title = title
-    chart.style = 10
     chart.type = "col"
     chart.grouping = "standard"
     chart.width = width
     chart.height = height
+    chart.roundedCorners = False  # No rounded corners
     
     if x_title:
         chart.x_axis.title = x_title
@@ -157,162 +158,218 @@ def create_bar_chart_with_axes(ws, title, cat_col, data_col, min_row, max_row, a
     return chart
 
 
+def add_distribution_section(ws, row, title, x_values, pdf_formula, cdf_formula, x_label="x", notes_dict=None):
+    """Add a distribution section with table and return data range info."""
+    section_start = row
+    row = add_note(ws, title, row)
+    row = add_table_header(ws, [x_label, "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in x_values:
+        formulas = [None, pdf_formula.format(row=row), cdf_formula.format(row=row), None]
+        notes = notes_dict.get(x, "") if notes_dict else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    data_end = row - 1
+    return row, section_start, data_start, data_end
+
+
 def create_distributions_sheet(wb):
     """Create the Distributions examples sheet with ALL distributions."""
     ws = wb.create_sheet("Distributions")
-    set_column_widths(ws, {'A': 15, 'B': 20, 'C': 20, 'D': 20, 'E': 25, 'F': 5, 'G': 15})
+    set_column_widths(ws, {'A': 12, 'B': 15, 'C': 15, 'D': 20, 'E': 5, 'F': 15})
+
+    # Chart settings - all charts same size
+    CHART_WIDTH = 8
+    CHART_HEIGHT = 6
+    CHART_COL = "F"  # Column for charts
+    SECTION_PADDING = 15  # Minimum rows per section (for chart height)
 
     row = add_title(ws, "Statistical Distributions")
-    row = add_note(ws, "PDF = Probability Density/Mass Function, CDF = Cumulative Distribution Function, INV = Inverse CDF (Quantile)", row)
+    row = add_note(ws, "PDF = Probability Density Function, CDF = Cumulative Distribution Function", row)
     row += 1
 
-    # Poisson
+    distributions = []
+
+    # 1. Normal Distribution
+    section_start = row
+    row = add_note(ws, "NORMAL DISTRIBUTION (mu=0, sigma=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [-3, -2, -1, -0.5, 0, 0.5, 1, 2, 3]:
+        formulas = [None, f'=ACT_DIST_NORMAL_PDF(A{row}, 0, 1)', f'=ACT_DIST_NORMAL_CDF(A{row}, 0, 1)', None]
+        notes = "Mean" if x == 0 else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    distributions.append(("Normal PDF (μ=0, σ=1)", section_start, data_start, row - 1, "x", "f(x)", None, None))
+    row = max(row, section_start + SECTION_PADDING)
+
+    # 2. Poisson Distribution
+    section_start = row
     row = add_note(ws, "POISSON DISTRIBUTION (lambda=5)", row)
     row = add_table_header(ws, ["k", "PDF", "CDF", "Notes"], row)
-    poisson_data_start = row
+    data_start = row
     for k in range(11):
         formulas = [None, f'=ACT_DIST_POISSON_PDF(A{row}, 5)', f'=ACT_DIST_POISSON_CDF(A{row}, 5)', None]
-        notes = "Mode of distribution" if k == 5 else ""
+        notes = "Mode" if k == 5 else ""
         row = add_data_row(ws, [k, "", "", notes], row, formulas=formulas)
-    poisson_data_end = row - 1
+    distributions.append(("Poisson PMF (λ=5)", section_start, data_start, row - 1, "k", "P(X=k)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    row = add_note(ws, f"Inverse CDF example: =ACT_DIST_POISSON_INV(0.5, 5) returns the median", row)
-    ws.cell(row=row-1, column=5, value="=ACT_DIST_POISSON_INV(0.5, 5)")
-    row += 1
-
-    # Poisson chart
-    create_scatter_chart_with_axes(ws, "Poisson PMF (λ=5)", x_col=1, y_col=2,
-        min_row=poisson_data_start-1, max_row=poisson_data_end, anchor="F4",
-        x_title="k", y_title="P(X=k)", show_line=True, x_min=0, y_min=0)
-
-    # Negative Binomial
+    # 3. Negative Binomial
+    section_start = row
     row = add_note(ws, "NEGATIVE BINOMIAL DISTRIBUTION (r=5, p=0.3)", row)
     row = add_table_header(ws, ["k", "PDF", "CDF", "Notes"], row)
-    negbin_data_start = row
-    for k in range(16):
+    data_start = row
+    for k in range(12):
         formulas = [None, f'=ACT_DIST_NEGBIN_PDF(A{row}, 5, 0.3)', f'=ACT_DIST_NEGBIN_CDF(A{row}, 5, 0.3)', None]
         row = add_data_row(ws, [k, "", "", ""], row, formulas=formulas)
-    negbin_data_end = row - 1
-    row += 1
+    distributions.append(("Negative Binomial PMF", section_start, data_start, row - 1, "k", "P(X=k)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Negative Binomial PMF (r=5, p=0.3)", x_col=1, y_col=2,
-        min_row=negbin_data_start-1, max_row=negbin_data_end, anchor="F18",
-        x_title="k", y_title="P(X=k)", show_line=True, x_min=0, y_min=0)
-
-    # Lognormal
+    # 4. Lognormal
+    section_start = row
     row = add_note(ws, "LOGNORMAL DISTRIBUTION (mu=0, sigma=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    lognorm_data_start = row
-    for x in [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+    data_start = row
+    for x in [0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
         formulas = [None, f'=ACT_DIST_LOGNORM_PDF(A{row}, 0, 1)', f'=ACT_DIST_LOGNORM_CDF(A{row}, 0, 1)', None]
-        notes = "Median (exp(mu))" if x == 1.0 else ""
+        notes = "Median" if x == 1.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
-    lognorm_data_end = row - 1
-    row += 1
+    distributions.append(("Lognormal PDF (μ=0, σ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Lognormal PDF (μ=0, σ=1)", x_col=1, y_col=2,
-        min_row=lognorm_data_start-1, max_row=lognorm_data_end, anchor="F35",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
-
-    # Gamma
+    # 5. Gamma
+    section_start = row
     row = add_note(ws, "GAMMA DISTRIBUTION (alpha=2, beta=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    gamma_data_start = row
+    data_start = row
     for x in [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0]:
         formulas = [None, f'=ACT_DIST_GAMMA_PDF(A{row}, 2, 1)', f'=ACT_DIST_GAMMA_CDF(A{row}, 2, 1)', None]
-        notes = "Mean (alpha/beta)" if x == 2.0 else ""
+        notes = "Mean" if x == 2.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
-    gamma_data_end = row - 1
-    row += 1
+    distributions.append(("Gamma PDF (α=2, β=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Gamma PDF (α=2, β=1)", x_col=1, y_col=2,
-        min_row=gamma_data_start-1, max_row=gamma_data_end, anchor="F52",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
-
-    # Pareto
-    row = add_note(ws, "PARETO DISTRIBUTION (alpha=2, xm=1)", row)
+    # 6. Exponential
+    section_start = row
+    row = add_note(ws, "EXPONENTIAL DISTRIBUTION (lambda=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    pareto_data_start = row
-    for x in [0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
-        formulas = [None, f'=ACT_DIST_PARETO_PDF(A{row}, 2, 1)', f'=ACT_DIST_PARETO_CDF(A{row}, 2, 1)', None]
-        notes = "Minimum value (xm)" if x == 1.0 else ""
+    data_start = row
+    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_EXP_PDF(A{row}, 1)', f'=ACT_DIST_EXP_CDF(A{row}, 1)', None]
+        notes = "Mean" if x == 1.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
-    pareto_data_end = row - 1
-    row += 1
+    distributions.append(("Exponential PDF (λ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Pareto PDF (α=2, xm=1)", x_col=1, y_col=2,
-        min_row=pareto_data_start-1, max_row=pareto_data_end, anchor="F69",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
-
-    # GPD (Generalized Pareto)
-    row = add_note(ws, "GENERALIZED PARETO (GPD) DISTRIBUTION (xi=0.5, sigma=1)", row)
-    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    gpd_data_start = row
-    for x in [0.0, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
-        formulas = [None, f'=ACT_DIST_GPD_PDF(A{row}, 0.5, 1)', f'=ACT_DIST_GPD_CDF(A{row}, 0.5, 1)', None]
-        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
-    gpd_data_end = row - 1
-    row += 1
-
-    create_scatter_chart_with_axes(ws, "GPD PDF (ξ=0.5, σ=1)", x_col=1, y_col=2,
-        min_row=gpd_data_start-1, max_row=gpd_data_end, anchor="F86",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
-
-    # Weibull
+    # 7. Weibull
+    section_start = row
     row = add_note(ws, "WEIBULL DISTRIBUTION (k=2, lambda=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    weibull_data_start = row
+    data_start = row
     for x in [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0]:
         formulas = [None, f'=ACT_DIST_WEIBULL_PDF(A{row}, 2, 1)', f'=ACT_DIST_WEIBULL_CDF(A{row}, 2, 1)', None]
         row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
-    weibull_data_end = row - 1
-    row += 1
+    distributions.append(("Weibull PDF (k=2, λ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Weibull PDF (k=2, λ=1)", x_col=1, y_col=2,
-        min_row=weibull_data_start-1, max_row=weibull_data_end, anchor="F103",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
-
-    # Beta
+    # 8. Beta
+    section_start = row
     row = add_note(ws, "BETA DISTRIBUTION (alpha=2, beta=5)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    beta_data_start = row
+    data_start = row
     for x in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         formulas = [None, f'=ACT_DIST_BETA_PDF(A{row}, 2, 5)', f'=ACT_DIST_BETA_CDF(A{row}, 2, 5)', None]
         row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
-    beta_data_end = row - 1
-    row += 1
+    distributions.append(("Beta PDF (α=2, β=5)", section_start, data_start, row - 1, "x", "f(x)", 0, 1))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Beta PDF (α=2, β=5)", x_col=1, y_col=2,
-        min_row=beta_data_start-1, max_row=beta_data_end, anchor="F120",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, x_max=1, y_min=0)
-
-    # Exponential
-    row = add_note(ws, "EXPONENTIAL DISTRIBUTION (lambda=1)", row)
+    # 9. Pareto Type I
+    section_start = row
+    row = add_note(ws, "PARETO TYPE I DISTRIBUTION (alpha=2, xm=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    exp_data_start = row
-    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]:
-        formulas = [None, f'=ACT_DIST_EXP_PDF(A{row}, 1)', f'=ACT_DIST_EXP_CDF(A{row}, 1)', None]
-        notes = "Mean (1/lambda)" if x == 1.0 else ""
+    data_start = row
+    for x in [1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
+        formulas = [None, f'=ACT_DIST_PARETO_PDF(A{row}, 2, 1)', f'=ACT_DIST_PARETO_CDF(A{row}, 2, 1)', None]
+        notes = "Minimum (xm)" if x == 1.0 else ""
         row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
-    exp_data_end = row - 1
-    row += 1
+    distributions.append(("Pareto I PDF (α=2, xm=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Exponential PDF (λ=1)", x_col=1, y_col=2,
-        min_row=exp_data_start-1, max_row=exp_data_end, anchor="F140",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+    # 10. Lomax (Pareto Type II)
+    section_start = row
+    row = add_note(ws, "LOMAX (PARETO TYPE II) DISTRIBUTION (alpha=2, lambda=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [0.0, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
+        formulas = [None, f'=ACT_DIST_LOMAX_PDF(A{row}, 2, 1)', f'=ACT_DIST_LOMAX_CDF(A{row}, 2, 1)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    distributions.append(("Lomax PDF (α=2, λ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    # Burr Type XII
+    # 11. GPD (Generalized Pareto)
+    section_start = row
+    row = add_note(ws, "GENERALIZED PARETO (GPD) DISTRIBUTION (xi=0.5, sigma=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [0.0, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_GPD_PDF(A{row}, 0.5, 1)', f'=ACT_DIST_GPD_CDF(A{row}, 0.5, 1)', None]
+        row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
+    distributions.append(("GPD PDF (ξ=0.5, σ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
+
+    # 12. Burr Type XII
+    section_start = row
     row = add_note(ws, "BURR TYPE XII DISTRIBUTION (c=2, k=1, lambda=1)", row)
     row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
-    burr_data_start = row
+    data_start = row
     for x in [0.0, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
         formulas = [None, f'=ACT_DIST_BURR_PDF(A{row}, 2, 1, 1)', f'=ACT_DIST_BURR_CDF(A{row}, 2, 1, 1)', None]
         row = add_data_row(ws, [x, "", "", ""], row, formulas=formulas)
-    burr_data_end = row - 1
+    distributions.append(("Burr XII PDF (c=2, k=1, λ=1)", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
 
-    create_scatter_chart_with_axes(ws, "Burr XII PDF (c=2, k=1, λ=1)", x_col=1, y_col=2,
-        min_row=burr_data_start-1, max_row=burr_data_end, anchor="F157",
-        x_title="x", y_title="f(x)", show_line=True, x_min=0, y_min=0)
+    # 13. Lognormal-Pareto (Composite)
+    section_start = row
+    row = add_note(ws, "LOGNORMAL-PARETO COMPOSITE (mu=0, sigma=1, theta=2)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
+        formulas = [None, f'=ACT_DIST_LNPARETO_PDF(A{row}, 0, 1, 2)', f'=ACT_DIST_LNPARETO_CDF(A{row}, 0, 1, 2)', None]
+        notes = "Threshold" if x == 2.0 else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    distributions.append(("Lognormal-Pareto PDF", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
+
+    # 14. Exponential-Pareto (Composite)
+    section_start = row
+    row = add_note(ws, "EXPONENTIAL-PARETO COMPOSITE (rate=0.5, theta=2)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0]:
+        formulas = [None, f'=ACT_DIST_EXPPARETO_PDF(A{row}, 0.5, 2)', f'=ACT_DIST_EXPPARETO_CDF(A{row}, 0.5, 2)', None]
+        notes = "Threshold" if x == 2.0 else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    distributions.append(("Exponential-Pareto PDF", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+    row = max(row, section_start + SECTION_PADDING)
+
+    # 15. Power-Pareto (Composite)
+    section_start = row
+    row = add_note(ws, "POWER-PARETO COMPOSITE (alpha=2, beta=3, theta=1)", row)
+    row = add_table_header(ws, ["x", "PDF", "CDF", "Notes"], row)
+    data_start = row
+    for x in [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+        formulas = [None, f'=ACT_DIST_POWPARETO_PDF(A{row}, 2, 3, 1)', f'=ACT_DIST_POWPARETO_CDF(A{row}, 2, 3, 1)', None]
+        notes = "Threshold" if x == 1.0 else ""
+        row = add_data_row(ws, [x, "", "", notes], row, formulas=formulas)
+    distributions.append(("Power-Pareto PDF", section_start, data_start, row - 1, "x", "f(x)", 0, None))
+
+    # Create all charts aligned with their tables
+    for title, section_start, data_start, data_end, x_title, y_title, x_min, x_max in distributions:
+        anchor = f"{CHART_COL}{section_start}"
+        create_scatter_chart_with_axes(ws, title, x_col=1, y_col=2,
+            min_row=data_start-1, max_row=data_end, anchor=anchor,
+            x_title=x_title, y_title=y_title,
+            width=CHART_WIDTH, height=CHART_HEIGHT,
+            x_min=x_min, y_min=0, x_max=x_max)
 
     return ws
 
@@ -338,7 +395,7 @@ def create_exposure_curves_sheet(wb):
 
     create_scatter_chart_with_axes(ws, "MBBEFD Exposure Curve (b=2, g=3)", x_col=1, y_col=2,
         min_row=mbbefd_data_start-1, max_row=mbbefd_data_end, anchor="F4",
-        x_title="Damage Ratio (d)", y_title="Loss Ratio G(d)", show_line=True,
+        x_title="Damage Ratio (d)", y_title="Loss Ratio G(d)",
         x_min=0, x_max=1, y_min=0, y_max=1)
 
     # Swiss Re curves comparison
@@ -453,12 +510,12 @@ def create_interpolation_sheet(wb):
     row += 1
     row = add_note(ws, "FLAT = extrapolate using last known value; GRADIENT = extrapolate using slope from last two points", row)
 
-    # Chart with proper axes
+    # Simple line chart showing known data points
     chart = ScatterChart()
-    chart.title = "Interpolation with Extrapolation"
-    chart.style = 10
+    chart.title = "Known Data Points"
     chart.width = 12
     chart.height = 8
+    chart.roundedCorners = False
     chart.x_axis.title = "X"
     chart.y_axis.title = "Y"
     chart.x_axis.scaling.min = 0
@@ -469,25 +526,13 @@ def create_interpolation_sheet(wb):
     chart.y_axis.delete = False
 
     from openpyxl.chart import Series
-    xvalues1 = Reference(ws, min_col=1, min_row=data_start_row, max_row=data_end_row)
-    yvalues1 = Reference(ws, min_col=2, min_row=data_start_row, max_row=data_end_row)
-    series1 = Series(yvalues1, xvalues1, title="Known Points")
-    series1.marker = Marker(symbol='circle', size=10)
-    series1.graphicalProperties.line.solidFill = CHART_COLORS[0]
-    chart.series.append(series1)
-
-    xvalues2 = Reference(ws, min_col=1, min_row=interp_start_row, max_row=interp_end_row)
-    yvalues2 = Reference(ws, min_col=2, min_row=interp_start_row, max_row=interp_end_row)
-    series2 = Series(yvalues2, xvalues2, title="FLAT Extrapolation")
-    series2.marker = Marker(symbol='triangle', size=7)
-    series2.graphicalProperties.line.solidFill = CHART_COLORS[1]
-    chart.series.append(series2)
-
-    yvalues3 = Reference(ws, min_col=3, min_row=interp_start_row, max_row=interp_end_row)
-    series3 = Series(yvalues3, xvalues2, title="GRADIENT Extrapolation")
-    series3.marker = Marker(symbol='square', size=7)
-    series3.graphicalProperties.line.solidFill = CHART_COLORS[2]
-    chart.series.append(series3)
+    xvalues = Reference(ws, min_col=1, min_row=data_start_row, max_row=data_end_row)
+    yvalues = Reference(ws, min_col=2, min_row=data_start_row, max_row=data_end_row)
+    series = Series(yvalues, xvalues, title_from_data=False)
+    series.marker = Marker(symbol='none')
+    series.graphicalProperties.line.solidFill = CHART_COLORS[0]
+    chart.series.append(series)
+    chart.legend = None
 
     ws.add_chart(chart, "F4")
 
@@ -696,10 +741,10 @@ def create_chainladder_sheet(wb):
     # Charts - IBNR bar chart
     chart1 = BarChart()
     chart1.title = "IBNR by Accident Year"
-    chart1.style = 10
     chart1.type = "col"
     chart1.width = 12
     chart1.height = 8
+    chart1.roundedCorners = False
     chart1.x_axis.title = "Accident Year"
     chart1.y_axis.title = "IBNR"
     chart1.y_axis.scaling.min = 0
@@ -707,6 +752,7 @@ def create_chainladder_sheet(wb):
     chart1.y_axis.tickLblPos = "low"
     chart1.x_axis.delete = False
     chart1.y_axis.delete = False
+    chart1.varyColors = False  # All bars same color
     data1 = Reference(ws, min_col=4, min_row=ibnr_start-1, max_row=ibnr_end)
     cats1 = Reference(ws, min_col=1, min_row=ibnr_start, max_row=ibnr_end)
     chart1.add_data(data1, titles_from_data=True)
@@ -717,11 +763,11 @@ def create_chainladder_sheet(wb):
     # Ultimates bar chart
     chart2 = BarChart()
     chart2.title = "Ultimate vs Latest by Accident Year"
-    chart2.style = 10
     chart2.type = "col"
     chart2.grouping = "clustered"
     chart2.width = 12
     chart2.height = 8
+    chart2.roundedCorners = False
     chart2.x_axis.title = "Accident Year"
     chart2.y_axis.title = "Amount"
     chart2.y_axis.scaling.min = 0
@@ -740,10 +786,10 @@ def create_chainladder_sheet(wb):
     # Standard Error bar chart
     chart3 = BarChart()
     chart3.title = "Mack Standard Error by Accident Year"
-    chart3.style = 10
     chart3.type = "col"
     chart3.width = 12
     chart3.height = 8
+    chart3.roundedCorners = False
     chart3.x_axis.title = "Accident Year"
     chart3.y_axis.title = "Standard Error"
     chart3.y_axis.scaling.min = 0
@@ -751,6 +797,7 @@ def create_chainladder_sheet(wb):
     chart3.y_axis.tickLblPos = "low"
     chart3.x_axis.delete = False
     chart3.y_axis.delete = False
+    chart3.varyColors = False  # All bars same color
     data3 = Reference(ws, min_col=2, min_row=se_start-1, max_row=se_end)
     cats3 = Reference(ws, min_col=1, min_row=se_start, max_row=se_end)
     chart3.add_data(data3, titles_from_data=True)
@@ -770,23 +817,44 @@ def create_copulas_sheet(wb):
     row = add_note(ws, "Generate correlated uniform random numbers for Monte Carlo simulation", row)
     row += 1
 
-    # Correlation matrix
+    # Correlation matrix - lower triangle has values, upper triangle links to lower, diagonal = 1
     row = add_note(ws, "CORRELATION MATRIX (3x3)", row)
     row = add_table_header(ws, ["", "X1", "X2", "X3"], row)
-    corr_matrix = [
-        ["X1", 1.0, 0.5, 0.3],
-        ["X2", 0.5, 1.0, 0.4],
-        ["X3", 0.3, 0.4, 1.0]
-    ]
     corr_start_row = row
-    for corr_row in corr_matrix:
-        for j, val in enumerate(corr_row):
-            cell = ws.cell(row=row, column=j+1, value=val)
-            cell.border = THIN_BORDER
-            if j == 0:
-                cell.font = HEADER_FONT
-        row += 1
+
+    # Row 1: X1 - diagonal=1, others are formulas linking to lower triangle
+    ws.cell(row=row, column=1, value="X1").font = HEADER_FONT
+    ws.cell(row=row, column=1).border = THIN_BORDER
+    ws.cell(row=row, column=2, value=1.0).border = THIN_BORDER  # Diagonal
+    ws.cell(row=row, column=3, value=f"=B{row+1}").border = THIN_BORDER  # Link to C6 -> B7
+    ws.cell(row=row, column=4, value=f"=B{row+2}").border = THIN_BORDER  # Link to D6 -> B8
+    row += 1
+
+    # Row 2: X2 - lower triangle value, diagonal=1, upper links
+    ws.cell(row=row, column=1, value="X2").font = HEADER_FONT
+    ws.cell(row=row, column=1).border = THIN_BORDER
+    ws.cell(row=row, column=2, value=0.9).border = THIN_BORDER  # Editable: corr(X2,X1) = 0.9
+    corr_x2_x1_cell = f"B{row}"  # Store reference for chart title
+    ws.cell(row=row, column=3, value=1.0).border = THIN_BORDER  # Diagonal
+    ws.cell(row=row, column=4, value=f"=C{row+1}").border = THIN_BORDER  # Link to D7 -> C8
+    row += 1
+
+    # Row 3: X3 - lower triangle values, diagonal=1
+    ws.cell(row=row, column=1, value="X3").font = HEADER_FONT
+    ws.cell(row=row, column=1).border = THIN_BORDER
+    ws.cell(row=row, column=2, value=0.3).border = THIN_BORDER  # Editable: corr(X3,X1)
+    ws.cell(row=row, column=3, value=0.4).border = THIN_BORDER  # Editable: corr(X3,X2)
+    ws.cell(row=row, column=4, value=1.0).border = THIN_BORDER  # Diagonal
+    row += 1
+
     corr_end_row = row - 1
+
+    # Add color scale conditional formatting (white to red) for correlation matrix
+    corr_range_cf = f"B{corr_start_row}:D{corr_end_row}"
+    ws.conditional_formatting.add(corr_range_cf,
+        ColorScaleRule(start_type='num', start_value=0, start_color='FFFFFF',
+                       end_type='num', end_value=1, end_color='FF6B6B'))
+
     row += 1
 
     corr_range = f"B{corr_start_row}:D{corr_end_row}"
@@ -806,23 +874,29 @@ def create_copulas_sheet(wb):
     seed_cell = f"B{row}"
     row += 2
 
-    # Output - use INDEX to extract individual values
+    # Output - use INDEX to extract individual values (all 100 samples for chart)
     row = add_note(ws, "GENERATED SAMPLES (use INDEX to extract from array)", row)
     row = add_note(ws, f"Formula: =INDEX(ACT_COPULA_STUDENT_T({corr_range}, {df_cell}, {n_cell}, {seed_cell}), row, col)", row)
     row = add_table_header(ws, ["Sample", "U1", "U2", "U3"], row)
     samples_start_row = row
 
-    for i in range(20):
+    for i in range(100):  # All 100 samples for plotting
         ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
         for j in range(3):
             ws.cell(row=row, column=j+2, value=f"=INDEX(ACT_COPULA_STUDENT_T({corr_range}, {df_cell}, {n_cell}, {seed_cell}), {i+1}, {j+1})").border = THIN_BORDER
         row += 1
     sample_end_row = row - 1
 
+    # Create chart title cell with formula linking to correlation coefficient
+    title_cell_row = 2  # Put title formula in row 2
+    ws.cell(row=title_cell_row, column=5, value=f'="Copula Samples: U1 vs U2 (correlation = "&TEXT({corr_x2_x1_cell},"0.0")&")"')
+
     # Scatter chart with axes
     chart = ScatterChart()
-    chart.title = "Copula Samples: U1 vs U2 (correlation = 0.5)"
-    chart.style = 10
+    chart.roundedCorners = False
+    # Link chart title to cell with dynamic formula
+    chart.title = Title()
+    chart.title.strRef = StrRef(f="'Copulas'!$E$2")
     chart.width = 10
     chart.height = 10
     chart.x_axis.title = "U1"
@@ -841,6 +915,7 @@ def create_copulas_sheet(wb):
     yvalues = Reference(ws, min_col=3, min_row=samples_start_row, max_row=sample_end_row)
     series = Series(yvalues, xvalues, title_from_data=False)
     series.marker = Marker(symbol='circle', size=5)
+    series.marker.graphicalProperties.solidFill = CHART_COLORS[0]  # All points same color
     series.graphicalProperties.line.noFill = True
     chart.series.append(series)
     chart.legend = None
@@ -882,9 +957,9 @@ def create_return_period_sheet(wb):
     # EP Curve chart with axes
     chart = ScatterChart()
     chart.title = "Exceedance Probability Curve"
-    chart.style = 10
     chart.width = 12
     chart.height = 8
+    chart.roundedCorners = False
     chart.x_axis.title = "Return Period (years)"
     chart.y_axis.title = "OEP Loss"
     chart.y_axis.scaling.min = 0
@@ -898,7 +973,7 @@ def create_return_period_sheet(wb):
     xvalues = Reference(ws, min_col=1, min_row=data_start, max_row=data_end)
     yvalues = Reference(ws, min_col=2, min_row=data_start, max_row=data_end)
     series = Series(yvalues, xvalues, title_from_data=False)
-    series.marker = Marker(symbol='circle', size=6)
+    series.marker = Marker(symbol='none')
     series.graphicalProperties.line.solidFill = CHART_COLORS[0]
     chart.series.append(series)
     chart.legend = None
