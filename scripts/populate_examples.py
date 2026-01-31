@@ -1057,8 +1057,6 @@ def update_all_functions_test_tab(wb):
         'ACT_LAYER_RATE_ON_LINE': 'ACT_EXPOSURE_LAYER_RATE',
         'ACT_BOOTSTRAP_CL_ORIGIN': 'ACT_CL_BOOTSTRAP_ORIGIN',
         'ACT_BOOTSTRAP_CL': 'ACT_CL_BOOTSTRAP',
-        'ACT_AGGREGATE_LAYER': '',  # Remove
-        'ACT_QS_CEDED': '',  # Remove
     }
     
     for row in ws.iter_rows():
