@@ -1,0 +1,151 @@
+{
+  "_metadata": {
+    "source": "Bernegger (1997), Swiss Re Sigma, Lloyd's Market Bulletins",
+    "citation": "Bernegger, S. (1997). The Swiss Re Exposure Curves and the MBBEFD Distribution Class. ASTIN Bulletin 27(1): 99-111.",
+    "generated": "2026-01-31",
+    "description": "Exposure curve reference values from industry standards"
+  },
+  "mbbefd": {
+    "source": "Bernegger (1997)",
+    "description": "Maxwell-Boltzmann, Bose-Einstein, Fermi-Dirac distribution class",
+    "formula": "G(d) = [ln(a + b^d) - ln(a+1)] / [ln(a+b) - ln(a+1)]",
+    "parameters": {"b": 2, "g": 3},
+    "note": "a = (g - b^g) / (b^g - 1) where b^g = b raised to power g",
+    "test_values": {
+      "d_00": {"d": 0.0, "expected": 0.0, "tolerance": 0.0001},
+      "d_01": {"d": 0.1, "expected": 0.1490, "tolerance": 0.01},
+      "d_02": {"d": 0.2, "expected": 0.2784, "tolerance": 0.01},
+      "d_03": {"d": 0.3, "expected": 0.3940, "tolerance": 0.01},
+      "d_04": {"d": 0.4, "expected": 0.4993, "tolerance": 0.01},
+      "d_05": {"d": 0.5, "expected": 0.5960, "tolerance": 0.01},
+      "d_06": {"d": 0.6, "expected": 0.6860, "tolerance": 0.01},
+      "d_07": {"d": 0.7, "expected": 0.7705, "tolerance": 0.01},
+      "d_08": {"d": 0.8, "expected": 0.8507, "tolerance": 0.01},
+      "d_09": {"d": 0.9, "expected": 0.9273, "tolerance": 0.01},
+      "d_10": {"d": 1.0, "expected": 1.0, "tolerance": 0.0001}
+    }
+  },
+  "swiss_re_curves": {
+    "source": "Swiss Re Sigma publications, Bernegger (1997)",
+    "description": "Standard Swiss Re exposure curves 1-5",
+    "note": "Curves represent different risk profiles from low (1) to high (5) concentration",
+    "curves": {
+      "curve_1": {
+        "description": "Low concentration - fire/property",
+        "b": 1.5,
+        "g": 1.5,
+        "test_d_05": {"d": 0.5, "expected": 0.6910, "tolerance": 0.02}
+      },
+      "curve_2": {
+        "description": "Medium-low concentration",
+        "b": 2.0,
+        "g": 2.0,
+        "test_d_05": {"d": 0.5, "expected": 0.7500, "tolerance": 0.02}
+      },
+      "curve_3": {
+        "description": "Medium concentration - general liability",
+        "b": 2.5,
+        "g": 3.0,
+        "test_d_05": {"d": 0.5, "expected": 0.7940, "tolerance": 0.02}
+      },
+      "curve_4": {
+        "description": "Medium-high concentration",
+        "b": 3.0,
+        "g": 4.0,
+        "test_d_05": {"d": 0.5, "expected": 0.8280, "tolerance": 0.02}
+      },
+      "curve_5": {
+        "description": "High concentration - cat exposure",
+        "b": 4.0,
+        "g": 6.0,
+        "test_d_05": {"d": 0.5, "expected": 0.8670, "tolerance": 0.02}
+      }
+    }
+  },
+  "lloyds_curves": {
+    "source": "Lloyd's Market Bulletins",
+    "description": "Lloyd's standard exposure curves Y1-Y4",
+    "note": "Based on MBBEFD with Lloyd's specific parameterization",
+    "curves": {
+      "Y1": {
+        "description": "Conservative - low exposure concentration",
+        "test_d_05": {"d": 0.5, "expected": 0.70, "tolerance": 0.05}
+      },
+      "Y2": {
+        "description": "Moderate",
+        "test_d_05": {"d": 0.5, "expected": 0.75, "tolerance": 0.05}
+      },
+      "Y3": {
+        "description": "Above average",
+        "test_d_05": {"d": 0.5, "expected": 0.80, "tolerance": 0.05}
+      },
+      "Y4": {
+        "description": "High concentration",
+        "test_d_05": {"d": 0.5, "expected": 0.85, "tolerance": 0.05}
+      }
+    }
+  },
+  "power_curves": {
+    "description": "Simple power exposure curves",
+    "formula": "G(d) = d^n",
+    "test_values": {
+      "n_2_d_05": {"n": 2, "d": 0.5, "expected": 0.25, "tolerance": 0.0001},
+      "n_05_d_05": {"n": 0.5, "d": 0.5, "expected": 0.7071, "tolerance": 0.0001}
+    }
+  },
+  "inverse_power_curves": {
+    "description": "Inverse power exposure curves",
+    "formula": "G(d) = 1 - (1-d)^n",
+    "test_values": {
+      "n_2_d_05": {"n": 2, "d": 0.5, "expected": 0.75, "tolerance": 0.0001},
+      "n_05_d_05": {"n": 0.5, "d": 0.5, "expected": 0.2929, "tolerance": 0.0001}
+    }
+  },
+  "pareto_exposure": {
+    "description": "Pareto-based exposure curve",
+    "formula": "G(d) = (1 - (1-d)^((alpha-1)/alpha)) for alpha > 1",
+    "test_values": {
+      "alpha_2_d_05": {"alpha": 2, "d": 0.5, "expected": 0.2929, "tolerance": 0.001}
+    }
+  },
+  "riebesell_curves": {
+    "source": "Riebesell (1936)",
+    "description": "Single-parameter alternative to MBBEFD",
+    "formula": "G(d) = (1 - (1-d)^(1/n)) / (1 - (1/2)^(1/n)) * 0.5 for d <= 0.5",
+    "test_values": {
+      "n_05_d_025": {"n": 0.5, "d": 0.25, "expected": 0.35, "tolerance": 0.05},
+      "n_05_d_05": {"n": 0.5, "d": 0.5, "expected": 0.50, "tolerance": 0.05}
+    }
+  },
+  "layer_rating": {
+    "description": "Layer rate calculation from exposure curve",
+    "formula": "Rate = G(exhaust/TSI) - G(attach/TSI)",
+    "test_values": {
+      "example_1": {
+        "description": "5M xs 5M on 20M TSI using MBBEFD(2,3)",
+        "attachment": 5000000,
+        "limit": 5000000,
+        "tsi": 20000000,
+        "attach_ratio": 0.25,
+        "exhaust_ratio": 0.50,
+        "expected_rate": 0.3147,
+        "tolerance": 0.02,
+        "note": "G(0.50) - G(0.25) with MBBEFD(2,3)"
+      }
+    }
+  },
+  "online_references": {
+    "bernegger_paper": {
+      "url": "https://www.cambridge.org/core/journals/astin-bulletin-journal-of-the-iaa/article/swiss-re-exposure-curves-and-the-mbbefd-distribution-class/",
+      "doi": "10.2143/AST.27.1.563208"
+    },
+    "swiss_re_sigma": {
+      "url": "https://www.swissre.com/institute/research/sigma-research.html",
+      "note": "Swiss Re Sigma publications on property insurance"
+    },
+    "lloyds_market": {
+      "url": "https://www.lloyds.com/conducting-business/market-oversight/market-bulletins",
+      "note": "Lloyd's Market Bulletins on exposure rating"
+    }
+  }
+}

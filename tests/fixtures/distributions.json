@@ -1,0 +1,315 @@
+{
+  "_metadata": {
+    "source": "scipy.stats",
+    "version": "scipy 1.x",
+    "generated": "2026-01-31",
+    "description": "Expected values for distribution functions from scipy.stats"
+  },
+  "poisson": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html",
+    "parameters": {
+      "lambda": 5
+    },
+    "test_values": {
+      "pdf_k5": {
+        "k": 5,
+        "expected": 0.17546736976785068,
+        "tolerance": 1e-10
+      },
+      "pdf_k0": {
+        "k": 0,
+        "expected": 0.006737946999085467,
+        "tolerance": 1e-10
+      },
+      "pdf_k10": {
+        "k": 10,
+        "expected": 0.018132788707821854,
+        "tolerance": 1e-10
+      },
+      "cdf_k5": {
+        "k": 5,
+        "expected": 0.615960654833063,
+        "tolerance": 1e-10
+      },
+      "cdf_k3": {
+        "k": 3,
+        "expected": 0.2650259152973616,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 5,
+        "tolerance": 0
+      },
+      "inv_p95": {
+        "p": 0.95,
+        "expected": 9,
+        "tolerance": 0
+      }
+    }
+  },
+  "negative_binomial": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html",
+    "parameters": {
+      "r": 5,
+      "p": 0.3
+    },
+    "note": "scipy uses (n, p) parameterization where n=r successes, p=success probability",
+    "test_values": {
+      "pdf_k5": {
+        "k": 5,
+        "expected": 0.0514596726,
+        "tolerance": 1e-10
+      },
+      "pdf_k10": {
+        "k": 10,
+        "expected": 0.06871012699250698,
+        "tolerance": 1e-10
+      },
+      "cdf_k10": {
+        "k": 10,
+        "expected": 0.48450894077315665,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 11,
+        "tolerance": 0
+      }
+    }
+  },
+  "lognormal": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.lognorm.html",
+    "parameters": {
+      "mu": 0,
+      "sigma": 1
+    },
+    "note": "scipy lognorm uses s=sigma, scale=exp(mu)",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.3989422804014327,
+        "tolerance": 1e-10
+      },
+      "pdf_x2": {
+        "x": 2.0,
+        "expected": 0.15687401927898112,
+        "tolerance": 1e-10
+      },
+      "cdf_x1": {
+        "x": 1.0,
+        "expected": 0.5,
+        "tolerance": 1e-10
+      },
+      "cdf_x2": {
+        "x": 2.0,
+        "expected": 0.7558914042144173,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 1.0,
+        "tolerance": 1e-10
+      },
+      "inv_p95": {
+        "p": 0.95,
+        "expected": 5.180251602233013,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "gamma": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gamma.html",
+    "parameters": {
+      "alpha": 2,
+      "beta": 1
+    },
+    "note": "scipy gamma uses a=alpha (shape), scale=1/beta",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.36787944117144233,
+        "tolerance": 1e-10
+      },
+      "pdf_x2": {
+        "x": 2.0,
+        "expected": 0.2706705664732254,
+        "tolerance": 1e-10
+      },
+      "cdf_x2": {
+        "x": 2.0,
+        "expected": 0.5939941502901616,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 1.6783469900166612,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "pareto": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.pareto.html",
+    "parameters": {
+      "alpha": 2,
+      "xm": 1
+    },
+    "note": "scipy pareto uses b=alpha, scale=xm",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 2.0,
+        "tolerance": 1e-10
+      },
+      "pdf_x2": {
+        "x": 2.0,
+        "expected": 0.25,
+        "tolerance": 1e-10
+      },
+      "cdf_x2": {
+        "x": 2.0,
+        "expected": 0.75,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 1.4142135623730951,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "weibull": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.weibull_min.html",
+    "parameters": {
+      "k": 2,
+      "lambda": 1
+    },
+    "note": "scipy weibull_min uses c=k (shape), scale=lambda",
+    "test_values": {
+      "pdf_x05": {
+        "x": 0.5,
+        "expected": 0.7788007830714049,
+        "tolerance": 1e-10
+      },
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.7357588823428847,
+        "tolerance": 1e-10
+      },
+      "cdf_x1": {
+        "x": 1.0,
+        "expected": 0.6321205588285577,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 0.8325546111576977,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "beta": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html",
+    "parameters": {
+      "alpha": 2,
+      "beta": 5
+    },
+    "test_values": {
+      "pdf_x03": {
+        "x": 0.3,
+        "expected": 2.1608999999999994,
+        "tolerance": 1e-10
+      },
+      "pdf_x05": {
+        "x": 0.5,
+        "expected": 0.9374999999999999,
+        "tolerance": 1e-10
+      },
+      "cdf_x03": {
+        "x": 0.3,
+        "expected": 0.5798250000000003,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 0.26444998329566005,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "exponential": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.expon.html",
+    "parameters": {
+      "lambda": 2
+    },
+    "note": "scipy expon uses scale=1/lambda",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.2706705664732254,
+        "tolerance": 1e-10
+      },
+      "cdf_x1": {
+        "x": 1.0,
+        "expected": 0.8646647167633873,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 0.34657359027997264,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "gpd": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.genpareto.html",
+    "parameters": {
+      "xi": 0.5,
+      "sigma": 1
+    },
+    "note": "scipy genpareto uses c=xi (shape), scale=sigma",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.2962962962962963,
+        "tolerance": 1e-10
+      },
+      "cdf_x1": {
+        "x": 1.0,
+        "expected": 0.5555555555555556,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 0.8284271247461901,
+        "tolerance": 1e-10
+      }
+    }
+  },
+  "burr": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.burr12.html",
+    "parameters": {
+      "c": 2,
+      "k": 3,
+      "lambda": 1
+    },
+    "note": "scipy burr12 uses c, d=k, scale=lambda",
+    "test_values": {
+      "pdf_x1": {
+        "x": 1.0,
+        "expected": 0.375,
+        "tolerance": 1e-10
+      },
+      "cdf_x1": {
+        "x": 1.0,
+        "expected": 0.875,
+        "tolerance": 1e-10
+      },
+      "inv_p50": {
+        "p": 0.5,
+        "expected": 0.5098245285339585,
+        "tolerance": 1e-10
+      }
+    }
+  }
+}

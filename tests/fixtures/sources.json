@@ -1,0 +1,195 @@
+{
+  "_metadata": {
+    "description": "Online sources and citations for validation data",
+    "generated": "2026-01-31",
+    "purpose": "Document all external references used for function validation"
+  },
+  "distributions": {
+    "scipy_stats": {
+      "url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+      "description": "scipy.stats module - comprehensive statistical distributions",
+      "functions_validated": [
+        "ACT_DIST_POISSON_*",
+        "ACT_DIST_NEGBIN_*",
+        "ACT_DIST_LOGNORM_*",
+        "ACT_DIST_GAMMA_*",
+        "ACT_DIST_PARETO_*",
+        "ACT_DIST_WEIBULL_*",
+        "ACT_DIST_BETA_*",
+        "ACT_DIST_EXP_*",
+        "ACT_DIST_GPD_*",
+        "ACT_DIST_BURR_*"
+      ],
+      "validation_method": "Direct comparison of PDF, CDF, and inverse values"
+    },
+    "r_actuar": {
+      "url": "https://cran.r-project.org/web/packages/actuar/index.html",
+      "description": "R actuar package - actuarial-specific distributions",
+      "note": "Alternative validation source for Pareto, Burr, and compound distributions"
+    },
+    "nist_strd": {
+      "url": "https://www.itl.nist.gov/div898/strd/",
+      "description": "NIST Statistical Reference Datasets",
+      "note": "Certified reference values for statistical computations"
+    }
+  },
+  "chain_ladder": {
+    "england_verrall_2002": {
+      "url": "https://www.cambridge.org/core/journals/british-actuarial-journal/article/stochastic-claims-reserving-in-general-insurance/",
+      "doi": "10.1017/S1357321700003809",
+      "citation": "England, P.D. and Verrall, R.J. (2002). Stochastic claims reserving in general insurance. British Actuarial Journal 8(3): 443-518.",
+      "description": "Foundational paper for ODP Bootstrap methodology",
+      "tables_used": ["Table 3 - Bootstrap results by origin year"],
+      "functions_validated": [
+        "ACT_CL_BOOTSTRAP",
+        "ACT_CL_BOOTSTRAP_ORIGIN",
+        "ACT_MACK_RESERVE_SE"
+      ]
+    },
+    "mack_1993": {
+      "url": "https://www.cambridge.org/core/journals/astin-bulletin-journal-of-the-iaa/article/distributionfree-calculation-of-the-standard-error-of-chain-ladder-reserve-estimates/",
+      "doi": "10.2143/AST.23.2.2005092",
+      "citation": "Mack, T. (1993). Distribution-free calculation of the standard error of chain ladder reserve estimates. ASTIN Bulletin 23(2): 213-225.",
+      "description": "Original Mack chain ladder method",
+      "functions_validated": [
+        "ACT_CL_FACTORS",
+        "ACT_MACK_FACTOR_SE",
+        "ACT_MACK_RESERVE_SE"
+      ]
+    },
+    "chainladder_python": {
+      "url": "https://chainladder-python.readthedocs.io/en/latest/",
+      "github": "https://github.com/casact/chainladder-python",
+      "description": "Python chainladder package",
+      "gallery": "https://chainladder-python.readthedocs.io/en/latest/gallery/plot_bootstrap.html",
+      "note": "Does NOT implement E&V non-constant scale - uses constant scale",
+      "functions_validated": [
+        "ACT_CL_FACTORS (verification)",
+        "ACT_CL_ULTIMATE (verification)"
+      ]
+    },
+    "r_chainladder": {
+      "url": "https://cran.r-project.org/web/packages/ChainLadder/index.html",
+      "vignette": "https://cran.r-project.org/web/packages/ChainLadder/vignettes/ChainLadder.html",
+      "description": "R ChainLadder package",
+      "note": "Comprehensive chain ladder implementation in R"
+    },
+    "cas_monograph_5": {
+      "url": "https://www.casact.org/sites/default/files/2021-02/monograph5.pdf",
+      "title": "Stochastic Loss Reserving Using Generalized Linear Models",
+      "description": "CAS Monograph on GLM-based reserving"
+    },
+    "taylor_ashe_1983": {
+      "citation": "Taylor, G.C. and Ashe, F.R. (1983). Second moments of estimates of outstanding claims. Journal of Econometrics 23: 37-61.",
+      "description": "Original source of Taylor-Ashe triangle",
+      "note": "10x10 cumulative paid loss triangle - standard benchmark"
+    }
+  },
+  "copulas": {
+    "mcneil_frey_embrechts": {
+      "url": "https://press.princeton.edu/books/hardcover/9780691166278/quantitative-risk-management",
+      "citation": "McNeil, A.J., Frey, R., and Embrechts, P. (2015). Quantitative Risk Management: Concepts, Techniques and Tools. Princeton University Press.",
+      "description": "Authoritative textbook on copulas in risk management",
+      "functions_validated": [
+        "ACT_COPULA_GAUSSIAN",
+        "ACT_COPULA_STUDENT_T",
+        "ACT_COPULA_CLAYTON",
+        "ACT_COPULA_FRANK",
+        "ACT_COPULA_GUMBEL",
+        "ACT_COPULA_TAIL_*"
+      ]
+    },
+    "joe_2014": {
+      "citation": "Joe, H. (2014). Dependence Modeling with Copulas. CRC Press.",
+      "description": "Comprehensive copula reference"
+    },
+    "scipy_multivariate": {
+      "url": "https://docs.scipy.org/doc/scipy/reference/stats.html#multivariate-distributions",
+      "description": "scipy multivariate distributions for Gaussian and Student-t validation"
+    },
+    "r_copula": {
+      "url": "https://cran.r-project.org/web/packages/copula/index.html",
+      "vignette": "https://cran.r-project.org/web/packages/copula/vignettes/copula_GARCH.html",
+      "description": "R copula package - comprehensive implementation"
+    }
+  },
+  "exposure_curves": {
+    "bernegger_1997": {
+      "url": "https://www.cambridge.org/core/journals/astin-bulletin-journal-of-the-iaa/article/swiss-re-exposure-curves-and-the-mbbefd-distribution-class/",
+      "doi": "10.2143/AST.27.1.563208",
+      "citation": "Bernegger, S. (1997). The Swiss Re Exposure Curves and the MBBEFD Distribution Class. ASTIN Bulletin 27(1): 99-111.",
+      "description": "Original paper on MBBEFD exposure curves",
+      "functions_validated": [
+        "ACT_EXPOSURE_MBBEFD",
+        "ACT_EXPOSURE_SWISSRE"
+      ]
+    },
+    "swiss_re_sigma": {
+      "url": "https://www.swissre.com/institute/research/sigma-research.html",
+      "description": "Swiss Re Sigma research publications",
+      "note": "Industry standard exposure curves"
+    },
+    "lloyds_market_bulletins": {
+      "url": "https://www.lloyds.com/conducting-business/market-oversight/market-bulletins",
+      "description": "Lloyd's Market Bulletins",
+      "functions_validated": ["ACT_EXPOSURE_LLOYDS"]
+    }
+  },
+  "credibility": {
+    "buhlmann_gisler_2005": {
+      "url": "https://link.springer.com/book/10.1007/3-540-29273-X",
+      "citation": "Bühlmann, H. and Gisler, A. (2005). A Course in Credibility Theory and its Applications. Springer.",
+      "description": "Definitive credibility theory textbook"
+    },
+    "cas_exam_5": {
+      "url": "https://www.casact.org/examinations/syllabus/exam-5-basic-ratemaking-and-estimating-claim-liabilities",
+      "description": "CAS Exam 5 syllabus - Basic Ratemaking",
+      "functions_validated": [
+        "ACT_CREDIBILITY_BUHLMANN",
+        "ACT_CREDIBILITY_K",
+        "ACT_FULL_CREDIBILITY_STANDARD"
+      ]
+    },
+    "ncci_experience_rating": {
+      "url": "https://www.ncci.com/Articles/Pages/Insights-ExperienceRating.aspx",
+      "description": "NCCI experience rating methodology",
+      "functions_validated": [
+        "ACT_EXPERIENCE_MOD",
+        "ACT_EXPERIENCE_MOD_SPLIT"
+      ]
+    },
+    "iso_manual": {
+      "url": "https://www.verisk.com/insurance/products/commercial-lines-manual/",
+      "description": "ISO Commercial Lines Manual",
+      "functions_validated": [
+        "ACT_SCHEDULE_RATING",
+        "ACT_RETRO_PREMIUM"
+      ]
+    }
+  },
+  "reinsurance": {
+    "swiss_re_technical": {
+      "url": "https://www.swissre.com/",
+      "description": "Swiss Re technical publications on reinsurance pricing"
+    },
+    "guy_carpenter": {
+      "url": "https://www.guycarp.com/insights/publications.html",
+      "description": "Guy Carpenter research publications",
+      "note": "ILF and return period methodologies"
+    }
+  },
+  "general": {
+    "cas_library": {
+      "url": "https://www.casact.org/publications-research",
+      "description": "CAS Publications and Research"
+    },
+    "astin_bulletin": {
+      "url": "https://www.cambridge.org/core/journals/astin-bulletin-journal-of-the-iaa",
+      "description": "ASTIN Bulletin - actuarial research journal"
+    },
+    "soa_library": {
+      "url": "https://www.soa.org/resources/research-reports/",
+      "description": "SOA Research Reports"
+    }
+  }
+}

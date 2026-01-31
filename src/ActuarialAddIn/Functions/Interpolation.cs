@@ -73,16 +73,33 @@ public static class Interpolation
         return double.NaN;
     }
 
-    [ExcelFunction(Description = "Bilinear interpolation for 2D data", Category = "Actuarial.Utilities")]
+    [ExcelFunction(Description = "Bilinear interpolation for 2D data. X and Y values must be in ascending order.", Category = "Actuarial.Utilities")]
     public static double ACT_INTERP2D(
-        [ExcelArgument(Description = "X values (row headers)")] double[] xValues,
-        [ExcelArgument(Description = "Y values (column headers)")] double[] yValues,
+        [ExcelArgument(Description = "X values (row headers) - must be sorted ascending")] double[] xValues,
+        [ExcelArgument(Description = "Y values (column headers) - must be sorted ascending")] double[] yValues,
         [ExcelArgument(Description = "Z values (2D grid)")] double[,] zValues,
         [ExcelArgument(Description = "X value to interpolate")] double x,
         [ExcelArgument(Description = "Y value to interpolate")] double y)
     {
+        if (xValues.Length < 2 || yValues.Length < 2)
+            return double.NaN;
+
         if (xValues.Length != zValues.GetLength(0) || yValues.Length != zValues.GetLength(1))
             return double.NaN;
+
+        // Validate that xValues are sorted ascending
+        for (int i = 0; i < xValues.Length - 1; i++)
+        {
+            if (xValues[i] >= xValues[i + 1])
+                return double.NaN;  // Not strictly ascending
+        }
+
+        // Validate that yValues are sorted ascending
+        for (int j = 0; j < yValues.Length - 1; j++)
+        {
+            if (yValues[j] >= yValues[j + 1])
+                return double.NaN;  // Not strictly ascending
+        }
 
         // Find bracketing indices for x
         int ix1 = 0, ix2 = 0;

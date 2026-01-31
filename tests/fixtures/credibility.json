@@ -1,0 +1,175 @@
+{
+  "_metadata": {
+    "source": "CAS Exam 5, Bühlmann & Gisler (2005), NCCI/ISO manuals",
+    "citation": "Bühlmann, H. and Gisler, A. (2005). A Course in Credibility Theory and its Applications. Springer.",
+    "generated": "2026-01-31",
+    "description": "Credibility theory reference values from actuarial literature and exams"
+  },
+  "buhlmann_credibility": {
+    "source": "CAS Exam 5 / Bühlmann (1967)",
+    "description": "Limited fluctuation credibility - classic formula",
+    "formula": "Z = min(1, sqrt(n/k)) where k = (z_p / r)^2 * (CV)^2",
+    "test_values": {
+      "example_1": {
+        "description": "1082 claims needed for full credibility at 90% confidence, 5% accuracy",
+        "probability": 0.90,
+        "accuracy": 0.05,
+        "cv": 1.0,
+        "full_cred_standard": 1082,
+        "tolerance": 10,
+        "note": "k = (1.645 / 0.05)^2 = 1082"
+      },
+      "example_2": {
+        "description": "Partial credibility with 500 claims",
+        "claims": 500,
+        "full_cred_standard": 1082,
+        "expected_z": 0.68,
+        "tolerance": 0.02,
+        "formula": "Z = sqrt(500/1082) = 0.68"
+      }
+    }
+  },
+  "buhlmann_straub": {
+    "source": "Bühlmann & Straub (1970)",
+    "description": "Bühlmann-Straub model with varying exposure weights",
+    "formula": "Z = n / (n + k) where k = s^2 / a (process variance / between-group variance)",
+    "test_values": {
+      "example_1": {
+        "description": "Single risk with 5 years experience",
+        "years": 5,
+        "k": 10,
+        "expected_z": 0.333,
+        "tolerance": 0.01,
+        "formula": "Z = 5 / (5 + 10) = 0.333"
+      },
+      "example_2": {
+        "description": "Single risk with 20 years experience",
+        "years": 20,
+        "k": 10,
+        "expected_z": 0.667,
+        "tolerance": 0.01,
+        "formula": "Z = 20 / (20 + 10) = 0.667"
+      }
+    }
+  },
+  "poisson_gamma_credibility": {
+    "source": "Actuarial literature",
+    "description": "Bayesian credibility with Poisson-Gamma model",
+    "formula": "Z = n / (n + alpha) where alpha is Gamma shape parameter",
+    "test_values": {
+      "example_1": {
+        "description": "Prior Gamma(2, 0.1), 10 observed claims",
+        "prior_alpha": 2,
+        "prior_beta": 0.1,
+        "observed_claims": 10,
+        "exposure": 1,
+        "expected_z": 0.833,
+        "tolerance": 0.01,
+        "formula": "Z = 10 / (10 + 2) = 0.833"
+      }
+    }
+  },
+  "experience_rating": {
+    "source": "NCCI Experience Rating Plan",
+    "description": "Workers compensation experience modification",
+    "formula": "Mod = (Actual Primary + w*Actual Excess + (1-w)*Expected Excess) / Expected Total",
+    "test_values": {
+      "example_1": {
+        "description": "Standard experience mod calculation",
+        "expected_losses": 100000,
+        "actual_losses": 120000,
+        "credibility": 0.50,
+        "expected_mod": 1.10,
+        "tolerance": 0.02,
+        "formula": "Mod = 1 + Z*(A-E)/E = 1 + 0.5*(120000-100000)/100000 = 1.10"
+      }
+    },
+    "split_plan": {
+      "description": "Primary/Excess split for large deductible credits",
+      "split_point": 5000,
+      "note": "Claims under split point have higher credibility"
+    }
+  },
+  "schedule_rating": {
+    "source": "ISO Commercial Lines Manual",
+    "description": "Schedule rating modifications based on risk characteristics",
+    "max_credit": -0.25,
+    "max_debit": 0.25,
+    "categories": [
+      {"name": "Location", "max_mod": 0.10},
+      {"name": "Equipment", "max_mod": 0.05},
+      {"name": "Classification", "max_mod": 0.05},
+      {"name": "Management", "max_mod": 0.05}
+    ]
+  },
+  "retrospective_rating": {
+    "source": "NCCI Retrospective Rating Plan",
+    "description": "Loss-sensitive rating with min/max constraints",
+    "formula": "Retro Premium = (Basic + Converted Losses) * Tax Multiplier",
+    "parameters": {
+      "basic_factor": 0.25,
+      "loss_conversion_factor": 1.10,
+      "tax_multiplier": 1.03,
+      "min_factor": 0.50,
+      "max_factor": 1.50
+    },
+    "test_values": {
+      "example_1": {
+        "description": "Standard retro with losses at expected",
+        "standard_premium": 100000,
+        "incurred_losses": 60000,
+        "expected_retro": 93090,
+        "tolerance": 1000,
+        "note": "(0.25*100000 + 1.10*60000) * 1.03 = 93,690"
+      }
+    }
+  },
+  "k_parameter_estimation": {
+    "source": "CAS Exam 5",
+    "description": "Methods for estimating Bühlmann k parameter",
+    "methods": [
+      {
+        "name": "Empirical Bayes",
+        "formula": "k = (Expected Process Variance) / (Variance of Hypothetical Means)",
+        "note": "VHM must be unbiased estimator"
+      },
+      {
+        "name": "Method of Moments",
+        "formula": "k = s^2 / a where s^2 = within-group variance, a = between-group variance",
+        "note": "Requires pooled variance estimation"
+      }
+    ],
+    "test_values": {
+      "example_1": {
+        "description": "5 risks, 3 years each",
+        "within_variance": 1000,
+        "between_variance": 200,
+        "expected_k": 5.0,
+        "tolerance": 0.5
+      }
+    }
+  },
+  "asymptotic_credibility": {
+    "source": "Actuarial literature",
+    "description": "Credibility approaching 1 as experience increases",
+    "formula": "Z = n / (n + k) approaches 1 as n approaches infinity",
+    "test_values": {
+      "z_at_n_100_k_10": {"n": 100, "k": 10, "expected": 0.909, "tolerance": 0.01},
+      "z_at_n_1000_k_10": {"n": 1000, "k": 10, "expected": 0.990, "tolerance": 0.01}
+    }
+  },
+  "online_references": {
+    "cas_exam_5": {
+      "url": "https://www.casact.org/examinations/syllabus/exam-5-basic-ratemaking-and-estimating-claim-liabilities",
+      "note": "CAS Exam 5 syllabus and study materials"
+    },
+    "ncci_experience_rating": {
+      "url": "https://www.ncci.com/Articles/Pages/Insights-ExperienceRating.aspx",
+      "note": "NCCI experience rating overview"
+    },
+    "buhlmann_book": {
+      "url": "https://link.springer.com/book/10.1007/3-540-29273-X",
+      "title": "A Course in Credibility Theory and its Applications (2005)"
+    }
+  }
+}

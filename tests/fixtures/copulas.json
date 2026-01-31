@@ -1,0 +1,143 @@
+{
+  "_metadata": {
+    "source": "scipy.stats, McNeil et al (2015)",
+    "citation": "McNeil, A.J., Frey, R., and Embrechts, P. (2015). Quantitative Risk Management. Princeton University Press.",
+    "generated": "2026-01-31",
+    "description": "Copula function expected values"
+  },
+  "gaussian": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.multivariate_normal.html",
+    "description": "Gaussian (Normal) copula - no tail dependence",
+    "parameters": {
+      "rho": 0.6
+    },
+    "tail_dependence": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "note": "Gaussian copula has no tail dependence (asymptotically independent)"
+    },
+    "test_values": {
+      "note": "CDF of bivariate Gaussian copula at (u,v) = Phi_2(Phi^-1(u), Phi^-1(v); rho)"
+    }
+  },
+  "student_t": {
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.multivariate_t.html",
+    "description": "Student-t copula - symmetric tail dependence",
+    "parameters": {
+      "rho": 0.6,
+      "df": 5
+    },
+    "tail_dependence": {
+      "lower": 0.2666,
+      "upper": 0.2666,
+      "formula": "lambda = 2 * t_{df+1}(-sqrt((df+1)(1-rho)/(1+rho)))",
+      "tolerance": 0.01
+    }
+  },
+  "clayton": {
+    "description": "Clayton copula - lower tail dependence only",
+    "parameters": {
+      "theta": 2.0
+    },
+    "kendall_tau": 0.5,
+    "kendall_tau_formula": "tau = theta / (theta + 2)",
+    "tail_dependence": {
+      "lower": 0.7071,
+      "lower_formula": "lambda_L = 2^(-1/theta)",
+      "upper": 0.0,
+      "tolerance": 0.001
+    },
+    "cdf_values": {
+      "note": "C(u,v) = (u^(-theta) + v^(-theta) - 1)^(-1/theta)",
+      "cdf_05_05": {
+        "u": 0.5,
+        "v": 0.5,
+        "expected": 0.378,
+        "tolerance": 0.001
+      },
+      "cdf_03_07": {
+        "u": 0.3,
+        "v": 0.7,
+        "expected": 0.2869,
+        "tolerance": 0.001
+      }
+    }
+  },
+  "frank": {
+    "description": "Frank copula - no tail dependence, symmetric",
+    "parameters": {
+      "theta": 5.736
+    },
+    "kendall_tau": 0.5,
+    "kendall_tau_note": "tau = 1 - 4*(1 - D1(theta))/theta where D1 is Debye function",
+    "tail_dependence": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "note": "Frank copula has no tail dependence"
+    },
+    "cdf_values": {
+      "note": "C(u,v) = -ln(1 + (exp(-theta*u)-1)(exp(-theta*v)-1)/(exp(-theta)-1)) / theta",
+      "cdf_05_05": {
+        "u": 0.5,
+        "v": 0.5,
+        "expected": 0.3888,
+        "tolerance": 0.001
+      }
+    }
+  },
+  "gumbel": {
+    "description": "Gumbel copula - upper tail dependence only",
+    "parameters": {
+      "theta": 2.0
+    },
+    "kendall_tau": 0.5,
+    "kendall_tau_formula": "tau = 1 - 1/theta",
+    "tail_dependence": {
+      "lower": 0.0,
+      "upper": 0.5858,
+      "upper_formula": "lambda_U = 2 - 2^(1/theta)",
+      "tolerance": 0.001
+    },
+    "cdf_values": {
+      "note": "C(u,v) = exp(-((-ln u)^theta + (-ln v)^theta)^(1/theta))",
+      "cdf_05_05": {
+        "u": 0.5,
+        "v": 0.5,
+        "expected": 0.3752,
+        "tolerance": 0.001
+      }
+    }
+  },
+  "tau_to_theta_conversions": {
+    "description": "Kendall's tau to theta parameter conversions",
+    "clayton": {
+      "tau": 0.5,
+      "theta": 2.0,
+      "formula": "theta = 2*tau / (1 - tau)"
+    },
+    "gumbel": {
+      "tau": 0.5,
+      "theta": 2.0,
+      "formula": "theta = 1 / (1 - tau)"
+    },
+    "frank": {
+      "tau": 0.5,
+      "theta": 5.736,
+      "note": "Requires numerical inversion of Debye function"
+    }
+  },
+  "online_references": {
+    "scipy_copula": {
+      "url": "https://docs.scipy.org/doc/scipy/reference/stats.html#multivariate-distributions",
+      "note": "scipy has multivariate_normal and multivariate_t"
+    },
+    "r_copula": {
+      "url": "https://cran.r-project.org/web/packages/copula/vignettes/copula_GARCH.html",
+      "package": "copula"
+    },
+    "mcneil_qrm": {
+      "url": "https://press.princeton.edu/books/hardcover/9780691166278/quantitative-risk-management",
+      "title": "Quantitative Risk Management (2015)"
+    }
+  }
+}

@@ -115,8 +115,8 @@ public static class Copulas
             var cholesky = corrMatrix.Cholesky();
             var L = cholesky.Factor;
 
-            // Chi-squared for t-distribution
-            var chiSquared = new ChiSquared(degreesOfFreedom, new Random(random.Next()));
+            // Chi-squared for t-distribution - use same random source for reproducibility
+            var chiSquared = new ChiSquared(degreesOfFreedom, random);
 
             for (int i = 0; i < numSamples; i++)
             {
