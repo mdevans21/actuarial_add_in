@@ -4,7 +4,7 @@ This document contains instructions for AI agents working on this project.
 
 ## Excel Examples Consistency
 
-**Important:** The examples in `excel/actuarial_add_in_v0.2.xlsm` must be kept consistent with the test suite in `src/ActuarialAddIn.Tests/Program.cs`.
+**Important:** The examples in `excel/actuarial_add_in.xlsm` must be kept consistent with the test suite in `src/ActuarialAddIn.Tests/Program.cs`.
 
 When updating the test suite:
 1. Update the corresponding Excel sheet(s) with the same test values
@@ -106,7 +106,7 @@ Our C# implementation follows the true E&V non-constant approach:
 Three test sources must remain consistent:
 1. **C# Test Suite** (`src/ActuarialAddIn.Tests/Program.cs`) - Primary test definitions
 2. **Python Benchmarks** (`tests/run_benchmarks.py`) - Comparison against scipy/chainladder
-3. **Excel Examples** (`excel/actuarial_add_in_v0.2.xlsm`) - Visual examples (regenerate with `scripts/populate_examples.py`)
+3. **Excel Examples** (`excel/actuarial_add_in.xlsm`) - Visual examples (regenerate with `scripts/populate_examples.py`)
 
 ## Building the Add-In from WSL
 
@@ -171,7 +171,7 @@ Excel .xlsm files are ZIP archives containing XML files. To modify formulas or s
 
 ```bash
 mkdir -p /tmp/xlsm_extract
-unzip -o excel/actuarial_add_in_v0.2.xlsm -d /tmp/xlsm_extract
+unzip -o excel/actuarial_add_in.xlsm -d /tmp/xlsm_extract
 ```
 
 ### 2. Understand the structure
@@ -199,7 +199,7 @@ grep -o '<c r="[^"]*"[^>]*><f>[^<]*</f>' /tmp/xlsm_extract/xl/worksheets/sheet7.
 ```bash
 cd /tmp/xlsm_extract
 zip -r ../updated_workbook.xlsm . -x "*.DS_Store"
-cp /tmp/updated_workbook.xlsm /home/matth/Code/actuarial_add_in/excel/actuarial_add_in_v0.2.xlsm
+cp /tmp/updated_workbook.xlsm /home/matth/Code/actuarial_add_in/excel/actuarial_add_in.xlsm
 ```
 
 **Important:** The zip must be created from within the extracted directory to preserve the correct structure.
@@ -208,7 +208,7 @@ cp /tmp/updated_workbook.xlsm /home/matth/Code/actuarial_add_in/excel/actuarial_
 
 ```python
 import zipfile
-with zipfile.ZipFile('excel/actuarial_add_in_v0.2.xlsm', 'r') as z:
+with zipfile.ZipFile('excel/actuarial_add_in.xlsm', 'r') as z:
     content = z.read('xl/worksheets/sheet7.xml').decode('utf-8')
     # Check for expected formulas
     print('ACT_CL_FACTORS' in content)

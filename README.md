@@ -14,7 +14,7 @@ This code is in beta and offered without warranty. Please raise bug reports and 
 3. Select "Excel Add-ins" → Go → Browse
 4. Select `ActuarialAddIn-AddIn64-packed.xll` (64-bit) or `ActuarialAddIn-AddIn-packed.xll` (32-bit)
 
-See `excel/actuarial_add_in_v0.2.xlsm` for working examples of all functions.
+See `excel/actuarial_add_in.xlsm` for working examples of all functions.
 
 ---
 
@@ -241,7 +241,7 @@ The add-in includes a comprehensive validation framework to ensure numerical acc
 
 ### Excel Workbook Tests
 
-The file `excel/actuarial_add_in_v0.2.xlsm` contains an "All Functions Test" tab with 140 formulas covering all function categories. Open in Excel with the add-in loaded to verify all functions return valid results.
+The file `excel/actuarial_add_in.xlsm` contains an "All Functions Test" tab with 140 formulas covering all function categories. Open in Excel with the add-in loaded to verify all functions return valid results.
 
 ### Python Validation Framework
 

@@ -17,7 +17,7 @@ from openpyxl.chart.data_source import StrRef
 import os
 
 # Paths
-EXCEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'excel', 'actuarial_add_in_v0.2.xlsm')
+EXCEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'excel', 'actuarial_add_in.xlsm')
 
 # Common styles
 TITLE_FONT = Font(bold=True, size=14)
@@ -1075,6 +1075,53 @@ def update_all_functions_test_tab(wb):
                     cell.value = new_value
 
 
+def fix_all_functions_test_formatting(wb):
+    """Fix formatting in the All Functions Test sheet.
+
+    - Add blank row before Normal Distribution section
+    - Make subheadings bold (Normal, Lomax, Fackler)
+    """
+    if "All Functions Test" not in wb.sheetnames:
+        return
+
+    ws = wb["All Functions Test"]
+
+    # Find the rows containing our target subheadings
+    normal_row = None
+    lomax_row = None
+    fackler_row = None
+
+    for row_num in range(1, 150):
+        cell_val = ws.cell(row=row_num, column=1).value
+        if cell_val:
+            if "Normal Distribution" in str(cell_val) and "μ" in str(cell_val):
+                normal_row = row_num
+            elif "Lomax" in str(cell_val) and "Pareto II" in str(cell_val):
+                lomax_row = row_num
+            elif "Fackler Composite" in str(cell_val):
+                fackler_row = row_num
+
+    if not all([normal_row, lomax_row, fackler_row]):
+        return
+
+    # Check if there's already a blank row before Normal Distribution
+    prev_row_val = ws.cell(row=normal_row - 1, column=1).value
+    need_blank_row = prev_row_val is not None and str(prev_row_val).strip() != ""
+
+    if need_blank_row:
+        ws.insert_rows(normal_row)
+        # After insertion, row numbers shift
+        normal_row += 1
+        lomax_row += 1
+        fackler_row += 1
+
+    # Apply bold formatting to subheadings
+    subheading_font = Font(bold=True)
+    ws.cell(row=normal_row, column=1).font = subheading_font
+    ws.cell(row=lomax_row, column=1).font = subheading_font
+    ws.cell(row=fackler_row, column=1).font = subheading_font
+
+
 def main():
     """Main function to populate the workbook."""
     print(f"Opening workbook: {EXCEL_PATH}")
@@ -1089,6 +1136,10 @@ def main():
     # Update All Functions Test tab
     print("Updating All Functions Test tab...")
     update_all_functions_test_tab(wb)
+
+    # Fix formatting in All Functions Test tab
+    print("Fixing All Functions Test formatting...")
+    fix_all_functions_test_formatting(wb)
 
     # Remove existing sheets we're going to recreate
     sheets_to_create = ["Distributions", "Exposure Curves", "Reinsurance", "Interpolation",
