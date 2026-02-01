@@ -1180,7 +1180,7 @@ public static class ChainLadder
         [ExcelArgument(Description = "Weight for first set (0 to 1)")] double weight1,
         [ExcelArgument(Description = "Second set of ultimates (n values)")] double[] ultimates2,
         [ExcelArgument(Description = "Weight for second set (0 to 1)")] double weight2,
-        [ExcelArgument(Description = "Third set of ultimates (optional)")] double[] ultimates3 = null,
+        [ExcelArgument(Description = "Third set of ultimates (optional)")] double[]? ultimates3 = null,
         [ExcelArgument(Description = "Weight for third set (optional)")] double weight3 = 0)
     {
         if (ultimates1 == null || ultimates2 == null)
