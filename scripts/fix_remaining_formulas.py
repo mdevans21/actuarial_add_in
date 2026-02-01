@@ -67,18 +67,17 @@ FORMULA_FIXES = {
         'note': 'Rate on line'
     },
 
-    # ACT_DIST_GPD_FIT needs more data points
+    # ACT_DIST_GPD_FIT needs data suitable for GPD (heavy-tailed exceedances)
+    # Use data with more spread and larger outliers typical of excess losses
     'ACT_DIST_GPD_FIT': {
-        'new': '=ACT_DIST_GPD_FIT({1,2,3,4,5,6,7,8,9,10,12,15})',
+        'new': '=ACT_DIST_GPD_FIT({0.5,1.2,1.8,2.5,3.1,4.0,5.2,7.1,10.5,18.3,35.0,82.0})',
         'note': 'MLE ξ,σ'
     },
 
-    # ACT_ILF_LAYER - the function has a bug where baseLEV=0 when baseLimit equals Pareto scale
-    # Use a very small baseLimit relative to attachment so LEV(base) > 0
-    # Actually the issue is the LEV formula itself - it always returns 0 for baseLimit
-    # Let's use a workaround: set baseLimit < attachment
+    # ACT_ILF_LAYER - now fixed with proper Pareto II LEV formula
+    # Parameters: attachment, layerLimit, baseLimit, alpha, scale(optional, default 1000)
     'ACT_ILF_LAYER': {
-        'new': '=ACT_ILF_LAYER(100000, 400000, 1000, 2)',
+        'new': '=ACT_ILF_LAYER(100000, 400000, 100000, 2, 50000)',
         'note': 'Layer ILF'
     },
 }

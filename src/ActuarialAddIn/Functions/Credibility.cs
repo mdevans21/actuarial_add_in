@@ -1,4 +1,5 @@
 using ExcelDna.Integration;
+using ActuarialAddIn.Helpers;
 
 namespace ActuarialAddIn.Functions;
 
@@ -39,10 +40,14 @@ public static class Credibility
 
     [ExcelFunction(Description = "Calculate Bühlmann k parameter from data. k = E[σ²]/Var[μ] estimated from group data.", Category = "Actuarial.Credibility")]
     public static object ACT_CREDIBILITY_K(
-        [ExcelArgument(Description = "Array of observed means by group")] double[] groupMeans,
-        [ExcelArgument(Description = "Array of exposure/weight by group")] double[] groupWeights,
-        [ExcelArgument(Description = "Array of within-group variances (optional, estimated if omitted)")] double[]? groupVariances = null)
+        [ExcelArgument(Description = "Array of observed means by group")] object groupMeansInput,
+        [ExcelArgument(Description = "Array of exposure/weight by group")] object groupWeightsInput,
+        [ExcelArgument(Description = "Array of within-group variances (optional, estimated if omitted)")] object? groupVariancesInput = null)
     {
+        var groupMeans = ArrayHelpers.ToDoubleArray(groupMeansInput);
+        var groupWeights = ArrayHelpers.ToDoubleArray(groupWeightsInput);
+        var groupVariances = groupVariancesInput != null ? ArrayHelpers.ToDoubleArray(groupVariancesInput) : null;
+
         if (groupMeans == null || groupWeights == null)
             return "Error: Group means and weights required";
 
@@ -107,10 +112,14 @@ public static class Credibility
 
     [ExcelFunction(Description = "Estimate Bühlmann-Straub parameters from grouped data. Returns array [k, grandMean, a (process var), s² (structural var)].", Category = "Actuarial.Credibility")]
     public static object[] ACT_BUHLMANN_STRAUB_PARAMS(
-        [ExcelArgument(Description = "Array of loss ratios or pure premiums by group")] double[] groupMeans,
-        [ExcelArgument(Description = "Array of exposure weights by group")] double[] groupWeights,
-        [ExcelArgument(Description = "Array of within-group sum of squared deviations (optional)")] double[]? groupSSE = null)
+        [ExcelArgument(Description = "Array of loss ratios or pure premiums by group")] object groupMeansInput,
+        [ExcelArgument(Description = "Array of exposure weights by group")] object groupWeightsInput,
+        [ExcelArgument(Description = "Array of within-group sum of squared deviations (optional)")] object? groupSSEInput = null)
     {
+        var groupMeans = ArrayHelpers.ToDoubleArray(groupMeansInput);
+        var groupWeights = ArrayHelpers.ToDoubleArray(groupWeightsInput);
+        var groupSSE = groupSSEInput != null ? ArrayHelpers.ToDoubleArray(groupSSEInput) : null;
+
         if (groupMeans == null || groupWeights == null)
             return new object[] { "Error: Group means and weights required" };
 
@@ -352,35 +361,42 @@ public static class Credibility
         return ACT_ILF_TABLE(baseLimit, alpha, limits.ToArray());
     }
 
-    [ExcelFunction(Description = "Calculate layer ILF: (ILF at exhaustion - ILF at attachment) / (exhaustion - attachment) * base. For pricing excess layers.", Category = "Actuarial.Credibility")]
+    [ExcelFunction(Description = "Calculate layer ILF using Pareto severity. Returns (LEV(exhaustion) - LEV(attachment)) / LEV(base). For pricing excess layers.", Category = "Actuarial.Credibility")]
     public static object ACT_ILF_LAYER(
         [ExcelArgument(Description = "Layer attachment point")] double attachment,
         [ExcelArgument(Description = "Layer limit")] double layerLimit,
         [ExcelArgument(Description = "Base limit for ILF curve")] double baseLimit,
-        [ExcelArgument(Description = "Pareto alpha parameter (> 1)")] double alpha)
+        [ExcelArgument(Description = "Pareto alpha parameter (> 1)")] double alpha,
+        [ExcelArgument(Description = "Pareto scale/threshold parameter (default: 1000)")] double scale = 1000)
     {
         if (attachment < 0 || layerLimit <= 0 || baseLimit <= 0)
             return "Error: Limits must be positive";
         if (alpha <= 1)
             return "Error: Alpha must be greater than 1";
+        if (scale <= 0)
+            return "Error: Scale must be positive";
 
         double exhaustion = attachment + layerLimit;
 
-        // LEV formula
+        // LEV formula for Pareto Type II (Lomax) with scale parameter
+        // LEV(L) = scale * alpha / (alpha - 1) * (1 - (scale / (scale + L))^(alpha - 1))
+        // For large L relative to scale, this approaches scale * alpha / (alpha - 1)
         Func<double, double> lev = (limit) =>
         {
             if (limit <= 0) return 0;
-            return 1 - Math.Pow(baseLimit / Math.Max(limit, baseLimit), alpha - 1);
+            double ratio = scale / (scale + limit);
+            return scale * alpha / (alpha - 1) * (1 - Math.Pow(ratio, alpha - 1));
         };
 
         double baseLEV = lev(baseLimit);
-        if (baseLEV <= 0) return "Error: Invalid base LEV";
+        double attachLEV = lev(attachment);
+        double exhaustLEV = lev(exhaustion);
 
-        double ilfAttach = attachment <= baseLimit ? lev(attachment) / baseLEV : lev(attachment) / baseLEV;
-        double ilfExhaust = lev(exhaustion) / baseLEV;
+        // Layer expected loss = LEV(exhaustion) - LEV(attachment)
+        double layerLEV = exhaustLEV - attachLEV;
 
-        // Layer ILF = difference in ILFs
-        double layerILF = ilfExhaust - ilfAttach;
+        // Layer ILF = Layer LEV / Base LEV
+        double layerILF = layerLEV / baseLEV;
 
         return layerILF;
     }
@@ -391,11 +407,16 @@ public static class Credibility
 
     [ExcelFunction(Description = "Calculate burning cost (experience rate) from historical losses. BC = Trended Losses / On-Level Premium.", Category = "Actuarial.Credibility")]
     public static object ACT_BURNING_COST(
-        [ExcelArgument(Description = "Historical losses by year")] double[] losses,
-        [ExcelArgument(Description = "Earned premium by year")] double[] premium,
-        [ExcelArgument(Description = "Loss trend factors by year (to bring to current level)")] double[]? lossTrend = null,
-        [ExcelArgument(Description = "Premium on-level factors by year")] double[]? premiumOnLevel = null)
+        [ExcelArgument(Description = "Historical losses by year")] object lossesInput,
+        [ExcelArgument(Description = "Earned premium by year")] object premiumInput,
+        [ExcelArgument(Description = "Loss trend factors by year (to bring to current level)")] object? lossTrendInput = null,
+        [ExcelArgument(Description = "Premium on-level factors by year")] object? premiumOnLevelInput = null)
     {
+        var losses = ArrayHelpers.ToDoubleArray(lossesInput);
+        var premium = ArrayHelpers.ToDoubleArray(premiumInput);
+        var lossTrend = lossTrendInput != null ? ArrayHelpers.ToDoubleArray(lossTrendInput) : null;
+        var premiumOnLevel = premiumOnLevelInput != null ? ArrayHelpers.ToDoubleArray(premiumOnLevelInput) : null;
+
         if (losses == null || premium == null)
             return "Error: Losses and premium arrays required";
 
