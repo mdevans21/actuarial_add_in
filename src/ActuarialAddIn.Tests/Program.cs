@@ -12,6 +12,7 @@ class Program
     static JsonDocument? _distributionsFixture;
     static JsonDocument? _exposureCurvesFixture;
     static JsonDocument? _chainLadderFixture;
+    static JsonDocument? _levFixture;
 
     static void Main(string[] args)
     {
@@ -24,6 +25,7 @@ class Program
         WriteRunInstructions();
 
         TestDistributions();
+        TestLEV();
         TestExposureCurves();
         TestReinsurance();
         TestReturnPeriods();
@@ -55,6 +57,10 @@ class Program
             var clPath = Path.Combine(_fixturesPath, "chain_ladder.json");
             if (File.Exists(clPath))
                 _chainLadderFixture = JsonDocument.Parse(File.ReadAllText(clPath));
+
+            var levPath = Path.Combine(_fixturesPath, "lev.json");
+            if (File.Exists(levPath))
+                _levFixture = JsonDocument.Parse(File.ReadAllText(levPath));
         }
         catch (Exception ex)
         {
@@ -273,6 +279,140 @@ class Program
         Log(TableRow(("PDF(x=2)", 12), ($"{paretoPdfX2:F10}", 14), ("0.2500000000", 14), ("`pareto.pdf(2, b=2, scale=1)`", 32), ("1e-6", 6), (FormatMatch(WithinTolerance(paretoPdfX2, 0.25, 1e-6)), 5)));
         Log(TableRow(("CDF(x=2)", 12), ($"{paretoCdfX2:F10}", 14), ("0.7500000000", 14), ("`pareto.cdf(2, b=2, scale=1)`", 32), ("1e-6", 6), (FormatMatch(WithinTolerance(paretoCdfX2, 0.75, 1e-6)), 5)));
         Log(TableRow(("INV(p=0.5)", 12), ($"{paretoInv:F10}", 14), ("1.4142135624", 14), ("`pareto.ppf(0.5, b=2, scale=1)`", 32), ("1e-6", 6), (FormatMatch(WithinTolerance(paretoInv, 1.4142135623730951, 1e-6)), 5)));
+        Log("");
+    }
+
+    static void TestLEV()
+    {
+        Log("## Limited Expected Value (LEV) Functions\n");
+        Log("LEV = E[min(X, d)] - expected value capped at limit d.\n");
+
+        // Exponential LEV: lambda=2
+        Log("### Exponential LEV (λ=2)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var expLev05 = Distributions.ACT_DIST_EXP_LEV(0.5, 2);
+        var expLev1 = Distributions.ACT_DIST_EXP_LEV(1.0, 2);
+        var expLev2 = Distributions.ACT_DIST_EXP_LEV(2.0, 2);
+        Log($"| 0.5 | {expLev05:F10} | 0.3160602794 |");
+        Log($"| 1.0 | {expLev1:F10} | 0.4323323584 |");
+        Log($"| 2.0 | {expLev2:F10} | 0.4908421806 |");
+
+        // Lomax LEV: alpha=2, lambda=1
+        Log("\n### Lomax (Pareto II) LEV (α=2, λ=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var lomaxLev1 = Distributions.ACT_DIST_LOMAX_LEV(1.0, 2, 1);
+        var lomaxLev2 = Distributions.ACT_DIST_LOMAX_LEV(2.0, 2, 1);
+        var lomaxLev5 = Distributions.ACT_DIST_LOMAX_LEV(5.0, 2, 1);
+        Log($"| 1.0 | {lomaxLev1:F10} | 0.5000000000 |");
+        Log($"| 2.0 | {lomaxLev2:F10} | 0.6666666667 |");
+        Log($"| 5.0 | {lomaxLev5:F10} | 0.8333333333 |");
+
+        // GPD LEV: xi=0.5, sigma=1
+        Log("\n### GPD LEV (ξ=0.5, σ=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var gpdLev1 = Distributions.ACT_DIST_GPD_LEV(1.0, 0.5, 1);
+        var gpdLev2 = Distributions.ACT_DIST_GPD_LEV(2.0, 0.5, 1);
+        var gpdLev5 = Distributions.ACT_DIST_GPD_LEV(5.0, 0.5, 1);
+        Log($"| 1.0 | {gpdLev1:F10} | 0.6666666667 |");
+        Log($"| 2.0 | {gpdLev2:F10} | 1.0000000000 |");
+        Log($"| 5.0 | {gpdLev5:F10} | 1.4285714286 |");
+
+        // Gamma LEV: alpha=2, beta=1
+        Log("\n### Gamma LEV (α=2, β=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var gammaLev1 = Distributions.ACT_DIST_GAMMA_LEV(1.0, 2, 1);
+        var gammaLev2 = Distributions.ACT_DIST_GAMMA_LEV(2.0, 2, 1);
+        var gammaLev5 = Distributions.ACT_DIST_GAMMA_LEV(5.0, 2, 1);
+        Log($"| 1.0 | {gammaLev1:F10} | 0.8963616765 |");
+        Log($"| 2.0 | {gammaLev2:F10} | 1.4586588671 |");
+        Log($"| 5.0 | {gammaLev5:F10} | 1.9528343710 |");
+
+        // Lognormal LEV: mu=0, sigma=1
+        Log("\n### Lognormal LEV (μ=0, σ=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var lnLev1 = Distributions.ACT_DIST_LOGNORM_LEV(1.0, 0, 1);
+        var lnLev2 = Distributions.ACT_DIST_LOGNORM_LEV(2.0, 0, 1);
+        var lnLev5 = Distributions.ACT_DIST_LOGNORM_LEV(5.0, 0, 1);
+        Log($"| 1.0 | {lnLev1:F10} | 0.7615782919 |");
+        Log($"| 2.0 | {lnLev2:F10} | 1.1138701492 |");
+        Log($"| 5.0 | {lnLev5:F10} | 1.4705262812 |");
+
+        // Weibull LEV: k=2, lambda=1
+        Log("\n### Weibull LEV (k=2, λ=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var weibullLev05 = Distributions.ACT_DIST_WEIBULL_LEV(0.5, 2, 1);
+        var weibullLev1 = Distributions.ACT_DIST_WEIBULL_LEV(1.0, 2, 1);
+        var weibullLev2 = Distributions.ACT_DIST_WEIBULL_LEV(2.0, 2, 1);
+        Log($"| 0.5 | {weibullLev05:F10} | 0.4612810064 |");
+        Log($"| 1.0 | {weibullLev1:F10} | 0.7468241328 |");
+        Log($"| 2.0 | {weibullLev2:F10} | 0.8820813908 |");
+
+        // Beta LEV: alpha=2, beta=5
+        Log("\n### Beta LEV (α=2, β=5)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var betaLev025 = Distributions.ACT_DIST_BETA_LEV(0.25, 2, 5);
+        var betaLev05 = Distributions.ACT_DIST_BETA_LEV(0.5, 2, 5);
+        var betaLev1 = Distributions.ACT_DIST_BETA_LEV(1.0, 2, 5);
+        Log($"| 0.25 | {betaLev025:F10} | 0.2030814035 |");
+        Log($"| 0.50 | {betaLev05:F10} | 0.2756696429 |");
+        Log($"| 1.00 | {betaLev1:F10} | 0.2857142857 |");
+
+        // Burr XII LEV: c=2, k=3, lambda=1
+        Log("\n### Burr XII LEV (c=2, k=3, λ=1)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var burrLev05 = Distributions.ACT_DIST_BURR_LEV(0.5, 2, 3, 1);
+        var burrLev1 = Distributions.ACT_DIST_BURR_LEV(1.0, 2, 3, 1);
+        var burrLev2 = Distributions.ACT_DIST_BURR_LEV(2.0, 2, 3, 1);
+        Log($"| 0.5 | {burrLev05:F10} | 0.4038678534 |");
+        Log($"| 1.0 | {burrLev1:F10} | 0.5445243113 |");
+        Log($"| 2.0 | {burrLev2:F10} | 0.5851807692 |");
+
+        // Poisson LEV: lambda=5
+        Log("\n### Poisson LEV (λ=5)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var poissonLev3 = Distributions.ACT_DIST_POISSON_LEV(3.0, 5);
+        var poissonLev5 = Distributions.ACT_DIST_POISSON_LEV(5.0, 5);
+        var poissonLev10 = Distributions.ACT_DIST_POISSON_LEV(10.0, 5);
+        Log($"| 3.0 | {poissonLev3:F10} | 2.8281823515 |");
+        Log($"| 5.0 | {poissonLev5:F10} | 4.1226631512 |");
+        Log($"| 10.0 | {poissonLev10:F10} | 4.9778123995 |");
+
+        // Negative Binomial LEV: r=5, p=0.3
+        Log("\n### Negative Binomial LEV (r=5, p=0.3)");
+        Log("| Limit | LEV | scipy Expected |");
+        Log("|-------|-----|----------------|");
+        var nbLev5 = Distributions.ACT_DIST_NEGBIN_LEV(5.0, 5, 0.3);
+        var nbLev10 = Distributions.ACT_DIST_NEGBIN_LEV(10.0, 5, 0.3);
+        var nbLev20 = Distributions.ACT_DIST_NEGBIN_LEV(20.0, 5, 0.3);
+        Log($"| 5.0 | {nbLev5:F10} | 4.8010631900 |");
+        Log($"| 10.0 | {nbLev10:F10} | 8.4026604566 |");
+        Log($"| 20.0 | {nbLev20:F10} | 11.2187398801 |");
+
+        // Reconciliation table
+        Log("\n### Reconciliation: LEV Functions");
+        Log("Reference: scipy.stats numerical integration of survival function\n");
+        Log(TableRow(("Distribution", 15), ("Limit", 6), ("C#", 14), ("scipy", 14), ("Tol", 8), ("Match", 5)));
+        Log(TableSep(15, 6, 14, 14, 8, 5));
+
+        Log(TableRow(("Exponential", 15), ("1.0", 6), ($"{expLev1:F10}", 14), ("0.4323323584", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(expLev1, 0.4323323584, 1e-6)), 5)));
+        Log(TableRow(("Lomax", 15), ("2.0", 6), ($"{lomaxLev2:F10}", 14), ("0.6666666667", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(lomaxLev2, 0.6666666667, 1e-6)), 5)));
+        Log(TableRow(("GPD", 15), ("2.0", 6), ($"{gpdLev2:F10}", 14), ("1.0000000000", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(gpdLev2, 1.0, 1e-6)), 5)));
+        Log(TableRow(("Gamma", 15), ("2.0", 6), ($"{gammaLev2:F10}", 14), ("1.4586588671", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(gammaLev2, 1.4586588671, 1e-6)), 5)));
+        Log(TableRow(("Lognormal", 15), ("2.0", 6), ($"{lnLev2:F10}", 14), ("1.1138701492", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(lnLev2, 1.1138701492, 1e-6)), 5)));
+        Log(TableRow(("Weibull", 15), ("1.0", 6), ($"{weibullLev1:F10}", 14), ("0.7468241328", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(weibullLev1, 0.7468241328, 1e-6)), 5)));
+        Log(TableRow(("Beta", 15), ("0.5", 6), ($"{betaLev05:F10}", 14), ("0.2756696429", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(betaLev05, 0.2756696429, 1e-6)), 5)));
+        Log(TableRow(("Burr XII", 15), ("1.0", 6), ($"{burrLev1:F10}", 14), ("0.5445243113", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(burrLev1, 0.5445243113, 1e-6)), 5)));
+        Log(TableRow(("Poisson", 15), ("5.0", 6), ($"{poissonLev5:F10}", 14), ("4.1226631512", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(poissonLev5, 4.1226631512, 1e-6)), 5)));
+        Log(TableRow(("Neg Binomial", 15), ("10.0", 6), ($"{nbLev10:F10}", 14), ("8.4026604566", 14), ("1e-6", 8), (FormatMatch(WithinTolerance(nbLev10, 8.4026604566, 1e-6)), 5)));
         Log("");
     }
 

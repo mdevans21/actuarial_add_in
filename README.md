@@ -22,7 +22,7 @@ See `excel/actuarial_add_in.xlsm` for working examples of all functions.
 
 | Category      | Functions | Description                              |
 |---------------|-----------|------------------------------------------|
-| Distributions | 30+       | PDF, CDF, Inverse for 10 distributions   |
+| Distributions | 40+       | PDF, CDF, Inverse, LEV for 10+ distributions |
 | Exposure/ILF/EP | 15+     | MBBEFD, Swiss Re, Lloyd's, ILF, EP Curves |
 | Chain Ladder  | 15+       | Factors, Ultimates, Mack SE, ODP Bootstrap |
 | Layer Functions | 2       | XOL layer loss calculations              |
@@ -59,6 +59,24 @@ PDF, CDF, and Inverse CDF functions for actuarial modeling.
 | Beta              | `ACT_DIST_BETA_PDF(x, alpha, beta)`      | `ACT_DIST_BETA_CDF(x, alpha, beta)`      | `ACT_DIST_BETA_INV(p, alpha, beta)`        |
 | Exponential       | `ACT_DIST_EXP_PDF(x, lambda)`            | `ACT_DIST_EXP_CDF(x, lambda)`            | `ACT_DIST_EXP_INV(p, lambda)`              |
 | Burr Type XII     | `ACT_DIST_BURR_PDF(x, c, k, lambda)`     | `ACT_DIST_BURR_CDF(x, c, k, lambda)`     | `ACT_DIST_BURR_INV(p, c, k, lambda)`       |
+
+### Limited Expected Value (LEV)
+
+LEV = E[min(X, d)] is the expected value of X capped at limit d. Used for calculating expected layer losses in reinsurance pricing.
+
+| Distribution      | LEV Function                              | Notes                                    |
+|-------------------|-------------------------------------------|------------------------------------------|
+| Exponential       | `ACT_DIST_EXP_LEV(limit, lambda)`         | Closed form                              |
+| Pareto Type I     | `ACT_DIST_PARETO_LEV(limit, alpha, xm)`   | Requires α > 1                           |
+| Lomax (Pareto II) | `ACT_DIST_LOMAX_LEV(limit, alpha, lambda)` | Requires α > 1                          |
+| GPD               | `ACT_DIST_GPD_LEV(limit, xi, sigma)`      | Requires ξ < 1                           |
+| Gamma             | `ACT_DIST_GAMMA_LEV(limit, alpha, beta)`  | Uses incomplete gamma                    |
+| Lognormal         | `ACT_DIST_LOGNORM_LEV(limit, mu, sigma)`  | Uses normal CDF                          |
+| Weibull           | `ACT_DIST_WEIBULL_LEV(limit, k, lambda)`  | Uses incomplete gamma                    |
+| Beta              | `ACT_DIST_BETA_LEV(limit, alpha, beta)`   | On [0,1], uses incomplete beta           |
+| Burr Type XII     | `ACT_DIST_BURR_LEV(limit, c, k, lambda)`  | Requires ck > 1                          |
+| Poisson           | `ACT_DIST_POISSON_LEV(limit, lambda)`     | Discrete summation                       |
+| Negative Binomial | `ACT_DIST_NEGBIN_LEV(limit, r, p)`        | Discrete summation                       |
 
 ---
 

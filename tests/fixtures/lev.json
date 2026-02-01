@@ -1,0 +1,204 @@
+{
+  "_metadata": {
+    "source": "scipy.stats numerical integration",
+    "description": "LEV = E[min(X, d)] calculated via integral of survival function",
+    "generated": "2026-01-31"
+  },
+  "exponential": {
+    "parameters": {
+      "lambda": 2
+    },
+    "lev_limit_0.5": {
+      "limit": 0.5,
+      "expected": 0.3160602794
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.4323323584
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 0.4908421806
+    }
+  },
+  "pareto": {
+    "parameters": {
+      "alpha": 2,
+      "xm": 1
+    },
+    "lev_limit_1.5": {
+      "limit": 1.5,
+      "expected": 1.3333333333
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 1.5
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 1.8
+    }
+  },
+  "lomax": {
+    "parameters": {
+      "alpha": 2,
+      "lambda": 1
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.5
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 0.6666666667
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 0.8333333333
+    }
+  },
+  "gpd": {
+    "parameters": {
+      "xi": 0.5,
+      "sigma": 1
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.6666666667
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 1.0
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 1.4285714286
+    }
+  },
+  "gamma": {
+    "parameters": {
+      "alpha": 2,
+      "beta": 1
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.8963616765
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 1.4586588671
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 1.952834371
+    }
+  },
+  "lognormal": {
+    "parameters": {
+      "mu": 0,
+      "sigma": 1
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.7615782919
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 1.1138701492
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 1.4705262812
+    }
+  },
+  "weibull": {
+    "parameters": {
+      "k": 2,
+      "lambda": 1
+    },
+    "lev_limit_0.5": {
+      "limit": 0.5,
+      "expected": 0.4612810064
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.7468241328
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 0.8820813908
+    }
+  },
+  "beta": {
+    "parameters": {
+      "alpha": 2,
+      "beta": 5
+    },
+    "lev_limit_0.25": {
+      "limit": 0.25,
+      "expected": 0.2030814035
+    },
+    "lev_limit_0.5": {
+      "limit": 0.5,
+      "expected": 0.2756696429
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.2857142857
+    }
+  },
+  "burr": {
+    "parameters": {
+      "c": 2,
+      "k": 3,
+      "lambda": 1
+    },
+    "lev_limit_0.5": {
+      "limit": 0.5,
+      "expected": 0.4038678534
+    },
+    "lev_limit_1": {
+      "limit": 1.0,
+      "expected": 0.5445243113
+    },
+    "lev_limit_2": {
+      "limit": 2.0,
+      "expected": 0.5851807692
+    }
+  },
+  "poisson": {
+    "parameters": {
+      "lambda": 5
+    },
+    "lev_limit_3": {
+      "limit": 3.0,
+      "expected": 2.8281823515
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 4.1226631512
+    },
+    "lev_limit_10": {
+      "limit": 10.0,
+      "expected": 4.9778123995
+    }
+  },
+  "negative_binomial": {
+    "parameters": {
+      "r": 5,
+      "p": 0.3
+    },
+    "lev_limit_5": {
+      "limit": 5.0,
+      "expected": 4.80106319
+    },
+    "lev_limit_10": {
+      "limit": 10.0,
+      "expected": 8.4026604566
+    },
+    "lev_limit_20": {
+      "limit": 20.0,
+      "expected": 11.2187398801
+    }
+  }
+}
