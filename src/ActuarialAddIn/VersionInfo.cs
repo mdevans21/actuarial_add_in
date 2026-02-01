@@ -7,7 +7,7 @@ namespace ActuarialAddIn;
 public static class VersionInfo
 {
     public const string CurrentVersion = "0.1.0";
-    public const string BuildDate = "2026-01-21";
+    public const string BuildDate = "2026-01-31";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
     public record CommitInfo(string ShortHash, string Date, string Message);
@@ -20,26 +20,26 @@ public static class VersionInfo
         // Commit history - updated during build or release
         return new[]
         {
-            new CommitInfo("b1b839f", "2026-01-19", "Repository cleanup: remove obsolete files and fix code quality issues"),
-            new CommitInfo("09491bc", "2026-01-19", "Improve consistency across outputs and documentation"),
-            new CommitInfo("2b8cb04", "2026-01-18", "Fix ODP bootstrap to match England & Verrall (2002)"),
-            new CommitInfo("fd0205a", "2026-01-18", "Add examples for all 10 distributions to Distributions tab"),
-            new CommitInfo("fb7f919", "2026-01-18", "Add tests, utility scripts, and example spreadsheets"),
-            new CommitInfo("97704d9", "2026-01-18", "Add ribbon UI and version tracking system"),
-            new CommitInfo("b2a74d4", "2026-01-18", "Add Phase 6: Credibility and experience rating functions"),
-            new CommitInfo("8e5109b", "2026-01-18", "Add Phase 5: Reserving enhancements - Cape Cod, triangle utilities, calendar year"),
-            new CommitInfo("6a2d830", "2026-01-18", "Add Phase 3: Archimedean copulas and utility functions"),
-            new CommitInfo("2f71e98", "2026-01-18", "Add Phase 2: Parameter estimation functions for distribution fitting"),
-            new CommitInfo("79ef7bc", "2026-01-18", "Implement Phase 1 from next_steps.md: distributions, copulas, and help text"),
-            new CommitInfo("bc30112", "2026-01-18", "Add comprehensive review and roadmap for actuarial add-in"),
-            new CommitInfo("fb0a7fe", "2026-01-17", "Merge branch 'main' of https://github.com/mdevans21/actuarial_add_in"),
-            new CommitInfo("83a9008", "2026-01-17", "Add chain ladder enhancements and update examples"),
-            new CommitInfo("b16e651", "2026-01-17", "Update README.md"),
-            new CommitInfo("7bb88e5", "2026-01-17", "Update README.md"),
-            new CommitInfo("7458388", "2026-01-17", "Add charts to Excel sheets and update Chain Ladder with Taylor-Ashe data"),
-            new CommitInfo("dc52de8", "2026-01-17", "Add documentation, examples, and agent instructions"),
-            new CommitInfo("1fbd1ef", "2026-01-17", "Rename PRD file to fix double extension"),
-            new CommitInfo("d2323be", "2026-01-17", "Fix Poisson inverse CDF implementation")
+            new CommitInfo("eb380cf", "2026-01-31", "Update validation report"),
+            new CommitInfo("7682e43", "2026-01-31", "Fix ACT_DIST_GPD_FIT PWM formula bug"),
+            new CommitInfo("d0b688f", "2026-01-31", "Fix ACT_ILF_LAYER bug and array parameter handling"),
+            new CommitInfo("dab1263", "2026-01-31", "Regenerate spreadsheet with populate_examples.py"),
+            new CommitInfo("108fea1", "2026-01-31", "Fix remaining formula errors in All Functions Test"),
+            new CommitInfo("1c852e4", "2026-01-31", "Fix All Functions Test formulas and rename Excel file"),
+            new CommitInfo("46d7c9b", "2026-01-31", "Update validation report"),
+            new CommitInfo("080ece8", "2026-01-31", "Remove ACT_QS_CEDED, ACT_AGGREGATE_LAYER, and Berquist-Sherman from Excel"),
+            new CommitInfo("b1a62e1", "2026-01-31", "Remove ACT_QS_CEDED and ACT_AGGREGATE_LAYER functions"),
+            new CommitInfo("c98fd3e", "2026-01-31", "Update validation report timestamp"),
+            new CommitInfo("6991e7e", "2026-01-31", "Reorganize README: move ILF/EP to Exposure section, rename Layer Functions"),
+            new CommitInfo("7b2cd4e", "2026-01-31", "Fix test results path in run_tests.py"),
+            new CommitInfo("2ac4970", "2026-01-31", "Fix run_tests.py same-file error when run from Windows path"),
+            new CommitInfo("116ac37", "2026-01-31", "Add unified test runner for WSL"),
+            new CommitInfo("bd64697", "2026-01-31", "Remove Berquist-Sherman method and format reconciliation tables"),
+            new CommitInfo("152bf66", "2026-01-31", "Fix ToDoubleArray to handle object[] returns"),
+            new CommitInfo("59665b0", "2026-01-31", "Add reconciliation checks to test results"),
+            new CommitInfo("817b184", "2026-01-31", "Add chainladder-python and Bernegger references to README"),
+            new CommitInfo("acd021e", "2026-01-31", "Add missing distributions to test workbook and expand README testing docs"),
+            new CommitInfo("f5242ac", "2026-01-31", "Add WSL/Windows filesystem sync troubleshooting to agents.md")
         };
     }
 }

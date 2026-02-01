@@ -16,6 +16,13 @@ When adding new functions:
 2. Add a new sheet or section to the Excel workbook with matching examples
 3. Update `scripts/populate_examples.py` to include the new function
 
+## Excel Chart Styling
+
+**Use Excel defaults for charts.** Do not override chart styling properties like `roundedCorners`. Let Excel use its default appearance. When creating charts in `populate_examples.py`:
+- Set title, axes, dimensions as needed
+- Do NOT set `chart.roundedCorners` or similar styling overrides
+- Keep charts simple and functional
+
 ## Test Data Reference
 
 The following test parameters are used consistently across the test suite and Excel examples:

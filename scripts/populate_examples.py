@@ -8,12 +8,10 @@ import openpyxl
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill, Color
 from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.utils import get_column_letter
-from openpyxl.chart import LineChart, ScatterChart, BarChart, Reference
+from openpyxl.chart import LineChart, ScatterChart, BarChart, Reference, Series
 from openpyxl.chart.series import DataPoint
 from openpyxl.chart.label import DataLabelList
 from openpyxl.chart.marker import Marker
-from openpyxl.chart.title import Title
-from openpyxl.chart.data_source import StrRef
 import os
 
 # Paths
@@ -88,7 +86,7 @@ def create_scatter_chart_with_axes(ws, title, x_col, y_col, min_row, max_row, an
     chart.title = title
     chart.width = width
     chart.height = height
-    chart.roundedCorners = False  # No rounded corners
+    # Removed: use Excel defaults for chart corners  # No rounded corners
 
     # Axis titles and settings
     if x_title:
@@ -135,7 +133,7 @@ def create_bar_chart_with_axes(ws, title, cat_col, data_col, min_row, max_row, a
     chart.grouping = "standard"
     chart.width = width
     chart.height = height
-    chart.roundedCorners = False  # No rounded corners
+    # Removed: use Excel defaults for chart corners  # No rounded corners
     
     if x_title:
         chart.x_axis.title = x_title
@@ -377,7 +375,7 @@ def create_distributions_sheet(wb):
 def create_exposure_curves_sheet(wb):
     """Create the Exposure Curves examples sheet."""
     ws = wb.create_sheet("Exposure Curves")
-    set_column_widths(ws, {'A': 15, 'B': 20, 'C': 20, 'D': 20, 'E': 30, 'F': 5})
+    set_column_widths(ws, {'A': 15, 'B': 20, 'C': 20, 'D': 20, 'E': 30, 'F': 15})
 
     row = add_title(ws, "Exposure Curves")
     row = add_note(ws, "Exposure curves relate damage ratio (d) to expected loss ratio G(d)", row)
@@ -393,12 +391,7 @@ def create_exposure_curves_sheet(wb):
     mbbefd_data_end = row - 1
     row += 1
 
-    create_scatter_chart_with_axes(ws, "MBBEFD Exposure Curve (b=2, g=3)", x_col=1, y_col=2,
-        min_row=mbbefd_data_start-1, max_row=mbbefd_data_end, anchor="F4",
-        x_title="Damage Ratio (d)", y_title="Loss Ratio G(d)",
-        x_min=0, x_max=1, y_min=0, y_max=1)
-
-    # Swiss Re curves comparison
+    # Swiss Re curves comparison - moved up to combine with chart
     row = add_note(ws, "SWISS RE CURVES COMPARISON (all curves)", row)
     row = add_table_header(ws, ["d", "Curve 1", "Curve 2", "Curve 3", "Curve 4", "Curve 5"], row)
     swissre_data_start = row
@@ -409,6 +402,28 @@ def create_exposure_curves_sheet(wb):
         row += 1
     swissre_data_end = row - 1
     row += 1
+
+    # Create multi-series chart for Swiss Re curves comparison
+    chart = ScatterChart()
+    chart.title = "Swiss Re Exposure Curves Comparison"
+    chart.width = 14
+    chart.height = 10
+    chart.x_axis.title = "Damage Ratio (d)"
+    chart.y_axis.title = "Loss Ratio G(d)"
+    chart.x_axis.scaling.min = 0
+    chart.x_axis.scaling.max = 1
+    chart.y_axis.scaling.min = 0
+    chart.y_axis.scaling.max = 1
+
+    # Add each Swiss Re curve as a separate series
+    x_values = Reference(ws, min_col=1, min_row=swissre_data_start, max_row=swissre_data_end)
+    for curve_num in range(1, 6):
+        y_values = Reference(ws, min_col=curve_num + 1, min_row=swissre_data_start - 1, max_row=swissre_data_end)
+        series = Series(y_values, x_values, title=f"Curve {curve_num}")
+        series.graphicalProperties.line.width = 20000  # 2pt line
+        chart.series.append(series)
+
+    ws.add_chart(chart, "G4")
 
     # Lloyd's curves
     row = add_note(ws, "LLOYD'S CURVES COMPARISON", row)
@@ -515,7 +530,7 @@ def create_interpolation_sheet(wb):
     chart.title = "Known Data Points"
     chart.width = 12
     chart.height = 8
-    chart.roundedCorners = False
+    # Removed: use Excel defaults for chart corners
     chart.x_axis.title = "X"
     chart.y_axis.title = "Y"
     chart.x_axis.scaling.min = 0
@@ -744,7 +759,7 @@ def create_chainladder_sheet(wb):
     chart1.type = "col"
     chart1.width = 12
     chart1.height = 8
-    chart1.roundedCorners = False
+    # Removed: use Excel defaults for chart corners
     chart1.x_axis.title = "Accident Year"
     chart1.y_axis.title = "IBNR"
     chart1.y_axis.scaling.min = 0
@@ -767,7 +782,7 @@ def create_chainladder_sheet(wb):
     chart2.grouping = "clustered"
     chart2.width = 12
     chart2.height = 8
-    chart2.roundedCorners = False
+    # Removed: use Excel defaults for chart corners
     chart2.x_axis.title = "Accident Year"
     chart2.y_axis.title = "Amount"
     chart2.y_axis.scaling.min = 0
@@ -789,7 +804,7 @@ def create_chainladder_sheet(wb):
     chart3.type = "col"
     chart3.width = 12
     chart3.height = 8
-    chart3.roundedCorners = False
+    # Removed: use Excel defaults for chart corners
     chart3.x_axis.title = "Accident Year"
     chart3.y_axis.title = "Standard Error"
     chart3.y_axis.scaling.min = 0
@@ -811,7 +826,7 @@ def create_chainladder_sheet(wb):
 def create_copulas_sheet(wb):
     """Create the Copulas examples sheet."""
     ws = wb.create_sheet("Copulas")
-    set_column_widths(ws, {'A': 18, 'B': 12, 'C': 12, 'D': 12, 'E': 25, 'F': 5})
+    set_column_widths(ws, {'A': 18, 'B': 12, 'C': 12, 'D': 12, 'E': 25, 'F': 15})
 
     row = add_title(ws, "Student-t Copula")
     row = add_note(ws, "Generate correlated uniform random numbers for Monte Carlo simulation", row)
@@ -887,16 +902,9 @@ def create_copulas_sheet(wb):
         row += 1
     sample_end_row = row - 1
 
-    # Create chart title cell with formula linking to correlation coefficient
-    title_cell_row = 2  # Put title formula in row 2
-    ws.cell(row=title_cell_row, column=5, value=f'="Copula Samples: U1 vs U2 (correlation = "&TEXT({corr_x2_x1_cell},"0.0")&")"')
-
     # Scatter chart with axes
     chart = ScatterChart()
-    chart.roundedCorners = False
-    # Link chart title to cell with dynamic formula
-    chart.title = Title()
-    chart.title.strRef = StrRef(f="'Copulas'!$E$2")
+    chart.title = "Student-t Copula Samples: U1 vs U2"
     chart.width = 10
     chart.height = 10
     chart.x_axis.title = "U1"
@@ -959,7 +967,7 @@ def create_return_period_sheet(wb):
     chart.title = "Exceedance Probability Curve"
     chart.width = 12
     chart.height = 8
-    chart.roundedCorners = False
+    # Removed: use Excel defaults for chart corners
     chart.x_axis.title = "Return Period (years)"
     chart.y_axis.title = "OEP Loss"
     chart.y_axis.scaling.min = 0
