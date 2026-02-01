@@ -246,29 +246,31 @@ public static class Fitting
 
         int n = validData.Length;
 
-        // Probability-weighted moments (PWM) method
-        // b0 = mean, b1 = (1/n) * Σ((i-0.35)/n * x[i])
-        double b0 = validData.Average();
-        double b1 = 0;
+        // Probability-weighted moments (PWM) method - Hosking (1987)
+        // a0 = mean
+        // a1 = (1/n) * Σ (1 - pj) * x[j] where pj = (j - 0.35)/n for j=1..n
+        // Note: (1 - pj) weights smaller values MORE heavily
+        double a0 = validData.Average();
+        double a1 = 0;
         for (int i = 0; i < n; i++)
         {
-            double pj = (i + 1 - 0.35) / n;
-            b1 += pj * validData[i];
+            double pj = (i + 1 - 0.35) / n;  // Plotting position for (i+1)th order statistic
+            a1 += (1 - pj) * validData[i];   // Use (1 - p), not p!
         }
-        b1 /= n;
+        a1 /= n;
 
         // PWM estimators for GPD:
-        // xi = 2 - b0/(b0 - 2*b1)
-        // sigma = 2*b0*b1/(b0 - 2*b1)
-        double denom = b0 - 2 * b1;
+        // xi = 2 - a0/(a0 - 2*a1)
+        // sigma = 2*a0*a1/(a0 - 2*a1)
+        double denom = a0 - 2 * a1;
         if (Math.Abs(denom) < 1e-10)
-            return new object[] { "Error: Cannot estimate parameters (b0 ≈ 2*b1)" };
+            return new object[] { "Error: Cannot estimate parameters (data may be exponential)" };
 
-        double xi = 2 - b0 / denom;
-        double sigma = 2 * b0 * b1 / denom;
+        double xi = 2 - a0 / denom;
+        double sigma = 2 * a0 * a1 / denom;
 
         if (sigma <= 0)
-            return new object[] { "Error: Estimated sigma is not positive" };
+            return new object[] { "Error: Estimated sigma is not positive (try different data)" };
 
         return new object[] { xi, sigma };
     }

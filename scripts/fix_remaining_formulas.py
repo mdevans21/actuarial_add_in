@@ -67,11 +67,10 @@ FORMULA_FIXES = {
         'note': 'Rate on line'
     },
 
-    # ACT_DIST_GPD_FIT needs data suitable for GPD (heavy-tailed exceedances)
-    # Use data with more spread and larger outliers typical of excess losses
+    # ACT_DIST_GPD_FIT - use typical exceedance data (positive values over threshold)
     'ACT_DIST_GPD_FIT': {
-        'new': '=ACT_DIST_GPD_FIT({0.5,1.2,1.8,2.5,3.1,4.0,5.2,7.1,10.5,18.3,35.0,82.0})',
-        'note': 'MLE ξ,σ'
+        'new': '=ACT_DIST_GPD_FIT({1,2,3,4,5,6,7,8,9,10,12,15})',
+        'note': 'PWM ξ,σ'
     },
 
     # ACT_ILF_LAYER - now fixed with proper Pareto II LEV formula
