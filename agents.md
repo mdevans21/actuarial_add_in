@@ -115,6 +115,24 @@ Three test sources must remain consistent:
 2. **Python Benchmarks** (`tests/run_benchmarks.py`) - Comparison against scipy/chainladder
 3. **Excel Examples** (`excel/actuarial_add_in.xlsm`) - Visual examples (regenerate with `scripts/populate_examples.py`)
 
+## Git Push and Releases
+
+**Before pushing to the remote repository, ask the user if this push should trigger a release.**
+
+- Pushing to `main` updates the repository but does not create a release
+- Pushing a version tag (e.g., `v0.1.0`) triggers the GitHub Actions workflow to build and publish a release
+
+If the user wants a release:
+```bash
+git tag v<version>
+git push origin main --tags
+```
+
+If the user just wants to push changes without a release:
+```bash
+git push origin main
+```
+
 ## Building the Add-In from WSL
 
 The project runs in WSL but requires Windows .NET SDK for building. Use PowerShell to invoke dotnet:
