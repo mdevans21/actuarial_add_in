@@ -8,6 +8,7 @@ Run with: pytest tests/test_validation.py -v
 import pytest
 import json
 from pathlib import Path
+import runpy
 import numpy as np
 
 # Try to import scipy
@@ -394,6 +395,13 @@ class TestCredibility:
             actual = n / (n + k)
             assert abs(actual - expected) <= tolerance, \
                 f"Asymptotic Z({n}, k={k}): expected {expected}, got {actual}"
+
+
+def test_eltr_worked_example_reconciliation():
+    """Ensure the eltr worked example reconciliation runs without errors."""
+    module_path = Path(__file__).parent / "eltr_reconcile.py"
+    result = runpy.run_path(module_path)
+    result["main"]()
 
 
 # =============================================================================

@@ -28,6 +28,7 @@ See `excel/actuarial_add_in.xlsm` for working examples of all functions.
 | Layer Functions | 2       | XOL layer loss calculations              |
 | Copulas       | 10+       | Gaussian, Student-t, Clayton, Frank, Gumbel |
 | Interpolation | 5+        | Linear, Log-linear, 2D Bilinear          |
+| Cat Modeling  | 6+        | ELT→YLT simulation, OEP/AEP curves, VaR/TVaR |
 
 ---
 
@@ -120,6 +121,24 @@ First loss scales, exposure rating curves, and exceedance probability functions 
 | `ACT_RETURN_PERIOD_LOSS(return_periods, losses, target_rp, [method])` | Interpolate EP curve |
 | `ACT_RETURN_PERIOD_TABLE(return_periods, losses, targets, [method])` | Generate RP table   |
 | `ACT_AAL_FROM_OEP(return_periods, oep_losses)`           | Calculate AAL from OEP curve     |
+
+---
+
+## Cat Modeling (ELT → YLT → EP)
+
+Cat modeling helpers simulate Year Loss Tables (YLTs) from Event Loss Tables (ELTs) and derive OEP/AEP curves.
+When combining independent (SDi) and correlated (SDc) uncertainties at the ELT row level, the add-in
+uses SRSS (square-root of sum of squares) to compute total SD for severity sampling.
+
+| Function | Description |
+|----------|-------------|
+| `ACT_ELT_TO_YLT(rates, losses, years, [seed], [header])` | Simulate YLT (aggregate + max loss + event count). |
+| `ACT_YLT_OEP_CURVE(max_losses, [method], [header])` | OEP curve from annual max losses (plotting positions). |
+| `ACT_YLT_AEP_CURVE(agg_losses, [method], [header])` | AEP curve from annual aggregate losses (plotting positions). |
+| `ACT_OEP_CURVE_RP(max_losses, return_periods, [header])` | OEP curve at specified return periods (quantiles). |
+| `ACT_AEP_CURVE_RP(agg_losses, return_periods, [header])` | AEP curve at specified return periods (quantiles). |
+| `ACT_VAR_FROM_SAMPLES(samples, alpha)` | Empirical VaR from samples. |
+| `ACT_TVAR_FROM_SAMPLES(samples, alpha)` | Empirical TVaR from samples. |
 
 ---
 

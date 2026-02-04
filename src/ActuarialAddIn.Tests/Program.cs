@@ -29,6 +29,7 @@ class Program
         TestExposureCurves();
         TestReinsurance();
         TestReturnPeriods();
+        TestCatModeling();
         TestInterpolation();
         TestChainLadder();
         TestBootstrapChainLadder();
@@ -134,6 +135,18 @@ class Program
             return dblArr;
         }
         throw new InvalidOperationException($"Expected object[,] or object[] from Excel function, got {excelResult?.GetType()}");
+    }
+
+    static double[] ExtractColumn(object[,] table, int columnIndex, bool hasHeader)
+    {
+        int startRow = hasHeader ? 1 : 0;
+        int len = table.GetLength(0) - startRow;
+        var result = new double[len];
+        for (int i = 0; i < len; i++)
+        {
+            result[i] = Convert.ToDouble(table[i + startRow, columnIndex]);
+        }
+        return result;
     }
 
     static void TestDistributions()
@@ -511,9 +524,63 @@ class Program
         Log("");
     }
 
+    static void TestCatModeling()
+    {
+        Log("## 5. Cat Modeling (ELT → YLT → EP Curves)\n");
+
+        var eventRates = new double[] { 0.2, 0.1, 0.05 };
+        var eventLosses = new double[] { 1_000_000, 2_500_000, 10_000_000 };
+        int years = 1000;
+        int seed = 42;
+
+        var ylt = CatModeling.ACT_ELT_TO_YLT(eventRates, eventLosses, years, seed, true);
+
+        Log("### Event Loss Table (ELT)");
+        Log("| Event | Rate | Loss |");
+        Log("|-------|------|------|");
+        for (int i = 0; i < eventRates.Length; i++)
+        {
+            Log($"| {i + 1} | {eventRates[i]:0.00} | {eventLosses[i]:N0} |");
+        }
+        Log("");
+
+        Log("### Year Loss Table (YLT) - First 5 Years");
+        Log("| Year | Aggregate Loss | Max Loss | Event Count |");
+        Log("|------|----------------|----------|-------------|");
+        for (int i = 1; i <= 5; i++)
+        {
+            Log($"| {ylt[i, 0]} | {Convert.ToDouble(ylt[i, 1]):N0} | {Convert.ToDouble(ylt[i, 2]):N0} | {ylt[i, 3]} |");
+        }
+        Log("");
+
+        var aggregateLosses = ExtractColumn(ylt, 1, true);
+        var maxLosses = ExtractColumn(ylt, 2, true);
+
+        var oep = CatModeling.ACT_YLT_OEP_CURVE(maxLosses, "WEIBULL", true);
+        var aep = CatModeling.ACT_YLT_AEP_CURVE(aggregateLosses, "WEIBULL", true);
+
+        Log("### OEP Curve (First 5 Return Periods)");
+        Log("| Return Period | OEP Loss |");
+        Log("|---------------|----------|");
+        for (int i = 1; i <= 5; i++)
+        {
+            Log($"| {Convert.ToDouble(oep[i, 0]):0.00} | {Convert.ToDouble(oep[i, 1]):N0} |");
+        }
+        Log("");
+
+        Log("### AEP Curve (First 5 Return Periods)");
+        Log("| Return Period | AEP Loss |");
+        Log("|---------------|----------|");
+        for (int i = 1; i <= 5; i++)
+        {
+            Log($"| {Convert.ToDouble(aep[i, 0]):0.00} | {Convert.ToDouble(aep[i, 1]):N0} |");
+        }
+        Log("");
+    }
+
     static void TestInterpolation()
     {
-        Log("## 5. Interpolation\n");
+        Log("## 6. Interpolation\n");
 
         var xVals = new double[] { 1, 2, 3, 4, 5 };
         var yVals = new double[] { 10, 20, 35, 55, 80 };
@@ -533,7 +600,7 @@ class Program
 
     static void TestChainLadder()
     {
-        Log("## 6. Chain Ladder (Taylor-Ashe Dataset)\n");
+        Log("## 7. Chain Ladder (Taylor-Ashe Dataset)\n");
         Log("Using the Taylor-Ashe triangle from Peter England's bootstrapping presentation.\n");
 
         // Taylor-Ashe triangle (cumulative paid losses)
@@ -684,7 +751,7 @@ class Program
 
     static void TestBootstrapChainLadder()
     {
-        Log("## 7. Bootstrap Chain Ladder\n");
+        Log("## 8. Bootstrap Chain Ladder\n");
         Log("Using Taylor-Ashe data with ODP bootstrap (England & Verrall, 2002 method).\n");
 
         var triangle = GetTaylorAsheTriangle();
@@ -748,7 +815,7 @@ class Program
 
     static void TestCopulas()
     {
-        Log("## 8. Student-t Copula\n");
+        Log("## 9. Student-t Copula\n");
 
         int dim = 7;
         double rho = 0.6;

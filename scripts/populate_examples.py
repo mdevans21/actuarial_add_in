@@ -484,6 +484,142 @@ def create_reinsurance_sheet(wb):
     return ws
 
 
+def create_cat_modeling_sheet(wb):
+    """Create the Cat Modeling examples sheet."""
+    ws = wb.create_sheet("Cat Modeling")
+    set_column_widths(ws, {'A': 18, 'B': 18, 'C': 18, 'D': 18, 'E': 4, 'F': 18, 'G': 18})
+
+    row = add_title(ws, "Cat Modeling: ELT → YLT → EP Curves")
+    row = add_note(ws, "Simulate a YLT from an ELT and derive OEP/AEP curves (Weibull plotting position).", row)
+    row += 1
+
+    # ELT inputs
+    row = add_note(ws, "EVENT LOSS TABLE (ELT)", row)
+    row = add_table_header(ws, ["Event", "Annual Rate", "Event Loss"], row)
+    elt_start_row = row
+    events = [("Event 1", 0.2, 1_000_000), ("Event 2", 0.1, 2_500_000), ("Event 3", 0.05, 10_000_000)]
+    for name, rate, loss in events:
+        ws.cell(row=row, column=1, value=name).border = THIN_BORDER
+        ws.cell(row=row, column=2, value=rate).border = THIN_BORDER
+        loss_cell = ws.cell(row=row, column=3, value=loss)
+        loss_cell.border = THIN_BORDER
+        loss_cell.number_format = '#,##0'
+        row += 1
+    elt_end_row = row - 1
+    row += 2
+
+    # YLT output
+    row = add_note(ws, "YEAR LOSS TABLE (YLT) - 1000 years, seed=42", row)
+    row = add_table_header(ws, ["Year", "Aggregate Loss", "Max Loss", "Event Count"], row)
+    ylt_start_row = row
+    ylt_formula = f'=ACT_ELT_TO_YLT(B{elt_start_row}:B{elt_end_row}, C{elt_start_row}:C{elt_end_row}, 1000, 42, FALSE)'
+    ws.cell(row=row, column=1, value=ylt_formula).border = THIN_BORDER
+    ylt_end_row = ylt_start_row + 1000 - 1
+    row = ylt_end_row + 2
+
+    # OEP Curve
+    row = add_note(ws, "OEP CURVE (from YLT max losses)", row)
+    row = add_table_header(ws, ["Return Period", "OEP Loss"], row)
+    oep_formula = f'=ACT_YLT_OEP_CURVE(C{ylt_start_row}:C{ylt_end_row}, \"WEIBULL\", FALSE)'
+    ws.cell(row=row, column=1, value=oep_formula).border = THIN_BORDER
+    row += 2
+
+    # AEP Curve
+    row = add_note(ws, "AEP CURVE (from YLT aggregate losses)", row)
+    row = add_table_header(ws, ["Return Period", "AEP Loss"], row)
+    aep_formula = f'=ACT_YLT_AEP_CURVE(B{ylt_start_row}:B{ylt_end_row}, \"WEIBULL\", FALSE)'
+    ws.cell(row=row, column=1, value=aep_formula).border = THIN_BORDER
+
+    return ws
+
+
+def create_elt_to_ep_sheet(wb):
+    """Create the ELT to EP examples sheet using the worked example data."""
+    ws = wb.create_sheet("ELT to EP")
+    set_column_widths(ws, {'A': 10, 'B': 12, 'C': 12, 'D': 12, 'E': 12, 'F': 12, 'G': 12, 'H': 12, 'I': 5})
+
+    row = add_title(ws, "ELT → YLT → OEP/AEP (Worked Example)")
+    row = add_note(ws, "Uses the worked example data and SRSS SD combination for inputs.", row)
+    row += 1
+
+    # ELT input (raw)
+    row = add_note(ws, "EVENT LOSS TABLE (RAW INPUTS)", row)
+    row = add_table_header(ws, ["Event", "Rate", "Mean", "SDi", "SDc", "TIV"], row)
+    elt_rows = [
+        (1, 0.10, 500, 500, 200, 100000),
+        (2, 0.10, 200, 400, 100, 5000),
+        (3, 0.20, 300, 200, 400, 40000),
+        (4, 0.10, 100, 300, 500, 4000),
+        (5, 0.20, 500, 100, 200, 2000),
+        (6, 0.25, 200, 200, 500, 50000),
+        (7, 0.01, 1000, 500, 600, 100000),
+        (8, 0.12, 250, 300, 100, 5000),
+        (9, 0.14, 1000, 500, 200, 6000),
+        (10, 0.00, 10000, 1000, 500, 1000000),
+    ]
+    elt_start = row
+    for values in elt_rows:
+        row = add_data_row(ws, list(values), row)
+    elt_end = row - 1
+    row += 2
+
+    # YLT (worked example output)
+    row = add_note(ws, "YEAR LOSS TABLE (WORKED EXAMPLE OUTPUT)", row)
+    row = add_table_header(ws, ["Year", "Loss", "Event"], row)
+    ylt_rows = [
+        (1, 0.0, "None"),
+        (2, 85.74328, 5),
+        (3, 0.9137924, 2),
+        (4, 261.1786, 1),
+        (5, 2.686697, 8),
+        (6, 252.92345, 1),
+        (6, 9.173005, 3),
+        (7, 0.0, "None"),
+        (8, 0.000000363326, 6),
+        (9, 128.6863, 3),
+        (9, 229.6461, 6),
+        (10, 0.0, "None"),
+    ]
+    ylt_start = row
+    for year, loss, event_id in ylt_rows:
+        row = add_data_row(ws, [year, loss, event_id], row)
+    ylt_end = row - 1
+    row += 2
+
+    # Annual summary
+    row = add_note(ws, "ANNUAL LOSS SUMMARY", row)
+    row = add_table_header(ws, ["Year", "Aggregate Loss", "Max Loss"], row)
+    summary_start = row
+    for year in range(1, 11):
+        sum_formula = f'=SUMIFS($B${ylt_start}:$B${ylt_end}, $A${ylt_start}:$A${ylt_end}, A{row})'
+        max_formula = f'=MAXIFS($B${ylt_start}:$B${ylt_end}, $A${ylt_start}:$A${ylt_end}, A{row})'
+        row = add_data_row(ws, [year, "", ""], row, formulas=[None, sum_formula, max_formula])
+    summary_end = row - 1
+    row += 2
+
+    # Return periods
+    return_periods = [10000, 5000, 1000, 500, 250, 200, 100, 50, 25, 10, 5, 2]
+    row = add_note(ws, "OEP/AEP CURVES (QUANTILE METHOD)", row)
+    row = add_table_header(ws, ["Return Period", "OEP Loss", "AEP Loss"], row)
+    rp_start = row
+    for rp in return_periods:
+        row = add_data_row(ws, [rp, "", ""], row)
+    rp_end = row - 1
+
+    oep_formula = (
+        f'=ACT_OEP_CURVE_RP($C${summary_start}:$C${summary_end}, '
+        f'$A${rp_start}:$A${rp_end}, FALSE)'
+    )
+    aep_formula = (
+        f'=ACT_AEP_CURVE_RP($B${summary_start}:$B${summary_end}, '
+        f'$A${rp_start}:$A${rp_end}, FALSE)'
+    )
+    ws.cell(row=rp_start, column=2, value=oep_formula).border = THIN_BORDER
+    ws.cell(row=rp_start, column=3, value=aep_formula).border = THIN_BORDER
+
+    return ws
+
+
 def create_interpolation_sheet(wb):
     """Create the Interpolation examples sheet."""
     ws = wb.create_sheet("Interpolation")
@@ -1169,6 +1305,12 @@ def main():
 
     print("Creating Reinsurance sheet...")
     create_reinsurance_sheet(wb)
+
+    print("Creating Cat Modeling sheet...")
+    create_cat_modeling_sheet(wb)
+
+    print("Creating ELT to EP sheet...")
+    create_elt_to_ep_sheet(wb)
 
     print("Creating Interpolation sheet with chart...")
     create_interpolation_sheet(wb)
