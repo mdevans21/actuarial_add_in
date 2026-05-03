@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="OnRibbonLoad">
+  <ribbon>
+    <tabs>
+      <tab id="ActuarialTab" label="Actuarial">
+        <group id="VersionGroup" label="Version">
+          <button id="InsertVersionsButton"
+                  label="Insert Versions Sheet"
+                  size="large"
+                  onAction="OnInsertVersionsSheet"
+                  imageMso="VersionsRestore"
+                  screentip="Insert Versions Sheet"
+                  supertip="Creates or updates a Versions worksheet showing the add-in version history and GitHub commits." />
+          <button id="RefreshVersionsButton"
+                  label="Refresh Versions"
+                  size="normal"
+                  onAction="OnRefreshVersionsSheet"
+                  imageMso="Refresh"
+                  screentip="Refresh Versions Sheet"
+                  supertip="Updates the existing Versions worksheet with the latest version information." />
+        </group>
+        <group id="HelpGroup" label="Help">
+          <button id="AboutButton"
+                  label="About"
+                  size="normal"
+                  onAction="OnShowAbout"
+                  imageMso="Info"
+                  screentip="About Actuarial Add-In"
+                  supertip="Shows information about the Actuarial Add-In including version and credits." />
+          <button id="GitHubButton"
+                  label="GitHub"
+                  size="normal"
+                  onAction="OnOpenGitHub"
+                  imageMso="BlogHomePage"
+                  screentip="Open GitHub Repository"
+                  supertip="Opens the Actuarial Add-In GitHub repository in your browser." />
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

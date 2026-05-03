@@ -1,0 +1,128 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+env:
+  # Opt in to the Node.js 24 runtime for JavaScript actions. GitHub will make
+  # this the default in June 2026; opting in now silences the deprecation
+  # warnings and exercises the new runtime ahead of the forced migration.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ActuarialAddIn.sln
+
+    - name: Build
+      run: dotnet build ActuarialAddIn.sln --configuration Release --no-restore
+
+    - name: Run Tests
+      run: dotnet run --project src/ActuarialAddIn.Tests/ActuarialAddIn.Tests.csproj --configuration Release -- test_results.md
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: test_results.md
+
+    - name: Upload Add-In Outputs JSON
+      uses: actions/upload-artifact@v4
+      with:
+        name: addin-outputs-json
+        path: tests/fixtures/addin_outputs.json
+
+    - name: Upload Add-In
+      uses: actions/upload-artifact@v4
+      with:
+        name: actuarial-addin
+        path: |
+          src/ActuarialAddIn/bin/Release/net6.0-windows/*.xll
+          src/ActuarialAddIn/bin/Release/net6.0-windows/ActuarialAddIn.dll
+
+  reconcile:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Download Add-In Outputs JSON
+      uses: actions/download-artifact@v4
+      with:
+        name: addin-outputs-json
+        path: tests/fixtures/
+
+    - name: Install Python deps
+      run: pip install -r tests/requirements.txt
+
+    - name: Regenerate notebook from source
+      run: python tests/build_reconciliation_notebook.py
+
+    - name: Execute reconciliation notebook (Basic must pass)
+      run: papermill tests/reconciliation.ipynb tests/reconciliation_executed.ipynb --log-output
+
+    - name: Upload executed notebook
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: reconciliation-executed
+        path: tests/reconciliation_executed.ipynb
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build Release
+      run: dotnet build ActuarialAddIn.sln --configuration Release
+
+    - name: Create Release Package
+      run: |
+        mkdir release
+        copy src\ActuarialAddIn\bin\Release\net6.0-windows\*.xll release\
+        copy src\ActuarialAddIn\bin\Release\net6.0-windows\ActuarialAddIn.dll release\
+
+    - name: Upload Release Assets
+      # Pinned to commit SHA (softprops/action-gh-release v2) per
+      # pinned to a specific commit SHA to avoid tag-hijack on a floating
+      # floating v1/v2 tag.
+      uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
+      with:
+        files: release/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

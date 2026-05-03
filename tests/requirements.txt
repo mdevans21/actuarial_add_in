@@ -1,0 +1,11 @@
+# Requirements for Actuarial Add-In benchmark tests
+scipy>=1.10.0
+numpy>=1.24.0
+pandas>=2.0.0
+chainladder>=0.8.0
+matplotlib>=3.7.0
+jupyter>=1.0.0
+ipykernel>=6.0.0
+openpyxl>=3.1.0
+papermill>=2.4.0
+nbformat>=5.0.0
