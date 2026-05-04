@@ -96,6 +96,55 @@ The notebook is regenerated from
 plain Python. Re-running the generator after adding a reconciliation is
 idempotent.
 
+The final cell asserts every harness function name (less six trivial
+metadata exemptions) has at least one `record(SECTION, Result(...))`
+call. Adding a new C# function without wiring it through the notebook
+fails the build.
+
+### End-to-end dump test (live Excel + XLL)
+
+The C# harness exercises the same code on Linux through MathNet/dotnet
+directly — useful but not the same as running through Excel-DNA's
+hosted CLR inside Excel. The dump test runs the workbook *under a
+freshly-loaded XLL in a real Excel COM session* and dumps every cell.
+
+From WSL2 (the typical setup — bash side handles `gh` auth, Windows
+side runs Excel):
+
+```bash
+# Latest release
+scripts/run_dump.sh
+
+# Specific tag
+scripts/run_dump.sh v0.7.0
+
+# Keep the scratch dir for inspection
+KEEP=1 scripts/run_dump.sh v0.7.0
+```
+
+Mechanics: `run_dump.sh` `gh release download`s the .xll + .xlsx,
+copies them and `scripts/dump_workbook.ps1` to a Windows-visible
+scratch dir, invokes `powershell.exe` over WSL interop, and copies
+the resulting JSON back to:
+
+- `tests/actuarial_add_in_dump.json` — `{sheet, cell, function,
+  formula, value}` for every cell whose formula contains an `ACT_*(`
+  call (matches direct calls *and* `INDEX(ACT_X(...), n)` wrappers).
+- `tests/actuarial_add_in_cells.json` — sidecar map of every
+  non-empty cell's resolved value, used by the audit comparator to
+  resolve cell refs in formulas like `=ACT_CL_FACTORS(B7:K16)` to the
+  corresponding harness records.
+
+Requirements (one-time, all on the Windows host):
+- Excel installed (any modern version).
+- `Microsoft.WindowsDesktop.App 6.x` (matches the XLL's target
+  framework). Verify with `dotnet --list-runtimes`.
+- `gh` CLI on the WSL side, authenticated.
+
+A typical run takes ~10 s end-to-end and produces 1372 records on the
+v0.7.0 workbook. The dump should reconcile bit-exact against the C#
+harness for every cell whose args appear in both surfaces.
+
 ### Test-data reference
 
 Shared parameters between the C# harness, the reconciliation notebook,
@@ -350,8 +399,10 @@ actuarial_add_in/
 ├── scripts/
 │   ├── populate_examples.py    # step 1 of spreadsheet regen
 │   ├── fix_array_formulas.py   # step 2 of spreadsheet regen
-│   ├── check_workbook.py       # Windows: dump every ACT_ cell to JSON
-│   └── setup_and_check.ps1     # Windows: clone+build+dump in one command
+│   ├── dump_workbook.ps1       # PowerShell: load XLL via Excel COM, dump cells
+│   ├── run_dump.sh             # WSL: gh-download + drive dump_workbook.ps1
+│   ├── check_workbook.py       # legacy: same job, xlwings-based
+│   └── setup_and_check.ps1     # legacy: pure-Windows wrapper for check_workbook.py
 ├── .github/workflows/
 │   ├── build.yml      # build + reconcile job
 │   └── release.yml    # tag → GitHub release

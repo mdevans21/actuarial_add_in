@@ -6,7 +6,7 @@
 [![Platform: Excel (Windows)](https://img.shields.io/badge/Excel-2016%2B%20%7C%20365-217346)](https://www.microsoft.com/microsoft-365/excel)
 [![.NET 6.0](https://img.shields.io/badge/.NET-6.0-512BD4)](https://dotnet.microsoft.com/)
 
-> A native Excel add-in that brings ~180 general-insurance actuarial
+> A native Excel add-in that brings 174 general-insurance actuarial
 > functions — **chain ladder**, **Mack standard errors**, **ODP bootstrap**,
 > **MBBEFD / Swiss Re exposure curves**, **Panjer recursion**, **copulas**,
 > **cat modelling (ELT → YLT → OEP)**, **17 loss distributions** with
@@ -88,7 +88,7 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 |---|---|---|---|
 | **Distributions** (continuous, discrete, ZT, ZM, composite, LEV) | 96 | Lognormal, Gamma, Pareto I/III/IV, GPD, Weibull, Burr, Beta, Inverse Gaussian, Loglogistic, Poisson, NegBin, plus zero-truncated & zero-modified variants and 12 LEV functions | Klugman, Panjer & Willmot, *Loss Models* |
 | **Parameter fitting** (MLE) | 10 | `ACT_DIST_*_FIT` for Exp, Poisson, Lognormal, Gamma, Pareto, Weibull, GPD, Beta, NegBin, Burr | scipy.stats |
-| **Chain ladder** | 18 | Volume-weighted LDFs, Mack SE, IBNR, BF, Cape Cod, triangle utilities | Mack (1993); England & Verrall (2002) |
+| **Chain ladder** | 9 | Volume-weighted LDFs, Mack standard errors, IBNR, Bornhuetter-Ferguson | Mack (1993); England & Verrall (2002) |
 | **Aggregate claims** | 12 | Panjer recursion (Poisson / NegBin / Binomial), severity discretisation, VaR, TVaR | Klugman ch. 6 |
 | **Exposure curves / ILF** | 9 | MBBEFD, Swiss Re curves 1–5, Lloyd's Y1–Y4, Riebesell, power, Pareto ILF | Bernegger (1997) |
 | **Cat modelling** | 7 | ELT → YLT simulation, OEP/AEP empirical curves, VaR/TVaR from samples | McNeil / Frey / Embrechts |
@@ -97,7 +97,7 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 | **ODP bootstrap** ⚠️ experimental | 2 | `ACT_CL_BOOTSTRAP` + `_ORIGIN`, full E&V 2002 with GLM hat matrix, per-period φⱼ, Bessel correction; reconciles per-origin to England (2010) slide 35 | England & Verrall (2002), England (2010) |
 | **Interpolation & version info** | 9 | 1D / log / 2D bilinear, version badges inside the sheet | — |
 
-**Total:** ~183 worksheet functions. See the
+**Total:** 174 worksheet functions. See the
 [full function reference](#function-reference) below or use Excel's
 **Insert Function** dialog and pick the `Actuarial.*` category.
 
@@ -296,8 +296,9 @@ scalar (one-parameter fits) or a horizontal array of parameters.
 | `ACT_DIST_NEGBIN_FIT(data)` | `{r, p}` | method-of-moments |
 | `ACT_DIST_BURR_FIT(data)` | `{c, k, λ}` | MLE (numeric optimisation) |
 
-All fits return a short string diagnostic (prefixed `Error:`) on
-degenerate or invalid input.
+All fits return `#VALUE!` on degenerate or invalid input (the C# code
+emits `ExcelError.ExcelErrorValue` so Excel renders a real cell error
+rather than a text string).
 
 ### Chain ladder & reserving
 
@@ -312,17 +313,10 @@ the reconciliation notebook.
 | `ACT_CL_IBNR(tri, [vertical])` | reserves = ultimate − paid | |
 | `ACT_CL_LATEST(tri, [vertical])` | latest diagonal | |
 | `ACT_BF_ULTIMATE(tri, factors, apriori)` | Bornhuetter-Ferguson | BF (1972) |
-| `ACT_CAPECOD_ULTIMATE(tri, factors, premium)` | Cape Cod method | |
-| `ACT_CAPECOD_ELR(tri, factors, premium)` | Cape Cod ELR | |
 | `ACT_MACK_FACTOR_SE(tri, [vertical])` | standard error of LDFs | Mack (1993) |
 | `ACT_MACK_RESERVE_SE(tri, [vertical])` | reserve SE by AY | Mack (1993, 1999) |
 | `ACT_CL_BOOTSTRAP(tri, iter, [seed], [method])` ⚠️ | total reserve distribution | England & Verrall (2002) |
 | `ACT_CL_BOOTSTRAP_ORIGIN(tri, iter, [seed], [method])` ⚠️ | reserve distribution by AY | |
-
-**Triangle utilities:** `ACT_TRIANGLE_TO_INCREMENTAL`,
-`ACT_INCREMENTAL_TO_CUMULATIVE`, `ACT_TRIANGLE_DIAGONAL`,
-`ACT_TRIANGLE_LINK_RATIOS`, `ACT_CL_CALENDAR_ADJUST`,
-`ACT_CL_CALENDAR_TOTALS`, `ACT_CL_WEIGHTED_AVERAGE`.
 
 **Bootstrap modes:** pass `method = "EV"` (default) for full
 England & Verrall 2002 non-constant-scale ODP with hat-matrix adjustment
