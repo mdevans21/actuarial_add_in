@@ -2532,7 +2532,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B225",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2777,7 +2777,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B251",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2792,7 +2792,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B252",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2812,7 +2812,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B255",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2827,7 +2827,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B256",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2847,7 +2847,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B259",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2862,7 +2862,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B260",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2897,7 +2897,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B264",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2912,7 +2912,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B265",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2947,7 +2947,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B269",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -2962,7 +2962,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B270",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -9357,7 +9357,7 @@
     {
         "sheet":  "Cat Modeling",
         "cell":  "A16",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Cat Modeling",
@@ -10872,7 +10872,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B57",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10887,7 +10887,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B58",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10902,7 +10902,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B59",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10912,7 +10912,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B60",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10922,7 +10922,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B61",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10932,7 +10932,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B62",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10942,7 +10942,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B63",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10952,7 +10952,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B64",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10962,7 +10962,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B65",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10972,7 +10972,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B66",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10982,7 +10982,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B67",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11037,12 +11037,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11057,17 +11057,17 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "F71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11077,12 +11077,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11092,22 +11092,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11117,12 +11117,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11132,22 +11132,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11157,12 +11157,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11172,22 +11172,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11197,12 +11197,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11212,22 +11212,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11237,12 +11237,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11252,22 +11252,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11277,12 +11277,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11292,22 +11292,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11317,12 +11317,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11332,22 +11332,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11357,12 +11357,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11372,22 +11372,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11397,12 +11397,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -11412,22 +11412,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -12002,17 +12002,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B19",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C19",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D19",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12022,17 +12022,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B20",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C20",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D20",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12042,17 +12042,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B21",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C21",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D21",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12062,17 +12062,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B22",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C22",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D22",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12082,17 +12082,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B23",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C23",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D23",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12102,17 +12102,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B24",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C24",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D24",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12122,17 +12122,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B25",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C25",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D25",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12142,17 +12142,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B26",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C26",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D26",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12162,17 +12162,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B27",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C27",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D27",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12182,17 +12182,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B28",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C28",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D28",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12202,17 +12202,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B29",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C29",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D29",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12222,17 +12222,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B30",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C30",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D30",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12242,17 +12242,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B31",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C31",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D31",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12262,17 +12262,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B32",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C32",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D32",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12282,17 +12282,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B33",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C33",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D33",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12302,17 +12302,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B34",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C34",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D34",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12322,17 +12322,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B35",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C35",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D35",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12342,17 +12342,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B36",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C36",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D36",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12362,17 +12362,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B37",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C37",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D37",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12382,17 +12382,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B38",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C38",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D38",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12402,17 +12402,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B39",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C39",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D39",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12422,17 +12422,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B40",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C40",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D40",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12442,17 +12442,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B41",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C41",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D41",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12462,17 +12462,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B42",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C42",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D42",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12482,17 +12482,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B43",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C43",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D43",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12502,17 +12502,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B44",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C44",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D44",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12522,17 +12522,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B45",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C45",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D45",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12542,17 +12542,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B46",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C46",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D46",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12562,17 +12562,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B47",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C47",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D47",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12582,17 +12582,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B48",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C48",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D48",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12602,17 +12602,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B49",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C49",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D49",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12622,17 +12622,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B50",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C50",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D50",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12642,17 +12642,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B51",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C51",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D51",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12662,17 +12662,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B52",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C52",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D52",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12682,17 +12682,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B53",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C53",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D53",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12702,17 +12702,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B54",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C54",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D54",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12722,17 +12722,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B55",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C55",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D55",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12742,17 +12742,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B56",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C56",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D56",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12762,17 +12762,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B57",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C57",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D57",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12782,17 +12782,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B58",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C58",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D58",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12802,17 +12802,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B59",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C59",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D59",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12822,17 +12822,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B60",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C60",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D60",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12842,17 +12842,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B61",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C61",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D61",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12862,17 +12862,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B62",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C62",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D62",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12882,17 +12882,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B63",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C63",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D63",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12902,17 +12902,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B64",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C64",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D64",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12922,17 +12922,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B65",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C65",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D65",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12942,17 +12942,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B66",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C66",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D66",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12962,17 +12962,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B67",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C67",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D67",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -12982,17 +12982,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B68",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C68",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D68",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13002,17 +13002,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B69",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C69",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D69",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13022,17 +13022,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B70",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C70",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D70",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13042,17 +13042,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D71",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13062,17 +13062,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D72",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13082,17 +13082,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D73",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13102,17 +13102,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D74",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13122,17 +13122,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D75",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13142,17 +13142,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D76",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13162,17 +13162,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D77",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13182,17 +13182,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D78",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13202,17 +13202,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D79",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13222,17 +13222,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D80",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13242,17 +13242,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B81",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C81",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D81",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13262,17 +13262,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B82",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C82",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D82",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13282,17 +13282,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B83",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C83",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D83",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13302,17 +13302,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B84",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C84",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D84",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13322,17 +13322,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B85",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C85",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D85",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13342,17 +13342,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B86",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C86",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D86",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13362,17 +13362,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B87",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C87",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D87",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13382,17 +13382,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B88",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C88",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D88",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13402,17 +13402,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B89",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C89",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D89",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13422,17 +13422,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B90",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C90",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D90",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13442,17 +13442,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B91",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C91",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D91",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13462,17 +13462,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B92",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C92",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D92",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13482,17 +13482,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B93",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C93",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D93",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13502,17 +13502,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B94",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C94",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D94",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13522,17 +13522,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B95",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C95",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D95",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13542,17 +13542,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B96",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C96",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D96",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13562,17 +13562,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B97",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C97",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D97",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13582,17 +13582,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B98",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C98",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D98",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13602,17 +13602,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B99",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C99",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D99",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13622,17 +13622,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B100",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C100",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D100",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13642,17 +13642,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B101",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C101",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D101",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13662,17 +13662,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B102",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C102",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D102",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13682,17 +13682,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B103",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C103",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D103",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13702,17 +13702,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B104",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C104",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D104",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13722,17 +13722,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B105",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C105",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D105",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13742,17 +13742,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B106",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C106",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D106",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13762,17 +13762,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B107",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C107",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D107",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13782,17 +13782,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B108",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C108",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D108",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13802,17 +13802,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B109",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C109",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D109",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13822,17 +13822,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B110",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C110",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D110",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13842,17 +13842,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B111",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C111",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D111",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13862,17 +13862,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B112",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C112",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D112",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13882,17 +13882,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B113",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C113",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D113",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13902,17 +13902,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B114",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C114",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D114",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13922,17 +13922,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B115",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C115",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D115",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13942,17 +13942,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B116",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C116",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D116",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13962,17 +13962,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B117",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C117",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D117",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
@@ -13982,17 +13982,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B118",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C118",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D118",
-        "value":  -2146826273
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",

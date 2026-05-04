@@ -14,7 +14,7 @@ public static partial class ChainLadder
     public static object[,] ACT_CL_BOOTSTRAP(
         [ExcelArgument(Description = "Cumulative triangle (n x n, zeros for future cells)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations (recommend 10000+)")] int iterations,
-        [ExcelArgument(Description = "Random seed for reproducibility (leave blank for system seed)")] int? seed = null,
+        [ExcelArgument(Description = "Random seed for reproducibility (leave blank for system seed)")] object? seed = null,
         [ExcelArgument(Description = "Method: 'EV' (default) = full England & Verrall (2002) with hat matrix, per-period phi, pseudo-diagonal. 'CHAINLADDER-PYTHON' = chainladder-python compatible with constant phi and original diagonal.")] string method = "EV")
     {
         int n = triangle.GetLength(0);
@@ -24,7 +24,7 @@ public static partial class ChainLadder
         if (iterations <= 0)
             return new object[,] { { "Error: Iterations must be positive" } };
 
-        var rng = seed is null ? new Random() : new Random(seed.Value);
+        var rng = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
         var factors = GetFactorsArray(triangle);
 
         double[,] fittedIncr;
@@ -90,7 +90,7 @@ public static partial class ChainLadder
     public static object[,] ACT_CL_BOOTSTRAP_ORIGIN(
         [ExcelArgument(Description = "Cumulative triangle (n x n, zeros for future cells)")] double[,] triangle,
         [ExcelArgument(Description = "Number of bootstrap iterations (recommend 10000+)")] int iterations,
-        [ExcelArgument(Description = "Random seed for reproducibility (leave blank for system seed)")] int? seed = null,
+        [ExcelArgument(Description = "Random seed for reproducibility (leave blank for system seed)")] object? seed = null,
         [ExcelArgument(Description = "Method: 'EV' (default) = full England & Verrall (2002). 'CHAINLADDER-PYTHON' = chainladder-python compatible with constant phi and original diagonal.")] string method = "EV")
     {
         int n = triangle.GetLength(0);
@@ -100,7 +100,7 @@ public static partial class ChainLadder
         if (iterations <= 0)
             return new object[,] { { "Error: Iterations must be positive" } };
 
-        var rng = seed is null ? new Random() : new Random(seed.Value);
+        var rng = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
         var factors = GetFactorsArray(triangle);
 
         double[,] fittedIncr;

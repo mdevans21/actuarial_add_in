@@ -15,7 +15,7 @@ public static class CatModeling
         [ExcelArgument(Description = "Event annual rates (column)")] double[] eventRates,
         [ExcelArgument(Description = "Event losses (column)")] double[] eventLosses,
         [ExcelArgument(Description = "Number of simulation years")] int years,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null,
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null,
         [ExcelArgument(Description = "Include header row")] bool includeHeader = true)
     {
         if (eventRates.Length != eventLosses.Length || eventRates.Length == 0)
@@ -30,7 +30,7 @@ public static class CatModeling
                 return new object[,] { { "Error: Rates and losses must be non-negative" } };
         }
 
-        var rng = seed is null ? new Random() : new Random(seed.Value);
+        var rng = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
         int rows = years + (includeHeader ? 1 : 0);
         var result = new object[rows, 4];
         int row = 0;

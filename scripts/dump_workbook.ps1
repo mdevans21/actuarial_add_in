@@ -50,6 +50,44 @@ foreach ($p in @($Xll, $Workbook)) {
 # are all INDEX-wrapped to extract a single value from the array result.
 $rxAct = [regex] '\b(ACT_[A-Z0-9_]+)\s*\('
 
+# Excel COM Variant CVErr codes -> human-readable error names. When a cell
+# evaluates to one of the seven Excel errors, Range.Value2 returns the integer
+# below; we want "#VALUE!" in the JSON, not "-2146826273".
+$xlErrCodes = @{
+    -2146826281 = '#DIV/0!'
+    -2146826246 = '#N/A'
+    -2146826259 = '#NAME?'
+    -2146826288 = '#NULL!'
+    -2146826252 = '#NUM!'
+    -2146826265 = '#REF!'
+    -2146826273 = '#VALUE!'
+}
+
+function Format-CellValue($v) {
+    if ($null -eq $v) { return $null }
+    # Excel COM Variant CVErr codes for the seven Excel errors arrive typed as
+    # [double] (not [int]) when read via Range.Value2 in PowerShell. The hash
+    # table uses int32 keys (PowerShell @{} default), so we must cast to int32
+    # for ContainsKey to match — int64 silently fails the lookup.
+    if ($v -is [double]) {
+        if ([double]::IsNaN($v))                  { return 'NaN' }
+        if ([double]::IsPositiveInfinity($v))     { return 'Infinity' }
+        if ([double]::IsNegativeInfinity($v))     { return '-Infinity' }
+        if ($v -eq [math]::Floor($v) -and $v -ge -2147483648 -and $v -le 2147483647) {
+            $asInt = [int32]$v
+            if ($xlErrCodes.ContainsKey($asInt))  { return $xlErrCodes[$asInt] }
+        }
+        return $v
+    }
+    if ($v -is [int] -or $v -is [long]) {
+        $asInt = [int32]$v
+        if ($xlErrCodes.ContainsKey($asInt))      { return $xlErrCodes[$asInt] }
+        return $v
+    }
+    if ($v -is [datetime]) { return $v.ToString('o') }
+    return "$v"
+}
+
 $xl = New-Object -ComObject Excel.Application
 $xl.Visible = $false
 $xl.DisplayAlerts = $false
@@ -116,15 +154,9 @@ try {
                                 $s
                             } ($c0 + $ci - 1)
                         ), ($r0 + $ri - 1)
-                        $vAll = if ($v -is [double]) {
-                            if ([double]::IsNaN($v))                    { 'NaN' }
-                            elseif ([double]::IsPositiveInfinity($v))   { 'Infinity' }
-                            elseif ([double]::IsNegativeInfinity($v))   { '-Infinity' }
-                            else { $v }
-                        } elseif ($v -is [datetime]) { $v.ToString('o') }
-                        else { $v }
                         $cellValues.Add([pscustomobject]@{
-                            sheet = $sht.Name; cell = $cellAddrAll; value = $vAll
+                            sheet = $sht.Name; cell = $cellAddrAll
+                            value = Format-CellValue $v
                         })
                     }
 
@@ -134,18 +166,7 @@ try {
                     if (-not $m.Success) { continue }
                     $fnName = $m.Groups[1].Value
 
-                    # Excel sometimes returns DBNull, doubles, dates, errors —
-                    # normalise so JSON round-trips cleanly. NaN/Infinity become
-                    # the same string sentinels the C# harness uses.
-                    if ($null -eq $v) { $vOut = $null }
-                    elseif ($v -is [double]) {
-                        if ([double]::IsNaN($v))      { $vOut = 'NaN' }
-                        elseif ([double]::IsPositiveInfinity($v)) { $vOut = 'Infinity' }
-                        elseif ([double]::IsNegativeInfinity($v)) { $vOut = '-Infinity' }
-                        else { $vOut = $v }
-                    }
-                    elseif ($v -is [datetime]) { $vOut = $v.ToString('o') }
-                    else { $vOut = "$v" }
+                    $vOut = Format-CellValue $v
 
                     $cellAddr = '{0}{1}' -f (
                         # Convert 1-based column index to letter(s).
@@ -191,11 +212,21 @@ try {
         [System.IO.File]::WriteAllText($cellsPath, $cellsJson, $utf8NoBom)
         Write-Host "Wrote $($cellValues.Count) cell values to $cellsPath"
 
-        # Surface failure modes the way the Python original did.
+        # Surface failure modes prominently. Earlier versions only matched on
+        # string values starting with `#`, but Excel COM Variant CVErr codes
+        # come through as integers (-2146826273 = #VALUE!, etc); Format-CellValue
+        # now decodes those to the human name, so the regex is reliable.
         $errors = @($records | Where-Object { $_.value -is [string] -and $_.value -match '^#' })
         $nones  = @($records | Where-Object { $null -eq $_.value })
         if ($errors.Count -gt 0) {
-            Write-Host "!! $($errors.Count) cell(s) returned an Excel error (#NAME?, #VALUE!, ...)" -ForegroundColor Yellow
+            Write-Host ""
+            Write-Host "!! $($errors.Count) cell(s) returned an Excel error:" -ForegroundColor Yellow
+            $errors | Group-Object value | Sort-Object Count -Descending | ForEach-Object {
+                Write-Host ("   {0,-10} {1,4} cells, e.g. {2}!{3} {4}" -f
+                    $_.Name, $_.Count,
+                    $_.Group[0].sheet, $_.Group[0].cell, $_.Group[0].function) -ForegroundColor Yellow
+            }
+            Write-Host ""
         }
         $nonePct = if ($records.Count -gt 0) { 100.0 * $nones.Count / $records.Count } else { 0 }
         if ($nonePct -ge 90) {

@@ -5,6 +5,40 @@ ISO-8601. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.1] — 2026-05-04
+
+### Fixed
+- **`int? seed` parameters returned `#VALUE!` from Excel.** Every
+  stochastic function declared the optional seed as `int? seed = null`
+  (10 copula functions + 2 bootstrap variants + 1 cat ELT_TO_YLT, 13
+  in total). The C# harness — which calls these directly via MathNet
+  / dotnet — was happy with that signature, but ExcelDna 1.9.0
+  mis-marshalled `int?` from Excel-side numbers and *every* cell
+  calling these functions returned `#VALUE!`. The first complete
+  workbook dump under v0.7.0 surfaced 373 such cells (300 of them
+  Student-t copula INDEX cells on the Copulas sheet, 61 bootstrap
+  cells on Chain Ladder, plus the 12 demo cells on the All Functions
+  Test sheet).
+  - Replaced the registered type with `object seed = null` and
+    added `Functions/SeedUtil.cs` with a `ResolveSeed(object)` helper
+    that handles `null`, `ExcelMissing`, `ExcelEmpty`, `double`,
+    `int`, and `long` uniformly. Function bodies use
+    `SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();`.
+  - Linux harness output is bit-exact identical against v0.7.0
+    (zero diffs across all 547 records) — the marshalling fix is
+    Excel-side only.
+
+### Tooling
+- **Dump script now decodes Excel CVErr codes properly.** PowerShell
+  COM hands `Range.Value2` back as `[double]` for some cell types,
+  including the seven Excel error codes (e.g. `#VALUE!` arrives as
+  `-2146826273` typed as double, not int). The previous code only
+  caught int-typed CVErr lookups, so the 373 `#VALUE!` cells in the
+  v0.7.0 dump were silently logged as numeric `-2146826273` —
+  invisible to the post-dump error scan. `Format-CellValue` now does
+  the lookup whenever the value is a finite integer-valued number,
+  and decodes to the human-readable name (`#VALUE!`, `#NUM!`, etc).
+
 ## [0.7.0] — 2026-05-04
 
 Coverage-alignment release. The four test surfaces — C# definitions,

@@ -921,7 +921,7 @@
         "cell":  "B225",
         "function":  "ACT_CAT_ELT_TO_YLT",
         "formula":  "=INDEX(ACT_CAT_ELT_TO_YLT({0.01,0.02,0.05,0.1}, {1000000,500000,200000,50000}, 100, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -1026,42 +1026,42 @@
         "cell":  "B251",
         "function":  "ACT_COPULA_GAUSSIAN",
         "formula":  "=INDEX(ACT_COPULA_GAUSSIAN({1,0.5;0.5,1}, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B252",
         "function":  "ACT_COPULA_GAUSSIAN_SINGLE",
         "formula":  "=INDEX(ACT_COPULA_GAUSSIAN_SINGLE({1,0.5;0.5,1}, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B255",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T({1,0.5;0.5,1}, 5, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B256",
         "function":  "ACT_COPULA_STUDENT_T_SINGLE",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T_SINGLE({1,0.5;0.5,1}, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B259",
         "function":  "ACT_COPULA_CLAYTON",
         "formula":  "=INDEX(ACT_COPULA_CLAYTON(2, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B260",
         "function":  "ACT_COPULA_CLAYTON_SINGLE",
         "formula":  "=INDEX(ACT_COPULA_CLAYTON_SINGLE(2, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -1075,14 +1075,14 @@
         "cell":  "B264",
         "function":  "ACT_COPULA_FRANK",
         "formula":  "=INDEX(ACT_COPULA_FRANK(5, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B265",
         "function":  "ACT_COPULA_FRANK_SINGLE",
         "formula":  "=INDEX(ACT_COPULA_FRANK_SINGLE(5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -1096,14 +1096,14 @@
         "cell":  "B269",
         "function":  "ACT_COPULA_GUMBEL",
         "formula":  "=INDEX(ACT_COPULA_GUMBEL(2, 5, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B270",
         "function":  "ACT_COPULA_GUMBEL_SINGLE",
         "formula":  "=INDEX(ACT_COPULA_GUMBEL_SINGLE(2, 42), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "All Functions Test",
@@ -5569,7 +5569,7 @@
         "cell":  "A16",
         "function":  "ACT_CAT_ELT_TO_YLT",
         "formula":  "=ACT_CAT_ELT_TO_YLT(B9:B11, C9:C11, 1000, 42, FALSE)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Cat Modeling",
@@ -5961,427 +5961,427 @@
         "cell":  "B57",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 1, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B58",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 2, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B59",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 3, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B60",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 4, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B61",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 5, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B62",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 6, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B63",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 7, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B64",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 8, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B65",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 9, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B66",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 10, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B67",
         "function":  "ACT_CL_BOOTSTRAP",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP(B7:K16, B53, B54), 11, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B71",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 2, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C71",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 2, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F71",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 2, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G71",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 2, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H71",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 2, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B72",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 3, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C72",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 3, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F72",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 3, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G72",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 3, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H72",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 3, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B73",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 4, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C73",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 4, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F73",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 4, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G73",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 4, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H73",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 4, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B74",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 5, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C74",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 5, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F74",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 5, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G74",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 5, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H74",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 5, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B75",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 6, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C75",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 6, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F75",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 6, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G75",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 6, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H75",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 6, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B76",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 7, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C76",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 7, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F76",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 7, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G76",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 7, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H76",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 7, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B77",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 8, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C77",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 8, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F77",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 8, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G77",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 8, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H77",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 8, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B78",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 9, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C78",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 9, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F78",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 9, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G78",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 9, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H78",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 9, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B79",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 10, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C79",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 10, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F79",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 10, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G79",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 10, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H79",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 10, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "B80",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 11, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C80",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 11, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F80",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 11, 4)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G80",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 11, 5)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H80",
         "function":  "ACT_CL_BOOTSTRAP_ORIGIN",
         "formula":  "=INDEX(ACT_CL_BOOTSTRAP_ORIGIN(B7:K16, B53, B54), 11, 6)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Chain Ladder",
@@ -6661,2100 +6661,2100 @@
         "cell":  "B19",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 1, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C19",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 1, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D19",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 1, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B20",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 2, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C20",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 2, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D20",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 2, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B21",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 3, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C21",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 3, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D21",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 3, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B22",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 4, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C22",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 4, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D22",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 4, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B23",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 5, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C23",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 5, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D23",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 5, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B24",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 6, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C24",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 6, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D24",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 6, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B25",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 7, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C25",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 7, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D25",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 7, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B26",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 8, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C26",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 8, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D26",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 8, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B27",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 9, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C27",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 9, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D27",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 9, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B28",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 10, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C28",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 10, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D28",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 10, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B29",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 11, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C29",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 11, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D29",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 11, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B30",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 12, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C30",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 12, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D30",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 12, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B31",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 13, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C31",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 13, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D31",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 13, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B32",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 14, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C32",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 14, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D32",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 14, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B33",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 15, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C33",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 15, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D33",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 15, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B34",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 16, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C34",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 16, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D34",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 16, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B35",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 17, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C35",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 17, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D35",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 17, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B36",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 18, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C36",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 18, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D36",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 18, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B37",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 19, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C37",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 19, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D37",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 19, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B38",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 20, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C38",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 20, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D38",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 20, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B39",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 21, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C39",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 21, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D39",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 21, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B40",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 22, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C40",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 22, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D40",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 22, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B41",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 23, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C41",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 23, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D41",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 23, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B42",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 24, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C42",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 24, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D42",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 24, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B43",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 25, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C43",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 25, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D43",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 25, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B44",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 26, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C44",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 26, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D44",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 26, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B45",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 27, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C45",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 27, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D45",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 27, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B46",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 28, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C46",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 28, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D46",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 28, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B47",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 29, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C47",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 29, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D47",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 29, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B48",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 30, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C48",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 30, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D48",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 30, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B49",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 31, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C49",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 31, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D49",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 31, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B50",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 32, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C50",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 32, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D50",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 32, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B51",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 33, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C51",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 33, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D51",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 33, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B52",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 34, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C52",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 34, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D52",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 34, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B53",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 35, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C53",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 35, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D53",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 35, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B54",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 36, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C54",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 36, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D54",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 36, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B55",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 37, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C55",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 37, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D55",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 37, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B56",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 38, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C56",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 38, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D56",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 38, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B57",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 39, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C57",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 39, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D57",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 39, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B58",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 40, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C58",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 40, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D58",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 40, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B59",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 41, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C59",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 41, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D59",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 41, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B60",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 42, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C60",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 42, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D60",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 42, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B61",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 43, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C61",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 43, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D61",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 43, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B62",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 44, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C62",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 44, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D62",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 44, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B63",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 45, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C63",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 45, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D63",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 45, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B64",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 46, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C64",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 46, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D64",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 46, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B65",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 47, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C65",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 47, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D65",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 47, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B66",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 48, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C66",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 48, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D66",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 48, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B67",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 49, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C67",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 49, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D67",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 49, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B68",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 50, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C68",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 50, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D68",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 50, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B69",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 51, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C69",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 51, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D69",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 51, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B70",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 52, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C70",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 52, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D70",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 52, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B71",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 53, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C71",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 53, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D71",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 53, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B72",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 54, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C72",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 54, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D72",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 54, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B73",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 55, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C73",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 55, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D73",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 55, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B74",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 56, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C74",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 56, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D74",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 56, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B75",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 57, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C75",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 57, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D75",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 57, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B76",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 58, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C76",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 58, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D76",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 58, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B77",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 59, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C77",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 59, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D77",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 59, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B78",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 60, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C78",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 60, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D78",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 60, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B79",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 61, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C79",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 61, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D79",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 61, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B80",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 62, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C80",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 62, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D80",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 62, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B81",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 63, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C81",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 63, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D81",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 63, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B82",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 64, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C82",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 64, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D82",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 64, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B83",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 65, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C83",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 65, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D83",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 65, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B84",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 66, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C84",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 66, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D84",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 66, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B85",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 67, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C85",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 67, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D85",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 67, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B86",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 68, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C86",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 68, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D86",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 68, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B87",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 69, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C87",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 69, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D87",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 69, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B88",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 70, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C88",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 70, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D88",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 70, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B89",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 71, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C89",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 71, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D89",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 71, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B90",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 72, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C90",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 72, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D90",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 72, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B91",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 73, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C91",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 73, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D91",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 73, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B92",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 74, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C92",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 74, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D92",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 74, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B93",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 75, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C93",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 75, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D93",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 75, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B94",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 76, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C94",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 76, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D94",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 76, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B95",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 77, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C95",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 77, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D95",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 77, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B96",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 78, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C96",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 78, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D96",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 78, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B97",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 79, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C97",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 79, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D97",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 79, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B98",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 80, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C98",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 80, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D98",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 80, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B99",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 81, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C99",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 81, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D99",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 81, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B100",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 82, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C100",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 82, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D100",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 82, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B101",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 83, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C101",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 83, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D101",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 83, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B102",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 84, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C102",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 84, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D102",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 84, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B103",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 85, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C103",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 85, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D103",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 85, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B104",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 86, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C104",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 86, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D104",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 86, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B105",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 87, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C105",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 87, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D105",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 87, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B106",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 88, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C106",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 88, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D106",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 88, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B107",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 89, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C107",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 89, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D107",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 89, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B108",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 90, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C108",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 90, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D108",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 90, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B109",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 91, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C109",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 91, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D109",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 91, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B110",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 92, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C110",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 92, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D110",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 92, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B111",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 93, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C111",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 93, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D111",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 93, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B112",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 94, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C112",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 94, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D112",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 94, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B113",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 95, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C113",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 95, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D113",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 95, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B114",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 96, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C114",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 96, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D114",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 96, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B115",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 97, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C115",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 97, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D115",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 97, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B116",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 98, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C116",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 98, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D116",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 98, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B117",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 99, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C117",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 99, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D117",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 99, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "B118",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 100, 1)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "C118",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 100, 2)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Copulas",
         "cell":  "D118",
         "function":  "ACT_COPULA_STUDENT_T",
         "formula":  "=INDEX(ACT_COPULA_STUDENT_T(B7:D9, B12, B13, B14), 100, 3)",
-        "value":  "-2146826273"
+        "value":  "#VALUE!"
     },
     {
         "sheet":  "Aggregate Claims",

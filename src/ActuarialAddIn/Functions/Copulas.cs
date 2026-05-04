@@ -18,7 +18,7 @@ public static class Copulas
     public static object[,] ACT_COPULA_GAUSSIAN(
         [ExcelArgument(Description = "Correlation matrix (n x n). Must be symmetric and positive definite.")] double[,] correlationMatrix,
         [ExcelArgument(Description = "Number of samples to generate")] int numSamples,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         int n = correlationMatrix.GetLength(0);
         if (correlationMatrix.GetLength(1) != n)
@@ -29,7 +29,7 @@ public static class Copulas
 
         try
         {
-            var random = seed is null ? new Random() : new Random(seed.Value);
+            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
             var result = new object[numSamples, n];
 
             // Create correlation matrix
@@ -72,7 +72,7 @@ public static class Copulas
     [ExcelFunction(Description = "Generate a single row of correlated uniform random numbers using Gaussian copula", Category = "Actuarial.Experimental")]
     public static object[] ACT_COPULA_GAUSSIAN_SINGLE(
         [ExcelArgument(Description = "Correlation matrix (n x n). Must be symmetric and positive definite.")] double[,] correlationMatrix,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         var result = ACT_COPULA_GAUSSIAN(correlationMatrix, 1, seed);
 
@@ -96,7 +96,7 @@ public static class Copulas
         [ExcelArgument(Description = "Correlation matrix (n x n). Must be symmetric and positive definite.")] double[,] correlationMatrix,
         [ExcelArgument(Description = "Degrees of freedom (> 0). Lower values = heavier tails and stronger tail dependence. Typical values: 3-10 for insurance applications.")] double degreesOfFreedom,
         [ExcelArgument(Description = "Number of samples to generate")] int numSamples,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         int n = correlationMatrix.GetLength(0);
         if (correlationMatrix.GetLength(1) != n)
@@ -110,7 +110,7 @@ public static class Copulas
 
         try
         {
-            var random = seed is null ? new Random() : new Random(seed.Value);
+            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
             var result = new object[numSamples, n];
 
             // Create correlation matrix
@@ -163,7 +163,7 @@ public static class Copulas
     public static object[] ACT_COPULA_STUDENT_T_SINGLE(
         [ExcelArgument(Description = "Correlation matrix (n x n). Must be symmetric and positive definite.")] double[,] correlationMatrix,
         [ExcelArgument(Description = "Degrees of freedom (> 0). Lower values = heavier tails and stronger tail dependence.")] double degreesOfFreedom,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         var result = ACT_COPULA_STUDENT_T(correlationMatrix, degreesOfFreedom, 1, seed);
 
@@ -186,7 +186,7 @@ public static class Copulas
     public static object[,] ACT_COPULA_CLAYTON(
         [ExcelArgument(Description = "Theta parameter (> 0). Higher theta = stronger dependence. Kendall's tau = θ/(θ+2).")] double theta,
         [ExcelArgument(Description = "Number of samples to generate")] int numSamples,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         if (theta <= 0)
             return new object[,] { { "Error: Theta must be positive for Clayton copula" } };
@@ -196,7 +196,7 @@ public static class Copulas
 
         try
         {
-            var random = seed is null ? new Random() : new Random(seed.Value);
+            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
             var result = new object[numSamples, 2];
 
             for (int i = 0; i < numSamples; i++)
@@ -227,7 +227,7 @@ public static class Copulas
     [ExcelFunction(Description = "Generate a single pair of correlated uniform random numbers using Clayton copula", Category = "Actuarial.Experimental")]
     public static object[] ACT_COPULA_CLAYTON_SINGLE(
         [ExcelArgument(Description = "Theta parameter (> 0)")] double theta,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         var result = ACT_COPULA_CLAYTON(theta, 1, seed);
 
@@ -262,7 +262,7 @@ public static class Copulas
     public static object[,] ACT_COPULA_FRANK(
         [ExcelArgument(Description = "Theta parameter (non-zero). Positive = positive dependence, negative = negative dependence. Kendall's tau = 1 - 4*(1-D₁(θ))/θ where D₁ is Debye function.")] double theta,
         [ExcelArgument(Description = "Number of samples to generate")] int numSamples,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         if (Math.Abs(theta) < 1e-10)
             return new object[,] { { "Error: Theta cannot be zero for Frank copula" } };
@@ -272,7 +272,7 @@ public static class Copulas
 
         try
         {
-            var random = seed is null ? new Random() : new Random(seed.Value);
+            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
             var result = new object[numSamples, 2];
 
             double expTheta = Math.Exp(-theta);
@@ -304,7 +304,7 @@ public static class Copulas
     [ExcelFunction(Description = "Generate a single pair of correlated uniform random numbers using Frank copula", Category = "Actuarial.Experimental")]
     public static object[] ACT_COPULA_FRANK_SINGLE(
         [ExcelArgument(Description = "Theta parameter (non-zero)")] double theta,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         var result = ACT_COPULA_FRANK(theta, 1, seed);
 
@@ -344,7 +344,7 @@ public static class Copulas
     public static object[,] ACT_COPULA_GUMBEL(
         [ExcelArgument(Description = "Theta parameter (>= 1). Theta=1 is independence. Higher theta = stronger dependence. Kendall's tau = 1 - 1/θ.")] double theta,
         [ExcelArgument(Description = "Number of samples to generate")] int numSamples,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         if (theta < 1)
             return new object[,] { { "Error: Theta must be >= 1 for Gumbel copula" } };
@@ -354,7 +354,7 @@ public static class Copulas
 
         try
         {
-            var random = seed is null ? new Random() : new Random(seed.Value);
+            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
             var result = new object[numSamples, 2];
 
             // For Gumbel copula, use Marshall-Olkin algorithm with stable distribution
@@ -418,7 +418,7 @@ public static class Copulas
     [ExcelFunction(Description = "Generate a single pair of correlated uniform random numbers using Gumbel copula", Category = "Actuarial.Experimental")]
     public static object[] ACT_COPULA_GUMBEL_SINGLE(
         [ExcelArgument(Description = "Theta parameter (>= 1)")] double theta,
-        [ExcelArgument(Description = "Random seed; leave blank for system seed")] int? seed = null)
+        [ExcelArgument(Description = "Random seed; leave blank for system seed")] object? seed = null)
     {
         var result = ACT_COPULA_GUMBEL(theta, 1, seed);
 
