@@ -4,7 +4,7 @@
         "cell":  "B3",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.1"
+        "value":  "0.7.2"
     },
     {
         "sheet":  "Versions",
@@ -25,7 +25,7 @@
         "cell":  "B8",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.1"
+        "value":  "0.7.2"
     },
     {
         "sheet":  "Versions",
@@ -46,14 +46,14 @@
         "cell":  "B11",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  13
+        "value":  14
     },
     {
         "sheet":  "Versions",
         "cell":  "B12",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
+        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
     },
     {
         "sheet":  "All Functions Test",
@@ -1152,7 +1152,7 @@
         "cell":  "B304",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.1"
+        "value":  "0.7.2"
     },
     {
         "sheet":  "All Functions Test",
@@ -1173,14 +1173,14 @@
         "cell":  "B307",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  13
+        "value":  14
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B308",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"hash\")",
-        "value":  "v0.7.1"
+        "value":  "v0.7.2"
     },
     {
         "sheet":  "All Functions Test",
@@ -1194,7 +1194,7 @@
         "cell":  "B310",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
+        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
     },
     {
         "sheet":  "All Functions Test",
@@ -5576,98 +5576,98 @@
         "cell":  "G34",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 1, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H34",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 1, 2)",
-        "value":  0
+        "value":  15009999.999999763
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G35",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 2, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H35",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 2, 2)",
-        "value":  0
+        "value":  12500000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G36",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 3, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H36",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 3, 2)",
-        "value":  0
+        "value":  11000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G37",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 4, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H37",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 4, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G38",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 5, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H38",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 5, 2)",
-        "value":  0
+        "value":  10000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G39",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 6, 2)",
-        "value":  0
+        "value":  2500000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H39",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 6, 2)",
-        "value":  0
+        "value":  2500000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G40",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 7, 2)",
-        "value":  0
+        "value":  1000000
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H40",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 7, 2)",
-        "value":  0
+        "value":  1000000
     },
     {
         "sheet":  "Cat Modeling",
@@ -5688,14 +5688,14 @@
         "cell":  "A1019",
         "function":  "ACT_CAT_YLT_OEP_CURVE",
         "formula":  "=ACT_CAT_YLT_OEP_CURVE(C16:C1015, \"WEIBULL\", FALSE)",
-        "value":  1001
+        "value":  -2146826243
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "A1023",
         "function":  "ACT_CAT_YLT_AEP_CURVE",
         "formula":  "=ACT_CAT_YLT_AEP_CURVE(B16:B1015, \"WEIBULL\", FALSE)",
-        "value":  1001
+        "value":  -2146826243
     },
     {
         "sheet":  "Interpolation",
