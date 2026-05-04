@@ -82,12 +82,12 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 positive values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var logData = validData.Select(x => Math.Log(x)).ToArray();
         double mu = logData.Average();
@@ -105,18 +105,18 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 positive values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double mean = validData.Average();
         double variance = validData.Select(x => Math.Pow(x - mean, 2)).Sum() / (validData.Length - 1);
 
         if (variance <= 0)
-            return new object[] { "Error: Variance must be positive" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         // Method of moments: mean = alpha/beta, var = alpha/beta^2
         // So: beta = mean/var, alpha = mean * beta = mean^2/var
@@ -136,24 +136,24 @@ public static class Fitting
         [ExcelArgument(Description = "Known minimum xm (optional, uses min(data) if 0 or omitted)")] double knownXm = 0)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 positive values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double xm = knownXm > 0 ? knownXm : validData.Min();
 
         // Filter data >= xm
         var paretoData = validData.Where(x => x >= xm).ToArray();
         if (paretoData.Length < 2)
-            return new object[] { "Error: Need at least 2 values >= xm" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         // MLE for alpha: α = n / Σln(xi/xm)
         double sumLogRatios = paretoData.Select(x => Math.Log(x / xm)).Sum();
         if (sumLogRatios <= 0)
-            return new object[] { "Error: Invalid data for Pareto fit" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double alpha = paretoData.Length / sumLogRatios;
 
@@ -169,19 +169,19 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 positive values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double mean = validData.Average();
         double variance = validData.Select(x => Math.Pow(x - mean, 2)).Sum() / (validData.Length - 1);
         double cv = Math.Sqrt(variance) / mean;  // Coefficient of variation
 
         if (cv <= 0)
-            return new object[] { "Error: Coefficient of variation must be positive" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         // Approximate k from CV using empirical relationship
         // CV ≈ sqrt(Γ(1+2/k)/Γ(1+1/k)² - 1)
@@ -237,12 +237,12 @@ public static class Fitting
         [ExcelArgument(Description = "Exceedance data (positive values representing amounts over threshold)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 10)
-            return new object[] { "Error: Need at least 10 data points for reliable GPD fit" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).OrderBy(x => x).ToArray();
         if (validData.Length < 10)
-            return new object[] { "Error: Need at least 10 positive exceedances" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         int n = validData.Length;
 
@@ -264,13 +264,13 @@ public static class Fitting
         // sigma = 2*a0*a1/(a0 - 2*a1)
         double denom = a0 - 2 * a1;
         if (Math.Abs(denom) < 1e-10)
-            return new object[] { "Error: Cannot estimate parameters (data may be exponential)" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double xi = 2 - a0 / denom;
         double sigma = 2 * a0 * a1 / denom;
 
         if (sigma <= 0)
-            return new object[] { "Error: Estimated sigma is not positive (try different data)" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         return new object[] { xi, sigma };
     }
@@ -284,18 +284,18 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (values between 0 and 1)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0 && x < 1).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 values in (0,1)" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double mean = validData.Average();
         double variance = validData.Select(x => Math.Pow(x - mean, 2)).Sum() / (validData.Length - 1);
 
         if (variance <= 0)
-            return new object[] { "Error: Variance must be positive" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         // Method of moments for Beta:
         // mean = α/(α+β)
@@ -305,13 +305,13 @@ public static class Fitting
         double common = mean * (1 - mean) / variance - 1;
 
         if (common <= 0)
-            return new object[] { "Error: Variance too large for beta distribution" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double alpha = mean * common;
         double beta = (1 - mean) * common;
 
         if (alpha <= 0 || beta <= 0)
-            return new object[] { "Error: Estimated parameters are not positive" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         return new object[] { alpha, beta };
     }
@@ -325,18 +325,18 @@ public static class Fitting
         [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 2)
-            return new object[] { "Error: Need at least 2 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x >= 0).ToArray();
         if (validData.Length < 2)
-            return new object[] { "Error: Need at least 2 non-negative values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double mean = validData.Average();
         double variance = validData.Select(x => Math.Pow(x - mean, 2)).Sum() / (validData.Length - 1);
 
         if (variance <= mean)
-            return new object[] { "Error: Variance must exceed mean for negative binomial (overdispersion)" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         // Method of moments:
         // mean = r(1-p)/p
@@ -346,7 +346,7 @@ public static class Fitting
         double r = mean * mean / (variance - mean);
 
         if (p <= 0 || p >= 1 || r <= 0)
-            return new object[] { "Error: Invalid parameter estimates" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         return new object[] { r, p };
     }
@@ -360,12 +360,12 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length < 3)
-            return new object[] { "Error: Need at least 3 data points" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length < 3)
-            return new object[] { "Error: Need at least 3 positive values" };
+            return new object[] { ExcelError.ExcelErrorValue };
 
         double mean = validData.Average();
         double variance = validData.Select(x => Math.Pow(x - mean, 2)).Sum() / (validData.Length - 1);

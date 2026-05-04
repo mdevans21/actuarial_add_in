@@ -41,6 +41,7 @@ public static class AddinOutputsEmitter
         EmitChainLadder();
         EmitBootstrap();
         EmitCopulas();
+        EmitVersionMetadata();
 
         var payload = new
         {
@@ -270,6 +271,15 @@ public static class AddinOutputsEmitter
         R(g, "ACT_DIST_ZTNEGBIN_MEAN", new object?[] { 5.0, 0.3 }, Distributions.ACT_DIST_ZTNEGBIN_MEAN(5, 0.3));
         R(g, "ACT_DIST_ZTBINOM_MEAN", new object?[] { 10, 0.3 }, Distributions.ACT_DIST_ZTBINOM_MEAN(10, 0.3));
         R(g, "ACT_DIST_ZTGEOM_MEAN", new object?[] { 0.3 }, Distributions.ACT_DIST_ZTGEOM_MEAN(0.3));
+
+        // INV (quantile) — exercise across the [0,1] grid.
+        foreach (double p in new[] { 0.1, 0.25, 0.5, 0.75, 0.9 })
+        {
+            R(g, "ACT_DIST_ZTPOISSON_INV", new object?[] { p, 5.0 }, Distributions.ACT_DIST_ZTPOISSON_INV(p, 5));
+            R(g, "ACT_DIST_ZTNEGBIN_INV",  new object?[] { p, 5.0, 0.3 }, Distributions.ACT_DIST_ZTNEGBIN_INV(p, 5, 0.3));
+            R(g, "ACT_DIST_ZTBINOM_INV",   new object?[] { p, 10, 0.3 }, Distributions.ACT_DIST_ZTBINOM_INV(p, 10, 0.3));
+            R(g, "ACT_DIST_ZTGEOM_INV",    new object?[] { p, 0.3 }, Distributions.ACT_DIST_ZTGEOM_INV(p, 0.3));
+        }
     }
 
     private static void EmitZeroModified()
@@ -286,6 +296,12 @@ public static class AddinOutputsEmitter
         R(g, "ACT_DIST_ZMPOISSON_VAR", new object?[] { 5.0, 0.2 }, Distributions.ACT_DIST_ZMPOISSON_VAR(5, 0.2));
         R(g, "ACT_DIST_ZMNEGBIN_MEAN", new object?[] { 5.0, 0.3, 0.2 }, Distributions.ACT_DIST_ZMNEGBIN_MEAN(5, 0.3, 0.2));
         R(g, "ACT_DIST_ZMNEGBIN_VAR", new object?[] { 5.0, 0.3, 0.2 }, Distributions.ACT_DIST_ZMNEGBIN_VAR(5, 0.3, 0.2));
+
+        foreach (double p in new[] { 0.1, 0.25, 0.5, 0.75, 0.9 })
+        {
+            R(g, "ACT_DIST_ZMPOISSON_INV", new object?[] { p, 5.0, 0.2 }, Distributions.ACT_DIST_ZMPOISSON_INV(p, 5, 0.2));
+            R(g, "ACT_DIST_ZMNEGBIN_INV",  new object?[] { p, 5.0, 0.3, 0.2 }, Distributions.ACT_DIST_ZMNEGBIN_INV(p, 5, 0.3, 0.2));
+        }
     }
 
     private static void EmitParetoExtended()
@@ -450,7 +466,7 @@ public static class AddinOutputsEmitter
         R(g, "ACT_DISCRETIZE_LOGNORMAL", new object?[] { 0.0, 1.0, 0.5, 40 }, fLN);
 
         var gExp = (double[])Aggregate.ACT_PANJER_POISSON(2.0, fExp, 100);
-        R(g, "ACT_PANJER_POISSON_EXP", new object?[] { 2.0, "DISCRETIZE_EXPONENTIAL(1,0.5,40)", 100 }, gExp);
+        R(g, "ACT_PANJER_POISSON", new object?[] { 2.0, "DISCRETIZE_EXPONENTIAL(1,0.5,40)", 100 }, gExp);
         R(g, "ACT_AGGREGATE_MEAN", new object?[] { "gExp", 0.5 }, Aggregate.ACT_AGGREGATE_MEAN(gExp, 0.5));
         R(g, "ACT_AGGREGATE_STDEV", new object?[] { "gExp", 0.5 }, Aggregate.ACT_AGGREGATE_STDEV(gExp, 0.5));
         R(g, "ACT_AGGREGATE_VAR_STAT", new object?[] { "gExp", 0.5 }, Aggregate.ACT_AGGREGATE_VAR_STAT(gExp, 0.5));
@@ -554,8 +570,8 @@ public static class AddinOutputsEmitter
         var y = new double[] { 10, 20, 35, 55, 80 };
         foreach (double xq in new[] { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.0 })
         {
-            R(g, "ACT_INTERP_FLAT", new object?[] { x, y, xq, "FLAT" }, Interpolation.ACT_INTERP(x, y, xq, "FLAT"));
-            R(g, "ACT_INTERP_GRADIENT", new object?[] { x, y, xq, "GRADIENT" }, Interpolation.ACT_INTERP(x, y, xq, "GRADIENT"));
+            R(g, "ACT_INTERP", new object?[] { x, y, xq, "FLAT"     }, Interpolation.ACT_INTERP(x, y, xq, "FLAT"));
+            R(g, "ACT_INTERP", new object?[] { x, y, xq, "GRADIENT" }, Interpolation.ACT_INTERP(x, y, xq, "GRADIENT"));
             R(g, "ACT_INTERP_LOG", new object?[] { x, y, xq, "FLAT" }, Interpolation.ACT_INTERP_LOG(x, y, xq, "FLAT"));
         }
 
@@ -602,24 +618,6 @@ public static class AddinOutputsEmitter
         throw new InvalidOperationException($"Expected column-shaped output, got {excelResult?.GetType()}");
     }
 
-    private static double[,] UnboxDoubleMatrix(object[,] src)
-    {
-        int rows = src.GetLength(0), cols = src.GetLength(1);
-        var dst = new double[rows, cols];
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-            {
-                var v = src[i, j];
-                // ACT_TRIANGLE_TO_INCREMENTAL fills future cells with empty strings.
-                // Treat those as zeros for the downstream cum-incremental round-trip.
-                if (v is string s && string.IsNullOrEmpty(s))
-                    dst[i, j] = 0.0;
-                else
-                    dst[i, j] = Convert.ToDouble(v);
-            }
-        return dst;
-    }
-
     private static void EmitChainLadder()
     {
         const string g = "chain_ladder";
@@ -638,27 +636,6 @@ public static class AddinOutputsEmitter
 
         R(g, "ACT_MACK_FACTOR_SE", new object?[] { tri }, ChainLadder.ACT_MACK_FACTOR_SE(tri));
         R(g, "ACT_MACK_RESERVE_SE", new object?[] { tri }, ChainLadder.ACT_MACK_RESERVE_SE(tri));
-
-        var premium = latestD.Select(v => v / 0.7).ToArray();
-        // Signatures are (triangle, premium, developmentFactors) — premium goes second.
-        R(g, "ACT_CAPECOD_ULTIMATE", new object?[] { tri, premium, factorsD }, ChainLadder.ACT_CAPECOD_ULTIMATE(tri, premium, factorsD));
-        R(g, "ACT_CAPECOD_ELR", new object?[] { tri, premium, factorsD }, ChainLadder.ACT_CAPECOD_ELR(tri, premium, factorsD));
-
-        var incr = ChainLadder.ACT_TRIANGLE_TO_INCREMENTAL(tri);
-        R(g, "ACT_TRIANGLE_TO_INCREMENTAL", new object?[] { tri }, incr);
-
-        var incrD = UnboxDoubleMatrix(incr);
-        R(g, "ACT_INCREMENTAL_TO_CUMULATIVE", new object?[] { incrD }, ChainLadder.ACT_INCREMENTAL_TO_CUMULATIVE(incrD));
-
-        R(g, "ACT_TRIANGLE_DIAGONAL", new object?[] { tri }, ChainLadder.ACT_TRIANGLE_DIAGONAL(tri));
-        R(g, "ACT_TRIANGLE_LINK_RATIOS", new object?[] { tri }, ChainLadder.ACT_TRIANGLE_LINK_RATIOS(tri));
-
-        R(g, "ACT_CL_CALENDAR_ADJUST", new object?[] { tri, 0.03 }, ChainLadder.ACT_CL_CALENDAR_ADJUST(tri, 0.03));
-        R(g, "ACT_CL_CALENDAR_TOTALS", new object?[] { tri }, ChainLadder.ACT_CL_CALENDAR_TOTALS(tri));
-
-        // 50/50 weighted average of CL ultimate and BF apriori
-        R(g, "ACT_CL_WEIGHTED_AVERAGE", new object?[] { ultD, 0.5, apriori, 0.5 },
-            ChainLadder.ACT_CL_WEIGHTED_AVERAGE(ultD, 0.5, apriori, 0.5));
     }
 
     private static void EmitBootstrap()
@@ -671,16 +648,16 @@ public static class AddinOutputsEmitter
         // (modulo numpy vs System.Random sequence differences — comparison is
         // statistical, not bit-exact).
         var evTotal = ChainLadder.ACT_CL_BOOTSTRAP(tri, 10000, 42, "EV");
-        R(g, "ACT_CL_BOOTSTRAP_EV", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evTotal);
+        R(g, "ACT_CL_BOOTSTRAP", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evTotal);
 
         var evOrigin = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(tri, 10000, 42, "EV");
-        R(g, "ACT_CL_BOOTSTRAP_ORIGIN_EV", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evOrigin);
+        R(g, "ACT_CL_BOOTSTRAP_ORIGIN", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evOrigin);
 
         var clpTotal = ChainLadder.ACT_CL_BOOTSTRAP(tri, 10000, 42, "CHAINLADDER-PYTHON");
-        R(g, "ACT_CL_BOOTSTRAP_CLP", new object?[] { "TaylorAshe", 10000, 42, "CHAINLADDER-PYTHON" }, clpTotal);
+        R(g, "ACT_CL_BOOTSTRAP", new object?[] { "TaylorAshe", 10000, 42, "CHAINLADDER-PYTHON" }, clpTotal);
 
         var clpOrigin = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(tri, 10000, 42, "CHAINLADDER-PYTHON");
-        R(g, "ACT_CL_BOOTSTRAP_ORIGIN_CLP", new object?[] { "TaylorAshe", 10000, 42, "CHAINLADDER-PYTHON" }, clpOrigin);
+        R(g, "ACT_CL_BOOTSTRAP_ORIGIN", new object?[] { "TaylorAshe", 10000, 42, "CHAINLADDER-PYTHON" }, clpOrigin);
     }
 
     private static void EmitCopulas()
@@ -708,6 +685,13 @@ public static class AddinOutputsEmitter
         var gumbel = Copulas.ACT_COPULA_GUMBEL(2.0, 500, 42);
         R(g, "ACT_COPULA_GUMBEL", new object?[] { 2.0, 500, 42 }, gumbel);
 
+        // Single-row variants — one draw per call.
+        R(g, "ACT_COPULA_GAUSSIAN_SINGLE", new object?[] { corr, 42 }, Copulas.ACT_COPULA_GAUSSIAN_SINGLE(corr, 42));
+        R(g, "ACT_COPULA_STUDENT_T_SINGLE", new object?[] { corr, 5.0, 42 }, Copulas.ACT_COPULA_STUDENT_T_SINGLE(corr, 5.0, 42));
+        R(g, "ACT_COPULA_CLAYTON_SINGLE", new object?[] { 2.0, 42 }, Copulas.ACT_COPULA_CLAYTON_SINGLE(2.0, 42));
+        R(g, "ACT_COPULA_FRANK_SINGLE", new object?[] { 5.0, 42 }, Copulas.ACT_COPULA_FRANK_SINGLE(5.0, 42));
+        R(g, "ACT_COPULA_GUMBEL_SINGLE", new object?[] { 2.0, 42 }, Copulas.ACT_COPULA_GUMBEL_SINGLE(2.0, 42));
+
         // Analytical CDFs
         foreach (var (u, v) in new[] { (0.3, 0.7), (0.5, 0.5), (0.1, 0.9) })
         {
@@ -716,19 +700,31 @@ public static class AddinOutputsEmitter
             R(g, "ACT_COPULA_GUMBEL_CDF", new object?[] { u, v, 2.0 }, Copulas.ACT_COPULA_GUMBEL_CDF(u, v, 2));
         }
 
-        // Tau → theta conversions
+        // Tau → theta conversions (one record per copula type, real function name).
         foreach (double tau in new[] { 0.2, 0.5, 0.8 })
         {
-            R(g, "ACT_COPULA_TAU_TO_THETA_CLAYTON", new object?[] { tau, "CLAYTON" }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "CLAYTON"));
-            R(g, "ACT_COPULA_TAU_TO_THETA_FRANK", new object?[] { tau, "FRANK" }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "FRANK"));
-            R(g, "ACT_COPULA_TAU_TO_THETA_GUMBEL", new object?[] { tau, "GUMBEL" }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "GUMBEL"));
+            R(g, "ACT_COPULA_TAU_TO_THETA", new object?[] { tau, "CLAYTON" }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "CLAYTON"));
+            R(g, "ACT_COPULA_TAU_TO_THETA", new object?[] { tau, "FRANK"   }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "FRANK"));
+            R(g, "ACT_COPULA_TAU_TO_THETA", new object?[] { tau, "GUMBEL"  }, Copulas.ACT_COPULA_TAU_TO_THETA(tau, "GUMBEL"));
         }
 
-        // Tail dependence
-        R(g, "ACT_COPULA_TAIL_LOWER_GAUSSIAN", new object?[] { "GAUSSIAN", 0.5, 0.0 }, Copulas.ACT_COPULA_TAIL_LOWER("GAUSSIAN", 0.5));
-        R(g, "ACT_COPULA_TAIL_LOWER_T", new object?[] { "STUDENT_T", 0.5, 5.0 }, Copulas.ACT_COPULA_TAIL_LOWER("STUDENT_T", 0.5, 5));
-        R(g, "ACT_COPULA_TAIL_LOWER_CLAYTON", new object?[] { "CLAYTON", 2.0, 0.0 }, Copulas.ACT_COPULA_TAIL_LOWER("CLAYTON", 2));
-        R(g, "ACT_COPULA_TAIL_UPPER_GUMBEL", new object?[] { "GUMBEL", 2.0, 0.0 }, Copulas.ACT_COPULA_TAIL_UPPER("GUMBEL", 2));
-        R(g, "ACT_COPULA_TAIL_UPPER_T", new object?[] { "STUDENT_T", 0.5, 5.0 }, Copulas.ACT_COPULA_TAIL_UPPER("STUDENT_T", 0.5, 5));
+        // Tail dependence — real function names; copula type goes in args.
+        R(g, "ACT_COPULA_TAIL_LOWER", new object?[] { "GAUSSIAN",  0.5, 0.0 }, Copulas.ACT_COPULA_TAIL_LOWER("GAUSSIAN", 0.5));
+        R(g, "ACT_COPULA_TAIL_LOWER", new object?[] { "STUDENT_T", 0.5, 5.0 }, Copulas.ACT_COPULA_TAIL_LOWER("STUDENT_T", 0.5, 5));
+        R(g, "ACT_COPULA_TAIL_LOWER", new object?[] { "CLAYTON",   2.0, 0.0 }, Copulas.ACT_COPULA_TAIL_LOWER("CLAYTON", 2));
+        R(g, "ACT_COPULA_TAIL_UPPER", new object?[] { "GUMBEL",    2.0, 0.0 }, Copulas.ACT_COPULA_TAIL_UPPER("GUMBEL", 2));
+        R(g, "ACT_COPULA_TAIL_UPPER", new object?[] { "STUDENT_T", 0.5, 5.0 }, Copulas.ACT_COPULA_TAIL_UPPER("STUDENT_T", 0.5, 5));
+    }
+
+    private static void EmitVersionMetadata()
+    {
+        const string g = "version";
+        R(g, "ACT_VERSION",        new object?[] { }, ActuarialAddIn.Functions.Version.ACT_VERSION());
+        R(g, "ACT_BUILD_DATE",     new object?[] { }, ActuarialAddIn.Functions.Version.ACT_BUILD_DATE());
+        R(g, "ACT_GITHUB_URL",     new object?[] { }, ActuarialAddIn.Functions.Version.ACT_GITHUB_URL());
+        R(g, "ACT_COMMIT_COUNT",   new object?[] { }, ActuarialAddIn.Functions.Version.ACT_COMMIT_COUNT());
+        // Show the most recent commit; the array is what matters for the dump test.
+        R(g, "ACT_COMMIT_INFO",    new object?[] { 1 }, ActuarialAddIn.Functions.Version.ACT_COMMIT_INFO(1));
+        R(g, "ACT_COMMIT_HISTORY", new object?[] { }, ActuarialAddIn.Functions.Version.ACT_COMMIT_HISTORY());
     }
 }

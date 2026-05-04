@@ -5,6 +5,87 @@ ISO-8601. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-05-04
+
+Coverage-alignment release. The four test surfaces — C# definitions,
+Excel workbook formulas, harness records, notebook reconciliations —
+now contain **exactly the same 174 functions**. A coverage assertion
+in the notebook fails the build if any function is missing from any
+surface.
+
+### Removed (breaking)
+- **Cape Cod functions:** `ACT_CAPECOD_ULTIMATE`, `ACT_CAPECOD_ELR`.
+- **Triangle utilities:** `ACT_TRIANGLE_TO_INCREMENTAL`,
+  `ACT_INCREMENTAL_TO_CUMULATIVE`, `ACT_TRIANGLE_DIAGONAL`,
+  `ACT_TRIANGLE_LINK_RATIOS`.
+- **Other CL helpers:** `ACT_CL_WEIGHTED_AVERAGE`,
+  `ACT_CL_CALENDAR_ADJUST`, `ACT_CL_CALENDAR_TOTALS`.
+  (`ACT_CL_LATEST` retained.)
+- File `ChainLadderCapeCod.cs` deleted.
+
+### Added
+- **Spreadsheet:** new sections on the *Chain Ladder* sheet exercising
+  `ACT_CL_LATEST` (latest diagonal), `ACT_MACK_FACTOR_SE` (factor SEs),
+  and `ACT_BF_ULTIMATE` (Bornhuetter-Ferguson). The Windows dump test
+  now hits these on round-trip.
+- **Harness:** 17 previously-untested functions emit records — the 6
+  ZT/ZM `_INV` quantile functions, 5 single-row copula variants
+  (`*_SINGLE`), the three scalar copula helpers (`TAU_TO_THETA`,
+  `TAIL_LOWER`, `TAIL_UPPER` — now using their real names instead of
+  per-copula synthetic split keys), `ACT_CL_BOOTSTRAP` /
+  `ACT_CL_BOOTSTRAP_ORIGIN` (the underlying matrix-returning
+  variants), `ACT_INTERP` (scalar), and the version-metadata family
+  (`ACT_VERSION`, `ACT_BUILD_DATE`, `ACT_GITHUB_URL`,
+  `ACT_COMMIT_*`).
+- **Notebook reconciliations** added against external references:
+  - **Aggregate:** `ACT_AGGREGATE_VAR/TVAR/CDF` against numpy cumsum
+    on the Panjer PMF; `ACT_DISCRETIZE_EXP/GAMMA/LOGNORMAL` against
+    scipy CDF differences (Klugman 9.6 mass-dispersal); `ACT_AAL_FROM_OEP`
+    against the trapezoidal-EP integral.
+  - **Cat modelling:** `ACT_CAT_YLT_OEP_CURVE`, `_AEP_CURVE`,
+    `_OEP_CURVE_RP`, `_AEP_CURVE_RP` checked for monotonic, finite
+    non-negative loss vs return-period.
+  - **Chain ladder:** `ACT_CL_LATEST`, `ACT_CL_ULTIMATE`,
+    `ACT_BF_ULTIMATE`, `ACT_MACK_FACTOR_SE` against numpy on the
+    Taylor-Ashe triangle (E&V 2002 / Mack 1993).
+  - **Copulas (experimental):** `ACT_COPULA_FRANK_CDF` against the
+    analytic Frank generator; `ACT_COPULA_TAU_TO_THETA` (Clayton /
+    Gumbel closed-form, Frank via Debye D₁ round-trip);
+    `ACT_COPULA_TAIL_LOWER/UPPER` against closed-form λ formulae for
+    each copula type; `_SINGLE` variants checked for uniform marginal
+    range; bulk samples checked for column-mean ≈ 0.5.
+  - **Exposure curves:** `ACT_EXPOSURE_MBBEFD`, `_SWISSRE`,
+    `_RIEBESELL`, `_RIEBESELL_INV`, `_LAYER_RATE` against Bernegger
+    (1997) formulae; SwissRe c=5 now reconciles (was NaN before
+    v0.5.4).
+  - **Reinsurance:** `ACT_ILF_PARETO`, `ACT_XOL_EXPECTED_LOSS`,
+    `ACT_RETURN_PERIOD_TABLE` against analytic Pareto LEV / row-wise
+    interp.
+  - **Interpolation:** `ACT_INTERP` (FLAT + GRADIENT extrapolation),
+    `ACT_INTERP_LOG` (log-linear in x), `ACT_INTERP2D` against
+    `scipy.interpolate.RegularGridInterpolator`.
+  - **Distributions:** ZT/ZM `_INV` quantile functions reconciled via
+    inverse-CDF rescaling; `ACT_DIST_LNPARETO_ALPHA` against the
+    Scollnik (2007) hazard ratio.
+
+### Changed
+- **Notebook coverage gate.** A new final cell asserts every harness
+  function name (less six trivial metadata exemptions) appears in
+  `ALL_RESULTS`. Adding a new C# function without wiring it through
+  the notebook now fails the build.
+- **Error-string standardisation, round 2.** 30 more sites in
+  `Fitting.cs` and `ChainLadder.cs` that returned literal
+  `new object[] { "Error: …" }` now return
+  `new object[] { ExcelError.ExcelErrorValue }`. Excel renders
+  `#VALUE!` instead of a text cell on bad input.
+- **Harness call fixes:** `ACT_INTERP_FLAT` / `_GRADIENT` synthetic
+  records collapsed to `ACT_INTERP` (real function name; selector in
+  args). Same for `ACT_CL_BOOTSTRAP_EV/CLP`,
+  `ACT_CL_BOOTSTRAP_ORIGIN_EV/CLP`,
+  `ACT_PANJER_POISSON_EXP`, and the per-copula
+  `ACT_COPULA_TAU_TO_THETA_*` / `ACT_COPULA_TAIL_LOWER_*` /
+  `ACT_COPULA_TAIL_UPPER_*` keys.
+
 ## [0.6.0] — 2026-05-04
 
 Internal cleanups deferred from v0.5.0; no numerical changes to any
