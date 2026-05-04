@@ -60,3 +60,6 @@ reference/
 scripts/dump_values.py
 scripts/compare_workbook_values.py
 scripts/diff_repaired_workbook.py
+
+# Claude Code local config + scheduled-task lock (may contain PATs).
+.claude/
