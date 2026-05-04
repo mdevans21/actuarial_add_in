@@ -53,7 +53,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File \
 
 DEST="$ROOT/tests/actuarial_add_in_dump.json"
 cp "$SCRATCH_WSL/dump.json" "$DEST"
+cp "$SCRATCH_WSL/dump.cells.json" "$ROOT/tests/actuarial_add_in_cells.json"
 echo ">> Wrote $DEST"
+echo ">> Wrote $ROOT/tests/actuarial_add_in_cells.json"
 
 if [[ -z "${KEEP:-}" ]]; then
     # Excel may still hold a Windows file handle on the .xll for a few seconds

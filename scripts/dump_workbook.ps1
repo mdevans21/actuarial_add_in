@@ -68,6 +68,10 @@ try {
         $xl.CalculateFullRebuild()
 
         $records = New-Object System.Collections.Generic.List[object]
+        # Sidecar: every non-empty cell's resolved Value2 (sheet, cell -> value).
+        # Lets a Linux-side comparator resolve B7:K16 references in ACT_* formulas
+        # without needing to re-open the xlsx through openpyxl.
+        $cellValues = New-Object System.Collections.Generic.List[object]
 
         foreach ($sht in $book.Worksheets) {
             $used = $sht.UsedRange
@@ -94,6 +98,32 @@ try {
                     } else {
                         $f = $formulaGrid[$ri, $ci]; $v = $valueGrid[$ri, $ci]
                     }
+                    # Always log a sidecar entry for every non-empty cell.
+                    if ($null -ne $v) {
+                        $cellAddrAll = '{0}{1}' -f (
+                            & {
+                                param($n)
+                                $s = ''
+                                while ($n -gt 0) {
+                                    $n--
+                                    $s = [char](65 + ($n % 26)) + $s
+                                    $n = [int]($n / 26)
+                                }
+                                $s
+                            } ($c0 + $ci - 1)
+                        ), ($r0 + $ri - 1)
+                        $vAll = if ($v -is [double]) {
+                            if ([double]::IsNaN($v))                    { 'NaN' }
+                            elseif ([double]::IsPositiveInfinity($v))   { 'Infinity' }
+                            elseif ([double]::IsNegativeInfinity($v))   { '-Infinity' }
+                            else { $v }
+                        } elseif ($v -is [datetime]) { $v.ToString('o') }
+                        else { $v }
+                        $cellValues.Add([pscustomobject]@{
+                            sheet = $sht.Name; cell = $cellAddrAll; value = $vAll
+                        })
+                    }
+
                     if (-not ($f -is [string])) { continue }
                     if (-not $f.StartsWith('=')) { continue }
                     $m = $rxAct.Match($f)
@@ -146,9 +176,16 @@ try {
         if ($records.Count -eq 1) { $json = "[$json]" }
         # Set-Content -Encoding UTF8 emits a BOM, which `json.load` rejects.
         # WriteAllText with UTF8 (no BOM by default in .NET 6+) is what we want.
-        [System.IO.File]::WriteAllText($Output, $json,
-            (New-Object System.Text.UTF8Encoding $false))
-        Write-Host "Wrote $($records.Count) records to $Output"
+        $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+        [System.IO.File]::WriteAllText($Output, $json, $utf8NoBom)
+        Write-Host "Wrote $($records.Count) ACT_* records to $Output"
+
+        # Sidecar: cells.json next to dump.json with every non-empty cell's value.
+        $cellsPath = [System.IO.Path]::ChangeExtension($Output, '.cells.json')
+        $cellsJson = $cellValues | ConvertTo-Json -Depth 3 -Compress:$false
+        if ($cellValues.Count -eq 1) { $cellsJson = "[$cellsJson]" }
+        [System.IO.File]::WriteAllText($cellsPath, $cellsJson, $utf8NoBom)
+        Write-Host "Wrote $($cellValues.Count) cell values to $cellsPath"
 
         # Surface failure modes the way the Python original did.
         $errors = @($records | Where-Object { $_.value -is [string] -and $_.value -match '^#' })
