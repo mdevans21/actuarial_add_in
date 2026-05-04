@@ -29,7 +29,11 @@
 param(
     [Parameter(Mandatory)] [string] $Xll,
     [Parameter(Mandatory)] [string] $Workbook,
-    [Parameter(Mandatory)] [string] $Output
+    [Parameter(Mandatory)] [string] $Output,
+    # If set, save the workbook after CalculateFullRebuild so the .xlsx file
+    # carries Excel's cached calc values. Lets the workbook open cold (no XLL
+    # loaded) and still show real numbers instead of #NAME? in every ACT_* cell.
+    [switch] $SaveWorkbook
 )
 
 $ErrorActionPreference = 'Stop'
@@ -199,6 +203,11 @@ try {
                    "came back as null. Excel computed nothing; the add-in did not load. " +
                    "Most common cause: the .NET Desktop Runtime matching the XLL's target " +
                    "framework is missing. Run ``dotnet --list-runtimes`` to verify.")
+        }
+
+        if ($SaveWorkbook) {
+            Write-Host "Saving workbook with cached calc values: $Workbook"
+            $book.Save()
         }
     }
     finally {
