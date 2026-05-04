@@ -237,7 +237,84 @@ try {
         }
 
         if ($SaveWorkbook) {
-            Write-Host "Saving workbook with cached calc values: $Workbook"
+            # Upgrade every array-returning ACT_* call to Formula2 (dynamic
+            # array). openpyxl writes them as legacy formulas, which Excel
+            # silently @-prefixes on save, suppressing the spill — every cell
+            # that should produce a 1000-row YLT becomes a single scalar.
+            # Re-assigning via .Formula2 reinstates the spill.
+            $arrayFns = @(
+                'ACT_COPULA_GAUSSIAN', 'ACT_COPULA_GAUSSIAN_SINGLE',
+                'ACT_COPULA_STUDENT_T', 'ACT_COPULA_STUDENT_T_SINGLE',
+                'ACT_COPULA_CLAYTON', 'ACT_COPULA_CLAYTON_SINGLE',
+                'ACT_COPULA_FRANK',   'ACT_COPULA_FRANK_SINGLE',
+                'ACT_COPULA_GUMBEL',  'ACT_COPULA_GUMBEL_SINGLE',
+                'ACT_CL_FACTORS', 'ACT_CL_LATEST', 'ACT_CL_ULTIMATE',
+                'ACT_CL_IBNR', 'ACT_BF_ULTIMATE', 'ACT_MACK_FACTOR_SE',
+                'ACT_MACK_RESERVE_SE',
+                'ACT_CL_BOOTSTRAP', 'ACT_CL_BOOTSTRAP_ORIGIN',
+                'ACT_RETURN_PERIOD_TABLE', 'ACT_COMMIT_HISTORY',
+                'ACT_DISCRETIZE_EXPONENTIAL', 'ACT_DISCRETIZE_GAMMA',
+                'ACT_DISCRETIZE_LOGNORMAL',
+                'ACT_PANJER_POISSON', 'ACT_PANJER_NEGBIN', 'ACT_PANJER_BINOMIAL',
+                'ACT_CAT_ELT_TO_YLT',
+                'ACT_CAT_YLT_OEP_CURVE', 'ACT_CAT_YLT_AEP_CURVE',
+                'ACT_CAT_OEP_CURVE_RP', 'ACT_CAT_AEP_CURVE_RP',
+                'ACT_DIST_EXP_FIT', 'ACT_DIST_POISSON_FIT',
+                'ACT_DIST_LOGNORM_FIT', 'ACT_DIST_GAMMA_FIT',
+                'ACT_DIST_PARETO_FIT', 'ACT_DIST_WEIBULL_FIT',
+                'ACT_DIST_GPD_FIT', 'ACT_DIST_BETA_FIT',
+                'ACT_DIST_NEGBIN_FIT', 'ACT_DIST_BURR_FIT'
+            )
+            $rxArray = [regex]('\b(' + ($arrayFns -join '|') + ')\s*\(')
+            $upgradedCount = 0
+            foreach ($sht in $book.Worksheets) {
+                $used = $sht.UsedRange
+                $rng = $used
+                $formulaGrid = $rng.Formula
+                $rrows = $rng.Rows.Count
+                $rcols = $rng.Columns.Count
+                for ($i = 1; $i -le $rrows; $i++) {
+                    for ($j = 1; $j -le $rcols; $j++) {
+                        $f = if ($rrows -eq 1 -and $rcols -eq 1) { $formulaGrid }
+                             elseif ($rrows -eq 1) { $formulaGrid[$j] }
+                             elseif ($rcols -eq 1) { $formulaGrid[$i] }
+                             else { $formulaGrid[$i, $j] }
+                        if (-not ($f -is [string]) -or -not $f.StartsWith('=')) { continue }
+                        if (-not $rxArray.IsMatch($f)) { continue }
+                        # Strip the implicit-intersection @ that Excel may have
+                        # injected (e.g. =@ACT_CAT_ELT_TO_YLT(...)).
+                        $clean = $f -replace '@(?=ACT_)', ''
+                        $cell = $rng.Cells.Item($i, $j)
+                        try { $cell.Formula2 = $clean; $upgradedCount++ } catch { }
+                    }
+                }
+            }
+            Write-Host "Promoted $upgradedCount cells to Formula2 (dynamic array)"
+
+            # Smooth scatter lines render unnatural curves over discrete data.
+            # Set Smooth = false on every series of every embedded chart.
+            $smoothCount = 0
+            foreach ($sht in $book.Worksheets) {
+                $cos = $sht.ChartObjects()
+                for ($k = 1; $k -le $cos.Count; $k++) {
+                    $ch = $cos.Item($k).Chart
+                    $sc = $ch.SeriesCollection()
+                    for ($s = 1; $s -le $sc.Count; $s++) {
+                        try {
+                            if ($sc.Item($s).Smooth) {
+                                $sc.Item($s).Smooth = $false
+                                $smoothCount++
+                            }
+                        } catch { }
+                    }
+                }
+            }
+            Write-Host "Disabled smooth lines on $smoothCount chart series"
+
+            # Recalc once more so dynamic-array spills populate correctly.
+            $xl.CalculateFullRebuild()
+
+            Write-Host "Saving workbook: $Workbook"
             $book.Save()
         }
     }

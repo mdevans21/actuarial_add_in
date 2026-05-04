@@ -5,6 +5,85 @@ ISO-8601. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.2] — 2026-05-04
+
+Workbook-fix release: every issue surfaced by the first complete v0.7.1
+dump test plus a number of latent issues the dump exposed (Mack SE
+reference column, Cat Modeling spill, smooth-line charts, hard-coded
+"Latest Cumulative" column, missing Gaussian / Clayton / Frank / Gumbel
+copula sections). No numerical changes to any add-in function — just
+workbook content + chart layout + Excel-side metadata.
+
+### Fixed
+- **Mack SE reference column was wrong.** The Chain Ladder sheet had a
+  hard-coded "E&V Reference" column with values
+  `[0, 75535, 121699, 136554, 212054, 282372, 444283, 640396, 1091089, 2029818]`
+  totalling `2,447,318`. Re-implementing Mack 1993 §3 from scratch in
+  Python on the Taylor-Ashe triangle yields
+  `[0, 75535, 121699, 133549, 261406, 411010, 558317, 875328, 971258, 1363155]`
+  totalling `2,447,095`, which our C# `ACT_MACK_RESERVE_SE` returns
+  bit-exact. Replaced the column values + relabelled "E&V Reference"
+  → "Mack 1993 reference".
+- **Cat Modeling: `=ACT_CAT_ELT_TO_YLT(...)` not spilling.** openpyxl
+  writes formulas via `.Formula`, which Excel `@`-prefixes for legacy
+  scalar behaviour on save — the YLT collapsed to a single cell.
+  Added Formula2 promotion in `dump_workbook.ps1 -SaveWorkbook`:
+  every array-returning ACT_* call (583 cells in v0.7.1, 970 in v0.7.2
+  after the new Copula sections) is rewritten via `.Formula2` so
+  Excel re-detects the dynamic-array spill. Same fix unblocks Chain
+  Ladder bootstrap percentiles and Cat Modeling YLT.
+- **Cat Modeling: "EP Curves at Return Periods" table empty.** The
+  RP column was populated but the OEP / AEP cells were blank.
+  Added `ACT_CAT_OEP_CURVE_RP` / `ACT_CAT_AEP_CURVE_RP` formulas.
+- **Chain Ladder: "Latest Cumulative" column hard-coded.** Used to be
+  10 constant values; restored as
+  `=INDEX(ACT_CL_LATEST(B7:K16), N)` so triangle edits propagate.
+- **Charts: smooth lines → straight lines.** Smooth scatter rendering
+  imposes unnatural curves over discrete data (exposure curves, EP
+  curves, etc). `dump_workbook.ps1 -SaveWorkbook` now sets
+  `Series.Smooth = False` on every series of every embedded chart
+  (38 series across the workbook).
+- **Dump CVErr decoding silently swallowed every Excel error.** Excel
+  COM `Range.Value2` returns the seven CVErr codes typed as `[double]`
+  in PowerShell; the previous code only attempted lookup when the
+  declared type was `[int]`, so all 373 v0.7.0-era `#VALUE!` cells
+  were logged as numeric `-2146826273` and the post-dump scan saw
+  zero errors. Format-CellValue now decodes whenever the value is a
+  finite integer-valued number, regardless of declared type, and
+  uses `[int32]` consistently with PowerShell hashtable keys.
+
+### Added
+- **Copulas sheet: Gaussian / Clayton / Frank / Gumbel sections.**
+  Previously only Student-t had its own visualization block; now each
+  Archimedean copula plus Gaussian gets a parameter input area, a
+  50-row sample table, and a U1×U2 scatter chart. Per the alignment
+  principle every package function should be exercised in the
+  spreadsheet.
+- **Interpolation chart: interpolated overlay.** The chart used to
+  show only the input data; now overlays the GRADIENT-extrapolated
+  series in a contrasting colour with diamond markers so the
+  interpolation visibly tracks the input curve.
+- **`SeedUtil` + Formula2 / chart-smoothness post-processing**
+  (continuation from v0.7.1): driven by the new `-SaveWorkbook` flag
+  on `dump_workbook.ps1`, which now also handles array-formula
+  promotion and chart line-style cleanup.
+- **`run_dump.sh LOCAL_WORKBOOK=1`**: workbook iteration without
+  shipping a fresh release tag for each tweak — uses the in-repo
+  `excel/actuarial_add_in.xlsx` against the released XLL.
+
+### Changed (Excel function browser)
+- **Cat Modeling**, **Aggregate Claims**, and **Return Period**
+  functions retagged from `Actuarial.Reinsurance` /
+  `Actuarial.Aggregate` to **`Actuarial.Experimental`** — matching
+  the existing treatment of Copulas and ODP Bootstrap.
+  - `ACT_CAT_ELT_TO_YLT`, `ACT_CAT_*_CURVE`, `ACT_CAT_*_CURVE_RP`,
+    `ACT_VAR_FROM_SAMPLES`, `ACT_TVAR_FROM_SAMPLES` (7 functions).
+  - `ACT_AGGREGATE_*`, `ACT_DISCRETIZE_*`, `ACT_PANJER_*` (12).
+  - `ACT_RETURN_PERIOD_LOSS`, `ACT_RETURN_PERIOD_TABLE`,
+    `ACT_AAL_FROM_OEP` (3).
+  README §Experimental updated to cover the five experimental
+  families (was two).
+
 ## [0.7.1] — 2026-05-04
 
 ### Fixed

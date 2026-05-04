@@ -84,7 +84,7 @@ public static class Reinsurance
 
     #region Return Period Functions
 
-    [ExcelFunction(Description = "Interpolate loss for a target return period from an EP curve. Uses log-linear interpolation by default (standard for cat modeling).", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Interpolate loss for a target return period from an EP curve. Uses log-linear interpolation by default (standard for cat modeling).", Category = "Actuarial.Experimental")]
     public static double ACT_RETURN_PERIOD_LOSS(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
         [ExcelArgument(Description = "Corresponding losses (column)")] double[] losses,
@@ -131,7 +131,7 @@ public static class Reinsurance
             return pairs[pairs.Length - 1].Loss;
     }
 
-    [ExcelFunction(Description = "Generate a return period loss table for target return periods", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Generate a return period loss table for target return periods", Category = "Actuarial.Experimental")]
     public static object[,] ACT_RETURN_PERIOD_TABLE(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
         [ExcelArgument(Description = "Corresponding losses (column)")] double[] losses,
@@ -155,7 +155,7 @@ public static class Reinsurance
         return result;
     }
 
-    [ExcelFunction(Description = "Calculate AAL (Average Annual Loss) from OEP curve via numerical integration. AAL = integral of loss over exceedance probability. Standard cat modeling metric.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate AAL (Average Annual Loss) from OEP curve via numerical integration. AAL = integral of loss over exceedance probability. Standard cat modeling metric.", Category = "Actuarial.Experimental")]
     public static double ACT_AAL_FROM_OEP(
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
         [ExcelArgument(Description = "Corresponding OEP losses (column)")] double[] oepLosses)

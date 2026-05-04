@@ -89,10 +89,11 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 | **Distributions** (continuous, discrete, ZT, ZM, composite, LEV) | 96 | Lognormal, Gamma, Pareto I/III/IV, GPD, Weibull, Burr, Beta, Inverse Gaussian, Loglogistic, Poisson, NegBin, plus zero-truncated & zero-modified variants and 12 LEV functions | Klugman, Panjer & Willmot, *Loss Models* |
 | **Parameter fitting** (MLE) | 10 | `ACT_DIST_*_FIT` for Exp, Poisson, Lognormal, Gamma, Pareto, Weibull, GPD, Beta, NegBin, Burr | scipy.stats |
 | **Chain ladder** | 9 | Volume-weighted LDFs, Mack standard errors, IBNR, Bornhuetter-Ferguson | Mack (1993); England & Verrall (2002) |
-| **Aggregate claims** | 12 | Panjer recursion (Poisson / NegBin / Binomial), severity discretisation, VaR, TVaR | Klugman ch. 6 |
-| **Exposure curves / ILF** | 9 | MBBEFD, Swiss Re curves 1–5, Lloyd's Y1–Y4, Riebesell, power, Pareto ILF | Bernegger (1997) |
-| **Cat modelling** | 7 | ELT → YLT simulation, OEP/AEP empirical curves, VaR/TVaR from samples | McNeil / Frey / Embrechts |
-| **Reinsurance layers** | 6 | XOL layer loss & expected loss, return-period interpolation, AAL-from-OEP | standard texts |
+| **Aggregate claims** ⚠️ experimental | 12 | Panjer recursion (Poisson / NegBin / Binomial), severity discretisation, VaR, TVaR | Klugman ch. 6 |
+| **Exposure curves / ILF** | 6 | MBBEFD, Swiss Re curves 1–5, Lloyd's Y1–Y4, Riebesell, power, Pareto ILF | Bernegger (1997) |
+| **Cat modelling** ⚠️ experimental | 7 | ELT → YLT simulation, OEP/AEP empirical curves, VaR/TVaR from samples | McNeil / Frey / Embrechts |
+| **Reinsurance layers** | 3 | XOL layer loss & expected loss, Pareto ILF (XOL pricing inputs only) | standard texts |
+| **Return periods** ⚠️ experimental | 3 | RP-loss interpolation, RP table builder, AAL from OEP | standard texts |
 | **Copulas** ⚠️ experimental | 16 | Gaussian, Student-t, Clayton, Frank, Gumbel — samplers, CDFs, τ↔θ, tail dependence | McNeil et al. (2015) |
 | **ODP bootstrap** ⚠️ experimental | 2 | `ACT_CL_BOOTSTRAP` + `_ORIGIN`, full E&V 2002 with GLM hat matrix, per-period φⱼ, Bessel correction; reconciles per-origin to England (2010) slide 35 | England & Verrall (2002), England (2010) |
 | **Interpolation & version info** | 9 | 1D / log / 2D bilinear, version badges inside the sheet | — |
@@ -125,7 +126,7 @@ same thing as being production-ready.**
 
 ### `Actuarial.Experimental` — additional caution
 
-Two function families carry an additional warning. They are tagged
+Five function families carry an additional warning. They are tagged
 `Actuarial.Experimental` in Excel's function browser and prefixed
 `[EXPERIMENTAL]` in their tooltips:
 
@@ -140,6 +141,21 @@ Two function families carry an additional warning. They are tagged
   on a handful of subtle conventions (hat-matrix construction,
   per-period scale, pseudo-diagonal IBNR); pathological triangles may
   expose edge cases the tests don't cover.
+- **Aggregate claims** (`ACT_AGGREGATE_*`, `ACT_DISCRETIZE_*`,
+  `ACT_PANJER_*`) — Panjer recursion + severity discretisation. The
+  individual building blocks reconcile to scipy CDF differences and
+  closed-form moments, but real-world workflows compose several steps
+  (discretisation grid choice, max-S truncation, frequency parameters)
+  whose interaction can be sensitive on heavy-tailed severities.
+- **Cat modelling** (`ACT_CAT_*`, `ACT_VAR_FROM_SAMPLES`,
+  `ACT_TVAR_FROM_SAMPLES`) — ELT → YLT simulation and empirical
+  EP-curve construction. Outputs are simulation-based: monotonic and
+  bounded by sanity, but no published reference exists for direct
+  per-cell comparison.
+- **Return periods** (`ACT_RETURN_PERIOD_LOSS`,
+  `ACT_RETURN_PERIOD_TABLE`, `ACT_AAL_FROM_OEP`) — log-linear
+  interpolation across an EP curve plus trapezoidal AAL integration;
+  thinly tested on the Taylor-Ashe demo curve only.
 
 The Experimental tag exists so that we don't claim more than we know on
 top of the base "no production-readiness" position above. It is an

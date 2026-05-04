@@ -22,7 +22,7 @@ namespace ActuarialAddIn.Functions
         /// f_j = F((j+0.5)h) - F((j-0.5)h) for j > 0
         /// f_0 = F(0.5h)
         /// </summary>
-        [ExcelFunction(Description = "Discretize continuous severity using rounding method. Returns PMF array.", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Discretize continuous severity using rounding method. Returns PMF array.", Category = "Actuarial.Experimental")]
         public static object ACT_DISCRETIZE_EXPONENTIAL(
             [ExcelArgument(Description = "Rate parameter (1/mean)")] double rate,
             [ExcelArgument(Description = "Grid spacing h")] double h,
@@ -48,7 +48,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Discretize gamma severity distribution using rounding method.
         /// </summary>
-        [ExcelFunction(Description = "Discretize Gamma severity using rounding method. Returns PMF array.", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Discretize Gamma severity using rounding method. Returns PMF array.", Category = "Actuarial.Experimental")]
         public static object ACT_DISCRETIZE_GAMMA(
             [ExcelArgument(Description = "Shape parameter alpha")] double alpha,
             [ExcelArgument(Description = "Rate parameter beta (1/scale)")] double beta,
@@ -72,7 +72,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Discretize lognormal severity distribution using rounding method.
         /// </summary>
-        [ExcelFunction(Description = "Discretize Lognormal severity using rounding method. Returns PMF array.", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Discretize Lognormal severity using rounding method. Returns PMF array.", Category = "Actuarial.Experimental")]
         public static object ACT_DISCRETIZE_LOGNORMAL(
             [ExcelArgument(Description = "Mu parameter (mean of log)")] double mu,
             [ExcelArgument(Description = "Sigma parameter (std dev of log)")] double sigma,
@@ -102,7 +102,7 @@ namespace ActuarialAddIn.Functions
         /// g_0 = exp(-λ(1 - f_0))
         /// g_s = (λ/s) * Σ_{j=1}^{min(s,m)} j * f_j * g_{s-j}
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with Poisson(λ) frequency", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with Poisson(λ) frequency", Category = "Actuarial.Experimental")]
         public static object ACT_PANJER_POISSON(
             [ExcelArgument(Description = "Lambda - Poisson rate parameter")] double lambda,
             [ExcelArgument(Description = "Severity PMF array (discretized)")] double[] severity_pmf,
@@ -138,7 +138,7 @@ namespace ActuarialAddIn.Functions
         /// g_0 = (p / (1 - (1-p)(1-f_0)))^r
         /// g_s = (1/s) * Σ_{j=1}^{min(s,m)} (a + b*j/s) * j * f_j * g_{s-j}
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with NegBin(r,p) frequency", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with NegBin(r,p) frequency", Category = "Actuarial.Experimental")]
         public static object ACT_PANJER_NEGBIN(
             [ExcelArgument(Description = "r - number of successes")] double r,
             [ExcelArgument(Description = "p - probability of success")] double p,
@@ -181,7 +181,7 @@ namespace ActuarialAddIn.Functions
         /// Panjer recursion for Binomial(n, p) frequency.
         /// For Binomial, the (a, b, 0) parameters are: a = -p/(1-p), b = (n+1)p/(1-p)
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with Binomial(n,p) frequency", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims PMF via Panjer recursion with Binomial(n,p) frequency", Category = "Actuarial.Experimental")]
         public static object ACT_PANJER_BINOMIAL(
             [ExcelArgument(Description = "n - number of trials")] int n,
             [ExcelArgument(Description = "p - probability of success")] double p,
@@ -225,7 +225,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Compute CDF from aggregate PMF.
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims CDF at value x", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims CDF at value x", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_CDF(
             [ExcelArgument(Description = "Value x")] double x,
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
@@ -248,7 +248,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Compute VaR (quantile) from aggregate PMF.
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims VaR (quantile) at probability p", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims VaR (quantile) at probability p", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_VAR(
             [ExcelArgument(Description = "Probability p (0 to 1)")] double p,
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
@@ -269,7 +269,7 @@ namespace ActuarialAddIn.Functions
         /// Compute TVaR (tail value at risk) from aggregate PMF.
         /// TVaR(p) = E[X | X > VaR(p)]
         /// </summary>
-        [ExcelFunction(Description = "Aggregate claims TVaR at probability p", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Aggregate claims TVaR at probability p", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_TVAR(
             [ExcelArgument(Description = "Probability p (0 to 1)")] double p,
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
@@ -309,7 +309,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Compute mean of aggregate distribution.
         /// </summary>
-        [ExcelFunction(Description = "Mean of aggregate claims distribution", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Mean of aggregate claims distribution", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_MEAN(
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
             [ExcelArgument(Description = "Grid spacing h")] double h)
@@ -327,7 +327,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Compute variance of aggregate distribution.
         /// </summary>
-        [ExcelFunction(Description = "Variance of aggregate claims distribution", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Variance of aggregate claims distribution", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_VAR_STAT(
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
             [ExcelArgument(Description = "Grid spacing h")] double h)
@@ -348,7 +348,7 @@ namespace ActuarialAddIn.Functions
         /// <summary>
         /// Compute standard deviation of aggregate distribution.
         /// </summary>
-        [ExcelFunction(Description = "Standard deviation of aggregate claims distribution", Category = "Actuarial.Aggregate")]
+        [ExcelFunction(Description = "Standard deviation of aggregate claims distribution", Category = "Actuarial.Experimental")]
         public static double ACT_AGGREGATE_STDEV(
             [ExcelArgument(Description = "Aggregate PMF array")] double[] aggregate_pmf,
             [ExcelArgument(Description = "Grid spacing h")] double h)

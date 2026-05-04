@@ -45,6 +45,15 @@ mkdir -p "$SCRATCH_WSL"
 echo ">> Downloading $TAG assets via gh..."
 gh release download "$TAG" --repo "$REPO" --pattern '*' --dir "$SCRATCH_WSL"
 
+# LOCAL_WORKBOOK=1 uses the in-repo excel/actuarial_add_in.xlsx instead of the
+# release asset. Useful when iterating on workbook content (formula tweaks,
+# new sections, chart layout) without shipping a fresh tag for each change —
+# the released XLL still provides the C# implementation.
+if [[ -n "${LOCAL_WORKBOOK:-}" ]]; then
+    echo ">> LOCAL_WORKBOOK=1 — using in-repo workbook instead of released asset"
+    cp "$ROOT/excel/actuarial_add_in.xlsx" "$SCRATCH_WSL/actuarial_add_in.xlsx"
+fi
+
 cp "$ROOT/scripts/dump_workbook.ps1" "$SCRATCH_WSL/dump_workbook.ps1"
 
 echo ">> Invoking Excel via PowerShell COM..."

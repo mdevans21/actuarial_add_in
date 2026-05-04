@@ -6,7 +6,7 @@ namespace ActuarialAddIn;
 /// </summary>
 public static class VersionInfo
 {
-    public const string CurrentVersion = "0.7.1";
+    public const string CurrentVersion = "0.7.2";
     public const string BuildDate = "2026-05-04";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
@@ -20,6 +20,7 @@ public static class VersionInfo
         // Release history — see GitHub Releases for full notes per tag.
         return new[]
         {
+            new CommitInfo("v0.7.2", "2026-05-04", "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."),
             new CommitInfo("v0.7.1", "2026-05-04", "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."),
             new CommitInfo("v0.7.0", "2026-05-04", "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."),
             new CommitInfo("v0.6.0", "2026-05-04", "Internal cleanups: split Distributions.cs (1686 lines) and ChainLadder.cs (1510 lines) into focused partial-class files; standardised inline string-error returns to ExcelError.ExcelErrorValue (24 sites); test harness now exits non-zero on assertion failures."),

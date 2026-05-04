@@ -10,7 +10,7 @@ namespace ActuarialAddIn.Functions;
 /// </summary>
 public static class CatModeling
 {
-    [ExcelFunction(Description = "Simulate a Year Loss Table (YLT) from an Event Loss Table (ELT). Returns columns: Year, Aggregate Loss, Max Loss, Event Count.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Simulate a Year Loss Table (YLT) from an Event Loss Table (ELT). Returns columns: Year, Aggregate Loss, Max Loss, Event Count.", Category = "Actuarial.Experimental")]
     public static object[,] ACT_CAT_ELT_TO_YLT(
         [ExcelArgument(Description = "Event annual rates (column)")] double[] eventRates,
         [ExcelArgument(Description = "Event losses (column)")] double[] eventLosses,
@@ -74,7 +74,7 @@ public static class CatModeling
         return result;
     }
 
-    [ExcelFunction(Description = "Generate an Occurrence Exceedance Probability (OEP) curve from annual maximum losses.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Generate an Occurrence Exceedance Probability (OEP) curve from annual maximum losses.", Category = "Actuarial.Experimental")]
     public static object[,] ACT_CAT_YLT_OEP_CURVE(
         [ExcelArgument(Description = "Annual maximum losses (column)")] double[] annualMaxLosses,
         [ExcelArgument(Description = "Plotting position method: WEIBULL, HAZEN, GRINGORTEN, MEDIAN")] string plottingPosition = "WEIBULL",
@@ -83,7 +83,7 @@ public static class CatModeling
         return BuildEpCurve(annualMaxLosses, plottingPosition, includeHeader, "OEP Loss");
     }
 
-    [ExcelFunction(Description = "Generate an Aggregate Exceedance Probability (AEP) curve from annual aggregate losses.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Generate an Aggregate Exceedance Probability (AEP) curve from annual aggregate losses.", Category = "Actuarial.Experimental")]
     public static object[,] ACT_CAT_YLT_AEP_CURVE(
         [ExcelArgument(Description = "Annual aggregate losses (column)")] double[] annualAggregateLosses,
         [ExcelArgument(Description = "Plotting position method: WEIBULL, HAZEN, GRINGORTEN, MEDIAN")] string plottingPosition = "WEIBULL",
@@ -92,7 +92,7 @@ public static class CatModeling
         return BuildEpCurve(annualAggregateLosses, plottingPosition, includeHeader, "AEP Loss");
     }
 
-    [ExcelFunction(Description = "Generate an OEP curve at specified return periods using empirical quantiles.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Generate an OEP curve at specified return periods using empirical quantiles.", Category = "Actuarial.Experimental")]
     public static object[,] ACT_CAT_OEP_CURVE_RP(
         [ExcelArgument(Description = "Annual maximum losses (column)")] double[] annualMaxLosses,
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
@@ -101,7 +101,7 @@ public static class CatModeling
         return BuildEpCurveAtReturnPeriods(annualMaxLosses, returnPeriods, includeHeader, "OEP Loss");
     }
 
-    [ExcelFunction(Description = "Generate an AEP curve at specified return periods using empirical quantiles.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Generate an AEP curve at specified return periods using empirical quantiles.", Category = "Actuarial.Experimental")]
     public static object[,] ACT_CAT_AEP_CURVE_RP(
         [ExcelArgument(Description = "Annual aggregate losses (column)")] double[] annualAggregateLosses,
         [ExcelArgument(Description = "Return periods (column)")] double[] returnPeriods,
@@ -110,7 +110,7 @@ public static class CatModeling
         return BuildEpCurveAtReturnPeriods(annualAggregateLosses, returnPeriods, includeHeader, "AEP Loss");
     }
 
-    [ExcelFunction(Description = "Calculate Value-at-Risk (VaR) from samples at confidence level alpha.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate Value-at-Risk (VaR) from samples at confidence level alpha.", Category = "Actuarial.Experimental")]
     public static double ACT_VAR_FROM_SAMPLES(
         [ExcelArgument(Description = "Sample losses (column)")] double[] samples,
         [ExcelArgument(Description = "Confidence level (e.g., 0.99)")] double alpha)
@@ -124,7 +124,7 @@ public static class CatModeling
         return sorted[index];
     }
 
-    [ExcelFunction(Description = "Calculate Tail Value-at-Risk (TVaR) from samples at confidence level alpha.", Category = "Actuarial.Reinsurance")]
+    [ExcelFunction(Description = "Calculate Tail Value-at-Risk (TVaR) from samples at confidence level alpha.", Category = "Actuarial.Experimental")]
     public static double ACT_TVAR_FROM_SAMPLES(
         [ExcelArgument(Description = "Sample losses (column)")] double[] samples,
         [ExcelArgument(Description = "Confidence level (e.g., 0.99)")] double alpha)

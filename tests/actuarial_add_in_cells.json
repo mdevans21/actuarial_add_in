@@ -12,7 +12,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B3",
-        "value":  "0.7.0"
+        "value":  "0.7.1"
     },
     {
         "sheet":  "Versions",
@@ -47,7 +47,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B8",
-        "value":  "0.7.0"
+        "value":  "0.7.1"
     },
     {
         "sheet":  "Versions",
@@ -77,7 +77,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B11",
-        "value":  12
+        "value":  13
     },
     {
         "sheet":  "Versions",
@@ -87,7 +87,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B12",
-        "value":  "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."
+        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
     },
     {
         "sheet":  "Versions",
@@ -112,302 +112,137 @@
     {
         "sheet":  "Versions",
         "cell":  "A16",
-        "value":  "ee9ae10"
+        "value":  "04378c0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B16",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C16",
-        "value":  "Add Shaw frequency/severity reconciliation spreadsheet"
+        "value":  "Fix int? seed marshaling — was #VALUE! in Excel for 13 functions (v0.7.1)"
     },
     {
         "sheet":  "Versions",
         "cell":  "A17",
-        "value":  "f06cb33"
+        "value":  "5177c63"
     },
     {
         "sheet":  "Versions",
         "cell":  "B17",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C17",
-        "value":  "Revert actuarial_add_in.xlsm to pre-openpyxl state"
+        "value":  "Bake Excel-cached calc values into excel/actuarial_add_in.xlsx"
     },
     {
         "sheet":  "Versions",
         "cell":  "A18",
-        "value":  "6207903"
+        "value":  "124a7be"
     },
     {
         "sheet":  "Versions",
         "cell":  "B18",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C18",
-        "value":  "Add Aggregate Claims tab and Panjer functions to spreadsheet"
+        "value":  "Update docs to v0.7.0 + WSL dump test"
     },
     {
         "sheet":  "Versions",
         "cell":  "A19",
-        "value":  "4ed7430"
+        "value":  "847e08e"
     },
     {
         "sheet":  "Versions",
         "cell":  "B19",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C19",
-        "value":  "Clean up: remove stale planning and report files, simplify NEXT_STEPS.md"
+        "value":  "Emit cell-values sidecar from dump; reconciles dump↔harness with arg resolution"
     },
     {
         "sheet":  "Versions",
         "cell":  "A20",
-        "value":  "c15258f"
+        "value":  "a2c7032"
     },
     {
         "sheet":  "Versions",
         "cell":  "B20",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C20",
-        "value":  "Add shaw reconciliation files to .gitignore"
+        "value":  "Drive Windows dump test from WSL"
     },
     {
         "sheet":  "Versions",
         "cell":  "A21",
-        "value":  "8c57607"
+        "value":  "1346f98"
     },
     {
         "sheet":  "Versions",
         "cell":  "B21",
-        "value":  "2026-02-21"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C21",
-        "value":  "Bump version to v0.3.1 with latest commit history"
+        "value":  "Align C#, workbook, harness, notebook to single 174-function set (v0.7.0)"
     },
     {
         "sheet":  "Versions",
         "cell":  "A22",
-        "value":  "902dec1"
+        "value":  "427bad6"
     },
     {
         "sheet":  "Versions",
         "cell":  "B22",
-        "value":  "2026-02-21"
+        "value":  "2026-05-03"
     },
     {
         "sheet":  "Versions",
         "cell":  "C22",
-        "value":  "Document two-step spreadsheet generation workflow in agents.md"
+        "value":  "Internal cleanups for v0.6.0 (no behavior changes)"
     },
     {
         "sheet":  "Versions",
         "cell":  "A23",
-        "value":  "a5fce2d"
+        "value":  "1983eaf"
     },
     {
         "sheet":  "Versions",
         "cell":  "B23",
-        "value":  "2026-02-21"
+        "value":  "2026-05-03"
     },
     {
         "sheet":  "Versions",
         "cell":  "C23",
-        "value":  "Add xlwings fix_array_formulas.py to upgrade formulas to Formula2"
+        "value":  "Fix MBBEFD numerical stability — SwissRe c=5 NaN (v0.5.4)"
     },
     {
         "sheet":  "Versions",
         "cell":  "A24",
-        "value":  "a43a45b"
+        "value":  "a1e51df"
     },
     {
         "sheet":  "Versions",
         "cell":  "B24",
-        "value":  "2026-02-21"
+        "value":  "2026-05-03"
     },
     {
         "sheet":  "Versions",
         "cell":  "C24",
-        "value":  "Remove ZIP postprocessing that caused file corruption"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A25",
-        "value":  "2ecfd73"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B25",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C25",
-        "value":  "Fix array formulas: use openpyxl ArrayFormula with = prefix instead of postprocessing"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A26",
-        "value":  "171996e"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B26",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C26",
-        "value":  "Fix spreadsheet corruption: remove ArrayFormula refs and dangling vbaProject"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A27",
-        "value":  "2d93193"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B27",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C27",
-        "value":  "Fix Cat Modeling array formula, bootstrap reconciliation refs, chart corners post-processing"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A28",
-        "value":  "f907dfa"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B28",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C28",
-        "value":  "Fix chart corners, bootstrap default method, and rename BASIC to CHAINLADDER-PYTHON"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A29",
-        "value":  "31d1b20"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B29",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C29",
-        "value":  "Update VersionInfo to v0.3.0, auto-generate Versions tab in populate_examples.py"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A30",
-        "value":  "e509566"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B30",
-        "value":  "2026-02-21"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C30",
-        "value":  "Phase 2: Enhanced ODP Bootstrap (E\u0026V reconciliation), remove credibility, cleanup"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A31",
-        "value":  "71c3079"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B31",
-        "value":  "2026-02-04"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C31",
-        "value":  "Add fresh eyes code review against 6 key principles"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A32",
-        "value":  "0a6af9a"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B32",
-        "value":  "2026-02-04"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C32",
-        "value":  "Add Panjer recursion, zero-truncated/modified distributions, Pareto III/IV, Inverse Gaussian, Loglogistic"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A33",
-        "value":  "78ab504"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B33",
-        "value":  "2026-02-04"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C33",
-        "value":  "Consolidate next steps, rename Cat functions with ACT_CAT_ prefix"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A34",
-        "value":  "7f1b924"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B34",
-        "value":  "2026-02-03"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C34",
-        "value":  "Add actuar R package comparison and roadmap"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "A35",
-        "value":  "b699133"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "B35",
-        "value":  "2026-02-03"
-    },
-    {
-        "sheet":  "Versions",
-        "cell":  "C35",
-        "value":  "Merge pull request #5 from mdevans21/feature/cat-modeling"
+        "value":  "Initial public release v0.5.0"
     },
     {
         "sheet":  "All Functions Test",
@@ -2532,7 +2367,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B225",
-        "value":  "#VALUE!"
+        "value":  "Year"
     },
     {
         "sheet":  "All Functions Test",
@@ -2777,7 +2612,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B251",
-        "value":  "#VALUE!"
+        "value":  0.65850557510982255
     },
     {
         "sheet":  "All Functions Test",
@@ -2792,7 +2627,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B252",
-        "value":  "#VALUE!"
+        "value":  0.65850557510982255
     },
     {
         "sheet":  "All Functions Test",
@@ -2812,7 +2647,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B255",
-        "value":  "#VALUE!"
+        "value":  0.65170123690316561
     },
     {
         "sheet":  "All Functions Test",
@@ -2827,7 +2662,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B256",
-        "value":  "#VALUE!"
+        "value":  0.65170123690316561
     },
     {
         "sheet":  "All Functions Test",
@@ -2847,7 +2682,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B259",
-        "value":  "#VALUE!"
+        "value":  0.66810646591154232
     },
     {
         "sheet":  "All Functions Test",
@@ -2862,7 +2697,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B260",
-        "value":  "#VALUE!"
+        "value":  0.66810646591154232
     },
     {
         "sheet":  "All Functions Test",
@@ -2897,7 +2732,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B264",
-        "value":  "#VALUE!"
+        "value":  0.66810646591154232
     },
     {
         "sheet":  "All Functions Test",
@@ -2912,7 +2747,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B265",
-        "value":  "#VALUE!"
+        "value":  0.66810646591154232
     },
     {
         "sheet":  "All Functions Test",
@@ -2947,7 +2782,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B269",
-        "value":  "#VALUE!"
+        "value":  0.24161808133885282
     },
     {
         "sheet":  "All Functions Test",
@@ -2962,7 +2797,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B270",
-        "value":  "#VALUE!"
+        "value":  0.24161808133885282
     },
     {
         "sheet":  "All Functions Test",
@@ -3177,7 +3012,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B304",
-        "value":  "0.7.0"
+        "value":  "0.7.1"
     },
     {
         "sheet":  "All Functions Test",
@@ -3222,7 +3057,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B307",
-        "value":  12
+        "value":  13
     },
     {
         "sheet":  "All Functions Test",
@@ -3237,7 +3072,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B308",
-        "value":  "v0.7.0"
+        "value":  "v0.7.1"
     },
     {
         "sheet":  "All Functions Test",
@@ -3267,7 +3102,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B310",
-        "value":  "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."
+        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
     },
     {
         "sheet":  "All Functions Test",
@@ -9357,7 +9192,7 @@
     {
         "sheet":  "Cat Modeling",
         "cell":  "A16",
-        "value":  "#VALUE!"
+        "value":  1
     },
     {
         "sheet":  "Cat Modeling",
@@ -9556,8 +9391,28 @@
     },
     {
         "sheet":  "Cat Modeling",
+        "cell":  "G34",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H34",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
         "cell":  "F35",
         "value":  250
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "G35",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H35",
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
@@ -9566,8 +9421,28 @@
     },
     {
         "sheet":  "Cat Modeling",
+        "cell":  "G36",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H36",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
         "cell":  "F37",
         "value":  50
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "G37",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H37",
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
@@ -9576,8 +9451,28 @@
     },
     {
         "sheet":  "Cat Modeling",
+        "cell":  "G38",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H38",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
         "cell":  "F39",
         "value":  10
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "G39",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H39",
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
@@ -9586,8 +9481,28 @@
     },
     {
         "sheet":  "Cat Modeling",
+        "cell":  "G40",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H40",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
         "cell":  "F41",
         "value":  2
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "G41",
+        "value":  0
+    },
+    {
+        "sheet":  "Cat Modeling",
+        "cell":  "H41",
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
@@ -10657,7 +10572,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C39",
-        "value":  "E\u0026V Reference"
+        "value":  "Mack 1993 reference"
     },
     {
         "sheet":  "Chain Ladder",
@@ -10717,7 +10632,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C43",
-        "value":  136554
+        "value":  133549
     },
     {
         "sheet":  "Chain Ladder",
@@ -10732,7 +10647,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C44",
-        "value":  212054
+        "value":  261406
     },
     {
         "sheet":  "Chain Ladder",
@@ -10747,7 +10662,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C45",
-        "value":  282372
+        "value":  411010
     },
     {
         "sheet":  "Chain Ladder",
@@ -10762,7 +10677,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C46",
-        "value":  444283
+        "value":  558317
     },
     {
         "sheet":  "Chain Ladder",
@@ -10777,7 +10692,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C47",
-        "value":  640396
+        "value":  875328
     },
     {
         "sheet":  "Chain Ladder",
@@ -10792,7 +10707,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C48",
-        "value":  1091089
+        "value":  971258
     },
     {
         "sheet":  "Chain Ladder",
@@ -10807,7 +10722,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C49",
-        "value":  2029818
+        "value":  1363155
     },
     {
         "sheet":  "Chain Ladder",
@@ -10817,7 +10732,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "C50",
-        "value":  2447318
+        "value":  2447095
     },
     {
         "sheet":  "Chain Ladder",
@@ -10872,7 +10787,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B57",
-        "value":  "#VALUE!"
+        "value":  18798776.692044504
     },
     {
         "sheet":  "Chain Ladder",
@@ -10887,7 +10802,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B58",
-        "value":  "#VALUE!"
+        "value":  2204802.8850870635
     },
     {
         "sheet":  "Chain Ladder",
@@ -10902,7 +10817,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B59",
-        "value":  "#VALUE!"
+        "value":  14500831.3225706
     },
     {
         "sheet":  "Chain Ladder",
@@ -10912,7 +10827,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B60",
-        "value":  "#VALUE!"
+        "value":  15326912.129334964
     },
     {
         "sheet":  "Chain Ladder",
@@ -10922,7 +10837,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B61",
-        "value":  "#VALUE!"
+        "value":  16072208.944334887
     },
     {
         "sheet":  "Chain Ladder",
@@ -10932,7 +10847,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B62",
-        "value":  "#VALUE!"
+        "value":  17264300.703342
     },
     {
         "sheet":  "Chain Ladder",
@@ -10942,7 +10857,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B63",
-        "value":  "#VALUE!"
+        "value":  18694922.680490129
     },
     {
         "sheet":  "Chain Ladder",
@@ -10952,7 +10867,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B64",
-        "value":  "#VALUE!"
+        "value":  20298606.5579508
     },
     {
         "sheet":  "Chain Ladder",
@@ -10962,7 +10877,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B65",
-        "value":  "#VALUE!"
+        "value":  21701674.650356371
     },
     {
         "sheet":  "Chain Ladder",
@@ -10972,7 +10887,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B66",
-        "value":  "#VALUE!"
+        "value":  22667502.005790651
     },
     {
         "sheet":  "Chain Ladder",
@@ -10982,7 +10897,7 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B67",
-        "value":  "#VALUE!"
+        "value":  24348255.219116721
     },
     {
         "sheet":  "Chain Ladder",
@@ -11037,12 +10952,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B71",
-        "value":  "#VALUE!"
+        "value":  0
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C71",
-        "value":  "#VALUE!"
+        "value":  0
     },
     {
         "sheet":  "Chain Ladder",
@@ -11057,17 +10972,17 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "F71",
-        "value":  "#VALUE!"
+        "value":  0
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G71",
-        "value":  "#VALUE!"
+        "value":  0
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H71",
-        "value":  "#VALUE!"
+        "value":  0
     },
     {
         "sheet":  "Chain Ladder",
@@ -11077,12 +10992,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B72",
-        "value":  "#VALUE!"
+        "value":  96689.57884393548
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C72",
-        "value":  "#VALUE!"
+        "value":  43838.676128112784
     },
     {
         "sheet":  "Chain Ladder",
@@ -11092,22 +11007,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E72",
-        "value":  "#VALUE!"
+        "value":  0.99901271883945086
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F72",
-        "value":  "#VALUE!"
+        "value":  90421.684386485256
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G72",
-        "value":  "#VALUE!"
+        "value":  123772.86750806216
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H72",
-        "value":  "#VALUE!"
+        "value":  156968.65574246366
     },
     {
         "sheet":  "Chain Ladder",
@@ -11117,12 +11032,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B73",
-        "value":  "#VALUE!"
+        "value":  478661.75236854167
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C73",
-        "value":  "#VALUE!"
+        "value":  111630.20540737057
     },
     {
         "sheet":  "Chain Ladder",
@@ -11132,22 +11047,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E73",
-        "value":  "#VALUE!"
+        "value":  1.0199289660697728
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F73",
-        "value":  "#VALUE!"
+        "value":  468279.11290983297
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G73",
-        "value":  "#VALUE!"
+        "value":  547268.788686486
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H73",
-        "value":  "#VALUE!"
+        "value":  629940.24622077961
     },
     {
         "sheet":  "Chain Ladder",
@@ -11157,12 +11072,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B74",
-        "value":  "#VALUE!"
+        "value":  717534.19977938116
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C74",
-        "value":  "#VALUE!"
+        "value":  139317.61543909326
     },
     {
         "sheet":  "Chain Ladder",
@@ -11172,22 +11087,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E74",
-        "value":  "#VALUE!"
+        "value":  0.9845141682797085
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F74",
-        "value":  "#VALUE!"
+        "value":  713835.09129768237
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G74",
-        "value":  "#VALUE!"
+        "value":  809287.138435958
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H74",
-        "value":  "#VALUE!"
+        "value":  894659.10178380739
     },
     {
         "sheet":  "Chain Ladder",
@@ -11197,12 +11112,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B75",
-        "value":  "#VALUE!"
+        "value":  997137.24285061727
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C75",
-        "value":  "#VALUE!"
+        "value":  259867.64582382049
     },
     {
         "sheet":  "Chain Ladder",
@@ -11212,22 +11127,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E75",
-        "value":  "#VALUE!"
+        "value":  1.0149850831493863
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F75",
-        "value":  "#VALUE!"
+        "value":  963623.40217041038
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G75",
-        "value":  "#VALUE!"
+        "value":  1156111.2954789149
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H75",
-        "value":  "#VALUE!"
+        "value":  1366904.0078474702
     },
     {
         "sheet":  "Chain Ladder",
@@ -11237,12 +11152,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B76",
-        "value":  "#VALUE!"
+        "value":  1421736.1026702735
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C76",
-        "value":  "#VALUE!"
+        "value":  381447.22255298472
     },
     {
         "sheet":  "Chain Ladder",
@@ -11252,22 +11167,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E76",
-        "value":  "#VALUE!"
+        "value":  0.957503125313421
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F76",
-        "value":  "#VALUE!"
+        "value":  1381531.9200491621
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G76",
-        "value":  "#VALUE!"
+        "value":  1659583.6385982237
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H76",
-        "value":  "#VALUE!"
+        "value":  1950058.2119663232
     },
     {
         "sheet":  "Chain Ladder",
@@ -11277,12 +11192,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B77",
-        "value":  "#VALUE!"
+        "value":  2198152.3893766883
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C77",
-        "value":  "#VALUE!"
+        "value":  521027.4544343414
     },
     {
         "sheet":  "Chain Ladder",
@@ -11292,22 +11207,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E77",
-        "value":  "#VALUE!"
+        "value":  0.98325989989458618
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F77",
-        "value":  "#VALUE!"
+        "value":  2160470.411645113
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G77",
-        "value":  "#VALUE!"
+        "value":  2498001.9499412216
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H77",
-        "value":  "#VALUE!"
+        "value":  2888810.9828496925
     },
     {
         "sheet":  "Chain Ladder",
@@ -11317,12 +11232,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B78",
-        "value":  "#VALUE!"
+        "value":  3952143.630082346
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C78",
-        "value":  "#VALUE!"
+        "value":  723366.14070964442
     },
     {
         "sheet":  "Chain Ladder",
@@ -11332,22 +11247,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E78",
-        "value":  "#VALUE!"
+        "value":  0.98384367212241419
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F78",
-        "value":  "#VALUE!"
+        "value":  3908887.2879836895
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G78",
-        "value":  "#VALUE!"
+        "value":  4391569.4694389878
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H78",
-        "value":  "#VALUE!"
+        "value":  4906764.0104379486
     },
     {
         "sheet":  "Chain Ladder",
@@ -11357,12 +11272,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B79",
-        "value":  "#VALUE!"
+        "value":  4292267.3035301808
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C79",
-        "value":  "#VALUE!"
+        "value":  810711.31473489944
     },
     {
         "sheet":  "Chain Ladder",
@@ -11372,22 +11287,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E79",
-        "value":  "#VALUE!"
+        "value":  1.0015495754992538
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F79",
-        "value":  "#VALUE!"
+        "value":  4222254.9282390224
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G79",
-        "value":  "#VALUE!"
+        "value":  4763781.027283527
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H79",
-        "value":  "#VALUE!"
+        "value":  5375322.7711308058
     },
     {
         "sheet":  "Chain Ladder",
@@ -11397,12 +11312,12 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "B80",
-        "value":  "#VALUE!"
+        "value":  4644454.4925425369
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "C80",
-        "value":  "#VALUE!"
+        "value":  1311886.5697135208
     },
     {
         "sheet":  "Chain Ladder",
@@ -11412,22 +11327,22 @@
     {
         "sheet":  "Chain Ladder",
         "cell":  "E80",
-        "value":  "#VALUE!"
+        "value":  1.0204786783296935
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "F80",
-        "value":  "#VALUE!"
+        "value":  4565487.932428156
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "G80",
-        "value":  "#VALUE!"
+        "value":  5641773.9690507818
     },
     {
         "sheet":  "Chain Ladder",
         "cell":  "H80",
-        "value":  "#VALUE!"
+        "value":  6371858.0388103062
     },
     {
         "sheet":  "Chain Ladder",
@@ -11438,406 +11353,6 @@
         "sheet":  "Chain Ladder",
         "cell":  "D81",
         "value":  2228677
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A83",
-        "value":  "ADDITIONAL RESERVING FUNCTIONS"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A85",
-        "value":  "LATEST DIAGONAL (ACT_CL_LATEST)"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A86",
-        "value":  "AY"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B86",
-        "value":  "Latest"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A87",
-        "value":  1
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B87",
-        "value":  3901463
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A88",
-        "value":  2
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B88",
-        "value":  5339085
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A89",
-        "value":  3
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B89",
-        "value":  4909315
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A90",
-        "value":  4
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B90",
-        "value":  4588268
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A91",
-        "value":  5
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B91",
-        "value":  3873311
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A92",
-        "value":  6
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B92",
-        "value":  3691712
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A93",
-        "value":  7
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B93",
-        "value":  3483130
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A94",
-        "value":  8
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B94",
-        "value":  2864498
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A95",
-        "value":  9
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B95",
-        "value":  1363294
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A96",
-        "value":  10
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B96",
-        "value":  344014
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A98",
-        "value":  "MACK FACTOR STANDARD ERRORS (ACT_MACK_FACTOR_SE)"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A99",
-        "value":  "Period"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B99",
-        "value":  "SE"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A100",
-        "value":  "1-2"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B100",
-        "value":  0.21947724344201086
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A101",
-        "value":  "2-3"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B101",
-        "value":  0.060672859070156529
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A102",
-        "value":  "3-4"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B102",
-        "value":  0.052808955270658868
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A103",
-        "value":  "4-5"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B103",
-        "value":  0.028688326787999673
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A104",
-        "value":  "5-6"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B104",
-        "value":  0.027647994843173821
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A105",
-        "value":  "6-7"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B105",
-        "value":  0.022650719027824531
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A106",
-        "value":  "7-8"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B106",
-        "value":  0.00592010813016903
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A107",
-        "value":  "8-9"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B107",
-        "value":  0.011604405647122914
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A108",
-        "value":  "9-10"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B108",
-        "value":  0.010793662214879584
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A110",
-        "value":  "BORNHUETTER-FERGUSON ULTIMATES (ACT_BF_ULTIMATE)"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A111",
-        "value":  "Apriori = ACT_CL_LATEST × 1.10"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A112",
-        "value":  "AY"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B112",
-        "value":  "Apriori"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C112",
-        "value":  "BF Ultimate"
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A113",
-        "value":  1
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B113",
-        "value":  4291609.3000000007
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C113",
-        "value":  3901463
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A114",
-        "value":  2
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B114",
-        "value":  5872993.5000000009
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C114",
-        "value":  5441369.23602582
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A115",
-        "value":  3
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B115",
-        "value":  5400246.5
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C115",
-        "value":  5380696.0344765028
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A116",
-        "value":  4
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B116",
-        "value":  5047094.8000000007
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C116",
-        "value":  5264310.4734793557
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A117",
-        "value":  5
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B117",
-        "value":  4260642.1000000006
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C117",
-        "value":  4737058.5425295215
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A118",
-        "value":  6
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B118",
-        "value":  4060883.2
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C118",
-        "value":  4819488.5014238991
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A119",
-        "value":  7
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B119",
-        "value":  3831443.0000000005
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C119",
-        "value":  4957046.9753418164
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A120",
-        "value":  8
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B120",
-        "value":  3150947.8000000003
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C120",
-        "value":  4685136.1393447807
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A121",
-        "value":  9
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B121",
-        "value":  1499623.4000000001
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C121",
-        "value":  2500575.835797078
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "A122",
-        "value":  10
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "B122",
-        "value":  378415.4
-    },
-    {
-        "sheet":  "Chain Ladder",
-        "cell":  "C122",
-        "value":  696235.2777884783
     },
     {
         "sheet":  "Copulas",
@@ -12002,17 +11517,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B19",
-        "value":  "#VALUE!"
+        "value":  0.65235579726025084
     },
     {
         "sheet":  "Copulas",
         "cell":  "C19",
-        "value":  "#VALUE!"
+        "value":  0.46195522407776868
     },
     {
         "sheet":  "Copulas",
         "cell":  "D19",
-        "value":  "#VALUE!"
+        "value":  0.210568160963589
     },
     {
         "sheet":  "Copulas",
@@ -12022,17 +11537,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B20",
-        "value":  "#VALUE!"
+        "value":  0.50578855143863277
     },
     {
         "sheet":  "Copulas",
         "cell":  "C20",
-        "value":  "#VALUE!"
+        "value":  0.65919143607616648
     },
     {
         "sheet":  "Copulas",
         "cell":  "D20",
-        "value":  "#VALUE!"
+        "value":  0.52798691494895766
     },
     {
         "sheet":  "Copulas",
@@ -12042,17 +11557,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B21",
-        "value":  "#VALUE!"
+        "value":  0.80775884894099415
     },
     {
         "sheet":  "Copulas",
         "cell":  "C21",
-        "value":  "#VALUE!"
+        "value":  0.80527876615578586
     },
     {
         "sheet":  "Copulas",
         "cell":  "D21",
-        "value":  "#VALUE!"
+        "value":  0.45757302190671711
     },
     {
         "sheet":  "Copulas",
@@ -12062,17 +11577,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B22",
-        "value":  "#VALUE!"
+        "value":  0.19711881759498889
     },
     {
         "sheet":  "Copulas",
         "cell":  "C22",
-        "value":  "#VALUE!"
+        "value":  0.066528524996629521
     },
     {
         "sheet":  "Copulas",
         "cell":  "D22",
-        "value":  "#VALUE!"
+        "value":  0.00022182867754633908
     },
     {
         "sheet":  "Copulas",
@@ -12082,17 +11597,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B23",
-        "value":  "#VALUE!"
+        "value":  0.32751033742588964
     },
     {
         "sheet":  "Copulas",
         "cell":  "C23",
-        "value":  "#VALUE!"
+        "value":  0.53919808155597193
     },
     {
         "sheet":  "Copulas",
         "cell":  "D23",
-        "value":  "#VALUE!"
+        "value":  0.43620995658169787
     },
     {
         "sheet":  "Copulas",
@@ -12102,17 +11617,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B24",
-        "value":  "#VALUE!"
+        "value":  0.067635251892792861
     },
     {
         "sheet":  "Copulas",
         "cell":  "C24",
-        "value":  "#VALUE!"
+        "value":  0.085601087185294245
     },
     {
         "sheet":  "Copulas",
         "cell":  "D24",
-        "value":  "#VALUE!"
+        "value":  0.77211851437161716
     },
     {
         "sheet":  "Copulas",
@@ -12122,17 +11637,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B25",
-        "value":  "#VALUE!"
+        "value":  0.4476912139972502
     },
     {
         "sheet":  "Copulas",
         "cell":  "C25",
-        "value":  "#VALUE!"
+        "value":  0.35985214317431996
     },
     {
         "sheet":  "Copulas",
         "cell":  "D25",
-        "value":  "#VALUE!"
+        "value":  0.22203761338538192
     },
     {
         "sheet":  "Copulas",
@@ -12142,17 +11657,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B26",
-        "value":  "#VALUE!"
+        "value":  0.91448292107445983
     },
     {
         "sheet":  "Copulas",
         "cell":  "C26",
-        "value":  "#VALUE!"
+        "value":  0.91128593829118065
     },
     {
         "sheet":  "Copulas",
         "cell":  "D26",
-        "value":  "#VALUE!"
+        "value":  0.92177957977073954
     },
     {
         "sheet":  "Copulas",
@@ -12162,17 +11677,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B27",
-        "value":  "#VALUE!"
+        "value":  0.36515271130415888
     },
     {
         "sheet":  "Copulas",
         "cell":  "C27",
-        "value":  "#VALUE!"
+        "value":  0.089990996556025021
     },
     {
         "sheet":  "Copulas",
         "cell":  "D27",
-        "value":  "#VALUE!"
+        "value":  0.24133352500597716
     },
     {
         "sheet":  "Copulas",
@@ -12182,17 +11697,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B28",
-        "value":  "#VALUE!"
+        "value":  0.19734714991825986
     },
     {
         "sheet":  "Copulas",
         "cell":  "C28",
-        "value":  "#VALUE!"
+        "value":  0.39774815550146897
     },
     {
         "sheet":  "Copulas",
         "cell":  "D28",
-        "value":  "#VALUE!"
+        "value":  0.23672928520229991
     },
     {
         "sheet":  "Copulas",
@@ -12202,17 +11717,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B29",
-        "value":  "#VALUE!"
+        "value":  0.41283936208061472
     },
     {
         "sheet":  "Copulas",
         "cell":  "C29",
-        "value":  "#VALUE!"
+        "value":  0.087739956392008739
     },
     {
         "sheet":  "Copulas",
         "cell":  "D29",
-        "value":  "#VALUE!"
+        "value":  0.44198755492489722
     },
     {
         "sheet":  "Copulas",
@@ -12222,17 +11737,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B30",
-        "value":  "#VALUE!"
+        "value":  0.055780916831000435
     },
     {
         "sheet":  "Copulas",
         "cell":  "C30",
-        "value":  "#VALUE!"
+        "value":  0.12984347522109552
     },
     {
         "sheet":  "Copulas",
         "cell":  "D30",
-        "value":  "#VALUE!"
+        "value":  0.65146380209037491
     },
     {
         "sheet":  "Copulas",
@@ -12242,17 +11757,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B31",
-        "value":  "#VALUE!"
+        "value":  0.15455696167726757
     },
     {
         "sheet":  "Copulas",
         "cell":  "C31",
-        "value":  "#VALUE!"
+        "value":  0.1606373365308062
     },
     {
         "sheet":  "Copulas",
         "cell":  "D31",
-        "value":  "#VALUE!"
+        "value":  0.057854654370122993
     },
     {
         "sheet":  "Copulas",
@@ -12262,17 +11777,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B32",
-        "value":  "#VALUE!"
+        "value":  0.6365622135478467
     },
     {
         "sheet":  "Copulas",
         "cell":  "C32",
-        "value":  "#VALUE!"
+        "value":  0.619382008445778
     },
     {
         "sheet":  "Copulas",
         "cell":  "D32",
-        "value":  "#VALUE!"
+        "value":  0.86469621134692431
     },
     {
         "sheet":  "Copulas",
@@ -12282,17 +11797,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B33",
-        "value":  "#VALUE!"
+        "value":  0.95922240189936137
     },
     {
         "sheet":  "Copulas",
         "cell":  "C33",
-        "value":  "#VALUE!"
+        "value":  0.93405075846931329
     },
     {
         "sheet":  "Copulas",
         "cell":  "D33",
-        "value":  "#VALUE!"
+        "value":  0.95218133872953314
     },
     {
         "sheet":  "Copulas",
@@ -12302,17 +11817,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B34",
-        "value":  "#VALUE!"
+        "value":  0.76254504217989449
     },
     {
         "sheet":  "Copulas",
         "cell":  "C34",
-        "value":  "#VALUE!"
+        "value":  0.73643185346968809
     },
     {
         "sheet":  "Copulas",
         "cell":  "D34",
-        "value":  "#VALUE!"
+        "value":  0.58586137818743889
     },
     {
         "sheet":  "Copulas",
@@ -12322,17 +11837,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B35",
-        "value":  "#VALUE!"
+        "value":  0.3940056696437626
     },
     {
         "sheet":  "Copulas",
         "cell":  "C35",
-        "value":  "#VALUE!"
+        "value":  0.27584254767168803
     },
     {
         "sheet":  "Copulas",
         "cell":  "D35",
-        "value":  "#VALUE!"
+        "value":  0.33188272402313751
     },
     {
         "sheet":  "Copulas",
@@ -12342,17 +11857,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B36",
-        "value":  "#VALUE!"
+        "value":  0.74746772578331466
     },
     {
         "sheet":  "Copulas",
         "cell":  "C36",
-        "value":  "#VALUE!"
+        "value":  0.58774301216616442
     },
     {
         "sheet":  "Copulas",
         "cell":  "D36",
-        "value":  "#VALUE!"
+        "value":  0.21700615029803333
     },
     {
         "sheet":  "Copulas",
@@ -12362,17 +11877,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B37",
-        "value":  "#VALUE!"
+        "value":  0.68169880299567454
     },
     {
         "sheet":  "Copulas",
         "cell":  "C37",
-        "value":  "#VALUE!"
+        "value":  0.70706902724885867
     },
     {
         "sheet":  "Copulas",
         "cell":  "D37",
-        "value":  "#VALUE!"
+        "value":  0.70475660833856879
     },
     {
         "sheet":  "Copulas",
@@ -12382,17 +11897,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B38",
-        "value":  "#VALUE!"
+        "value":  0.65666487998865175
     },
     {
         "sheet":  "Copulas",
         "cell":  "C38",
-        "value":  "#VALUE!"
+        "value":  0.72240976551077185
     },
     {
         "sheet":  "Copulas",
         "cell":  "D38",
-        "value":  "#VALUE!"
+        "value":  0.56564958044404512
     },
     {
         "sheet":  "Copulas",
@@ -12402,17 +11917,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B39",
-        "value":  "#VALUE!"
+        "value":  0.50472670547065035
     },
     {
         "sheet":  "Copulas",
         "cell":  "C39",
-        "value":  "#VALUE!"
+        "value":  0.43230838885043366
     },
     {
         "sheet":  "Copulas",
         "cell":  "D39",
-        "value":  "#VALUE!"
+        "value":  0.77215531853816177
     },
     {
         "sheet":  "Copulas",
@@ -12422,17 +11937,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B40",
-        "value":  "#VALUE!"
+        "value":  0.52307370352115545
     },
     {
         "sheet":  "Copulas",
         "cell":  "C40",
-        "value":  "#VALUE!"
+        "value":  0.43041773965292951
     },
     {
         "sheet":  "Copulas",
         "cell":  "D40",
-        "value":  "#VALUE!"
+        "value":  0.461659198623136
     },
     {
         "sheet":  "Copulas",
@@ -12442,17 +11957,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B41",
-        "value":  "#VALUE!"
+        "value":  0.23569184866766407
     },
     {
         "sheet":  "Copulas",
         "cell":  "C41",
-        "value":  "#VALUE!"
+        "value":  0.52400964343159939
     },
     {
         "sheet":  "Copulas",
         "cell":  "D41",
-        "value":  "#VALUE!"
+        "value":  0.88761956905122308
     },
     {
         "sheet":  "Copulas",
@@ -12462,17 +11977,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B42",
-        "value":  "#VALUE!"
+        "value":  0.6690136809917141
     },
     {
         "sheet":  "Copulas",
         "cell":  "C42",
-        "value":  "#VALUE!"
+        "value":  0.59143003523854143
     },
     {
         "sheet":  "Copulas",
         "cell":  "D42",
-        "value":  "#VALUE!"
+        "value":  0.58712718830672017
     },
     {
         "sheet":  "Copulas",
@@ -12482,17 +11997,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B43",
-        "value":  "#VALUE!"
+        "value":  0.426952594942638
     },
     {
         "sheet":  "Copulas",
         "cell":  "C43",
-        "value":  "#VALUE!"
+        "value":  0.32390687683627778
     },
     {
         "sheet":  "Copulas",
         "cell":  "D43",
-        "value":  "#VALUE!"
+        "value":  0.19555853228619968
     },
     {
         "sheet":  "Copulas",
@@ -12502,17 +12017,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B44",
-        "value":  "#VALUE!"
+        "value":  0.665753080855242
     },
     {
         "sheet":  "Copulas",
         "cell":  "C44",
-        "value":  "#VALUE!"
+        "value":  0.8227263519634882
     },
     {
         "sheet":  "Copulas",
         "cell":  "D44",
-        "value":  "#VALUE!"
+        "value":  0.12561946809406005
     },
     {
         "sheet":  "Copulas",
@@ -12522,17 +12037,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B45",
-        "value":  "#VALUE!"
+        "value":  0.33701008868041887
     },
     {
         "sheet":  "Copulas",
         "cell":  "C45",
-        "value":  "#VALUE!"
+        "value":  0.284866846728624
     },
     {
         "sheet":  "Copulas",
         "cell":  "D45",
-        "value":  "#VALUE!"
+        "value":  0.28470704406468877
     },
     {
         "sheet":  "Copulas",
@@ -12542,17 +12057,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B46",
-        "value":  "#VALUE!"
+        "value":  0.50460221952132822
     },
     {
         "sheet":  "Copulas",
         "cell":  "C46",
-        "value":  "#VALUE!"
+        "value":  0.55851973459715509
     },
     {
         "sheet":  "Copulas",
         "cell":  "D46",
-        "value":  "#VALUE!"
+        "value":  0.64403466096366246
     },
     {
         "sheet":  "Copulas",
@@ -12562,17 +12077,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B47",
-        "value":  "#VALUE!"
+        "value":  0.54580618571672379
     },
     {
         "sheet":  "Copulas",
         "cell":  "C47",
-        "value":  "#VALUE!"
+        "value":  0.515060027929862
     },
     {
         "sheet":  "Copulas",
         "cell":  "D47",
-        "value":  "#VALUE!"
+        "value":  0.13749227890622273
     },
     {
         "sheet":  "Copulas",
@@ -12582,17 +12097,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B48",
-        "value":  "#VALUE!"
+        "value":  0.24159012666430019
     },
     {
         "sheet":  "Copulas",
         "cell":  "C48",
-        "value":  "#VALUE!"
+        "value":  0.20287663860483746
     },
     {
         "sheet":  "Copulas",
         "cell":  "D48",
-        "value":  "#VALUE!"
+        "value":  0.82649092407346236
     },
     {
         "sheet":  "Copulas",
@@ -12602,17 +12117,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B49",
-        "value":  "#VALUE!"
+        "value":  0.67597256983795051
     },
     {
         "sheet":  "Copulas",
         "cell":  "C49",
-        "value":  "#VALUE!"
+        "value":  0.62429172309777792
     },
     {
         "sheet":  "Copulas",
         "cell":  "D49",
-        "value":  "#VALUE!"
+        "value":  0.760567579315315
     },
     {
         "sheet":  "Copulas",
@@ -12622,17 +12137,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B50",
-        "value":  "#VALUE!"
+        "value":  0.50685188928050762
     },
     {
         "sheet":  "Copulas",
         "cell":  "C50",
-        "value":  "#VALUE!"
+        "value":  0.63964003241386991
     },
     {
         "sheet":  "Copulas",
         "cell":  "D50",
-        "value":  "#VALUE!"
+        "value":  0.54034541001075609
     },
     {
         "sheet":  "Copulas",
@@ -12642,17 +12157,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B51",
-        "value":  "#VALUE!"
+        "value":  0.47159647039310609
     },
     {
         "sheet":  "Copulas",
         "cell":  "C51",
-        "value":  "#VALUE!"
+        "value":  0.49917505730289963
     },
     {
         "sheet":  "Copulas",
         "cell":  "D51",
-        "value":  "#VALUE!"
+        "value":  0.9169606906558595
     },
     {
         "sheet":  "Copulas",
@@ -12662,17 +12177,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B52",
-        "value":  "#VALUE!"
+        "value":  0.67567108326778824
     },
     {
         "sheet":  "Copulas",
         "cell":  "C52",
-        "value":  "#VALUE!"
+        "value":  0.71576361649787135
     },
     {
         "sheet":  "Copulas",
         "cell":  "D52",
-        "value":  "#VALUE!"
+        "value":  0.526237694776285
     },
     {
         "sheet":  "Copulas",
@@ -12682,17 +12197,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B53",
-        "value":  "#VALUE!"
+        "value":  0.30606403225556211
     },
     {
         "sheet":  "Copulas",
         "cell":  "C53",
-        "value":  "#VALUE!"
+        "value":  0.60609688919311755
     },
     {
         "sheet":  "Copulas",
         "cell":  "D53",
-        "value":  "#VALUE!"
+        "value":  0.69991188892197076
     },
     {
         "sheet":  "Copulas",
@@ -12702,17 +12217,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B54",
-        "value":  "#VALUE!"
+        "value":  0.17512435185287023
     },
     {
         "sheet":  "Copulas",
         "cell":  "C54",
-        "value":  "#VALUE!"
+        "value":  0.33328062045512363
     },
     {
         "sheet":  "Copulas",
         "cell":  "D54",
-        "value":  "#VALUE!"
+        "value":  0.55934087191306214
     },
     {
         "sheet":  "Copulas",
@@ -12722,17 +12237,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B55",
-        "value":  "#VALUE!"
+        "value":  0.4590388819923632
     },
     {
         "sheet":  "Copulas",
         "cell":  "C55",
-        "value":  "#VALUE!"
+        "value":  0.34941757225754327
     },
     {
         "sheet":  "Copulas",
         "cell":  "D55",
-        "value":  "#VALUE!"
+        "value":  0.53249192934856571
     },
     {
         "sheet":  "Copulas",
@@ -12742,17 +12257,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B56",
-        "value":  "#VALUE!"
+        "value":  0.726431158626812
     },
     {
         "sheet":  "Copulas",
         "cell":  "C56",
-        "value":  "#VALUE!"
+        "value":  0.64205944556265515
     },
     {
         "sheet":  "Copulas",
         "cell":  "D56",
-        "value":  "#VALUE!"
+        "value":  0.30725747576033519
     },
     {
         "sheet":  "Copulas",
@@ -12762,17 +12277,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B57",
-        "value":  "#VALUE!"
+        "value":  0.0814391379870787
     },
     {
         "sheet":  "Copulas",
         "cell":  "C57",
-        "value":  "#VALUE!"
+        "value":  0.039552918602916244
     },
     {
         "sheet":  "Copulas",
         "cell":  "D57",
-        "value":  "#VALUE!"
+        "value":  0.034972423640121209
     },
     {
         "sheet":  "Copulas",
@@ -12782,17 +12297,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B58",
-        "value":  "#VALUE!"
+        "value":  0.31744839144563036
     },
     {
         "sheet":  "Copulas",
         "cell":  "C58",
-        "value":  "#VALUE!"
+        "value":  0.27941008326891309
     },
     {
         "sheet":  "Copulas",
         "cell":  "D58",
-        "value":  "#VALUE!"
+        "value":  0.45298378389803945
     },
     {
         "sheet":  "Copulas",
@@ -12802,17 +12317,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B59",
-        "value":  "#VALUE!"
+        "value":  0.38973887995140305
     },
     {
         "sheet":  "Copulas",
         "cell":  "C59",
-        "value":  "#VALUE!"
+        "value":  0.67103027191657971
     },
     {
         "sheet":  "Copulas",
         "cell":  "D59",
-        "value":  "#VALUE!"
+        "value":  0.85440070496901432
     },
     {
         "sheet":  "Copulas",
@@ -12822,17 +12337,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B60",
-        "value":  "#VALUE!"
+        "value":  0.55570840050406323
     },
     {
         "sheet":  "Copulas",
         "cell":  "C60",
-        "value":  "#VALUE!"
+        "value":  0.72631240812049747
     },
     {
         "sheet":  "Copulas",
         "cell":  "D60",
-        "value":  "#VALUE!"
+        "value":  0.42527777668983691
     },
     {
         "sheet":  "Copulas",
@@ -12842,17 +12357,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B61",
-        "value":  "#VALUE!"
+        "value":  0.757291524763489
     },
     {
         "sheet":  "Copulas",
         "cell":  "C61",
-        "value":  "#VALUE!"
+        "value":  0.71936826246677543
     },
     {
         "sheet":  "Copulas",
         "cell":  "D61",
-        "value":  "#VALUE!"
+        "value":  0.61361876358695477
     },
     {
         "sheet":  "Copulas",
@@ -12862,17 +12377,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B62",
-        "value":  "#VALUE!"
+        "value":  0.062029841316841292
     },
     {
         "sheet":  "Copulas",
         "cell":  "C62",
-        "value":  "#VALUE!"
+        "value":  0.07002099861039264
     },
     {
         "sheet":  "Copulas",
         "cell":  "D62",
-        "value":  "#VALUE!"
+        "value":  0.29007664025953089
     },
     {
         "sheet":  "Copulas",
@@ -12882,17 +12397,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B63",
-        "value":  "#VALUE!"
+        "value":  0.32818004597098582
     },
     {
         "sheet":  "Copulas",
         "cell":  "C63",
-        "value":  "#VALUE!"
+        "value":  0.39791060501190229
     },
     {
         "sheet":  "Copulas",
         "cell":  "D63",
-        "value":  "#VALUE!"
+        "value":  0.45618296513072448
     },
     {
         "sheet":  "Copulas",
@@ -12902,17 +12417,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B64",
-        "value":  "#VALUE!"
+        "value":  0.9357454613375813
     },
     {
         "sheet":  "Copulas",
         "cell":  "C64",
-        "value":  "#VALUE!"
+        "value":  0.89667058883328687
     },
     {
         "sheet":  "Copulas",
         "cell":  "D64",
-        "value":  "#VALUE!"
+        "value":  0.95933487328694844
     },
     {
         "sheet":  "Copulas",
@@ -12922,17 +12437,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B65",
-        "value":  "#VALUE!"
+        "value":  0.9404710224789099
     },
     {
         "sheet":  "Copulas",
         "cell":  "C65",
-        "value":  "#VALUE!"
+        "value":  0.93425340036763249
     },
     {
         "sheet":  "Copulas",
         "cell":  "D65",
-        "value":  "#VALUE!"
+        "value":  0.8770111290145467
     },
     {
         "sheet":  "Copulas",
@@ -12942,17 +12457,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B66",
-        "value":  "#VALUE!"
+        "value":  0.030251689685865463
     },
     {
         "sheet":  "Copulas",
         "cell":  "C66",
-        "value":  "#VALUE!"
+        "value":  0.041956719116226976
     },
     {
         "sheet":  "Copulas",
         "cell":  "D66",
-        "value":  "#VALUE!"
+        "value":  0.61055575212665214
     },
     {
         "sheet":  "Copulas",
@@ -12962,17 +12477,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B67",
-        "value":  "#VALUE!"
+        "value":  0.47573613255793396
     },
     {
         "sheet":  "Copulas",
         "cell":  "C67",
-        "value":  "#VALUE!"
+        "value":  0.38810128268668254
     },
     {
         "sheet":  "Copulas",
         "cell":  "D67",
-        "value":  "#VALUE!"
+        "value":  0.23209506398196789
     },
     {
         "sheet":  "Copulas",
@@ -12982,17 +12497,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B68",
-        "value":  "#VALUE!"
+        "value":  0.014159554186958389
     },
     {
         "sheet":  "Copulas",
         "cell":  "C68",
-        "value":  "#VALUE!"
+        "value":  0.056281069639571357
     },
     {
         "sheet":  "Copulas",
         "cell":  "D68",
-        "value":  "#VALUE!"
+        "value":  0.013599673823039856
     },
     {
         "sheet":  "Copulas",
@@ -13002,17 +12517,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B69",
-        "value":  "#VALUE!"
+        "value":  0.17865278332009316
     },
     {
         "sheet":  "Copulas",
         "cell":  "C69",
-        "value":  "#VALUE!"
+        "value":  0.26265719926445608
     },
     {
         "sheet":  "Copulas",
         "cell":  "D69",
-        "value":  "#VALUE!"
+        "value":  0.58813787840137222
     },
     {
         "sheet":  "Copulas",
@@ -13022,17 +12537,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B70",
-        "value":  "#VALUE!"
+        "value":  0.1938597902876521
     },
     {
         "sheet":  "Copulas",
         "cell":  "C70",
-        "value":  "#VALUE!"
+        "value":  0.2976066408504135
     },
     {
         "sheet":  "Copulas",
         "cell":  "D70",
-        "value":  "#VALUE!"
+        "value":  0.24918506442247779
     },
     {
         "sheet":  "Copulas",
@@ -13042,17 +12557,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B71",
-        "value":  "#VALUE!"
+        "value":  0.17308484259584345
     },
     {
         "sheet":  "Copulas",
         "cell":  "C71",
-        "value":  "#VALUE!"
+        "value":  0.18989133187032653
     },
     {
         "sheet":  "Copulas",
         "cell":  "D71",
-        "value":  "#VALUE!"
+        "value":  0.27219416046446687
     },
     {
         "sheet":  "Copulas",
@@ -13062,17 +12577,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B72",
-        "value":  "#VALUE!"
+        "value":  0.2133548267939484
     },
     {
         "sheet":  "Copulas",
         "cell":  "C72",
-        "value":  "#VALUE!"
+        "value":  0.15966429488555667
     },
     {
         "sheet":  "Copulas",
         "cell":  "D72",
-        "value":  "#VALUE!"
+        "value":  0.51127686377299986
     },
     {
         "sheet":  "Copulas",
@@ -13082,17 +12597,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B73",
-        "value":  "#VALUE!"
+        "value":  0.33535125071749894
     },
     {
         "sheet":  "Copulas",
         "cell":  "C73",
-        "value":  "#VALUE!"
+        "value":  0.32647604059569935
     },
     {
         "sheet":  "Copulas",
         "cell":  "D73",
-        "value":  "#VALUE!"
+        "value":  0.18443444657610836
     },
     {
         "sheet":  "Copulas",
@@ -13102,17 +12617,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B74",
-        "value":  "#VALUE!"
+        "value":  0.037432074461345
     },
     {
         "sheet":  "Copulas",
         "cell":  "C74",
-        "value":  "#VALUE!"
+        "value":  0.011987220590385461
     },
     {
         "sheet":  "Copulas",
         "cell":  "D74",
-        "value":  "#VALUE!"
+        "value":  0.020226740204577858
     },
     {
         "sheet":  "Copulas",
@@ -13122,17 +12637,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B75",
-        "value":  "#VALUE!"
+        "value":  0.49114652365617872
     },
     {
         "sheet":  "Copulas",
         "cell":  "C75",
-        "value":  "#VALUE!"
+        "value":  0.41878878322631263
     },
     {
         "sheet":  "Copulas",
         "cell":  "D75",
-        "value":  "#VALUE!"
+        "value":  0.12381118386120471
     },
     {
         "sheet":  "Copulas",
@@ -13142,17 +12657,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B76",
-        "value":  "#VALUE!"
+        "value":  0.2244666257009118
     },
     {
         "sheet":  "Copulas",
         "cell":  "C76",
-        "value":  "#VALUE!"
+        "value":  0.18350798916501743
     },
     {
         "sheet":  "Copulas",
         "cell":  "D76",
-        "value":  "#VALUE!"
+        "value":  0.26475581482689781
     },
     {
         "sheet":  "Copulas",
@@ -13162,17 +12677,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B77",
-        "value":  "#VALUE!"
+        "value":  0.95915288711453006
     },
     {
         "sheet":  "Copulas",
         "cell":  "C77",
-        "value":  "#VALUE!"
+        "value":  0.92976759667623532
     },
     {
         "sheet":  "Copulas",
         "cell":  "D77",
-        "value":  "#VALUE!"
+        "value":  0.15286700115762852
     },
     {
         "sheet":  "Copulas",
@@ -13182,17 +12697,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B78",
-        "value":  "#VALUE!"
+        "value":  0.20408571917116675
     },
     {
         "sheet":  "Copulas",
         "cell":  "C78",
-        "value":  "#VALUE!"
+        "value":  0.19386047639224785
     },
     {
         "sheet":  "Copulas",
         "cell":  "D78",
-        "value":  "#VALUE!"
+        "value":  0.45589455208793139
     },
     {
         "sheet":  "Copulas",
@@ -13202,17 +12717,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B79",
-        "value":  "#VALUE!"
+        "value":  0.088268919713061667
     },
     {
         "sheet":  "Copulas",
         "cell":  "C79",
-        "value":  "#VALUE!"
+        "value":  0.076731086063858284
     },
     {
         "sheet":  "Copulas",
         "cell":  "D79",
-        "value":  "#VALUE!"
+        "value":  0.038415491505284907
     },
     {
         "sheet":  "Copulas",
@@ -13222,17 +12737,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B80",
-        "value":  "#VALUE!"
+        "value":  0.53726394884841
     },
     {
         "sheet":  "Copulas",
         "cell":  "C80",
-        "value":  "#VALUE!"
+        "value":  0.40855591253839341
     },
     {
         "sheet":  "Copulas",
         "cell":  "D80",
-        "value":  "#VALUE!"
+        "value":  0.49899810259216004
     },
     {
         "sheet":  "Copulas",
@@ -13242,17 +12757,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B81",
-        "value":  "#VALUE!"
+        "value":  0.26290309904465603
     },
     {
         "sheet":  "Copulas",
         "cell":  "C81",
-        "value":  "#VALUE!"
+        "value":  0.26938423272552003
     },
     {
         "sheet":  "Copulas",
         "cell":  "D81",
-        "value":  "#VALUE!"
+        "value":  0.98348018944493976
     },
     {
         "sheet":  "Copulas",
@@ -13262,17 +12777,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B82",
-        "value":  "#VALUE!"
+        "value":  0.6064127857936541
     },
     {
         "sheet":  "Copulas",
         "cell":  "C82",
-        "value":  "#VALUE!"
+        "value":  0.851686991236142
     },
     {
         "sheet":  "Copulas",
         "cell":  "D82",
-        "value":  "#VALUE!"
+        "value":  0.88725641029052182
     },
     {
         "sheet":  "Copulas",
@@ -13282,17 +12797,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B83",
-        "value":  "#VALUE!"
+        "value":  0.84083141648095039
     },
     {
         "sheet":  "Copulas",
         "cell":  "C83",
-        "value":  "#VALUE!"
+        "value":  0.839792612730601
     },
     {
         "sheet":  "Copulas",
         "cell":  "D83",
-        "value":  "#VALUE!"
+        "value":  0.72665275357421288
     },
     {
         "sheet":  "Copulas",
@@ -13302,17 +12817,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B84",
-        "value":  "#VALUE!"
+        "value":  0.93424574197398735
     },
     {
         "sheet":  "Copulas",
         "cell":  "C84",
-        "value":  "#VALUE!"
+        "value":  0.96332415172773833
     },
     {
         "sheet":  "Copulas",
         "cell":  "D84",
-        "value":  "#VALUE!"
+        "value":  0.91550628321881145
     },
     {
         "sheet":  "Copulas",
@@ -13322,17 +12837,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B85",
-        "value":  "#VALUE!"
+        "value":  0.92727287840152828
     },
     {
         "sheet":  "Copulas",
         "cell":  "C85",
-        "value":  "#VALUE!"
+        "value":  0.917049285673738
     },
     {
         "sheet":  "Copulas",
         "cell":  "D85",
-        "value":  "#VALUE!"
+        "value":  0.536700161506975
     },
     {
         "sheet":  "Copulas",
@@ -13342,17 +12857,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B86",
-        "value":  "#VALUE!"
+        "value":  0.48163398422057491
     },
     {
         "sheet":  "Copulas",
         "cell":  "C86",
-        "value":  "#VALUE!"
+        "value":  0.39638086391032124
     },
     {
         "sheet":  "Copulas",
         "cell":  "D86",
-        "value":  "#VALUE!"
+        "value":  0.81285157356166615
     },
     {
         "sheet":  "Copulas",
@@ -13362,17 +12877,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B87",
-        "value":  "#VALUE!"
+        "value":  0.43982644378523189
     },
     {
         "sheet":  "Copulas",
         "cell":  "C87",
-        "value":  "#VALUE!"
+        "value":  0.4504096460188165
     },
     {
         "sheet":  "Copulas",
         "cell":  "D87",
-        "value":  "#VALUE!"
+        "value":  0.13631661156468239
     },
     {
         "sheet":  "Copulas",
@@ -13382,17 +12897,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B88",
-        "value":  "#VALUE!"
+        "value":  0.76705600211009006
     },
     {
         "sheet":  "Copulas",
         "cell":  "C88",
-        "value":  "#VALUE!"
+        "value":  0.64072537206356173
     },
     {
         "sheet":  "Copulas",
         "cell":  "D88",
-        "value":  "#VALUE!"
+        "value":  0.15941219523606764
     },
     {
         "sheet":  "Copulas",
@@ -13402,17 +12917,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B89",
-        "value":  "#VALUE!"
+        "value":  0.95448179170222713
     },
     {
         "sheet":  "Copulas",
         "cell":  "C89",
-        "value":  "#VALUE!"
+        "value":  0.96734536290575535
     },
     {
         "sheet":  "Copulas",
         "cell":  "D89",
-        "value":  "#VALUE!"
+        "value":  0.99298576517550763
     },
     {
         "sheet":  "Copulas",
@@ -13422,17 +12937,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B90",
-        "value":  "#VALUE!"
+        "value":  0.36239530921380453
     },
     {
         "sheet":  "Copulas",
         "cell":  "C90",
-        "value":  "#VALUE!"
+        "value":  0.70070261862248706
     },
     {
         "sheet":  "Copulas",
         "cell":  "D90",
-        "value":  "#VALUE!"
+        "value":  0.39094434689024704
     },
     {
         "sheet":  "Copulas",
@@ -13442,17 +12957,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B91",
-        "value":  "#VALUE!"
+        "value":  0.65038434895851871
     },
     {
         "sheet":  "Copulas",
         "cell":  "C91",
-        "value":  "#VALUE!"
+        "value":  0.33184430171733492
     },
     {
         "sheet":  "Copulas",
         "cell":  "D91",
-        "value":  "#VALUE!"
+        "value":  0.014139386132244549
     },
     {
         "sheet":  "Copulas",
@@ -13462,17 +12977,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B92",
-        "value":  "#VALUE!"
+        "value":  0.413478708550733
     },
     {
         "sheet":  "Copulas",
         "cell":  "C92",
-        "value":  "#VALUE!"
+        "value":  0.72274914144907221
     },
     {
         "sheet":  "Copulas",
         "cell":  "D92",
-        "value":  "#VALUE!"
+        "value":  0.55424268032295387
     },
     {
         "sheet":  "Copulas",
@@ -13482,17 +12997,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B93",
-        "value":  "#VALUE!"
+        "value":  0.099879909762809
     },
     {
         "sheet":  "Copulas",
         "cell":  "C93",
-        "value":  "#VALUE!"
+        "value":  0.1589954390930941
     },
     {
         "sheet":  "Copulas",
         "cell":  "D93",
-        "value":  "#VALUE!"
+        "value":  0.085659239086174413
     },
     {
         "sheet":  "Copulas",
@@ -13502,17 +13017,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B94",
-        "value":  "#VALUE!"
+        "value":  0.087269959837753514
     },
     {
         "sheet":  "Copulas",
         "cell":  "C94",
-        "value":  "#VALUE!"
+        "value":  0.059953801281156641
     },
     {
         "sheet":  "Copulas",
         "cell":  "D94",
-        "value":  "#VALUE!"
+        "value":  0.56723489420702367
     },
     {
         "sheet":  "Copulas",
@@ -13522,17 +13037,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B95",
-        "value":  "#VALUE!"
+        "value":  0.49675143160381113
     },
     {
         "sheet":  "Copulas",
         "cell":  "C95",
-        "value":  "#VALUE!"
+        "value":  0.55237551744852142
     },
     {
         "sheet":  "Copulas",
         "cell":  "D95",
-        "value":  "#VALUE!"
+        "value":  0.69949713267561819
     },
     {
         "sheet":  "Copulas",
@@ -13542,17 +13057,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B96",
-        "value":  "#VALUE!"
+        "value":  0.041704755083396119
     },
     {
         "sheet":  "Copulas",
         "cell":  "C96",
-        "value":  "#VALUE!"
+        "value":  0.077343823186975344
     },
     {
         "sheet":  "Copulas",
         "cell":  "D96",
-        "value":  "#VALUE!"
+        "value":  0.15007547583281655
     },
     {
         "sheet":  "Copulas",
@@ -13562,17 +13077,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B97",
-        "value":  "#VALUE!"
+        "value":  0.78071503844267676
     },
     {
         "sheet":  "Copulas",
         "cell":  "C97",
-        "value":  "#VALUE!"
+        "value":  0.79171148737331576
     },
     {
         "sheet":  "Copulas",
         "cell":  "D97",
-        "value":  "#VALUE!"
+        "value":  0.630375076548143
     },
     {
         "sheet":  "Copulas",
@@ -13582,17 +13097,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B98",
-        "value":  "#VALUE!"
+        "value":  0.84463081336695889
     },
     {
         "sheet":  "Copulas",
         "cell":  "C98",
-        "value":  "#VALUE!"
+        "value":  0.92791611535911755
     },
     {
         "sheet":  "Copulas",
         "cell":  "D98",
-        "value":  "#VALUE!"
+        "value":  0.87304109920657325
     },
     {
         "sheet":  "Copulas",
@@ -13602,17 +13117,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B99",
-        "value":  "#VALUE!"
+        "value":  0.76344558465929513
     },
     {
         "sheet":  "Copulas",
         "cell":  "C99",
-        "value":  "#VALUE!"
+        "value":  0.753644005570149
     },
     {
         "sheet":  "Copulas",
         "cell":  "D99",
-        "value":  "#VALUE!"
+        "value":  0.96929909115043744
     },
     {
         "sheet":  "Copulas",
@@ -13622,17 +13137,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B100",
-        "value":  "#VALUE!"
+        "value":  0.44315126125815008
     },
     {
         "sheet":  "Copulas",
         "cell":  "C100",
-        "value":  "#VALUE!"
+        "value":  0.46009455354225387
     },
     {
         "sheet":  "Copulas",
         "cell":  "D100",
-        "value":  "#VALUE!"
+        "value":  0.57343738466833882
     },
     {
         "sheet":  "Copulas",
@@ -13642,17 +13157,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B101",
-        "value":  "#VALUE!"
+        "value":  0.74115455211620507
     },
     {
         "sheet":  "Copulas",
         "cell":  "C101",
-        "value":  "#VALUE!"
+        "value":  0.45417069461559334
     },
     {
         "sheet":  "Copulas",
         "cell":  "D101",
-        "value":  "#VALUE!"
+        "value":  0.51514455385696833
     },
     {
         "sheet":  "Copulas",
@@ -13662,17 +13177,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B102",
-        "value":  "#VALUE!"
+        "value":  0.70696275126514618
     },
     {
         "sheet":  "Copulas",
         "cell":  "C102",
-        "value":  "#VALUE!"
+        "value":  0.63097140211211322
     },
     {
         "sheet":  "Copulas",
         "cell":  "D102",
-        "value":  "#VALUE!"
+        "value":  0.42615660556725293
     },
     {
         "sheet":  "Copulas",
@@ -13682,17 +13197,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B103",
-        "value":  "#VALUE!"
+        "value":  0.74924086956671343
     },
     {
         "sheet":  "Copulas",
         "cell":  "C103",
-        "value":  "#VALUE!"
+        "value":  0.82381329516599922
     },
     {
         "sheet":  "Copulas",
         "cell":  "D103",
-        "value":  "#VALUE!"
+        "value":  0.33162724693477513
     },
     {
         "sheet":  "Copulas",
@@ -13702,17 +13217,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B104",
-        "value":  "#VALUE!"
+        "value":  0.45525702206133689
     },
     {
         "sheet":  "Copulas",
         "cell":  "C104",
-        "value":  "#VALUE!"
+        "value":  0.28305195980814213
     },
     {
         "sheet":  "Copulas",
         "cell":  "D104",
-        "value":  "#VALUE!"
+        "value":  0.13565765131809693
     },
     {
         "sheet":  "Copulas",
@@ -13722,17 +13237,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B105",
-        "value":  "#VALUE!"
+        "value":  0.9469520877044737
     },
     {
         "sheet":  "Copulas",
         "cell":  "C105",
-        "value":  "#VALUE!"
+        "value":  0.95272493570011063
     },
     {
         "sheet":  "Copulas",
         "cell":  "D105",
-        "value":  "#VALUE!"
+        "value":  0.47020681071907749
     },
     {
         "sheet":  "Copulas",
@@ -13742,17 +13257,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B106",
-        "value":  "#VALUE!"
+        "value":  0.40224709685271265
     },
     {
         "sheet":  "Copulas",
         "cell":  "C106",
-        "value":  "#VALUE!"
+        "value":  0.0094715925026447288
     },
     {
         "sheet":  "Copulas",
         "cell":  "D106",
-        "value":  "#VALUE!"
+        "value":  0.99135664808257407
     },
     {
         "sheet":  "Copulas",
@@ -13762,17 +13277,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B107",
-        "value":  "#VALUE!"
+        "value":  0.49077117329227621
     },
     {
         "sheet":  "Copulas",
         "cell":  "C107",
-        "value":  "#VALUE!"
+        "value":  0.41015495608566543
     },
     {
         "sheet":  "Copulas",
         "cell":  "D107",
-        "value":  "#VALUE!"
+        "value":  0.74321350766622318
     },
     {
         "sheet":  "Copulas",
@@ -13782,17 +13297,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B108",
-        "value":  "#VALUE!"
+        "value":  0.50867178422843851
     },
     {
         "sheet":  "Copulas",
         "cell":  "C108",
-        "value":  "#VALUE!"
+        "value":  0.43142792586197576
     },
     {
         "sheet":  "Copulas",
         "cell":  "D108",
-        "value":  "#VALUE!"
+        "value":  0.21980295186886106
     },
     {
         "sheet":  "Copulas",
@@ -13802,17 +13317,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B109",
-        "value":  "#VALUE!"
+        "value":  0.97584026711710015
     },
     {
         "sheet":  "Copulas",
         "cell":  "C109",
-        "value":  "#VALUE!"
+        "value":  0.97610400306122669
     },
     {
         "sheet":  "Copulas",
         "cell":  "D109",
-        "value":  "#VALUE!"
+        "value":  0.90956884531099691
     },
     {
         "sheet":  "Copulas",
@@ -13822,17 +13337,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B110",
-        "value":  "#VALUE!"
+        "value":  0.93032282266750654
     },
     {
         "sheet":  "Copulas",
         "cell":  "C110",
-        "value":  "#VALUE!"
+        "value":  0.90975415668889492
     },
     {
         "sheet":  "Copulas",
         "cell":  "D110",
-        "value":  "#VALUE!"
+        "value":  0.69538371086488782
     },
     {
         "sheet":  "Copulas",
@@ -13842,17 +13357,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B111",
-        "value":  "#VALUE!"
+        "value":  0.40865867106674558
     },
     {
         "sheet":  "Copulas",
         "cell":  "C111",
-        "value":  "#VALUE!"
+        "value":  0.35462760003208882
     },
     {
         "sheet":  "Copulas",
         "cell":  "D111",
-        "value":  "#VALUE!"
+        "value":  0.1748789772474838
     },
     {
         "sheet":  "Copulas",
@@ -13862,17 +13377,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B112",
-        "value":  "#VALUE!"
+        "value":  0.509359754867851
     },
     {
         "sheet":  "Copulas",
         "cell":  "C112",
-        "value":  "#VALUE!"
+        "value":  0.52166379150090225
     },
     {
         "sheet":  "Copulas",
         "cell":  "D112",
-        "value":  "#VALUE!"
+        "value":  0.099139705056161986
     },
     {
         "sheet":  "Copulas",
@@ -13882,17 +13397,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B113",
-        "value":  "#VALUE!"
+        "value":  0.67207936637623478
     },
     {
         "sheet":  "Copulas",
         "cell":  "C113",
-        "value":  "#VALUE!"
+        "value":  0.685421067533335
     },
     {
         "sheet":  "Copulas",
         "cell":  "D113",
-        "value":  "#VALUE!"
+        "value":  0.79954009411248506
     },
     {
         "sheet":  "Copulas",
@@ -13902,17 +13417,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B114",
-        "value":  "#VALUE!"
+        "value":  0.49447890603534173
     },
     {
         "sheet":  "Copulas",
         "cell":  "C114",
-        "value":  "#VALUE!"
+        "value":  0.62554595092189458
     },
     {
         "sheet":  "Copulas",
         "cell":  "D114",
-        "value":  "#VALUE!"
+        "value":  0.91279853210271678
     },
     {
         "sheet":  "Copulas",
@@ -13922,17 +13437,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B115",
-        "value":  "#VALUE!"
+        "value":  0.42599769655660613
     },
     {
         "sheet":  "Copulas",
         "cell":  "C115",
-        "value":  "#VALUE!"
+        "value":  0.578298380689705
     },
     {
         "sheet":  "Copulas",
         "cell":  "D115",
-        "value":  "#VALUE!"
+        "value":  0.82097935040389092
     },
     {
         "sheet":  "Copulas",
@@ -13942,17 +13457,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B116",
-        "value":  "#VALUE!"
+        "value":  0.85726618006923827
     },
     {
         "sheet":  "Copulas",
         "cell":  "C116",
-        "value":  "#VALUE!"
+        "value":  0.48488240099105329
     },
     {
         "sheet":  "Copulas",
         "cell":  "D116",
-        "value":  "#VALUE!"
+        "value":  0.44559917140869593
     },
     {
         "sheet":  "Copulas",
@@ -13962,17 +13477,17 @@
     {
         "sheet":  "Copulas",
         "cell":  "B117",
-        "value":  "#VALUE!"
+        "value":  0.19576229868606537
     },
     {
         "sheet":  "Copulas",
         "cell":  "C117",
-        "value":  "#VALUE!"
+        "value":  0.31778286857392624
     },
     {
         "sheet":  "Copulas",
         "cell":  "D117",
-        "value":  "#VALUE!"
+        "value":  0.59780315868992806
     },
     {
         "sheet":  "Copulas",
@@ -13982,22 +13497,3237 @@
     {
         "sheet":  "Copulas",
         "cell":  "B118",
-        "value":  "#VALUE!"
+        "value":  0.85830707073811618
     },
     {
         "sheet":  "Copulas",
         "cell":  "C118",
-        "value":  "#VALUE!"
+        "value":  0.85417586196831818
     },
     {
         "sheet":  "Copulas",
         "cell":  "D118",
-        "value":  "#VALUE!"
+        "value":  0.18776792797331698
     },
     {
         "sheet":  "Copulas",
         "cell":  "A120",
         "value":  "Note: Results are uniform[0,1] values. Apply inverse CDF to get desired marginal distributions."
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A123",
+        "value":  "Gaussian Copula"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A125",
+        "value":  "Correlation matrix:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B126",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C126",
+        "value":  0.7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B127",
+        "value":  0.7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C127",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A128",
+        "value":  "Number of samples:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B128",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A129",
+        "value":  "Random seed:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B129",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A131",
+        "value":  "Sample"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B131",
+        "value":  "U1"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C131",
+        "value":  "U2"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A132",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B132",
+        "value":  0.65850557510982255
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C132",
+        "value":  0.31626137322295622
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A133",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B133",
+        "value":  0.23142073535325788
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C133",
+        "value":  0.77668672115223369
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A134",
+        "value":  3
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B134",
+        "value":  0.25442014072571006
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C134",
+        "value":  0.14286449210295765
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A135",
+        "value":  4
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B135",
+        "value":  0.52511995141536694
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C135",
+        "value":  0.32349811160082714
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A136",
+        "value":  5
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B136",
+        "value":  0.50806485272851265
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C136",
+        "value":  0.82366865525551758
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A137",
+        "value":  6
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B137",
+        "value":  0.37427505488439028
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C137",
+        "value":  0.27391673633084435
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A138",
+        "value":  7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B138",
+        "value":  0.908501490940911
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C138",
+        "value":  0.98981637450791582
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A139",
+        "value":  8
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B139",
+        "value":  0.043309082070903442
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C139",
+        "value":  0.13927213058372739
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A140",
+        "value":  9
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B140",
+        "value":  0.92031023414570468
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C140",
+        "value":  0.88290087378290538
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A141",
+        "value":  10
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B141",
+        "value":  0.2287950334315991
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C141",
+        "value":  0.070537384167467576
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A142",
+        "value":  11
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B142",
+        "value":  0.99313661643266671
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C142",
+        "value":  0.90307311120399447
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A143",
+        "value":  12
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B143",
+        "value":  0.92528984306834172
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C143",
+        "value":  0.67175183621900914
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A144",
+        "value":  13
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B144",
+        "value":  0.37139471545479796
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C144",
+        "value":  0.21766833387225257
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A145",
+        "value":  14
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B145",
+        "value":  0.002418178481987822
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C145",
+        "value":  0.024272128135403623
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A146",
+        "value":  15
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B146",
+        "value":  0.53502594471399378
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C146",
+        "value":  0.33346651137069644
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A147",
+        "value":  16
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B147",
+        "value":  0.54888612941915149
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C147",
+        "value":  0.43469282497464445
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A148",
+        "value":  17
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B148",
+        "value":  0.38117830319449691
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C148",
+        "value":  0.63390214277677714
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A149",
+        "value":  18
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B149",
+        "value":  0.39205245161352131
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C149",
+        "value":  0.58671596881853871
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A150",
+        "value":  19
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B150",
+        "value":  0.61863973203273182
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C150",
+        "value":  0.71652412987612757
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A151",
+        "value":  20
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B151",
+        "value":  0.17376784132877465
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C151",
+        "value":  0.12581106924051402
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A152",
+        "value":  21
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B152",
+        "value":  0.085961867274672726
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C152",
+        "value":  0.17101290730430166
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A153",
+        "value":  22
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B153",
+        "value":  0.87161128633561735
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C153",
+        "value":  0.935876596060866
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A154",
+        "value":  23
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B154",
+        "value":  0.51030468084884306
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C154",
+        "value":  0.51444186948426185
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A155",
+        "value":  24
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B155",
+        "value":  0.41855014179853411
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C155",
+        "value":  0.13148857744748751
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A156",
+        "value":  25
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B156",
+        "value":  0.43495885534454887
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C156",
+        "value":  0.27099424950602918
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A157",
+        "value":  26
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B157",
+        "value":  0.21107332586545435
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C157",
+        "value":  0.38573802211069652
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A158",
+        "value":  27
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B158",
+        "value":  0.040079652526064255
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C158",
+        "value":  0.42871562850643746
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A159",
+        "value":  28
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B159",
+        "value":  0.17808946784858165
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C159",
+        "value":  0.098857923976316556
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A160",
+        "value":  29
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B160",
+        "value":  0.97505501369864556
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C160",
+        "value":  0.94914158341343835
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A161",
+        "value":  30
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B161",
+        "value":  0.9314842792459227
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C161",
+        "value":  0.96112810696746864
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A162",
+        "value":  31
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B162",
+        "value":  0.46138924070512555
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C162",
+        "value":  0.076339698458754324
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A163",
+        "value":  32
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B163",
+        "value":  0.58847249568071192
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C163",
+        "value":  0.14904667522598122
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A164",
+        "value":  33
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B164",
+        "value":  0.39773381118489071
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C164",
+        "value":  0.053282913713020193
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A165",
+        "value":  34
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B165",
+        "value":  0.560145170927517
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C165",
+        "value":  0.733093662629396
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A166",
+        "value":  35
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B166",
+        "value":  0.10366925766946872
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C166",
+        "value":  0.21226681439470277
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A167",
+        "value":  36
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B167",
+        "value":  0.38124591945927783
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C167",
+        "value":  0.57363099725590661
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A168",
+        "value":  37
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B168",
+        "value":  0.22540080978454158
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C168",
+        "value":  0.58752600359835572
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A169",
+        "value":  38
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B169",
+        "value":  0.21524232508647048
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C169",
+        "value":  0.34122032538029512
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A170",
+        "value":  39
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B170",
+        "value":  0.75334571247962268
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C170",
+        "value":  0.370243632295157
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A171",
+        "value":  40
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B171",
+        "value":  0.11159833738426965
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C171",
+        "value":  0.19853408656809174
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A172",
+        "value":  41
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B172",
+        "value":  0.43681819990781762
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C172",
+        "value":  0.049664073511543172
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A173",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B173",
+        "value":  0.74047833742859
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C173",
+        "value":  0.71214888489646466
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A174",
+        "value":  43
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B174",
+        "value":  0.64021624011972988
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C174",
+        "value":  0.45145004819634371
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A175",
+        "value":  44
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B175",
+        "value":  0.17607976244877346
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C175",
+        "value":  0.53309114466330043
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A176",
+        "value":  45
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B176",
+        "value":  0.016640628954934192
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C176",
+        "value":  0.25836582054883311
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A177",
+        "value":  46
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B177",
+        "value":  0.79362406103461947
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C177",
+        "value":  0.94304617205478636
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A178",
+        "value":  47
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B178",
+        "value":  0.45233469459284581
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C178",
+        "value":  0.2518156222133584
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A179",
+        "value":  48
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B179",
+        "value":  0.76624856946543707
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C179",
+        "value":  0.24078655707003466
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A180",
+        "value":  49
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B180",
+        "value":  0.19240805706344236
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C180",
+        "value":  0.23840408353171536
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A181",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B181",
+        "value":  0.10099506153489017
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C181",
+        "value":  0.14815135605783755
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A184",
+        "value":  "Clayton Copula (lower tail)"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A186",
+        "value":  "Theta (\u003e0 for positive dependence):"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B186",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A187",
+        "value":  "Number of samples:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B187",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A188",
+        "value":  "Random seed:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B188",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A190",
+        "value":  "Sample"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B190",
+        "value":  "U1"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C190",
+        "value":  "U2"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A191",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B191",
+        "value":  0.66810646591154232
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C191",
+        "value":  0.37707317946576074
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A192",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B192",
+        "value":  0.12551828945312568
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C192",
+        "value":  0.1682225097277352
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A193",
+        "value":  3
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B193",
+        "value":  0.16843422416990353
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C193",
+        "value":  0.13906443909650526
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A194",
+        "value":  4
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B194",
+        "value":  0.72440836472642067
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C194",
+        "value":  0.69532840995069756
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A195",
+        "value":  5
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B195",
+        "value":  0.17365117053205667
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C195",
+        "value":  0.36240049030815841
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A196",
+        "value":  6
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B196",
+        "value":  0.23458845831201805
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C196",
+        "value":  0.18984922774115573
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A197",
+        "value":  7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B197",
+        "value":  0.50560354464948343
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C197",
+        "value":  0.428528808809808
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A198",
+        "value":  8
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B198",
+        "value":  0.38096961350225361
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C198",
+        "value":  0.301332821015718
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A199",
+        "value":  9
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B199",
+        "value":  0.51745109982669868
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C199",
+        "value":  0.17688871621577085
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A200",
+        "value":  10
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B200",
+        "value":  0.8141373758270114
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C200",
+        "value":  0.77437752276095206
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A201",
+        "value":  11
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B201",
+        "value":  0.3974705140094601
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C201",
+        "value":  0.24342733852355206
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A202",
+        "value":  12
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B202",
+        "value":  0.090112610296398679
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C202",
+        "value":  0.17330355818765295
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A203",
+        "value":  13
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B203",
+        "value":  0.81618194971987135
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C203",
+        "value":  0.75320415220590053
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A204",
+        "value":  14
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B204",
+        "value":  0.04414713803871867
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C204",
+        "value":  0.087069195391189333
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A205",
+        "value":  15
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B205",
+        "value":  0.14776126628171712
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C205",
+        "value":  0.49338612697115153
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A206",
+        "value":  16
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B206",
+        "value":  0.69258972289626941
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C206",
+        "value":  0.68134993970337
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A207",
+        "value":  17
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B207",
+        "value":  0.18637845627329241
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C207",
+        "value":  0.0686254645624997
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A208",
+        "value":  18
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B208",
+        "value":  0.30819966285871325
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C208",
+        "value":  0.42429000617188112
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A209",
+        "value":  19
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B209",
+        "value":  0.82106515198064278
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C209",
+        "value":  0.13037615016207391
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A210",
+        "value":  20
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B210",
+        "value":  0.535722020797302
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C210",
+        "value":  0.80542962222120629
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A211",
+        "value":  21
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B211",
+        "value":  0.74835892708430019
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C211",
+        "value":  0.6212657547602326
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A212",
+        "value":  22
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B212",
+        "value":  0.14911907173186498
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C212",
+        "value":  0.046422502679715288
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A213",
+        "value":  23
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B213",
+        "value":  0.051009009150326724
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C213",
+        "value":  0.1198647226050169
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A214",
+        "value":  24
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B214",
+        "value":  0.62645638437311
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C214",
+        "value":  0.32940485439129391
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A215",
+        "value":  25
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B215",
+        "value":  0.24996082822324747
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C215",
+        "value":  0.49959269988129068
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A216",
+        "value":  26
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B216",
+        "value":  0.28960667890012576
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C216",
+        "value":  0.44735884180174529
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A217",
+        "value":  27
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B217",
+        "value":  0.14364648477344144
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C217",
+        "value":  0.054354899027452212
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A218",
+        "value":  28
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B218",
+        "value":  0.6045592839850854
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C218",
+        "value":  0.63026905255579624
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A219",
+        "value":  29
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B219",
+        "value":  0.050794688077082248
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C219",
+        "value":  0.057344470880749732
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A220",
+        "value":  30
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B220",
+        "value":  0.70658232630537
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C220",
+        "value":  0.76095087761301017
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A221",
+        "value":  31
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B221",
+        "value":  0.2184455372479025
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C221",
+        "value":  0.053132180008972241
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A222",
+        "value":  32
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B222",
+        "value":  0.36516152525561
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C222",
+        "value":  0.29402455102822878
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A223",
+        "value":  33
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B223",
+        "value":  0.068660835767472547
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C223",
+        "value":  0.13686876891893118
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A224",
+        "value":  34
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B224",
+        "value":  0.0709429416204537
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C224",
+        "value":  0.086458587539478549
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A225",
+        "value":  35
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B225",
+        "value":  0.012033524462968822
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C225",
+        "value":  0.029836334796561618
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A226",
+        "value":  36
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B226",
+        "value":  0.43917948307431282
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C226",
+        "value":  0.50633088200152387
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A227",
+        "value":  37
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B227",
+        "value":  0.49959679669681789
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C227",
+        "value":  0.10545882829825906
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A228",
+        "value":  38
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B228",
+        "value":  0.82883792688550328
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C228",
+        "value":  0.19606552650905451
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A229",
+        "value":  39
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B229",
+        "value":  0.0030740085072228727
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C229",
+        "value":  0.0013397170035086758
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A230",
+        "value":  40
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B230",
+        "value":  0.65414312093245941
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C230",
+        "value":  0.219803645834324
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A231",
+        "value":  41
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B231",
+        "value":  0.91351419776376064
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C231",
+        "value":  0.97113519480681965
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A232",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B232",
+        "value":  0.46119376153740743
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C232",
+        "value":  0.43298151688444414
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A233",
+        "value":  43
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B233",
+        "value":  0.61660608072607126
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C233",
+        "value":  0.22743521385337176
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A234",
+        "value":  44
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B234",
+        "value":  0.37276722927240991
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C234",
+        "value":  0.22217506831482361
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A235",
+        "value":  45
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B235",
+        "value":  0.43695068240023716
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C235",
+        "value":  0.72942451675411479
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A236",
+        "value":  46
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B236",
+        "value":  0.53236559849808252
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C236",
+        "value":  0.50230187136181037
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A237",
+        "value":  47
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B237",
+        "value":  0.297372534543915
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C237",
+        "value":  0.754191484655744
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A238",
+        "value":  48
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B238",
+        "value":  0.58673892942571026
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C238",
+        "value":  0.775804699936626
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A239",
+        "value":  49
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B239",
+        "value":  0.019412166448036287
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C239",
+        "value":  0.065456402551597181
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A240",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B240",
+        "value":  0.95767867842581067
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C240",
+        "value":  0.67729774935131126
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A243",
+        "value":  "Frank Copula (symmetric)"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A245",
+        "value":  "Theta (\u003e0 positive, \u003c0 negative):"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B245",
+        "value":  5
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A246",
+        "value":  "Number of samples:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B246",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A247",
+        "value":  "Random seed:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B247",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A249",
+        "value":  "Sample"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B249",
+        "value":  "U1"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C249",
+        "value":  "U2"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A250",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B250",
+        "value":  0.66810646591154232
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C250",
+        "value":  0.33950971409739183
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A251",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B251",
+        "value":  0.12551828945312568
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C251",
+        "value":  0.22039949194715622
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A252",
+        "value":  3
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B252",
+        "value":  0.16843422416990353
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C252",
+        "value":  0.11938661804445225
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A253",
+        "value":  4
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B253",
+        "value":  0.72440836472642067
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C253",
+        "value":  0.69267316743663843
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A254",
+        "value":  5
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B254",
+        "value":  0.17365117053205667
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C254",
+        "value":  0.42030684110048666
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A255",
+        "value":  6
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B255",
+        "value":  0.23458845831201805
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C255",
+        "value":  0.14874584863349793
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A256",
+        "value":  7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B256",
+        "value":  0.50560354464948343
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C256",
+        "value":  0.37856710442651492
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A257",
+        "value":  8
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B257",
+        "value":  0.38096961350225361
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C257",
+        "value":  0.23943745512597564
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A258",
+        "value":  9
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B258",
+        "value":  0.51745109982669868
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C258",
+        "value":  0.0786557553475891
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A259",
+        "value":  10
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B259",
+        "value":  0.8141373758270114
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C259",
+        "value":  0.79265057193651933
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A260",
+        "value":  11
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B260",
+        "value":  0.3974705140094601
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C260",
+        "value":  0.16567208668793698
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A261",
+        "value":  12
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B261",
+        "value":  0.090112610296398679
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C261",
+        "value":  0.30675470505447683
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A262",
+        "value":  13
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B262",
+        "value":  0.81618194971987135
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C262",
+        "value":  0.77427750243428806
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A263",
+        "value":  14
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B263",
+        "value":  0.04414713803871867
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C263",
+        "value":  0.27664197776262955
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A264",
+        "value":  15
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B264",
+        "value":  0.14776126628171712
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C264",
+        "value":  0.58550689387516741
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A265",
+        "value":  16
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B265",
+        "value":  0.69258972289626941
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C265",
+        "value":  0.67017056984177292
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A266",
+        "value":  17
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B266",
+        "value":  0.18637845627329241
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C266",
+        "value":  0.020718740214559387
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A267",
+        "value":  18
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B267",
+        "value":  0.30819966285871325
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C267",
+        "value":  0.39522537439829547
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A268",
+        "value":  19
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B268",
+        "value":  0.82106515198064278
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C268",
+        "value":  0.042837314240079111
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A269",
+        "value":  20
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B269",
+        "value":  0.535722020797302
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C269",
+        "value":  0.75472700001716775
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A270",
+        "value":  21
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B270",
+        "value":  0.74835892708430019
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C270",
+        "value":  0.62908079260829408
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A271",
+        "value":  22
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B271",
+        "value":  0.14911907173186498
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C271",
+        "value":  0.011013431037420706
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A272",
+        "value":  23
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B272",
+        "value":  0.051009009150326724
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C272",
+        "value":  0.33912220401915666
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A273",
+        "value":  24
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B273",
+        "value":  0.62645638437311
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C273",
+        "value":  0.27248959354831948
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A274",
+        "value":  25
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B274",
+        "value":  0.24996082822324747
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C274",
+        "value":  0.495229021167218
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A275",
+        "value":  26
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B275",
+        "value":  0.28960667890012576
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C275",
+        "value":  0.42551063762863411
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A276",
+        "value":  27
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B276",
+        "value":  0.14364648477344144
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C276",
+        "value":  0.018114859393203009
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A277",
+        "value":  28
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B277",
+        "value":  0.6045592839850854
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C277",
+        "value":  0.59869709999168508
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A278",
+        "value":  29
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B278",
+        "value":  0.050794688077082248
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C278",
+        "value":  0.13075700226314435
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A279",
+        "value":  30
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B279",
+        "value":  0.70658232630537
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C279",
+        "value":  0.74926469131516771
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A280",
+        "value":  31
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B280",
+        "value":  0.2184455372479025
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C280",
+        "value":  0.0077976822595444886
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A281",
+        "value":  32
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B281",
+        "value":  0.36516152525561
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C281",
+        "value":  0.2337007412435354
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A282",
+        "value":  33
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B282",
+        "value":  0.068660835767472547
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C282",
+        "value":  0.30008338399286222
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A283",
+        "value":  34
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B283",
+        "value":  0.0709429416204537
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C283",
+        "value":  0.15916586378441511
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A284",
+        "value":  35
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B284",
+        "value":  0.012033524462968822
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C284",
+        "value":  0.32379812524231538
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A285",
+        "value":  36
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B285",
+        "value":  0.43917948307431282
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C285",
+        "value":  0.45763014061182672
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A286",
+        "value":  37
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B286",
+        "value":  0.49959679669681789
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C286",
+        "value":  0.020693851644244667
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A287",
+        "value":  38
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B287",
+        "value":  0.82883792688550328
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C287",
+        "value":  0.11909731884255739
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A288",
+        "value":  39
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B288",
+        "value":  0.0030740085072228727
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C288",
+        "value":  0.013283744496062802
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A289",
+        "value":  40
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B289",
+        "value":  0.65414312093245941
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C289",
+        "value":  0.13147347059110281
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A290",
+        "value":  41
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B290",
+        "value":  0.91351419776376064
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C290",
+        "value":  0.97788179039611356
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A291",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B291",
+        "value":  0.46119376153740743
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C291",
+        "value":  0.38204206521100681
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A292",
+        "value":  43
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B292",
+        "value":  0.61660608072607126
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C292",
+        "value":  0.13876805114802387
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A293",
+        "value":  44
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B293",
+        "value":  0.37276722927240991
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C293",
+        "value":  0.14370789579838578
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A294",
+        "value":  45
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B294",
+        "value":  0.43695068240023716
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C294",
+        "value":  0.66936796186114556
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A295",
+        "value":  46
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B295",
+        "value":  0.53236559849808252
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C295",
+        "value":  0.45921462981902456
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A296",
+        "value":  47
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B296",
+        "value":  0.297372534543915
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C296",
+        "value":  0.70689465046113242
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A297",
+        "value":  48
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B297",
+        "value":  0.58673892942571026
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C297",
+        "value":  0.73443399182295366
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A298",
+        "value":  49
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B298",
+        "value":  0.019412166448036287
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C298",
+        "value":  0.43331470958775292
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A299",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B299",
+        "value":  0.95767867842581067
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C299",
+        "value":  0.75408310048626148
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A302",
+        "value":  "Gumbel Copula (upper tail)"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A304",
+        "value":  "Theta (\u003e=1):"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B304",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A305",
+        "value":  "Number of samples:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B305",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A306",
+        "value":  "Random seed:"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B306",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A308",
+        "value":  "Sample"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B308",
+        "value":  "U1"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C308",
+        "value":  "U2"
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A309",
+        "value":  1
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B309",
+        "value":  0.24161808133885282
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C309",
+        "value":  0.45199575757442828
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A310",
+        "value":  2
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B310",
+        "value":  0.40810347568068145
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C310",
+        "value":  0.27535063563325585
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A311",
+        "value":  3
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B311",
+        "value":  0.42463282830797527
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C311",
+        "value":  0.43659012860129937
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A312",
+        "value":  4
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B312",
+        "value":  0.35380375198453234
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C312",
+        "value":  0.2931304282767539
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A313",
+        "value":  5
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B313",
+        "value":  0.44659383954294735
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C313",
+        "value":  0.26771098674491789
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A314",
+        "value":  6
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B314",
+        "value":  0.086954598031043023
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C314",
+        "value":  0.39434836380485444
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A315",
+        "value":  7
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B315",
+        "value":  0.57212783464419481
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C315",
+        "value":  0.83146982750142528
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A316",
+        "value":  8
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B316",
+        "value":  0.76969366695865649
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C316",
+        "value":  0.70390961610108094
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A317",
+        "value":  9
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B317",
+        "value":  0.07277763298840724
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C317",
+        "value":  0.16970292266270964
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A318",
+        "value":  10
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B318",
+        "value":  0.48240512140673203
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C318",
+        "value":  0.65082192511163561
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A319",
+        "value":  11
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B319",
+        "value":  0.47981103795813163
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C319",
+        "value":  0.36233721981024825
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A320",
+        "value":  12
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B320",
+        "value":  0.61971719766214506
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C320",
+        "value":  0.35749680362871122
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A321",
+        "value":  13
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B321",
+        "value":  0.47753858216269895
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C321",
+        "value":  0.645831021106095
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A322",
+        "value":  14
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B322",
+        "value":  0.17816571521258681
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C322",
+        "value":  0.13831562759230631
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A323",
+        "value":  15
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B323",
+        "value":  0.46143678635757968
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C323",
+        "value":  0.40885439806055379
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A324",
+        "value":  16
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B324",
+        "value":  0.062075925998325183
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C324",
+        "value":  0.041579720691850515
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A325",
+        "value":  17
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B325",
+        "value":  0.26824245401096436
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C325",
+        "value":  0.49224311435411761
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A326",
+        "value":  18
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B326",
+        "value":  0.54357104394870581
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C326",
+        "value":  0.57773613931726764
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A327",
+        "value":  19
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B327",
+        "value":  0.39004337327792121
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C327",
+        "value":  0.010754097987615438
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A328",
+        "value":  20
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B328",
+        "value":  0.21685710289832774
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C328",
+        "value":  0.013510270453784924
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A329",
+        "value":  21
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B329",
+        "value":  0.95529346513775448
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C329",
+        "value":  0.94983688142276068
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A330",
+        "value":  22
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B330",
+        "value":  0.24555112998804596
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C330",
+        "value":  0.13870552160293764
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A331",
+        "value":  23
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B331",
+        "value":  0.65762039550905083
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C331",
+        "value":  0.60361747146042066
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A332",
+        "value":  24
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B332",
+        "value":  0.750027011694565
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C332",
+        "value":  0.80369712894477241
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A333",
+        "value":  25
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B333",
+        "value":  0.90094564909568009
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C333",
+        "value":  0.59089103472603888
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A334",
+        "value":  26
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B334",
+        "value":  0.28322747485087885
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C334",
+        "value":  0.4744073239447395
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A335",
+        "value":  27
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B335",
+        "value":  0.42676890218387303
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C335",
+        "value":  0.41765444192433909
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A336",
+        "value":  28
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B336",
+        "value":  0.4540078439435094
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C336",
+        "value":  0.89543780263343742
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A337",
+        "value":  29
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B337",
+        "value":  0.83076194713191
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C337",
+        "value":  0.70020295171573343
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A338",
+        "value":  30
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B338",
+        "value":  0.9411708803019796
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C338",
+        "value":  0.83656446627490888
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A339",
+        "value":  31
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B339",
+        "value":  0.53585192670235593
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C339",
+        "value":  0.66737916881430226
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A340",
+        "value":  32
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B340",
+        "value":  0.055656592104526927
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C340",
+        "value":  0.1847278792652482
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A341",
+        "value":  33
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B341",
+        "value":  0.87055017268865587
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C341",
+        "value":  0.082915248513072831
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A342",
+        "value":  34
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B342",
+        "value":  0.2064067318500403
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C342",
+        "value":  0.451622863826391
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A343",
+        "value":  35
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B343",
+        "value":  0.22869542480125921
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C343",
+        "value":  0.70784828439554293
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A344",
+        "value":  36
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B344",
+        "value":  0.926483338497988
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C344",
+        "value":  0.89308108113158069
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A345",
+        "value":  37
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B345",
+        "value":  0.51050373743944277
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C345",
+        "value":  0.50509787790445482
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A346",
+        "value":  38
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B346",
+        "value":  0.14401509733294562
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C346",
+        "value":  0.061403171916247834
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A347",
+        "value":  39
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B347",
+        "value":  0.96172356733895836
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C347",
+        "value":  0.84179786840587534
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A348",
+        "value":  40
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B348",
+        "value":  0.532277982527448
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C348",
+        "value":  0.5839152486106145
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A349",
+        "value":  41
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B349",
+        "value":  0.66897781437292358
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C349",
+        "value":  0.36729917258691819
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A350",
+        "value":  42
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B350",
+        "value":  0.74993408867750988
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C350",
+        "value":  0.48320005730329307
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A351",
+        "value":  43
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B351",
+        "value":  0.81599207376916993
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C351",
+        "value":  0.834229777842953
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A352",
+        "value":  44
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B352",
+        "value":  0.92663635310036785
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C352",
+        "value":  0.923634453091079
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A353",
+        "value":  45
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B353",
+        "value":  0.63249097136274224
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C353",
+        "value":  0.34714235395328497
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A354",
+        "value":  46
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B354",
+        "value":  0.45346654511648077
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C354",
+        "value":  0.30375921584382476
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A355",
+        "value":  47
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B355",
+        "value":  0.98717286791597914
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C355",
+        "value":  0.95098650868012169
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A356",
+        "value":  48
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B356",
+        "value":  0.5133870553055353
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C356",
+        "value":  0.79198967771909479
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A357",
+        "value":  49
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B357",
+        "value":  0.78895601060478726
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C357",
+        "value":  0.80374775908528129
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "A358",
+        "value":  50
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "B358",
+        "value":  0.589103568675946
+    },
+    {
+        "sheet":  "Copulas",
+        "cell":  "C358",
+        "value":  0.85706032201183613
     },
     {
         "sheet":  "Aggregate Claims",

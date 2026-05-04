@@ -13,6 +13,7 @@ from openpyxl.chart.series import DataPoint
 from openpyxl.chart.label import DataLabelList
 from openpyxl.chart.marker import Marker
 import os
+import re
 
 # Paths
 EXCEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'excel', 'actuarial_add_in.xlsx')
@@ -817,10 +818,27 @@ def create_cat_modeling_sheet(wb):
 
     return_periods = [500, 250, 100, 50, 25, 10, 5, 2]
     rp_start = row2
+    # Capture the return-period column once we know its end row.
+    rp_end = rp_start + len(return_periods) - 1
+    rp_col_letter = get_column_letter(col_offset + 1)
+    rp_range = f"{rp_col_letter}{rp_start}:{rp_col_letter}{rp_end}"
     for rp in return_periods:
         ws.cell(row=row2, column=col_offset+1, value=rp).border = THIN_BORDER
-        ws.cell(row=row2, column=col_offset+2).border = THIN_BORDER
-        ws.cell(row=row2, column=col_offset+3).border = THIN_BORDER
+        # OEP / AEP at requested return periods, drawn from the simulated YLT
+        # (1000 years, seed 42) sitting at C{ylt_start_row}:C{ylt_end_row} and
+        # B{...}:B{...} respectively.
+        oep_formula = (f"=INDEX(ACT_CAT_OEP_CURVE_RP("
+                       f"C{ylt_start_row}:C{ylt_end_row}, "
+                       f"{rp_range}, FALSE), {row2 - rp_start + 1}, 2)")
+        aep_formula = (f"=INDEX(ACT_CAT_AEP_CURVE_RP("
+                       f"B{ylt_start_row}:B{ylt_end_row}, "
+                       f"{rp_range}, FALSE), {row2 - rp_start + 1}, 2)")
+        cell_oep = ws.cell(row=row2, column=col_offset+2, value=oep_formula)
+        cell_oep.border = THIN_BORDER
+        cell_oep.number_format = '#,##0'
+        cell_aep = ws.cell(row=row2, column=col_offset+3, value=aep_formula)
+        cell_aep.border = THIN_BORDER
+        cell_aep.number_format = '#,##0'
         row2 += 1
     rp_end = row2 - 1
 
@@ -872,9 +890,13 @@ def create_interpolation_sheet(wb):
     row += 1
     row = add_note(ws, "FLAT = extrapolate using last known value; GRADIENT = extrapolate using slope from last two points", row)
 
-    # Simple line chart showing known data points
+    # Scatter chart with two overlaid series:
+    #   1) the original (X, Y) data with a connecting line
+    #   2) the interpolated test points (column C, GRADIENT extrap) with visible
+    #      markers in a contrasting colour, so it's obvious the interpolation
+    #      goes through the input curve.
     chart = ScatterChart()
-    chart.title = "Known Data Points"
+    chart.title = "Known Data Points + Interpolated"
     chart.width = 12
     chart.height = 8
     chart.roundedCorners = False
@@ -888,13 +910,26 @@ def create_interpolation_sheet(wb):
     chart.y_axis.delete = False
 
     from openpyxl.chart import Series
+    # Series 1: known data, line + small marker
     xvalues = Reference(ws, min_col=1, min_row=data_start_row, max_row=data_end_row)
     yvalues = Reference(ws, min_col=2, min_row=data_start_row, max_row=data_end_row)
-    series = Series(yvalues, xvalues, title_from_data=False)
-    series.marker = Marker(symbol='none')
-    series.graphicalProperties.line.solidFill = CHART_COLORS[0]
-    chart.series.append(series)
-    chart.legend = None
+    s_known = Series(yvalues, xvalues, title="Known data")
+    s_known.marker = Marker(symbol='circle', size=5)
+    s_known.marker.graphicalProperties.solidFill = CHART_COLORS[0]
+    s_known.graphicalProperties.line.solidFill = CHART_COLORS[0]
+    chart.series.append(s_known)
+
+    # Series 2: interpolated points (GRADIENT extrap), markers only, no line.
+    # Different colour + larger marker so the overlay is clearly visible.
+    xq_values = Reference(ws, min_col=1, min_row=interp_start_row, max_row=interp_end_row)
+    yq_values = Reference(ws, min_col=3, min_row=interp_start_row, max_row=interp_end_row)
+    s_interp = Series(yq_values, xq_values, title="Interpolated (GRADIENT)")
+    s_interp.marker = Marker(symbol='diamond', size=9)
+    s_interp.marker.graphicalProperties.solidFill = CHART_COLORS[3] if len(CHART_COLORS) > 3 else 'FF8800'
+    s_interp.graphicalProperties.line.noFill = True
+    chart.series.append(s_interp)
+
+    chart.legend.position = 'b'
 
     ws.add_chart(chart, "F4")
 
@@ -957,11 +992,13 @@ def create_chainladder_sheet(wb):
     row = add_note(ws, "Expected Total IBNR: ~18,680,856", row)
     row = add_table_header(ws, ["AY", "Latest Cumulative", "Ultimate", "IBNR"], row)
 
-    latest_values = [3901463, 5339085, 4909315, 4588268, 3873311, 3691712, 3483130, 2864498, 1363294, 344014]
     ibnr_start = row
     for i in range(10):
         ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
-        cell_latest = ws.cell(row=row, column=2, value=latest_values[i])
+        # Latest Cumulative used to be hard-coded constants; restore as a real
+        # formula so a triangle edit propagates without the column drifting out
+        # of sync.
+        cell_latest = ws.cell(row=row, column=2, value=f"=INDEX(ACT_CL_LATEST({tri_range}), {i+1})")
         cell_latest.border = THIN_BORDER
         cell_latest.number_format = '#,##0'
         cell_ult = ws.cell(row=row, column=3, value=f"=INDEX(ACT_CL_ULTIMATE({tri_range}), {i+1})")
@@ -990,13 +1027,17 @@ def create_chainladder_sheet(wb):
     cell_sum_ibnr.font = HEADER_FONT
     row += 2
 
-    # Mack Standard Errors with England & Verrall reference
+    # Mack Standard Errors with Mack 1993 reference (computed-from-scratch on
+    # the Taylor-Ashe triangle; matches our C# implementation bit-exact). The
+    # earlier "E&V Reference" column contained transcribed values that don't
+    # actually match Mack's published algorithm — they've been replaced with
+    # the values you get by running Mack 1993 §3 directly.
     row = add_note(ws, "MACK STANDARD ERRORS (reserve uncertainty)", row)
-    row = add_table_header(ws, ["AY", "Reserve SE", "E&V Reference"], row)
-    
-    # England & Verrall (2002) Mack SE reference values
-    mack_se_reference = [0, 75535, 121699, 136554, 212054, 282372, 444283, 640396, 1091089, 2029818]
-    
+    row = add_table_header(ws, ["AY", "Reserve SE", "Mack 1993 reference"], row)
+
+    mack_se_reference = [0, 75535, 121699, 133549, 261406, 411010, 558317,
+                         875328, 971258, 1363155]
+
     se_start = row
     for i in range(10):
         ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
@@ -1008,11 +1049,11 @@ def create_chainladder_sheet(wb):
         cell_ref.number_format = '#,##0'
         row += 1
     se_end = row - 1
-    
-    # Total Mack SE
+
+    # Total Mack SE — matches Mack (1993) §3 algorithm on Taylor-Ashe.
     ws.cell(row=row, column=1, value="Total").font = HEADER_FONT
     ws.cell(row=row, column=1).border = THIN_BORDER
-    ws.cell(row=row, column=3, value=2447318).border = THIN_BORDER  # E&V total SE
+    ws.cell(row=row, column=3, value=2447095).border = THIN_BORDER
     ws.cell(row=row, column=3).number_format = '#,##0'
     row += 2
 
@@ -1281,6 +1322,154 @@ def create_copulas_sheet(wb):
 
     row += 1
     row = add_note(ws, "Note: Results are uniform[0,1] values. Apply inverse CDF to get desired marginal distributions.", row)
+    row += 2
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Additional copula families. Per the alignment principle every package
+    # function appears in the spreadsheet, each Archimedean copula gets its own
+    # mini-section: theta input cell, 50-sample table, and a U1 vs U2 scatter.
+    # Gaussian gets a 2x2 correlation matrix (df-free analogue of Student-t).
+    # Layout: stacked below the Student-t section in column A-D for the data,
+    # chart placed in column F at the same vertical offset.
+    # ─────────────────────────────────────────────────────────────────────────
+
+    def _emit_copula_section(title, fn_name, theta_label, theta_value,
+                             extra_param_label=None, extra_param_value=None,
+                             chart_anchor_col='F'):
+        nonlocal row
+        section_title_row = row
+        # add_title defaults to row=1 if you don't pass current row — that bug
+        # collapsed all four sections on top of each other on the first build.
+        row = add_title(ws, title, row=row)
+        n_samples = 50
+        ws.cell(row=row, column=1, value=theta_label).border = THIN_BORDER
+        ws.cell(row=row, column=2, value=theta_value).border = THIN_BORDER
+        theta_cell = f"B{row}"
+        row += 1
+        if extra_param_label is not None:
+            ws.cell(row=row, column=1, value=extra_param_label).border = THIN_BORDER
+            ws.cell(row=row, column=2, value=extra_param_value).border = THIN_BORDER
+            extra_cell = f"B{row}"
+            row += 1
+        else:
+            extra_cell = None
+        ws.cell(row=row, column=1, value="Number of samples:").border = THIN_BORDER
+        ws.cell(row=row, column=2, value=n_samples).border = THIN_BORDER
+        n_cell = f"B{row}"
+        row += 1
+        ws.cell(row=row, column=1, value="Random seed:").border = THIN_BORDER
+        ws.cell(row=row, column=2, value=42).border = THIN_BORDER
+        seed_cell_local = f"B{row}"
+        row += 2
+
+        row = add_table_header(ws, ["Sample", "U1", "U2"], row)
+        sample_start = row
+        if extra_cell is None:
+            sample_args = f"{theta_cell}, {n_cell}, {seed_cell_local}"
+        else:
+            sample_args = f"{theta_cell}, {extra_cell}, {n_cell}, {seed_cell_local}"
+        for i in range(n_samples):
+            ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
+            for j in range(2):
+                ws.cell(row=row, column=j+2,
+                    value=f"=INDEX({fn_name}({sample_args}), {i+1}, {j+1})").border = THIN_BORDER
+            row += 1
+        sample_end = row - 1
+
+        # Scatter chart in column F at the section's vertical anchor
+        sc = ScatterChart()
+        sc.title = f"{title}: U1 vs U2"
+        sc.width = 10
+        sc.height = 8
+        sc.roundedCorners = False
+        sc.x_axis.title = "U1"; sc.y_axis.title = "U2"
+        sc.x_axis.scaling.min = 0; sc.x_axis.scaling.max = 1
+        sc.y_axis.scaling.min = 0; sc.y_axis.scaling.max = 1
+        sc.x_axis.tickLblPos = "low"; sc.y_axis.tickLblPos = "low"
+        sc.x_axis.delete = False; sc.y_axis.delete = False
+        xv = Reference(ws, min_col=2, min_row=sample_start, max_row=sample_end)
+        yv = Reference(ws, min_col=3, min_row=sample_start, max_row=sample_end)
+        srs = Series(yv, xv, title_from_data=False)
+        srs.marker = Marker(symbol='circle', size=5)
+        srs.marker.graphicalProperties.solidFill = CHART_COLORS[0]
+        srs.graphicalProperties.line.noFill = True
+        sc.series.append(srs)
+        sc.legend = None
+        ws.add_chart(sc, f"{chart_anchor_col}{section_title_row}")
+        row += 2
+
+    # Gaussian copula needs a 2x2 correlation matrix (a *range* on the sheet,
+    # not a scalar theta) — Excel array constants `{...}` can't reference cells.
+    # Lay out a 2x2 matrix block first, then reference that range.
+    section_title_row = row
+    row = add_title(ws, "Gaussian Copula", row=row)
+    ws.cell(row=row, column=1, value="Correlation matrix:").border = THIN_BORDER
+    row += 1
+    corr_top = row
+    ws.cell(row=row, column=2, value=1.0).border = THIN_BORDER
+    ws.cell(row=row, column=3, value=0.7).border = THIN_BORDER
+    row += 1
+    ws.cell(row=row, column=2, value=f"=C{corr_top}").border = THIN_BORDER
+    ws.cell(row=row, column=3, value=1.0).border = THIN_BORDER
+    row += 1
+    corr_bot = row - 1
+    g_corr_range = f"B{corr_top}:C{corr_bot}"
+    ws.cell(row=row, column=1, value="Number of samples:").border = THIN_BORDER
+    ws.cell(row=row, column=2, value=50).border = THIN_BORDER
+    g_n_cell = f"B{row}"
+    row += 1
+    ws.cell(row=row, column=1, value="Random seed:").border = THIN_BORDER
+    ws.cell(row=row, column=2, value=42).border = THIN_BORDER
+    g_seed_cell = f"B{row}"
+    row += 2
+
+    row = add_table_header(ws, ["Sample", "U1", "U2"], row)
+    g_sample_start = row
+    for i in range(50):
+        ws.cell(row=row, column=1, value=i+1).border = THIN_BORDER
+        for j in range(2):
+            ws.cell(row=row, column=j+2,
+                    value=f"=INDEX(ACT_COPULA_GAUSSIAN({g_corr_range}, {g_n_cell}, {g_seed_cell}), {i+1}, {j+1})").border = THIN_BORDER
+        row += 1
+    g_sample_end = row - 1
+
+    sc = ScatterChart()
+    sc.title = "Gaussian Copula: U1 vs U2"
+    sc.width = 10; sc.height = 8; sc.roundedCorners = False
+    sc.x_axis.title = "U1"; sc.y_axis.title = "U2"
+    sc.x_axis.scaling.min = 0; sc.x_axis.scaling.max = 1
+    sc.y_axis.scaling.min = 0; sc.y_axis.scaling.max = 1
+    sc.x_axis.tickLblPos = "low"; sc.y_axis.tickLblPos = "low"
+    sc.x_axis.delete = False; sc.y_axis.delete = False
+    xv = Reference(ws, min_col=2, min_row=g_sample_start, max_row=g_sample_end)
+    yv = Reference(ws, min_col=3, min_row=g_sample_start, max_row=g_sample_end)
+    srs = Series(yv, xv, title_from_data=False)
+    srs.marker = Marker(symbol='circle', size=5)
+    srs.marker.graphicalProperties.solidFill = CHART_COLORS[0]
+    srs.graphicalProperties.line.noFill = True
+    sc.series.append(srs)
+    sc.legend = None
+    ws.add_chart(sc, f"F{section_title_row}")
+    row += 2
+
+    _emit_copula_section(
+        title="Clayton Copula (lower tail)",
+        fn_name="ACT_COPULA_CLAYTON",
+        theta_label="Theta (>0 for positive dependence):",
+        theta_value=2.0,
+    )
+    _emit_copula_section(
+        title="Frank Copula (symmetric)",
+        fn_name="ACT_COPULA_FRANK",
+        theta_label="Theta (>0 positive, <0 negative):",
+        theta_value=5.0,
+    )
+    _emit_copula_section(
+        title="Gumbel Copula (upper tail)",
+        fn_name="ACT_COPULA_GUMBEL",
+        theta_label="Theta (>=1):",
+        theta_value=2.0,
+    )
 
     return ws
 
