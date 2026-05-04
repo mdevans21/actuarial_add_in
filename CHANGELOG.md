@@ -5,6 +5,49 @@ ISO-8601. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-05-04
+
+Internal cleanups deferred from v0.5.0; no numerical changes to any
+add-in function. The validated v0.5.4 outputs remain bit-identical
+under v0.6.0 (cross-checked via the C# harness on 515 records).
+
+### Changed
+- **Split `Distributions.cs` (1686 lines) into four focused
+  partial-class files**: `DistributionsDiscrete.cs` (Poisson, NegBin,
+  ZT/ZM variants), `DistributionsContinuous.cs` (Lognormal, Gamma,
+  Pareto I-IV, GPD, Weibull, Beta, Exponential, Burr, Normal, Lomax,
+  Inverse Gaussian, Loglogistic), `DistributionsComposite.cs`
+  (Lognormal-Pareto, Exponential-Pareto, Power-Pareto), and
+  `DistributionsLEV.cs` (limited-expected-value functions). All
+  remain in `static partial class Distributions` so the `ACT_DIST_*`
+  Excel surface is unchanged.
+- **Split `ChainLadder.cs` (1510 lines) into four files**:
+  `ChainLadder.cs` (basic chain ladder, triangle utilities, calendar
+  adjustments), `ChainLadderMack.cs` (~700 lines of Mack standard-
+  error machinery), `ChainLadderBootstrap.cs` (ODP bootstrap), and
+  `ChainLadderCapeCod.cs`. Same partial-class pattern.
+- **Standardised inline error returns to `ExcelError.ExcelErrorValue`.**
+  24 sites in `ChainLadder*.cs`, `Copulas.cs`, and `Fitting.cs` that
+  returned literal `"Error: ..."` strings now return the proper
+  `ExcelError.ExcelErrorValue` enum, which Excel renders as
+  `#VALUE!` rather than as a text cell. Functions returning `double`
+  continue to return `double.NaN` for math-domain failures (Excel
+  renders this as `#NUM!`).
+
+### Fixed
+- **Test harness now exits non-zero on assertion failures.** Previous
+  behaviour was to write `FALSE` rows into the markdown summary but
+  always exit `0`, hiding regressions from CI. `Program.Main` now
+  returns an `int` and tracks pass/fail counts via `FormatMatch`,
+  emitting a summary line and exiting `1` if any assertion failed.
+- **Cape Cod harness call had argument order swapped.**
+  `AddinOutputsEmitter` invoked `ACT_CAPECOD_ULTIMATE` /
+  `ACT_CAPECOD_ELR` as `(triangle, factors, premium)` but the
+  signatures are `(triangle, premium, factors)`. Both fixture cells
+  previously emitted error strings instead of real Cape Cod outputs;
+  now they emit the proper ELR (~0.889 on the genins triangle) and
+  per-origin ultimates.
+
 ## [0.5.4] — 2026-05-04
 
 ### Fixed

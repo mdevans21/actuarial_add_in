@@ -640,8 +640,9 @@ public static class AddinOutputsEmitter
         R(g, "ACT_MACK_RESERVE_SE", new object?[] { tri }, ChainLadder.ACT_MACK_RESERVE_SE(tri));
 
         var premium = latestD.Select(v => v / 0.7).ToArray();
-        R(g, "ACT_CAPECOD_ULTIMATE", new object?[] { tri, factorsD, premium }, ChainLadder.ACT_CAPECOD_ULTIMATE(tri, factorsD, premium));
-        R(g, "ACT_CAPECOD_ELR", new object?[] { tri, factorsD, premium }, ChainLadder.ACT_CAPECOD_ELR(tri, factorsD, premium));
+        // Signatures are (triangle, premium, developmentFactors) — premium goes second.
+        R(g, "ACT_CAPECOD_ULTIMATE", new object?[] { tri, premium, factorsD }, ChainLadder.ACT_CAPECOD_ULTIMATE(tri, premium, factorsD));
+        R(g, "ACT_CAPECOD_ELR", new object?[] { tri, premium, factorsD }, ChainLadder.ACT_CAPECOD_ELR(tri, premium, factorsD));
 
         var incr = ChainLadder.ACT_TRIANGLE_TO_INCREMENTAL(tri);
         R(g, "ACT_TRIANGLE_TO_INCREMENTAL", new object?[] { tri }, incr);

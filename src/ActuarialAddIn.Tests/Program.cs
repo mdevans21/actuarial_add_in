@@ -8,8 +8,10 @@ class Program
 {
     static StringBuilder _output = new();
     static string _fixturesPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "tests", "fixtures");
+    static int _passCount = 0;
+    static int _failCount = 0;
 
-    static void Main(string[] args)
+    static int Main(string[] args)
     {
         _output.AppendLine("# Actuarial Add-In Test Results");
         _output.AppendLine($"\nTest run: {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n");
@@ -33,6 +35,9 @@ class Program
         TestBootstrapChainLadder();
         TestCopulas();
 
+        var summary = $"\n## Summary\n\n{_passCount} passed, {_failCount} failed (of {_passCount + _failCount} assertions).\n";
+        _output.Append(summary);
+
         var outputPath = args.Length > 0 ? args[0] : "test_results.md";
         File.WriteAllText(outputPath, _output.ToString());
         Console.WriteLine(_output.ToString());
@@ -42,6 +47,9 @@ class Program
         var jsonPath = Path.Combine(_fixturesPath, "addin_outputs.json");
         Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
         AddinOutputsEmitter.Emit(jsonPath);
+
+        Console.WriteLine($"Assertions: {_passCount} passed, {_failCount} failed.");
+        return _failCount == 0 ? 0 : 1;
     }
 
     static void Log(string message) => _output.AppendLine(message);
@@ -71,7 +79,11 @@ class Program
         return Math.Abs(actual - expected) <= tolerance;
     }
 
-    static string FormatMatch(bool match) => match ? "TRUE " : "FALSE";
+    static string FormatMatch(bool match)
+    {
+        if (match) _passCount++; else _failCount++;
+        return match ? "TRUE " : "FALSE";
+    }
 
     // Helper for aligned table rows
     static string TableRow(params (string val, int width)[] cols)

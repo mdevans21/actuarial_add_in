@@ -456,13 +456,13 @@ public static class Copulas
         [ExcelArgument(Description = "Copula type: 'CLAYTON', 'FRANK', or 'GUMBEL'")] string copulaType)
     {
         if (tau < -1 || tau > 1)
-            return "Error: Tau must be between -1 and 1";
+            return ExcelError.ExcelErrorValue;
 
         switch (copulaType.ToUpper())
         {
             case "CLAYTON":
                 if (tau <= 0)
-                    return "Error: Clayton copula requires positive tau (positive dependence)";
+                    return ExcelError.ExcelErrorValue;
                 // tau = theta / (theta + 2), so theta = 2*tau / (1 - tau)
                 return 2 * tau / (1 - tau);
 
@@ -473,7 +473,7 @@ public static class Copulas
 
             case "GUMBEL":
                 if (tau < 0)
-                    return "Error: Gumbel copula requires non-negative tau";
+                    return ExcelError.ExcelErrorValue;
                 // tau = 1 - 1/theta, so theta = 1/(1 - tau)
                 if (tau >= 1) return double.PositiveInfinity;
                 return 1 / (1 - tau);
@@ -548,13 +548,13 @@ public static class Copulas
             case "GAUSSIAN":
                 return 0.0;  // No tail dependence
             case "STUDENT_T":
-                if (df <= 0) return "Error: Degrees of freedom required for Student-t";
-                if (theta <= -1 || theta >= 1) return "Error: Correlation must be in (-1,1)";
+                if (df <= 0) return ExcelError.ExcelErrorValue;
+                if (theta <= -1 || theta >= 1) return ExcelError.ExcelErrorValue;
                 // lambda_L = 2 * T_{df+1}(-sqrt((df+1)(1-rho)/(1+rho)))
                 double arg = -Math.Sqrt((df + 1) * (1 - theta) / (1 + theta));
                 return 2 * StudentT.CDF(0, 1, df + 1, arg);
             case "CLAYTON":
-                if (theta <= 0) return "Error: Theta must be positive for Clayton";
+                if (theta <= 0) return ExcelError.ExcelErrorValue;
                 return Math.Pow(2, -1 / theta);  // Lower tail dependence
             case "FRANK":
                 return 0.0;  // No tail dependence
@@ -576,8 +576,8 @@ public static class Copulas
             case "GAUSSIAN":
                 return 0.0;  // No tail dependence
             case "STUDENT_T":
-                if (df <= 0) return "Error: Degrees of freedom required for Student-t";
-                if (theta <= -1 || theta >= 1) return "Error: Correlation must be in (-1,1)";
+                if (df <= 0) return ExcelError.ExcelErrorValue;
+                if (theta <= -1 || theta >= 1) return ExcelError.ExcelErrorValue;
                 // lambda_U = lambda_L for Student-t (symmetric)
                 double arg = -Math.Sqrt((df + 1) * (1 - theta) / (1 + theta));
                 return 2 * StudentT.CDF(0, 1, df + 1, arg);
@@ -586,7 +586,7 @@ public static class Copulas
             case "FRANK":
                 return 0.0;  // No tail dependence
             case "GUMBEL":
-                if (theta < 1) return "Error: Theta must be >= 1 for Gumbel";
+                if (theta < 1) return ExcelError.ExcelErrorValue;
                 return 2 - Math.Pow(2, 1 / theta);  // Upper tail dependence
             default:
                 return $"Error: Unknown copula type '{copulaType}'";

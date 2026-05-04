@@ -40,16 +40,16 @@ public static class Fitting
         [ExcelArgument(Description = "Sample data (positive values)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length == 0)
-            return "Error: Data array is empty";
+            return ExcelError.ExcelErrorValue;
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x > 0).ToArray();
         if (validData.Length == 0)
-            return "Error: No positive values in data";
+            return ExcelError.ExcelErrorValue;
 
         double mean = validData.Average();
         if (mean <= 0)
-            return "Error: Mean must be positive";
+            return ExcelError.ExcelErrorValue;
 
         return 1.0 / mean;  // MLE estimate for lambda
     }
@@ -63,12 +63,12 @@ public static class Fitting
         [ExcelArgument(Description = "Sample count data (non-negative integers)")] double[,] data2d)
     {
         if (data2d == null || data2d.Length == 0)
-            return "Error: Data array is empty";
+            return ExcelError.ExcelErrorValue;
 
         var data = FlattenArray(data2d);
         var validData = data.Where(x => x >= 0).ToArray();
         if (validData.Length == 0)
-            return "Error: No non-negative values in data";
+            return ExcelError.ExcelErrorValue;
 
         return validData.Average();  // MLE estimate for lambda
     }

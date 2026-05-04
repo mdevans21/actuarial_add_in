@@ -6,7 +6,7 @@ namespace ActuarialAddIn;
 /// </summary>
 public static class VersionInfo
 {
-    public const string CurrentVersion = "0.5.4";
+    public const string CurrentVersion = "0.6.0";
     public const string BuildDate = "2026-05-04";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
@@ -20,6 +20,7 @@ public static class VersionInfo
         // Release history — see GitHub Releases for full notes per tag.
         return new[]
         {
+            new CommitInfo("v0.6.0", "2026-05-04", "Internal cleanups: split Distributions.cs (1686 lines) and ChainLadder.cs (1510 lines) into focused partial-class files; standardised inline string-error returns to ExcelError.ExcelErrorValue (24 sites); test harness now exits non-zero on assertion failures."),
             new CommitInfo("v0.5.4", "2026-05-04", "Patch: ACT_EXPOSURE_MBBEFD numerical stability — rewrote without explicit `a` to fix NaN at SwissRe c=5 (b<1, b^g underflow) and a 4th-decimal precision loss at c=3."),
             new CommitInfo("v0.5.3", "2026-05-04", "Patch: revert to net6.0-windows — neither ExcelDna 1.9.0 nor 1.10-preview4 reliably hosted .NET 8 in Excel. Keeps int? from 1.9; net6 path is known-good."),
             new CommitInfo("v0.5.2", "2026-05-04", "Patch: tried ExcelDna.AddIn 1.10-preview4 to fix .NET 8 hosting (didn't work)."),
