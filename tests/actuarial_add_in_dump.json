@@ -5576,98 +5576,98 @@
         "cell":  "G34",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 1, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H34",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 1, 2)",
-        "value":  15009999.999999763
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G35",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 2, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H35",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 2, 2)",
-        "value":  12500000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G36",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 3, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H36",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 3, 2)",
-        "value":  11000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G37",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 4, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H37",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 4, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G38",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 5, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H38",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 5, 2)",
-        "value":  10000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G39",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 6, 2)",
-        "value":  2500000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H39",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 6, 2)",
-        "value":  2500000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "G40",
         "function":  "ACT_CAT_OEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_OEP_CURVE_RP(C16:C1015, F34:F41, FALSE), 7, 2)",
-        "value":  1000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "H40",
         "function":  "ACT_CAT_AEP_CURVE_RP",
         "formula":  "=INDEX(ACT_CAT_AEP_CURVE_RP(B16:B1015, F34:F41, FALSE), 7, 2)",
-        "value":  1000000
+        "value":  0
     },
     {
         "sheet":  "Cat Modeling",
@@ -5688,14 +5688,14 @@
         "cell":  "A1019",
         "function":  "ACT_CAT_YLT_OEP_CURVE",
         "formula":  "=ACT_CAT_YLT_OEP_CURVE(C16:C1015, \"WEIBULL\", FALSE)",
-        "value":  -2146826243
+        "value":  1001
     },
     {
         "sheet":  "Cat Modeling",
         "cell":  "A1023",
         "function":  "ACT_CAT_YLT_AEP_CURVE",
         "formula":  "=ACT_CAT_YLT_AEP_CURVE(B16:B1015, \"WEIBULL\", FALSE)",
-        "value":  -2146826243
+        "value":  1001
     },
     {
         "sheet":  "Interpolation",
