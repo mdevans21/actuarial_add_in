@@ -5,6 +5,28 @@ ISO-8601. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.4] — 2026-05-04
+
+### Fixed
+- **`ACT_EXPOSURE_MBBEFD` numerical stability.** The Bernegger formula
+  `G(d) = ln((a + b^d)/(a + 1)) / ln((a + b)/(a + 1))` with
+  `a = (g - b^g)/(b^g - 1)` failed in two regimes when computed
+  literally:
+  - **`b < 1`, large `g` (Swiss Re curve 5: `b≈0.247`, `g≈992`):**
+    `b^g` underflows to 0, `a` collapses to `-g`, and the log arguments
+    go negative — function returned `NaN` instead of `0.668...`.
+  - **`b > 1`, large `g` (Swiss Re curve 3):** catastrophic
+    cancellation in `a + 1 ≈ -1 + 1` cost ~3 decimals of precision
+    (returned `0.97110` instead of the true `0.97133`).
+  - Rewrote as `(a + x)/(a + 1) = 1 + (x - 1)(b^g - 1)/(g - 1)`, which
+    never forms `a` explicitly and stays well-conditioned. Added a
+    log-space fallback for the rare case of `b^g` overflow. Cross-
+    checked the new formula against `mpmath` at 80 decimal digits
+    across `c ∈ {1.5, 2, 3, 4, 5}` and `d ∈ [0.001, 0.999]` — worst-
+    case relative error is `7.5e-11` (vs the prior `NaN` for c=5).
+- **`ACT_EXPOSURE_SWISSRE` curve 5** now returns finite values across
+  the full domain (was `NaN` everywhere except `d ∈ {0, 1}`).
+
 ## [0.5.3] — 2026-05-04
 
 ### Fixed

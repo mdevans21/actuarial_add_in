@@ -38,15 +38,33 @@ public static class ExposureCurves
             return d;
         }
 
-        // General MBBEFD formula: G(d) = ln(a + b^d) - ln(a + 1) / ln(a + b) - ln(a + 1)
-        // where a = (g - b^g) / (b^g - 1) when g != 1 and b != 1
+        // Bernegger (1997) writes G(d) = ln((a + b^d)/(a + 1)) / ln((a + b)/(a + 1))
+        // with a = (g - b^g)/(b^g - 1). Computed naively this fails in two regimes:
+        //   • b < 1 with large g (e.g. SwissRe c=5: b≈0.247, g≈992): b^g underflows to 0,
+        //     a collapses to -g, and a + b^d, a + 1 both go negative — log gives NaN.
+        //   • b > 1 with large g: a + 1 = (g-1)/(b^g - 1) suffers catastrophic
+        //     cancellation around -1, costing several digits of precision.
+        // Rewriting (a + x)/(a + 1) = 1 + (x - 1)(b^g - 1)/(g - 1) avoids both: it
+        // never forms `a` explicitly, and remains well-conditioned for any b, g.
+        double bd = Math.Pow(b, d);
         double bg = Math.Pow(b, g);
-        double a = (g - bg) / (bg - 1);
 
-        double numerator = Math.Log(a + Math.Pow(b, d)) - Math.Log(a + 1);
-        double denominator = Math.Log(a + b) - Math.Log(a + 1);
+        if (!double.IsFinite(bg))
+        {
+            // b > 1 with extreme g: b^g overflows to +∞. Both ratios are dominated
+            // by the b^g·(x-1)/(g-1) term, so work in log space using ln(b^g) = g·ln(b).
+            double logBg = g * Math.Log(b);
+            double logNum = logBg + Math.Log(bd - 1) - Math.Log(g - 1);
+            double logDen = logBg + Math.Log(b  - 1) - Math.Log(g - 1);
+            return logNum / logDen;
+        }
 
-        return numerator / denominator;
+        double numRatio = 1 + (bd - 1) * (bg - 1) / (g - 1);
+        double denRatio = 1 + (b  - 1) * (bg - 1) / (g - 1);
+
+        if (numRatio <= 0 || denRatio <= 0) return double.NaN;
+
+        return Math.Log(numRatio) / Math.Log(denRatio);
     }
 
     [ExcelFunction(Description = "Swiss Re standard exposure curves Y1-Y4 (curve 1-4) and the Lloyd's industrial-risks curve (curve 5). Implements Bernegger (1997) Table 1: c = 1.5, 2, 3, 4, 5 with b = exp(3.1 - 0.15·c·(1+c)), g = exp(c·(0.78 + 0.12·c)).", Category = "Actuarial.ExposureCurves")]
