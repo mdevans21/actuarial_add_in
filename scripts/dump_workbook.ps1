@@ -98,9 +98,10 @@ $xl.AskToUpdateLinks = $false
 try {
     Write-Host "RegisterXLL: $Xll"
     if (-not $xl.RegisterXLL($Xll)) {
-        throw "RegisterXLL returned False. Confirm the .NET Desktop runtime " +
-              "matches the XLL's target framework (project currently builds " +
-              "net6.0-windows; .NET 6 WindowsDesktop must be installed)."
+        throw "RegisterXLL returned False. Confirm the .NET runtime matches " +
+              "the XLL's target framework. The default build is net48 (.NET " +
+              "Framework 4.8 ships with Windows 10 1903+ / Windows 11). The " +
+              "net8 perf variant requires Microsoft.WindowsDesktop.App 8.x."
     }
 
     Write-Host "Opening: $Workbook"
@@ -275,7 +276,7 @@ try {
         # PowerShell wraps single-element arrays awkwardly; force [...] form.
         if ($records.Count -eq 1) { $json = "[$json]" }
         # Set-Content -Encoding UTF8 emits a BOM, which `json.load` rejects.
-        # WriteAllText with UTF8 (no BOM by default in .NET 6+) is what we want.
+        # WriteAllText with UTF8 (no BOM by default on modern .NET) is what we want.
         $utf8NoBom = New-Object System.Text.UTF8Encoding $false
         [System.IO.File]::WriteAllText($Output, $json, $utf8NoBom)
         Write-Host "Wrote $($records.Count) ACT_* records to $Output"

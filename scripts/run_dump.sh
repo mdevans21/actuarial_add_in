@@ -9,30 +9,46 @@
 # Requirements (one-time):
 #   * WSL2 with /mnt/c interop enabled (default).
 #   * Excel installed on the Windows host.
-#   * .NET Desktop Runtime matching the XLL's TargetFramework (net6.0-windows
-#     today -> Microsoft.WindowsDesktop.App 6.x).
+#   * For the net48 build (RUNTIME=net48, default): nothing — .NET Framework 4.8
+#     is preinstalled on Windows 10 1903+ and Windows 11.
+#     For the net8 perf variant (RUNTIME=net8): .NET 8 Desktop Runtime
+#     (Microsoft.WindowsDesktop.App 8.x).
 #   * gh CLI on the WSL side, authenticated for the repo.
 #
 # Usage:
-#   scripts/run_dump.sh                 # latest release
-#   scripts/run_dump.sh v0.7.0          # specific tag
-#   KEEP=1 scripts/run_dump.sh v0.7.0   # leave scratch dir for inspection
-#   SAVE_WORKBOOK=1 scripts/run_dump.sh # write the post-recalc workbook back to
-#                                       # excel/actuarial_add_in.xlsx so cached
-#                                       # values land in the repo copy.
+#   scripts/run_dump.sh                          # latest release, net48 default
+#   scripts/run_dump.sh v0.8.0                   # specific tag
+#   RUNTIME=net8 scripts/run_dump.sh v0.8.0      # exercise the net8 variant
+#   KEEP=1 scripts/run_dump.sh v0.8.0            # leave scratch dir for inspection
+#   SAVE_WORKBOOK=1 scripts/run_dump.sh          # write the post-recalc workbook back to
+#                                                # excel/actuarial_add_in.xlsx so cached
+#                                                # values land in the repo copy.
+#   LOCAL_XLL=1 scripts/run_dump.sh              # skip the gh download; use the locally-
+#                                                # built XLL under src/ActuarialAddIn/bin/
+#                                                # Release/<tfm>/publish/ for the selected
+#                                                # RUNTIME. Pairs naturally with
+#                                                # LOCAL_WORKBOOK=1 to test pre-release.
 
 set -euo pipefail
 
 TAG="${1:-}"
+RUNTIME="${RUNTIME:-net48}"
 REPO="mdevans21/actuarial_add_in"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SCRATCH_WIN="C:\\Users\\${USER}\\actuarial_dump_test"
 SCRATCH_WSL="/mnt/c/Users/${USER}/actuarial_dump_test"
 
-if [[ -z "$TAG" ]]; then
+case "$RUNTIME" in
+    net48) XLL_NAME="ActuarialAddIn-AddIn64-packed.xll" ;;
+    net8)  XLL_NAME="ActuarialAddIn-AddIn64-packed-net8.xll" ;;
+    *) echo "ERROR: RUNTIME must be 'net48' or 'net8' (got '$RUNTIME')." >&2; exit 2 ;;
+esac
+
+if [[ -z "${LOCAL_XLL:-}" && -z "$TAG" ]]; then
     TAG=$(gh release view --repo "$REPO" --json tagName -q .tagName)
     echo "Using latest release: $TAG"
 fi
+echo ">> Runtime: $RUNTIME ($XLL_NAME)"
 
 if ! command -v powershell.exe >/dev/null; then
     echo "ERROR: powershell.exe not on PATH. Are you running outside WSL2?" >&2
@@ -42,8 +58,24 @@ fi
 rm -rf "$SCRATCH_WSL"
 mkdir -p "$SCRATCH_WSL"
 
-echo ">> Downloading $TAG assets via gh..."
-gh release download "$TAG" --repo "$REPO" --pattern '*' --dir "$SCRATCH_WSL"
+case "$RUNTIME" in
+    net48) LOCAL_TFM_DIR="net48" ;;
+    net8)  LOCAL_TFM_DIR="net8.0-windows" ;;
+esac
+
+if [[ -n "${LOCAL_XLL:-}" ]]; then
+    LOCAL_XLL_PATH="$ROOT/src/ActuarialAddIn/bin/Release/$LOCAL_TFM_DIR/publish/ActuarialAddIn-AddIn64-packed.xll"
+    if [[ ! -f "$LOCAL_XLL_PATH" ]]; then
+        echo "ERROR: locally-built XLL not found at $LOCAL_XLL_PATH" >&2
+        echo "       Run 'dotnet build src/ActuarialAddIn/ActuarialAddIn.csproj -c Release' first." >&2
+        exit 2
+    fi
+    echo ">> LOCAL_XLL=1 — copying locally-built $RUNTIME XLL into scratch as $XLL_NAME"
+    cp "$LOCAL_XLL_PATH" "$SCRATCH_WSL/$XLL_NAME"
+else
+    echo ">> Downloading $TAG assets via gh..."
+    gh release download "$TAG" --repo "$REPO" --pattern '*' --dir "$SCRATCH_WSL"
+fi
 
 # LOCAL_WORKBOOK=1 uses the in-repo excel/actuarial_add_in.xlsx instead of the
 # release asset. Useful when iterating on workbook content (formula tweaks,
@@ -61,7 +93,7 @@ SAVE_FLAG=()
 if [[ -n "${SAVE_WORKBOOK:-}" ]]; then SAVE_FLAG=(-SaveWorkbook); fi
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File \
     "${SCRATCH_WIN}\\dump_workbook.ps1" \
-    -Xll      "${SCRATCH_WIN}\\ActuarialAddIn-AddIn64-packed.xll" \
+    -Xll      "${SCRATCH_WIN}\\${XLL_NAME}" \
     -Workbook "${SCRATCH_WIN}\\actuarial_add_in.xlsx" \
     -Output   "${SCRATCH_WIN}\\dump.json" \
     "${SAVE_FLAG[@]}"

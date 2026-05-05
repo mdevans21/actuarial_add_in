@@ -4,14 +4,14 @@
         "cell":  "B3",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.3"
+        "value":  "0.8.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B4",
         "function":  "ACT_BUILD_DATE",
         "formula":  "=ACT_BUILD_DATE()",
-        "value":  "2026-05-04"
+        "value":  "2026-05-05"
     },
     {
         "sheet":  "Versions",
@@ -25,14 +25,14 @@
         "cell":  "B8",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.3"
+        "value":  "0.8.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B9",
         "function":  "ACT_BUILD_DATE",
         "formula":  "=ACT_BUILD_DATE()",
-        "value":  "2026-05-04"
+        "value":  "2026-05-05"
     },
     {
         "sheet":  "Versions",
@@ -46,14 +46,14 @@
         "cell":  "B11",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  15
+        "value":  16
     },
     {
         "sheet":  "Versions",
         "cell":  "B12",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
+        "value":  "Multi-target net48 + net8.0-windows. Default release asset (`AddIn64-packed.xll`) now targets .NET Framework 4.8 — preinstalled on every Windows 10 1903+ / Windows 11, so installing the add-in no longer requires a runtime download. A .NET 8 perf variant ships alongside as `AddIn64-packed-net8.xll` for users who install the .NET 8 Desktop Runtime; same C# code, modern JIT and SIMD codegen on heavy stochastic workloads. Root cause of the long-standing v0.5.x .NET 8 hosting failure identified: ExcelDna 1.9.0\u0027s host shim formats its own runtimeconfig.json from the `.dna` file\u0027s RuntimeVersion attribute, which was set to `v4.0` (causing the host to launch .NET 6 and reject the net8 user assembly). MSBuild XmlPoke target now rewrites it to `v8.0` for the net8 build only."
     },
     {
         "sheet":  "Versions",
@@ -1159,14 +1159,14 @@
         "cell":  "B304",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.3"
+        "value":  "0.8.0"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B305",
         "function":  "ACT_BUILD_DATE",
         "formula":  "=ACT_BUILD_DATE()",
-        "value":  "2026-05-04"
+        "value":  "2026-05-05"
     },
     {
         "sheet":  "All Functions Test",
@@ -1180,28 +1180,28 @@
         "cell":  "B307",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  15
+        "value":  16
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B308",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"hash\")",
-        "value":  "v0.7.3"
+        "value":  "v0.8.0"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B309",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"date\")",
-        "value":  "2026-05-04"
+        "value":  "2026-05-05"
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B310",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
+        "value":  "Multi-target net48 + net8.0-windows. Default release asset (`AddIn64-packed.xll`) now targets .NET Framework 4.8 — preinstalled on every Windows 10 1903+ / Windows 11, so installing the add-in no longer requires a runtime download. A .NET 8 perf variant ships alongside as `AddIn64-packed-net8.xll` for users who install the .NET 8 Desktop Runtime; same C# code, modern JIT and SIMD codegen on heavy stochastic workloads. Root cause of the long-standing v0.5.x .NET 8 hosting failure identified: ExcelDna 1.9.0\u0027s host shim formats its own runtimeconfig.json from the `.dna` file\u0027s RuntimeVersion attribute, which was set to `v4.0` (causing the host to launch .NET 6 and reject the net8 user assembly). MSBuild XmlPoke target now rewrites it to `v8.0` for the net8 build only."
     },
     {
         "sheet":  "All Functions Test",

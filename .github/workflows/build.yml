@@ -26,12 +26,12 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Restore dependencies
       run: dotnet restore ActuarialAddIn.sln
 
-    - name: Build
+    - name: "Build (multi-target: net48 + net8.0-windows)"
       run: dotnet build ActuarialAddIn.sln --configuration Release --no-restore
 
     - name: Run Tests
@@ -49,13 +49,19 @@ jobs:
         name: addin-outputs-json
         path: tests/fixtures/addin_outputs.json
 
-    - name: Upload Add-In
+    - name: Upload Add-In (net48)
       uses: actions/upload-artifact@v4
       with:
-        name: actuarial-addin
+        name: actuarial-addin-net48
         path: |
-          src/ActuarialAddIn/bin/Release/net6.0-windows/*.xll
-          src/ActuarialAddIn/bin/Release/net6.0-windows/ActuarialAddIn.dll
+          src/ActuarialAddIn/bin/Release/net48/publish/*.xll
+
+    - name: Upload Add-In (net8)
+      uses: actions/upload-artifact@v4
+      with:
+        name: actuarial-addin-net8
+        path: |
+          src/ActuarialAddIn/bin/Release/net8.0-windows/publish/*.xll
 
   reconcile:
     needs: build
@@ -106,16 +112,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '8.0.x'
 
-    - name: Build Release
+    - name: "Build Release (multi-target: net48 + net8.0-windows)"
       run: dotnet build ActuarialAddIn.sln --configuration Release
 
-    - name: Create Release Package
+    - name: Stage release assets (net48 keeps primary names; net8 suffixed)
+      shell: pwsh
       run: |
-        mkdir release
-        copy src\ActuarialAddIn\bin\Release\net6.0-windows\*.xll release\
-        copy src\ActuarialAddIn\bin\Release\net6.0-windows\ActuarialAddIn.dll release\
+        New-Item -ItemType Directory -Force -Path release | Out-Null
+        Copy-Item src/ActuarialAddIn/bin/Release/net48/publish/ActuarialAddIn-AddIn-packed.xll release/
+        Copy-Item src/ActuarialAddIn/bin/Release/net48/publish/ActuarialAddIn-AddIn64-packed.xll release/
+        Copy-Item src/ActuarialAddIn/bin/Release/net8.0-windows/publish/ActuarialAddIn-AddIn-packed.xll release/ActuarialAddIn-AddIn-packed-net8.xll
+        Copy-Item src/ActuarialAddIn/bin/Release/net8.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll release/ActuarialAddIn-AddIn64-packed-net8.xll
 
     - name: Upload Release Assets
       # Pinned to commit SHA (softprops/action-gh-release v2) per

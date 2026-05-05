@@ -12,8 +12,9 @@ The script looks for the workbook and the .xll in the obvious places:
 
   * its own folder (flat layout — workbook + xll + script all together)
   * `..\excel\actuarial_add_in.xlsx`
-        and `..\src\ActuarialAddIn\bin\Release\net6.0-windows\publish\ActuarialAddIn-AddIn64-packed.xll`
-        (when the script is in the repo's `scripts\` directory)
+        and `..\src\ActuarialAddIn\bin\Release\net48\publish\ActuarialAddIn-AddIn64-packed.xll`
+        (when the script is in the repo's `scripts\` directory; falls back to
+        the `net8.0-windows` build folder if a Framework build isn't present)
   * `.\excel\` and `.\src\...\publish\`
         (when run from the repo root)
 
@@ -53,11 +54,19 @@ WORKBOOK_CANDIDATES = [
 ]
 XLL_CANDIDATES = [
     HERE / "ActuarialAddIn-AddIn64-packed.xll",
-    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Release" / "net6.0-windows"
+    # Default install build (net48). Looked for first.
+    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Release" / "net48"
         / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
-    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Debug" / "net6.0-windows"
+    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Debug" / "net48"
         / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
-    HERE / "src" / "ActuarialAddIn" / "bin" / "Release" / "net6.0-windows"
+    HERE / "src" / "ActuarialAddIn" / "bin" / "Release" / "net48"
+        / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
+    # Perf variant fallback (net8.0-windows).
+    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Release" / "net8.0-windows"
+        / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
+    HERE.parent / "src" / "ActuarialAddIn" / "bin" / "Debug" / "net8.0-windows"
+        / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
+    HERE / "src" / "ActuarialAddIn" / "bin" / "Release" / "net8.0-windows"
         / "publish" / "ActuarialAddIn-AddIn64-packed.xll",
 ]
 DUMP = HERE / "actuarial_add_in_dump.json"
@@ -113,9 +122,12 @@ def main() -> int:
             print("ERROR: Excel refused to load the .xll. Two usual causes:")
             print(f"  1. Mark of the Web — run in PowerShell:")
             print(f"        Unblock-File '{xll}'")
-            print(f"  2. .NET 6 Desktop Runtime not installed.")
-            print(f"     Check: dotnet --list-runtimes")
-            print(f"     Install: winget install Microsoft.DotNet.DesktopRuntime.6")
+            print(f"  2. The matching .NET runtime is missing:")
+            print(f"     - net48 build (default): .NET Framework 4.8 ships with")
+            print(f"       Windows 10 1903+ / Windows 11 — should always be present.")
+            print(f"     - net8 build: needs the .NET 8 Desktop Runtime.")
+            print(f"       Check: dotnet --list-runtimes")
+            print(f"       Install: winget install Microsoft.DotNet.DesktopRuntime.8")
             return 2
 
         wb = app.books.open(str(workbook))
@@ -180,13 +192,14 @@ def main() -> int:
         print()
         print(f"!! {n_none} of {len(calls)} cells ({none_pct:.0f}%) came back as None.")
         print("   Excel computed nothing — the add-in did not load even though")
-        print("   RegisterXLL succeeded. Most common cause: the .NET 6 Windows")
-        print("   Desktop Runtime is missing.")
+        print("   RegisterXLL succeeded.")
         print()
+        print("   If you loaded the net8 build, the matching runtime is missing.")
         print("   Install:")
-        print("     winget install Microsoft.DotNet.DesktopRuntime.6")
+        print("     winget install Microsoft.DotNet.DesktopRuntime.8")
         print("   Verify:")
-        print("     dotnet --list-runtimes  (look for Microsoft.WindowsDesktop.App 6.x)")
+        print("     dotnet --list-runtimes  (look for Microsoft.WindowsDesktop.App 8.x)")
+        print("   Or switch to the default net48 build (no runtime install needed).")
         print("   Then close all Excel processes and re-run:")
         print("     Get-Process excel | Stop-Process -Force")
         return 4

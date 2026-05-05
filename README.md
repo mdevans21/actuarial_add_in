@@ -4,7 +4,8 @@
 [![Release](https://img.shields.io/github/v/release/mdevans21/actuarial_add_in?display_name=tag&sort=semver)](https://github.com/mdevans21/actuarial_add_in/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: Excel (Windows)](https://img.shields.io/badge/Excel-2016%2B%20%7C%20365-217346)](https://www.microsoft.com/microsoft-365/excel)
-[![.NET 6.0](https://img.shields.io/badge/.NET-6.0-512BD4)](https://dotnet.microsoft.com/)
+[![.NET Framework 4.8](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)](https://dotnet.microsoft.com/)
+[![.NET 8.0 (perf)](https://img.shields.io/badge/.NET-8.0%20perf-512BD4)](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 > A native Excel add-in that brings 174 general-insurance actuarial
 > functions — **chain ladder**, **Mack standard errors**, **ODP bootstrap**,
@@ -23,22 +24,9 @@ actuarial literature in a CI-gated Jupyter notebook (see
 
 ## Install in 60 seconds
 
-**One-time prerequisite** — install the **.NET 6 Windows Desktop
-Runtime** if you don't already have it. Excel-DNA's host needs it to
-load the add-in; without it Excel logs `Could not load file or assembly
-'System.Runtime, Version=6.0.0.0'` on startup. Pick whichever:
-
-```powershell
-winget install Microsoft.DotNet.DesktopRuntime.6
-```
-
-or download from
-[dotnet.microsoft.com/download/dotnet/6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
-under "Run desktop apps" → ".NET Desktop Runtime 6.0.x x64". Verify
-with `dotnet --list-runtimes` — you should see a
-`Microsoft.WindowsDesktop.App 6.0.x` line.
-
-Then:
+The default build targets **.NET Framework 4.8**, which is preinstalled
+on every Windows 10 (1903+) and Windows 11 machine — **no runtime
+download required.**
 
 1. Grab the latest `.xll` from the
    [Releases page](https://github.com/mdevans21/actuarial_add_in/releases) —
@@ -55,11 +43,40 @@ Then:
 5. In any cell, type `=ACT_` — every add-in function shows up in
    autocomplete, grouped by category.
 
-The `.xll` is a single signed assembly with no Python or R runtime
+The `.xll` is a single packed assembly with no Python or R runtime
 required and no telemetry.
 
 Worked examples for every function family live in
 [`excel/actuarial_add_in.xlsx`](excel/actuarial_add_in.xlsx).
+
+### Performance variant — .NET 8 build
+
+A second build (`-net8` suffix on the release assets) runs on the
+**.NET 8 Desktop Runtime** instead of .NET Framework 4.8. The C#
+binary is identical; the difference is which CLR Excel loads it into.
+
+When it helps: heavy stochastic workloads — `ACT_CL_BOOTSTRAP` with
+many iterations, `ACT_PANJER_*` over wide grids, `ACT_CAT_ELT_TO_YLT`
+over thousands of years, large MathNet linear-algebra calls. Modern
+JIT (tiered compilation, dynamic PGO) and SIMD codegen typically buy
+a 1.5–2× speed-up on these. For ordinary cell-at-a-time use (single
+distribution CDF, Mack on a 10×10 triangle) the difference is
+imperceptible — Excel recalc and COM marshaling dominate.
+
+To use:
+
+1. Install the **.NET 8 Desktop Runtime** —
+   [dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+   under "Run desktop apps" → ".NET Desktop Runtime 8.0.x x64", or
+   `winget install Microsoft.DotNet.DesktopRuntime.8`.
+   Verify with `dotnet --list-runtimes` — you should see a
+   `Microsoft.WindowsDesktop.App 8.0.x` line.
+2. Download `ActuarialAddIn-AddIn64-packed-net8.xll` (or the 32-bit
+   variant) from the Releases page; unblock and load it in Excel via
+   the same steps as the default install.
+
+If you don't know which to pick, use the default — it's faster to
+install and identical in correctness.
 
 ---
 
@@ -432,21 +449,25 @@ to a specific add-in release.
 
 ## Building from source
 
-Building requires the .NET 6 SDK and targets `net6.0-windows` — building
-on Linux requires `-p:EnableWindowsTargeting=true`, and the resulting
-add-in only runs on Windows Excel.
+The project multi-targets `net48` (default install) and
+`net8.0-windows` (perf variant) — `dotnet build` produces both in one
+pass. The .NET 8 SDK can build both targets; building on Linux requires
+`-p:EnableWindowsTargeting=true`, and the resulting `.xll` only runs on
+Windows Excel.
 
 ```bash
 dotnet restore ActuarialAddIn.sln
 dotnet build ActuarialAddIn.sln --configuration Release
 
-# 64-bit XLL lands here:
-# src/ActuarialAddIn/bin/Release/net6.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll
+# 64-bit XLLs land here:
+#   src/ActuarialAddIn/bin/Release/net48/publish/ActuarialAddIn-AddIn64-packed.xll
+#   src/ActuarialAddIn/bin/Release/net8.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll
 ```
 
 The C# test harness and JSON-emitter are in
-`src/ActuarialAddIn.Tests`. Running `dotnet run --project
-src/ActuarialAddIn.Tests` produces a structured JSON snapshot
+`src/ActuarialAddIn.Tests` (single-target on `net8.0-windows`, since it
+runs developer-side and never ships to users). Running `dotnet run
+--project src/ActuarialAddIn.Tests` produces a structured JSON snapshot
 (`tests/fixtures/addin_outputs.json`) consumed by the reconciliation
 notebook.
 

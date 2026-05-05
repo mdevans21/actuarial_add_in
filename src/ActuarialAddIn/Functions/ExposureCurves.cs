@@ -49,7 +49,7 @@ public static class ExposureCurves
         double bd = Math.Pow(b, d);
         double bg = Math.Pow(b, g);
 
-        if (!double.IsFinite(bg))
+        if (double.IsNaN(bg) || double.IsInfinity(bg))
         {
             // b > 1 with extreme g: b^g overflows to +∞. Both ratios are dominated
             // by the b^g·(x-1)/(g-1) term, so work in log space using ln(b^g) = g·ln(b).

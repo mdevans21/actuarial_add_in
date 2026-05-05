@@ -7,7 +7,9 @@
     Place this .ps1 next to check_workbook.py in any Windows folder, then
     run it. The script:
 
-      1. Sanity-checks prerequisites (gh, python, .NET 6 Desktop Runtime).
+      1. Sanity-checks prerequisites (gh, python; .NET Framework 4.8 is
+         preinstalled on Windows 10/11 — only the optional net8 perf
+         variant needs the .NET 8 Desktop Runtime).
       2. Resolves the requested release tag (default: latest).
       3. Downloads the packed .xll and the worked-example workbook from
          the GitHub Release into the script's folder.
@@ -66,13 +68,19 @@ foreach ($cmd in @("gh", "python", "pip")) {
     }
 }
 
-$runtimes = & dotnet --list-runtimes 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Warning "dotnet not on PATH. The .NET runtime must be installed regardless."
-} elseif ($runtimes -notmatch "Microsoft\.WindowsDesktop\.App 6\.") {
-    Write-Warning ".NET 6 Windows Desktop Runtime not detected."
-    Write-Warning "  Install via:  winget install Microsoft.DotNet.DesktopRuntime.6"
-    Write-Warning "Continuing anyway in case you have it via another route..."
+# The default .xll targets net48 (.NET Framework 4.8 — preinstalled on Win 10/11).
+# Only warn if the user is opting into the net8 perf variant by setting
+# $env:RUNTIME = "net8" before invoking this script.
+$runtime = if ($env:RUNTIME) { $env:RUNTIME } else { "net48" }
+if ($runtime -eq "net8") {
+    $runtimes = & dotnet --list-runtimes 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "dotnet not on PATH; cannot verify .NET 8 Desktop Runtime."
+    } elseif ($runtimes -notmatch "Microsoft\.WindowsDesktop\.App 8\.") {
+        Write-Warning ".NET 8 Windows Desktop Runtime not detected (required for the net8 build)."
+        Write-Warning "  Install via:  winget install Microsoft.DotNet.DesktopRuntime.8"
+        Write-Warning "Continuing anyway in case you have it via another route..."
+    }
 }
 
 # Verify check_workbook.py is alongside this script
@@ -95,7 +103,13 @@ if ($Tag -eq "latest") {
 }
 
 # --- 3. Download .xll and workbook --------------------------------------
-$xllName = "ActuarialAddIn-AddIn64-packed.xll"
+# Default to the net48 build (zero install). Set $env:RUNTIME = "net8" before
+# invoking to exercise the perf variant instead.
+if ($runtime -eq "net8") {
+    $xllName = "ActuarialAddIn-AddIn64-packed-net8.xll"
+} else {
+    $xllName = "ActuarialAddIn-AddIn64-packed.xll"
+}
 $xlsxName = "actuarial_add_in.xlsx"
 $xllPath = Join-Path $Here $xllName
 $xlsxPath = Join-Path $Here $xlsxName

@@ -22,26 +22,30 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Restore dependencies
       run: dotnet restore src/ActuarialAddIn/ActuarialAddIn.csproj
 
-    - name: Build Release
+    - name: "Build Release (multi-target: net48 + net8.0-windows)"
       run: dotnet build src/ActuarialAddIn/ActuarialAddIn.csproj --configuration Release --no-restore
 
-    - name: Publish
-      run: dotnet publish src/ActuarialAddIn/ActuarialAddIn.csproj --configuration Release --no-build
+    - name: Stage release assets (net48 keeps primary names; net8 suffixed)
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path release | Out-Null
+        Copy-Item src/ActuarialAddIn/bin/Release/net48/publish/ActuarialAddIn-AddIn-packed.xll release/
+        Copy-Item src/ActuarialAddIn/bin/Release/net48/publish/ActuarialAddIn-AddIn64-packed.xll release/
+        Copy-Item src/ActuarialAddIn/bin/Release/net8.0-windows/publish/ActuarialAddIn-AddIn-packed.xll release/ActuarialAddIn-AddIn-packed-net8.xll
+        Copy-Item src/ActuarialAddIn/bin/Release/net8.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll release/ActuarialAddIn-AddIn64-packed-net8.xll
+        Copy-Item excel/actuarial_add_in.xlsx release/
 
     - name: Create Release
       # Pinned to commit SHA (softprops/action-gh-release v2) per
       #; pinned to a specific commit SHA to avoid tag-hijack.
       uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
       with:
-        files: |
-          src/ActuarialAddIn/bin/Release/net6.0-windows/publish/ActuarialAddIn-AddIn64-packed.xll
-          src/ActuarialAddIn/bin/Release/net6.0-windows/publish/ActuarialAddIn-AddIn-packed.xll
-          excel/actuarial_add_in.xlsx
+        files: release/*
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -49,7 +49,7 @@ warn without failing the build.
 **How to regenerate the fixture:**
 
 ```bash
-# on Windows (required — Excel-DNA targets net8.0-windows)
+# on Windows (required — the project targets net48 / net8.0-windows)
 dotnet run --project src/ActuarialAddIn.Tests -- test_results.md
 ```
 

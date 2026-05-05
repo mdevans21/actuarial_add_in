@@ -53,6 +53,7 @@ ENV/
 
 # Local docs and references
 actuarial_add_in_prd.md
+next_steps.md
 reference/
 
 # Excluded by request — not part of the public repo
