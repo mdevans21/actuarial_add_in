@@ -502,7 +502,11 @@ release / spreadsheet-regeneration workflow, including the two-step
 
 ## Changelog
 
-- [CHANGELOG.md](CHANGELOG.md) — release history
+Release history lives in
+[`VersionInfo.GetCommitHistory()`](src/ActuarialAddIn/VersionInfo.cs)
+and surfaces in the workbook's *Versions* tab as a live spill from
+`=ACT_COMMIT_HISTORY()`. Per-tag release notes are on the
+[GitHub Releases page](https://github.com/mdevans21/actuarial_add_in/releases).
 
 ## License
 

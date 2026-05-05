@@ -700,137 +700,69 @@ def create_cat_modeling_sheet(wb):
     cell.border = THIN_BORDER
     row = ylt_end_row + 2
 
-    # OEP Curve from YLT
-    row = add_note(ws, "OEP Curve (from YLT max losses) - Weibull plotting position", row)
-    row = add_table_header(ws, ["Return Period", "OEP Loss"], row)
-    oep_start = row
-    cell = ws.cell(row=row, column=1)
-    cell.value = f'=ACT_CAT_YLT_OEP_CURVE(C{ylt_start_row}:C{ylt_end_row}, "WEIBULL", FALSE)'
-    cell.border = THIN_BORDER
-    row += 2
+    # OEP / AEP full curves and the RP-specific table all need to live below
+    # the 1000-row YLT spill, but each one returns ~1000 rows itself, so they
+    # can't be stacked vertically without colliding. Place the three blocks
+    # side-by-side in separate column groups, each with full 1000-row clearance:
+    #   col A-B : OEP curve (full, 1000 rows)
+    #   col D-E : AEP curve (full, 1000 rows)
+    #   col G-I : OEP/AEP at fixed return periods (small, 9 rows)
+    section_anchor_row = ylt_end_row + 2
 
-    # AEP Curve from YLT
-    row = add_note(ws, "AEP Curve (from YLT aggregate losses)", row)
-    row = add_table_header(ws, ["Return Period", "AEP Loss"], row)
-    aep_start = row
-    cell = ws.cell(row=row, column=1)
-    cell.value = f'=ACT_CAT_YLT_AEP_CURVE(B{ylt_start_row}:B{ylt_end_row}, "WEIBULL", FALSE)'
-    cell.border = THIN_BORDER
-    row += 3
+    # OEP curve (cols A-B)
+    add_note(ws, "OEP Curve (from YLT max losses) - Weibull plotting position",
+             section_anchor_row, col=1)
+    add_table_header(ws, ["Return Period", "OEP Loss"], section_anchor_row + 1, start_col=1)
+    oep_anchor = ws.cell(row=section_anchor_row + 2, column=1)
+    oep_anchor.value = f'=ACT_CAT_YLT_OEP_CURVE(C{ylt_start_row}:C{ylt_end_row}, "WEIBULL", FALSE)'
+    oep_anchor.border = THIN_BORDER
 
-    # =========================================================================
-    # SECTION 2: Worked Example with Manual YLT and EP Curve Functions
-    # =========================================================================
-    row = add_note(ws, "EXAMPLE 2: WORKED EXAMPLE WITH DETAILED ELT", row)
-    row += 1
+    # AEP curve (cols D-E)
+    add_note(ws, "AEP Curve (from YLT aggregate losses)",
+             section_anchor_row, col=4)
+    add_table_header(ws, ["Return Period", "AEP Loss"], section_anchor_row + 1, start_col=4)
+    aep_anchor = ws.cell(row=section_anchor_row + 2, column=4)
+    aep_anchor.value = f'=ACT_CAT_YLT_AEP_CURVE(B{ylt_start_row}:B{ylt_end_row}, "WEIBULL", FALSE)'
+    aep_anchor.border = THIN_BORDER
 
-    # ELT input (raw) - Column F onwards
-    col_offset = 5  # Start at column F
-    row2 = 4  # Start near the top, in a separate column area
-
-    ws.cell(row=row2, column=col_offset+1, value="Event Loss Table (Detailed)").font = HEADER_FONT
-    row2 += 1
-    headers = ["Event", "Rate", "Mean", "SDi", "SDc", "TIV"]
-    for i, h in enumerate(headers):
-        cell = ws.cell(row=row2, column=col_offset+1+i, value=h)
-        cell.font = HEADER_FONT_WHITE
-        cell.fill = HEADER_FILL
-        cell.border = THIN_BORDER
-    row2 += 1
-
-    elt_rows = [
-        (1, 0.10, 500, 500, 200, 100000),
-        (2, 0.10, 200, 400, 100, 5000),
-        (3, 0.20, 300, 200, 400, 40000),
-        (4, 0.10, 100, 300, 500, 4000),
-        (5, 0.20, 500, 100, 200, 2000),
-        (6, 0.25, 200, 200, 500, 50000),
-        (7, 0.01, 1000, 500, 600, 100000),
-        (8, 0.12, 250, 300, 100, 5000),
-        (9, 0.14, 1000, 500, 200, 6000),
-        (10, 0.00, 10000, 1000, 500, 1000000),
-    ]
-    elt2_start = row2
-    for values in elt_rows:
-        for i, v in enumerate(values):
-            cell = ws.cell(row=row2, column=col_offset+1+i, value=v)
-            cell.border = THIN_BORDER
-        row2 += 1
-    elt2_end = row2 - 1
-    row2 += 2
-
-    # YLT (worked example output - static data for reconciliation)
-    ws.cell(row=row2, column=col_offset+1, value="Sample YLT Output (10 years)").font = HEADER_FONT
-    row2 += 1
-    for i, h in enumerate(["Year", "Loss", "Event"]):
-        cell = ws.cell(row=row2, column=col_offset+1+i, value=h)
-        cell.font = HEADER_FONT_WHITE
-        cell.fill = HEADER_FILL
-        cell.border = THIN_BORDER
-    row2 += 1
-
-    ylt_rows = [
-        (1, 0.0, "None"),
-        (2, 85.74, 5),
-        (3, 0.91, 2),
-        (4, 261.18, 1),
-        (5, 2.69, 8),
-        (6, 262.10, "1,3"),
-        (7, 0.0, "None"),
-        (8, 0.00, 6),
-        (9, 358.33, "3,6"),
-        (10, 0.0, "None"),
-    ]
-    ylt2_start = row2
-    for year, loss, event_id in ylt_rows:
-        ws.cell(row=row2, column=col_offset+1, value=year).border = THIN_BORDER
-        cell = ws.cell(row=row2, column=col_offset+2, value=loss)
-        cell.border = THIN_BORDER
-        cell.number_format = '#,##0.00'
-        ws.cell(row=row2, column=col_offset+3, value=event_id).border = THIN_BORDER
-        row2 += 1
-    ylt2_end = row2 - 1
-    row2 += 2
-
-    # EP Curves at specific return periods
-    ws.cell(row=row2, column=col_offset+1, value="EP Curves at Return Periods").font = HEADER_FONT
-    row2 += 1
+    # RP-specific table (cols G-I) — uses ACT_CAT_OEP_CURVE_RP / _AEP_CURVE_RP
+    # against the same simulated YLT. This is the actually-useful pricing
+    # output: OEP/AEP loss at standard return periods.
+    rp_col_offset = 6  # G is column 7 (index 6 in 0-based)
+    rp_section_row = section_anchor_row
+    ws.cell(row=rp_section_row, column=rp_col_offset+1,
+            value="EP Curves at Return Periods").font = HEADER_FONT
+    rp_header_row = rp_section_row + 1
     for i, h in enumerate(["Return Period", "OEP", "AEP"]):
-        cell = ws.cell(row=row2, column=col_offset+1+i, value=h)
+        cell = ws.cell(row=rp_header_row, column=rp_col_offset+1+i, value=h)
         cell.font = HEADER_FONT_WHITE
         cell.fill = HEADER_FILL
         cell.border = THIN_BORDER
-    row2 += 1
 
     return_periods = [500, 250, 100, 50, 25, 10, 5, 2]
-    rp_start = row2
-    # Capture the return-period column once we know its end row.
+    rp_start = rp_header_row + 1
     rp_end = rp_start + len(return_periods) - 1
-    rp_col_letter = get_column_letter(col_offset + 1)
+    rp_col_letter = get_column_letter(rp_col_offset + 1)
     rp_range = f"{rp_col_letter}{rp_start}:{rp_col_letter}{rp_end}"
-    for rp in return_periods:
-        ws.cell(row=row2, column=col_offset+1, value=rp).border = THIN_BORDER
-        # OEP / AEP at requested return periods, drawn from the simulated YLT
-        # (1000 years, seed 42) sitting at C{ylt_start_row}:C{ylt_end_row} and
-        # B{...}:B{...} respectively.
+    for i, rp in enumerate(return_periods):
+        r_now = rp_start + i
+        ws.cell(row=r_now, column=rp_col_offset+1, value=rp).border = THIN_BORDER
         oep_formula = (f"=INDEX(ACT_CAT_OEP_CURVE_RP("
                        f"C{ylt_start_row}:C{ylt_end_row}, "
-                       f"{rp_range}, FALSE), {row2 - rp_start + 1}, 2)")
+                       f"{rp_range}, FALSE), {i + 1}, 2)")
         aep_formula = (f"=INDEX(ACT_CAT_AEP_CURVE_RP("
                        f"B{ylt_start_row}:B{ylt_end_row}, "
-                       f"{rp_range}, FALSE), {row2 - rp_start + 1}, 2)")
-        cell_oep = ws.cell(row=row2, column=col_offset+2, value=oep_formula)
+                       f"{rp_range}, FALSE), {i + 1}, 2)")
+        cell_oep = ws.cell(row=r_now, column=rp_col_offset+2, value=oep_formula)
         cell_oep.border = THIN_BORDER
         cell_oep.number_format = '#,##0'
-        cell_aep = ws.cell(row=row2, column=col_offset+3, value=aep_formula)
+        cell_aep = ws.cell(row=r_now, column=rp_col_offset+3, value=aep_formula)
         cell_aep.border = THIN_BORDER
         cell_aep.number_format = '#,##0'
-        row2 += 1
-    rp_end = row2 - 1
 
-    # Note: These would use ACT_CAT_OEP_CURVE_RP and ACT_CAT_AEP_CURVE_RP with actual YLT data
-    ws.cell(row=row2+1, column=col_offset+1,
-            value="Note: Use ACT_CAT_OEP_CURVE_RP / ACT_CAT_AEP_CURVE_RP with YLT data").font = NOTE_FONT
+    # Confused "Example 2" block (static ELT + hard-coded YLT + duplicate RP
+    # table) used to live in column F, rows ~25 onwards — none of its data fed
+    # any function and the RP table read from Example 1's YLT anyway. Removed.
 
     return ws
 

@@ -155,7 +155,9 @@ This file feeds `ACT_VERSION()`, `ACT_BUILD_DATE()`,
 ## See also
 
 - [`README.md`](README.md) — user-facing shop window.
-- [`CHANGELOG.md`](CHANGELOG.md) — release history.
+- Release history lives in
+  [`VersionInfo.GetCommitHistory()`](src/ActuarialAddIn/VersionInfo.cs)
+  and surfaces in the workbook's Versions tab via `=ACT_COMMIT_HISTORY()`.
 - [`docs/DEVELOPING.md`](docs/DEVELOPING.md) — build, release, workbook
   regeneration, WSL troubleshooting, dynamic-array patterns.
 - [GitHub Issues](https://github.com/mdevans21/actuarial_add_in/issues)

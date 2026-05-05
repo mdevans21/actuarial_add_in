@@ -177,13 +177,13 @@ and the Excel examples:
 1. **Update `src/ActuarialAddIn/VersionInfo.cs`:**
    - `CurrentVersion` — new tag (e.g. `"0.4.0"`).
    - `BuildDate` — today (ISO date).
-   - `GetCommitHistory()` — paste the output of
-     `git log --format='new CommitInfo("%h", "%cs", "%s"),' -20`.
-2. **Update [`CHANGELOG.md`](../CHANGELOG.md)** — move items from
-   `[Unreleased]` to the new version section, date-stamp the header.
-3. **Regenerate the Versions tab in the spreadsheet** (runs automatically
+   - `GetCommitHistory()` — prepend a `new CommitInfo(tag, date, summary)`
+     entry. The Versions tab in the workbook spills this list live via
+     `=ACT_COMMIT_HISTORY()`, so a curated one-line summary per release is
+     what end users see.
+2. **Regenerate the Versions tab in the spreadsheet** (runs automatically
    from `scripts/populate_examples.py`).
-4. **Commit** the version bump alone:
+3. **Commit** the version bump alone:
    ```bash
    git commit -am "Bump version to v0.4.0"
    ```
@@ -407,7 +407,6 @@ actuarial_add_in/
 │   ├── build.yml      # build + reconcile job
 │   └── release.yml    # tag → GitHub release
 ├── README.md
-├── CHANGELOG.md
 ├── CONTRIBUTING.md      # repo conventions, canonical test parameters
 └── docs/DEVELOPING.md   # you are here
 ```
