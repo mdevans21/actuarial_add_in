@@ -12,7 +12,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B3",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "Versions",
@@ -47,7 +47,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B8",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "Versions",
@@ -77,7 +77,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B11",
-        "value":  14
+        "value":  15
     },
     {
         "sheet":  "Versions",
@@ -87,7 +87,7 @@
     {
         "sheet":  "Versions",
         "cell":  "B12",
-        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
+        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
     },
     {
         "sheet":  "Versions",
@@ -112,7 +112,7 @@
     {
         "sheet":  "Versions",
         "cell":  "A16",
-        "value":  "v0.7.2"
+        "value":  "v0.7.3"
     },
     {
         "sheet":  "Versions",
@@ -122,12 +122,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C16",
-        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
+        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
     },
     {
         "sheet":  "Versions",
         "cell":  "A17",
-        "value":  "v0.7.1"
+        "value":  "v0.7.2"
     },
     {
         "sheet":  "Versions",
@@ -137,12 +137,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C17",
-        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
+        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
     },
     {
         "sheet":  "Versions",
         "cell":  "A18",
-        "value":  "v0.7.0"
+        "value":  "v0.7.1"
     },
     {
         "sheet":  "Versions",
@@ -152,12 +152,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C18",
-        "value":  "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."
+        "value":  "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."
     },
     {
         "sheet":  "Versions",
         "cell":  "A19",
-        "value":  "v0.6.0"
+        "value":  "v0.7.0"
     },
     {
         "sheet":  "Versions",
@@ -167,12 +167,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C19",
-        "value":  "Internal cleanups: split Distributions.cs (1686 lines) and ChainLadder.cs (1510 lines) into focused partial-class files; standardised inline string-error returns to ExcelError.ExcelErrorValue (24 sites); test harness now exits non-zero on assertion failures."
+        "value":  "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."
     },
     {
         "sheet":  "Versions",
         "cell":  "A20",
-        "value":  "v0.5.4"
+        "value":  "v0.6.0"
     },
     {
         "sheet":  "Versions",
@@ -182,12 +182,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C20",
-        "value":  "Patch: ACT_EXPOSURE_MBBEFD numerical stability — rewrote without explicit `a` to fix NaN at SwissRe c=5 (b\u003c1, b^g underflow) and a 4th-decimal precision loss at c=3."
+        "value":  "Internal cleanups: split Distributions.cs (1686 lines) and ChainLadder.cs (1510 lines) into focused partial-class files; standardised inline string-error returns to ExcelError.ExcelErrorValue (24 sites); test harness now exits non-zero on assertion failures."
     },
     {
         "sheet":  "Versions",
         "cell":  "A21",
-        "value":  "v0.5.3"
+        "value":  "v0.5.4"
     },
     {
         "sheet":  "Versions",
@@ -197,12 +197,12 @@
     {
         "sheet":  "Versions",
         "cell":  "C21",
-        "value":  "Patch: revert to net6.0-windows — neither ExcelDna 1.9.0 nor 1.10-preview4 reliably hosted .NET 8 in Excel. Keeps int? from 1.9; net6 path is known-good."
+        "value":  "Patch: ACT_EXPOSURE_MBBEFD numerical stability — rewrote without explicit `a` to fix NaN at SwissRe c=5 (b\u003c1, b^g underflow) and a 4th-decimal precision loss at c=3."
     },
     {
         "sheet":  "Versions",
         "cell":  "A22",
-        "value":  "v0.5.2"
+        "value":  "v0.5.3"
     },
     {
         "sheet":  "Versions",
@@ -212,27 +212,27 @@
     {
         "sheet":  "Versions",
         "cell":  "C22",
-        "value":  "Patch: tried ExcelDna.AddIn 1.10-preview4 to fix .NET 8 hosting (didn\u0027t work)."
+        "value":  "Patch: revert to net6.0-windows — neither ExcelDna 1.9.0 nor 1.10-preview4 reliably hosted .NET 8 in Excel. Keeps int? from 1.9; net6 path is known-good."
     },
     {
         "sheet":  "Versions",
         "cell":  "A23",
-        "value":  "v0.5.1"
+        "value":  "v0.5.2"
     },
     {
         "sheet":  "Versions",
         "cell":  "B23",
-        "value":  "2026-05-03"
+        "value":  "2026-05-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C23",
-        "value":  "Patch: drop legacy RuntimeVersion=\"v4.0\" from .dna manifest (necessary but not sufficient — see v0.5.2)."
+        "value":  "Patch: tried ExcelDna.AddIn 1.10-preview4 to fix .NET 8 hosting (didn\u0027t work)."
     },
     {
         "sheet":  "Versions",
         "cell":  "A24",
-        "value":  "v0.5.0"
+        "value":  "v0.5.1"
     },
     {
         "sheet":  "Versions",
@@ -242,42 +242,42 @@
     {
         "sheet":  "Versions",
         "cell":  "C24",
-        "value":  "Numerical fixes (LAYER_RATE, ILF_PARETO with xm, SWISSRE→Bernegger, AGGREGATE_TVAR); ExcelDna 1.9 + net8.0-windows; nullable seed; copula error handling."
+        "value":  "Patch: drop legacy RuntimeVersion=\"v4.0\" from .dna manifest (necessary but not sufficient — see v0.5.2)."
     },
     {
         "sheet":  "Versions",
         "cell":  "A25",
-        "value":  "v0.4.0"
+        "value":  "v0.5.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B25",
-        "value":  "2026-05-02"
+        "value":  "2026-05-03"
     },
     {
         "sheet":  "Versions",
         "cell":  "C25",
-        "value":  "GLM hat matrix bootstrap; Aggregate Claims formula fix; broader disclaimers."
+        "value":  "Numerical fixes (LAYER_RATE, ILF_PARETO with xm, SWISSRE→Bernegger, AGGREGATE_TVAR); ExcelDna 1.9 + net8.0-windows; nullable seed; copula error handling."
     },
     {
         "sheet":  "Versions",
         "cell":  "A26",
-        "value":  "v0.3.1"
+        "value":  "v0.4.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B26",
-        "value":  "2026-02-21"
+        "value":  "2026-05-02"
     },
     {
         "sheet":  "Versions",
         "cell":  "C26",
-        "value":  "Aggregate Claims tab; spreadsheet rebuilt as .xlsx with full coverage."
+        "value":  "GLM hat matrix bootstrap; Aggregate Claims formula fix; broader disclaimers."
     },
     {
         "sheet":  "Versions",
         "cell":  "A27",
-        "value":  "v0.3.0"
+        "value":  "v0.3.1"
     },
     {
         "sheet":  "Versions",
@@ -287,36 +287,51 @@
     {
         "sheet":  "Versions",
         "cell":  "C27",
-        "value":  "Enhanced ODP Bootstrap (E\u0026V 2002); Cape Cod method; credibility removed."
+        "value":  "Aggregate Claims tab; spreadsheet rebuilt as .xlsx with full coverage."
     },
     {
         "sheet":  "Versions",
         "cell":  "A28",
-        "value":  "v0.2.0"
+        "value":  "v0.3.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B28",
-        "value":  "2026-02-04"
+        "value":  "2026-02-21"
     },
     {
         "sheet":  "Versions",
         "cell":  "C28",
-        "value":  "Panjer recursion; ZT/ZM distributions; Pareto III/IV; Inverse Gaussian; Loglogistic; cat modelling."
+        "value":  "Enhanced ODP Bootstrap (E\u0026V 2002); Cape Cod method; credibility removed."
     },
     {
         "sheet":  "Versions",
         "cell":  "A29",
-        "value":  "v0.1.0"
+        "value":  "v0.2.0"
     },
     {
         "sheet":  "Versions",
         "cell":  "B29",
-        "value":  "2026-01-31"
+        "value":  "2026-02-04"
     },
     {
         "sheet":  "Versions",
         "cell":  "C29",
+        "value":  "Panjer recursion; ZT/ZM distributions; Pareto III/IV; Inverse Gaussian; Loglogistic; cat modelling."
+    },
+    {
+        "sheet":  "Versions",
+        "cell":  "A30",
+        "value":  "v0.1.0"
+    },
+    {
+        "sheet":  "Versions",
+        "cell":  "B30",
+        "value":  "2026-01-31"
+    },
+    {
+        "sheet":  "Versions",
+        "cell":  "C30",
         "value":  "Initial tagged release: distributions, LEV, chain ladder, Mack, exposure curves."
     },
     {
@@ -3132,7 +3147,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B304",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "All Functions Test",
@@ -3177,7 +3192,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B307",
-        "value":  14
+        "value":  15
     },
     {
         "sheet":  "All Functions Test",
@@ -3192,7 +3207,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B308",
-        "value":  "v0.7.2"
+        "value":  "v0.7.3"
     },
     {
         "sheet":  "All Functions Test",
@@ -3222,7 +3237,7 @@
     {
         "sheet":  "All Functions Test",
         "cell":  "B310",
-        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
+        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
     },
     {
         "sheet":  "All Functions Test",

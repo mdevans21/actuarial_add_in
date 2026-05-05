@@ -4,7 +4,7 @@
         "cell":  "B3",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "Versions",
@@ -25,7 +25,7 @@
         "cell":  "B8",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "Versions",
@@ -46,14 +46,14 @@
         "cell":  "B11",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  14
+        "value":  15
     },
     {
         "sheet":  "Versions",
         "cell":  "B12",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
+        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
     },
     {
         "sheet":  "Versions",
@@ -1159,7 +1159,7 @@
         "cell":  "B304",
         "function":  "ACT_VERSION",
         "formula":  "=ACT_VERSION()",
-        "value":  "0.7.2"
+        "value":  "0.7.3"
     },
     {
         "sheet":  "All Functions Test",
@@ -1180,14 +1180,14 @@
         "cell":  "B307",
         "function":  "ACT_COMMIT_COUNT",
         "formula":  "=ACT_COMMIT_COUNT()",
-        "value":  14
+        "value":  15
     },
     {
         "sheet":  "All Functions Test",
         "cell":  "B308",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"hash\")",
-        "value":  "v0.7.2"
+        "value":  "v0.7.3"
     },
     {
         "sheet":  "All Functions Test",
@@ -1201,7 +1201,7 @@
         "cell":  "B310",
         "function":  "ACT_COMMIT_INFO",
         "formula":  "=ACT_COMMIT_INFO(1, \"message\")",
-        "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
+        "value":  "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."
     },
     {
         "sheet":  "All Functions Test",
