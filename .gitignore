@@ -61,10 +61,13 @@ scripts/dump_values.py
 scripts/compare_workbook_values.py
 scripts/diff_repaired_workbook.py
 
-# Release history lives in src/ActuarialAddIn/VersionInfo.cs and surfaces in
-# the workbook via ACT_COMMIT_HISTORY(); per-tag notes are on GitHub Releases.
-# CHANGELOG.md is not needed in the repo.
+# Internal-only docs, not part of the public repo. Release history lives in
+# src/ActuarialAddIn/VersionInfo.cs (surfaced via ACT_COMMIT_HISTORY) plus
+# per-tag notes on GitHub Releases; build / contributor / agent process docs
+# are kept locally only.
 CHANGELOG.md
+CONTRIBUTING.md
+docs/
 
 # Claude Code local config + scheduled-task lock (may contain PATs).
 .claude/

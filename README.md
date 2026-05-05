@@ -196,9 +196,6 @@ to within Monte Carlo noise at 10 000 simulations.
 
 Secondary artefacts:
 
-- **[`test_results.md`](test_results.md)** — markdown-formatted
-  value tables from the C# harness, uploaded as a build artefact. Useful
-  for eyeballing current Add-In output without running scipy.
 - Open issues, must-fix bugs, and roadmap items are tracked on the
   [GitHub Issues](https://github.com/mdevans21/actuarial_add_in/issues)
   page. The "no production-readiness" caveat above applies regardless
@@ -338,7 +335,6 @@ the reconciliation notebook.
 England & Verrall 2002 non-constant-scale ODP with hat-matrix adjustment
 and per-period φⱼ, or `method = "CHAINLADDER-PYTHON"` for a stripped
 variant that matches `chainladder-python`'s `hat_adj=False` output.
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full reconciliation matrix.
 
 ### Aggregate claims (Panjer recursion)
 
@@ -450,14 +446,9 @@ dotnet build ActuarialAddIn.sln --configuration Release
 
 The C# test harness and JSON-emitter are in
 `src/ActuarialAddIn.Tests`. Running `dotnet run --project
-src/ActuarialAddIn.Tests -- test_results.md` produces both
-`test_results.md` (human-readable) and
-`tests/fixtures/addin_outputs.json` (machine-readable; consumed by the
-reconciliation notebook).
-
-See [`docs/DEVELOPING.md`](docs/DEVELOPING.md) for the full build /
-release / spreadsheet-regeneration workflow, including the two-step
-`.xlsx` generation process and WSL / Windows filesystem notes.
+src/ActuarialAddIn.Tests` produces a structured JSON snapshot
+(`tests/fixtures/addin_outputs.json`) consumed by the reconciliation
+notebook.
 
 ---
 
@@ -465,13 +456,9 @@ release / spreadsheet-regeneration workflow, including the two-step
 
 - Bug reports and feature requests: open an issue on GitHub with a
   minimal reproducer or the reference you want implemented.
-- Pull requests: please add a reconciliation entry in
-  `src/ActuarialAddIn.Tests/AddinOutputsEmitter.cs` and a matching
-  reference value in `tests/build_reconciliation_notebook.py`. The CI
-  `reconcile` job must pass.
 - Numerical issues: if a function's output differs from a reference,
-  the preferred channel is a PR that adds the test case — the bisection
-  of C# vs. reference is usually more productive than a bug report.
+  please include the literal inputs and the expected reference value
+  along with its source.
 
 ---
 
