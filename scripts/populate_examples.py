@@ -172,8 +172,8 @@ def add_distribution_section(ws, row, title, x_values, pdf_formula, cdf_formula,
 
 
 def create_versions_sheet(wb):
-    """Create/recreate the Versions sheet with dynamic version info formulas and static commit history."""
-    import subprocess, os
+    """Create/recreate the Versions sheet with dynamic version info formulas
+    and a live, XLL-driven commit history (no populate-time git log)."""
 
     ws = wb.create_sheet("Versions")
     set_column_widths(ws, {'A': 22, 'B': 55, 'C': 70, 'D': 15})
@@ -206,29 +206,15 @@ def create_versions_sheet(wb):
         row += 1
     row += 1
 
-    # Commit history - read from git
-    ws.cell(row=row, column=1, value="Commit History").font = HEADER_FONT
+    # Commit history — live, driven by the XLL's curated release log in
+    # VersionInfo.GetCommitHistory(). One anchor cell, dynamic-array spill
+    # (Formula2-promoted by dump_workbook.ps1 -SaveWorkbook). The previous
+    # `git log -20` snapshot drifted whenever populate_examples.py wasn't
+    # re-run; this version refreshes itself on every XLL rebuild.
+    ws.cell(row=row, column=1, value="Commit History (live from XLL)").font = HEADER_FONT
     row += 1
-    row = add_table_header(ws, ["Commit", "Date", "Message"], row)
-
-    repo_root = os.path.join(os.path.dirname(__file__), '..')
-    try:
-        result = subprocess.run(
-            ['git', 'log', '--format=%h|%cs|%s', '-20'],
-            capture_output=True, text=True, cwd=repo_root
-        )
-        for line in result.stdout.strip().split('\n'):
-            if '|' in line:
-                parts = line.split('|', 2)
-                if len(parts) == 3:
-                    for i, val in enumerate(parts):
-                        cell = ws.cell(row=row, column=i + 1, value=val)
-                        cell.border = THIN_BORDER
-                    row += 1
-    except Exception:
-        ws.cell(row=row, column=1, value="(git not available)")
-        row += 1
-
+    anchor = ws.cell(row=row, column=1, value='=ACT_COMMIT_HISTORY()')
+    anchor.border = THIN_BORDER
     return ws
 
 

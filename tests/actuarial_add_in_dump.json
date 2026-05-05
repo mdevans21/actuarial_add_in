@@ -56,6 +56,13 @@
         "value":  "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."
     },
     {
+        "sheet":  "Versions",
+        "cell":  "A15",
+        "function":  "ACT_COMMIT_HISTORY",
+        "formula":  "=ACT_COMMIT_HISTORY()",
+        "value":  "Commit"
+    },
+    {
         "sheet":  "All Functions Test",
         "cell":  "B6",
         "function":  "ACT_DIST_POISSON_PDF",
