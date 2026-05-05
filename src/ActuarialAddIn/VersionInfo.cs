@@ -6,7 +6,7 @@ namespace ActuarialAddIn;
 /// </summary>
 public static class VersionInfo
 {
-    public const string CurrentVersion = "0.7.2";
+    public const string CurrentVersion = "0.7.3";
     public const string BuildDate = "2026-05-04";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
@@ -20,6 +20,7 @@ public static class VersionInfo
         // Release history — see GitHub Releases for full notes per tag.
         return new[]
         {
+            new CommitInfo("v0.7.3", "2026-05-04", "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."),
             new CommitInfo("v0.7.2", "2026-05-04", "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."),
             new CommitInfo("v0.7.1", "2026-05-04", "Patch: replace `int? seed = null` with `object seed = null` + ResolveSeed helper across 13 stochastic functions. ExcelDna 1.9.0 mis-marshals `int?` parameters from Excel even though direct C# calls work — every cell calling the affected functions returned #VALUE! pre-fix (373 cells in the dump test)."),
             new CommitInfo("v0.7.0", "2026-05-04", "Breaking: dropped Cape Cod, triangle-utility, calendar-adjust, weighted-average functions (9 in total). Added Mack factor SE / BF / CL_LATEST formulas to spreadsheet; harness now exercises every C# function (174); notebook reconciles every non-trivial function against scipy/Klugman/Bernegger references."),
