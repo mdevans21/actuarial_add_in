@@ -16,18 +16,42 @@ namespace ActuarialAddIn.Functions;
 /// </summary>
 internal static class SeedUtil
 {
-    public static int? ResolveSeed(object? seed)
+    public static bool TryResolveSeed(object? seed, out int? resolvedSeed, out string error)
     {
-        if (seed is null) return null;
-        if (seed is ExcelMissing) return null;
-        if (seed is ExcelEmpty) return null;
-        if (seed is double d)
+        resolvedSeed = null;
+        error = "";
+
+        if (seed is null or ExcelMissing or ExcelEmpty)
+            return true;
+
+        long value;
+        switch (seed)
         {
-            if (double.IsNaN(d)) return null;
-            return (int)d;
+            case int i:
+                value = i;
+                break;
+            case long l:
+                value = l;
+                break;
+            case double d when !double.IsNaN(d) && !double.IsInfinity(d) && d == Math.Truncate(d):
+                if (d < 0 || d > int.MaxValue)
+                    return Invalid(out error);
+                value = (long)d;
+                break;
+            default:
+                return Invalid(out error);
         }
-        if (seed is int i) return i;
-        if (seed is long l) return (int)l;
-        return null;
+
+        if (value < 0 || value > int.MaxValue)
+            return Invalid(out error);
+
+        resolvedSeed = (int)value;
+        return true;
+    }
+
+    private static bool Invalid(out string error)
+    {
+        error = "Error: seed must be a whole number between 0 and 2147483647";
+        return false;
     }
 }

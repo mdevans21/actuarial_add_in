@@ -15,9 +15,10 @@
 > autocomplete takes over.
 
 Every function is prefixed `ACT_`, has an Insert-Function description, and
-returns spill-friendly arrays for Excel 365. Numerical results are
-reconciled against `scipy`, `chainladder-python`, and published
-actuarial literature in a CI-gated Jupyter notebook. The ODP bootstrap
+returns spill-friendly arrays for Excel 365. The CI suite exercises every
+public worksheet function; deterministic numerical results are reconciled
+against `scipy`, `chainladder-python`, and published actuarial literature.
+The ODP bootstrap
 reconciles bit-for-bit to Peter England's released
 [`StochasticReserving`](https://github.com/DrPeterEngland/StochasticReserving)
 implementation (see
@@ -55,16 +56,17 @@ Worked examples for every function family live in
 ### Performance variant — .NET 8 build
 
 A second build (`-net8` suffix on the release assets) runs on the
-**.NET 8 Desktop Runtime** instead of .NET Framework 4.8. The C#
-binary is identical; the difference is which CLR Excel loads it into.
+**.NET 8 Desktop Runtime** instead of .NET Framework 4.8. Both variants
+are built from the same C# source and are covered by the same numerical
+tests; they are separate binaries for their respective runtimes.
 
 When it helps: heavy stochastic workloads — `ACT_CL_BOOTSTRAP` with
 many iterations, `ACT_PANJER_*` over wide grids, `ACT_CAT_ELT_TO_YLT`
 over thousands of years, large MathNet linear-algebra calls. Modern
-JIT (tiered compilation, dynamic PGO) and SIMD codegen typically buy
-a 1.5–2× speed-up on these. For ordinary cell-at-a-time use (single
-distribution CDF, Mack on a 10×10 triangle) the difference is
-imperceptible — Excel recalc and COM marshaling dominate.
+JIT and SIMD codegen can improve these workloads, but the benefit depends
+on the workbook and should be measured in the target environment. For
+ordinary cell-at-a-time use (single distribution CDF, Mack on a 10×10
+triangle), Excel recalculation and COM marshaling commonly dominate.
 
 To use:
 
@@ -108,9 +110,9 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 |---|---|---|---|
 | **Distributions** (continuous, discrete, ZT, ZM, composite, LEV) | 96 | Lognormal, Gamma, Pareto I/III/IV, GPD, Weibull, Burr, Beta, Inverse Gaussian, Loglogistic, Poisson, NegBin, plus zero-truncated & zero-modified variants and 12 LEV functions | Klugman, Panjer & Willmot, *Loss Models* |
 | **Parameter fitting** (MLE) | 10 | `ACT_DIST_*_FIT` for Exp, Poisson, Lognormal, Gamma, Pareto, Weibull, GPD, Beta, NegBin, Burr | scipy.stats |
-| **Chain ladder** | 9 | Volume-weighted LDFs, Mack standard errors, IBNR, Bornhuetter-Ferguson | Mack (1993); England & Verrall (2002) |
+| **Chain ladder** | 7 | Volume-weighted LDFs, Mack standard errors, IBNR, Bornhuetter-Ferguson | Mack (1993); England & Verrall (2002) |
 | **Aggregate claims** ⚠️ experimental | 12 | Panjer recursion (Poisson / NegBin / Binomial), severity discretisation, VaR, TVaR | Klugman ch. 6 |
-| **Exposure curves / ILF** | 6 | MBBEFD, Swiss Re curves 1–5, Lloyd's Y1–Y4, Riebesell, power, Pareto ILF | Bernegger (1997) |
+| **Exposure curves / ILF** | 9 | MBBEFD, Swiss Re curves 1–5, Lloyd's Y1–Y4, Riebesell, power, Pareto ILF | Bernegger (1997) |
 | **Cat modelling** ⚠️ experimental | 7 | ELT → YLT simulation, OEP/AEP empirical curves, VaR/TVaR from samples | McNeil / Frey / Embrechts |
 | **Reinsurance layers** | 3 | XOL layer loss & expected loss, Pareto ILF (XOL pricing inputs only) | standard texts |
 | **Return periods** ⚠️ experimental | 3 | RP-loss interpolation, RP table builder, AAL from OEP | standard texts |
@@ -126,10 +128,11 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 
 ## ⚠️ No production-readiness claim
 
-Every function in this add-in is tested against an independent reference
-(`scipy.stats`, `chainladder-python`, an analytic formula, or a published
-worked example) in the CI-gated reconciliation notebook. **That is not the
-same thing as being production-ready.**
+Every public function is exercised in CI. Where an independent deterministic
+reference exists, the reconciliation notebook uses `scipy.stats`,
+`chainladder-python`, an analytic formula, or a published worked example;
+stochastic functions also have fixed-seed regression tests and statistical
+property checks. **That is not the same thing as being production-ready.**
 
 - The reconciliation harness, fixture data, reference values, and the
   Python notebook itself are AI-generated. AI can — and does — make
@@ -169,9 +172,9 @@ Five function families carry an additional warning. They are tagged
   whose interaction can be sensitive on heavy-tailed severities.
 - **Cat modelling** (`ACT_CAT_*`, `ACT_VAR_FROM_SAMPLES`,
   `ACT_TVAR_FROM_SAMPLES`) — ELT → YLT simulation and empirical
-  EP-curve construction. Outputs are simulation-based: monotonic and
-  bounded by sanity, but no published reference exists for direct
-  per-cell comparison.
+  EP-curve construction. The suite checks compound-Poisson moments and
+  recomputes empirical VaR/TVaR and plotting positions independently, but
+  no published reference exists for direct per-cell simulation comparison.
 - **Return periods** (`ACT_RETURN_PERIOD_LOSS`,
   `ACT_RETURN_PERIOD_TABLE`, `ACT_AAL_FROM_OEP`) — log-linear
   interpolation across an EP curve plus trapezoidal AAL integration;
@@ -199,7 +202,8 @@ papermill-executable notebook that:
    an analytical formula from Klugman / Mack / Bernegger.
 3. Tallies pass/fail per family with explicit tolerances and raises
    `AssertionError` if any Basic reconciliation falls outside tolerance —
-   which fails CI.
+   which fails CI. The release workflow runs the Windows build and C# suite,
+   then this reconciliation, before creating a GitHub release.
 
 The ODP bootstrap reconciles bit-for-bit to Peter England's released
 implementation at
@@ -360,7 +364,11 @@ Both distributions also accept `GAMMA`, `LOGNORMAL`, or `NONPARAMETRIC`.
 `ACT_CL_BOOTSTRAP_SAMPLES` can return `RESERVES`, `ULTIMATES`, `PSEUDO-LRS`,
 `CUMULATIVES`, or `COMPLETE-CUMULATIVES`. Pass
 `method = "CHAINLADDER-PYTHON"` to retain the previous constant-phi basic mode;
-that mode supports reserve output only.
+that mode supports reserve output only. Seeds must be whole numbers from 0 to
+2,147,483,647; masks contain only 0 (exclude) or 1 (include); user forecast
+sqrt-scales must be finite and non-negative. Simulations are limited to
+1,000,000 iterations, and raw sample output is limited to 5,000,000 cells to
+keep Excel responsive.
 
 ### Aggregate claims (Panjer recursion)
 
@@ -416,7 +424,7 @@ recursion for the (a, b, 0) class).
 | `ACT_CAT_OEP_CURVE_RP(maxLosses, returnPeriods, [header])` | OEP at specific RPs |
 | `ACT_CAT_AEP_CURVE_RP(aggLosses, returnPeriods, [header])` | AEP at specific RPs |
 | `ACT_VAR_FROM_SAMPLES(samples, α)` | empirical VaR |
-| `ACT_TVAR_FROM_SAMPLES(samples, α)` | empirical TVaR |
+| `ACT_TVAR_FROM_SAMPLES(samples, α)` | empirical TVaR / expected shortfall, including fractional mass at tied VaR values |
 
 ### Reinsurance layers
 

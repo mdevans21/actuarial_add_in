@@ -2,12 +2,25 @@ namespace ActuarialAddIn.Functions;
 
 internal sealed class StochasticReservingBootstrapResult
 {
-    public double[,] PseudoLinkRatios { get; init; } = null!;
-    public double[,] Reserves { get; init; } = null!;
-    public double[,] Ultimates { get; init; } = null!;
-    public double[] TotalReserves { get; init; } = null!;
-    public double[,,] Cumulatives { get; init; } = null!;
-    public double[,,] CompleteCumulatives { get; init; } = null!;
+    public double[,] PseudoLinkRatios { get; init; } = new double[0, 0];
+    public double[,] Reserves { get; init; } = new double[0, 0];
+    public double[,] Ultimates { get; init; } = new double[0, 0];
+    public double[] TotalReserves { get; init; } = Array.Empty<double>();
+    public double[,,] Cumulatives { get; init; } = new double[0, 0, 0];
+    public double[,,] CompleteCumulatives { get; init; } = new double[0, 0, 0];
+}
+
+[Flags]
+internal enum StochasticReservingOutputs
+{
+    None = 0,
+    PseudoLinkRatios = 1,
+    Reserves = 2,
+    Ultimates = 4,
+    TotalReserves = 8,
+    Cumulatives = 16,
+    CompleteCumulatives = 32,
+    All = PseudoLinkRatios | Reserves | Ultimates | TotalReserves | Cumulatives | CompleteCumulatives
 }
 
 /// <summary>
@@ -26,7 +39,8 @@ internal static class StochasticReservingBootstrap
         string bootstrapDistribution,
         string forecastDistribution,
         double[,]? inputMask = null,
-        double[]? userSqrtScale = null)
+        double[]? userSqrtScale = null,
+        StochasticReservingOutputs outputs = StochasticReservingOutputs.All)
     {
         int n = inputTriangle.GetLength(0);
         if (n < 3 || inputTriangle.GetLength(1) != n)
@@ -55,12 +69,24 @@ internal static class StochasticReservingBootstrap
         }
 
         var rng = new NumpyRandomState(seed);
-        var pseudoLinkRatios = new double[iterations, n - 1];
-        var reserves = new double[iterations, n];
-        var ultimates = new double[iterations, n];
-        var totalReserves = new double[iterations];
-        var cumulatives = new double[iterations, n, n];
-        var completeCumulatives = new double[iterations, n, n];
+        bool collectPseudoLinkRatios = (outputs & StochasticReservingOutputs.PseudoLinkRatios) != 0;
+        bool collectReserves = (outputs & StochasticReservingOutputs.Reserves) != 0;
+        bool collectUltimates = (outputs & StochasticReservingOutputs.Ultimates) != 0;
+        bool collectTotalReserves = (outputs & StochasticReservingOutputs.TotalReserves) != 0;
+        bool collectCumulatives = (outputs & StochasticReservingOutputs.Cumulatives) != 0;
+        bool collectCompleteCumulatives = (outputs & StochasticReservingOutputs.CompleteCumulatives) != 0;
+        var pseudoLinkRatios = collectPseudoLinkRatios
+            ? new double[iterations, n - 1] : new double[0, 0];
+        var reserves = collectReserves
+            ? new double[iterations, n] : new double[0, 0];
+        var ultimates = collectUltimates
+            ? new double[iterations, n] : new double[0, 0];
+        var totalReserves = collectTotalReserves
+            ? new double[iterations] : Array.Empty<double>();
+        var cumulatives = collectCumulatives
+            ? new double[iterations, n, n] : new double[0, 0, 0];
+        var completeCumulatives = collectCompleteCumulatives
+            ? new double[iterations, n, n] : new double[0, 0, 0];
 
         for (int iteration = 0; iteration < iterations; iteration++)
         {
@@ -73,8 +99,11 @@ internal static class StochasticReservingBootstrap
             };
             var pseudoCumulatives = CumulativeSum(pseudoIncrementals);
             var iterationFactors = LinkRatioFactors(pseudoCumulatives, mask);
-            for (int j = 0; j < n - 1; j++)
-                pseudoLinkRatios[iteration, j] = iterationFactors[j];
+            if (collectPseudoLinkRatios)
+            {
+                for (int j = 0; j < n - 1; j++)
+                    pseudoLinkRatios[iteration, j] = iterationFactors[j];
+            }
 
             var forecast = Forecast(
                 triangle,
@@ -87,15 +116,20 @@ internal static class StochasticReservingBootstrap
 
             for (int i = 0; i < n; i++)
             {
-                reserves[iteration, i] = forecast.Reserves[i];
-                ultimates[iteration, i] = forecast.Ultimates[i];
+                if (collectReserves)
+                    reserves[iteration, i] = forecast.Reserves[i];
+                if (collectUltimates)
+                    ultimates[iteration, i] = forecast.Ultimates[i];
                 for (int j = 0; j < n; j++)
                 {
-                    cumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
-                    completeCumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
+                    if (collectCumulatives)
+                        cumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
+                    if (collectCompleteCumulatives)
+                        completeCumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
                 }
             }
-            totalReserves[iteration] = NumpyPairwiseSum(forecast.Reserves);
+            if (collectTotalReserves)
+                totalReserves[iteration] = NumpyPairwiseSum(forecast.Reserves);
         }
 
         return new StochasticReservingBootstrapResult

@@ -29,7 +29,9 @@ public static class Copulas
 
         try
         {
-            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+            if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+                return new object[,] { { seedError } };
+            var random = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
             var result = new object[numSamples, n];
 
             // Create correlation matrix
@@ -110,7 +112,9 @@ public static class Copulas
 
         try
         {
-            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+            if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+                return new object[,] { { seedError } };
+            var random = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
             var result = new object[numSamples, n];
 
             // Create correlation matrix
@@ -196,7 +200,9 @@ public static class Copulas
 
         try
         {
-            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+            if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+                return new object[,] { { seedError } };
+            var random = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
             var result = new object[numSamples, 2];
 
             for (int i = 0; i < numSamples; i++)
@@ -272,7 +278,9 @@ public static class Copulas
 
         try
         {
-            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+            if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+                return new object[,] { { seedError } };
+            var random = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
             var result = new object[numSamples, 2];
 
             double expTheta = Math.Exp(-theta);
@@ -354,7 +362,9 @@ public static class Copulas
 
         try
         {
-            var random = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+            if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+                return new object[,] { { seedError } };
+            var random = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
             var result = new object[numSamples, 2];
 
             // For Gumbel copula, use Marshall-Olkin algorithm with stable distribution

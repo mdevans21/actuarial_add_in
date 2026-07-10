@@ -6,7 +6,7 @@ namespace ActuarialAddIn;
 /// </summary>
 public static class VersionInfo
 {
-    public const string CurrentVersion = "0.9.0";
+    public const string CurrentVersion = "0.9.1";
     public const string BuildDate = "2026-07-10";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
@@ -20,6 +20,7 @@ public static class VersionInfo
         // Release history — see GitHub Releases for full notes per tag.
         return new[]
         {
+            new CommitInfo("v0.9.1", "2026-07-10", "Corrects empirical TVaR for tied samples, makes infinite-support discrete inverse endpoints explicit, permits the degenerate Poisson(lambda=0) case, and replaces the cat-model high-rate normal approximation with exact Poisson sampling. Bootstrap now validates finite triangle cells, binary masks, forecast scales, seeds, iteration and spill limits while allocating only the requested output paths. Adds public-function emitter coverage, independent empirical VaR/TVaR reconciliation, tag/version verification, and a single tested tag-to-release workflow. Documentation now states the exact .NET build and validation guarantees."),
             new CommitInfo("v0.9.0", "2026-07-10", "ODP bootstrap now reconciles bit-for-bit to Peter England's released StochasticReserving implementation at https://github.com/DrPeterEngland/StochasticReserving. Adds NumPy RandomState-compatible sampling and reduction order, raw reserve/ultimate/link-ratio/cumulative path exports, selectable scale and distribution modes, exclusion masks, user forecast scales, and fixed-seed golden tests. Ships both the default .NET Framework 4.8 Excel XLLs and the .NET 8 performance variants."),
             new CommitInfo("v0.8.0", "2026-05-05", "Multi-target net48 + net8.0-windows. Default release asset (`AddIn64-packed.xll`) now targets .NET Framework 4.8 — preinstalled on every Windows 10 1903+ / Windows 11, so installing the add-in no longer requires a runtime download. A .NET 8 perf variant ships alongside as `AddIn64-packed-net8.xll` for users who install the .NET 8 Desktop Runtime; same C# code, modern JIT and SIMD codegen on heavy stochastic workloads. Root cause of the long-standing v0.5.x .NET 8 hosting failure identified: ExcelDna 1.9.0's host shim formats its own runtimeconfig.json from the `.dna` file's RuntimeVersion attribute, which was set to `v4.0` (causing the host to launch .NET 6 and reject the net8 user assembly). MSBuild XmlPoke target now rewrites it to `v8.0` for the net8 build only."),
             new CommitInfo("v0.7.3", "2026-05-04", "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."),

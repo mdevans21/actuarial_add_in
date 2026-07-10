@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ExcelDna.Integration;
+using MathNet.Numerics.Distributions;
 
 namespace ActuarialAddIn.Functions;
 
@@ -26,11 +27,15 @@ public static class CatModeling
 
         for (int i = 0; i < eventRates.Length; i++)
         {
-            if (eventRates[i] < 0 || eventLosses[i] < 0)
-                return new object[,] { { "Error: Rates and losses must be non-negative" } };
+            if (double.IsNaN(eventRates[i]) || double.IsInfinity(eventRates[i])
+                || double.IsNaN(eventLosses[i]) || double.IsInfinity(eventLosses[i])
+                || eventRates[i] < 0 || eventRates[i] > int.MaxValue || eventLosses[i] < 0)
+                return new object[,] { { "Error: Rates and losses must be finite and non-negative" } };
         }
 
-        var rng = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+        if (!SeedUtil.TryResolveSeed(seed, out int? resolvedSeed, out string seedError))
+            return new object[,] { { seedError } };
+        var rng = resolvedSeed is { } seedValue ? new Random(seedValue) : new Random();
         int rows = years + (includeHeader ? 1 : 0);
         var result = new object[rows, 4];
         int row = 0;
@@ -55,7 +60,7 @@ public static class CatModeling
                 double rate = eventRates[i];
                 if (rate <= 0) continue;
 
-                int occurrences = SamplePoisson(rng, rate);
+                int occurrences = Poisson.Sample(rng, rate);
                 if (occurrences <= 0) continue;
 
                 double loss = eventLosses[i];
@@ -115,10 +120,11 @@ public static class CatModeling
         [ExcelArgument(Description = "Sample losses (column)")] double[] samples,
         [ExcelArgument(Description = "Confidence level (e.g., 0.99)")] double alpha)
     {
-        if (samples.Length == 0 || alpha <= 0 || alpha >= 1)
+        var finiteSamples = samples.Where(x => !double.IsNaN(x) && !double.IsInfinity(x)).ToArray();
+        if (finiteSamples.Length == 0 || alpha <= 0 || alpha >= 1)
             return double.NaN;
 
-        var sorted = samples.OrderBy(x => x).ToArray();
+        var sorted = finiteSamples.OrderBy(x => x).ToArray();
         int index = (int)Math.Ceiling(alpha * sorted.Length) - 1;
         index = Math.Max(0, Math.Min(index, sorted.Length - 1));
         return sorted[index];
@@ -129,16 +135,23 @@ public static class CatModeling
         [ExcelArgument(Description = "Sample losses (column)")] double[] samples,
         [ExcelArgument(Description = "Confidence level (e.g., 0.99)")] double alpha)
     {
-        if (samples.Length == 0 || alpha <= 0 || alpha >= 1)
+        var finiteSamples = samples.Where(x => !double.IsNaN(x) && !double.IsInfinity(x)).ToArray();
+        if (finiteSamples.Length == 0 || alpha <= 0 || alpha >= 1)
             return double.NaN;
 
-        var sorted = samples.OrderBy(x => x).ToArray();
+        var sorted = finiteSamples.OrderBy(x => x).ToArray();
         int index = (int)Math.Ceiling(alpha * sorted.Length) - 1;
         index = Math.Max(0, Math.Min(index, sorted.Length - 1));
         double varValue = sorted[index];
-        var tail = sorted.Where(x => x >= varValue).ToArray();
-        if (tail.Length == 0) return varValue;
-        return tail.Average();
+        double tailMass = sorted.Length * (1.0 - alpha);
+        double sumAbove = 0.0;
+        int countAbove = 0;
+        for (int i = index + 1; i < sorted.Length; i++)
+        {
+            sumAbove += sorted[i];
+            countAbove++;
+        }
+        return (sumAbove + (tailMass - countAbove) * varValue) / tailMass;
     }
 
     private static object[,] BuildEpCurve(double[] losses, string plottingPosition, bool includeHeader, string lossHeader)
@@ -237,32 +250,4 @@ public static class CatModeling
         };
     }
 
-    private static int SamplePoisson(Random rng, double lambda)
-    {
-        if (lambda <= 0) return 0;
-        if (lambda < 30.0)
-        {
-            double limit = Math.Exp(-lambda);
-            int k = 0;
-            double p = 1.0;
-            do
-            {
-                k++;
-                p *= rng.NextDouble();
-            } while (p > limit);
-            return k - 1;
-        }
-
-        // Normal approximation for large lambda
-        double normalSample = SampleStandardNormal(rng) * Math.Sqrt(lambda) + lambda;
-        int result = (int)Math.Round(normalSample);
-        return Math.Max(0, result);
-    }
-
-    private static double SampleStandardNormal(Random rng)
-    {
-        double u1 = rng.NextDouble();
-        double u2 = rng.NextDouble();
-        return Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
-    }
 }

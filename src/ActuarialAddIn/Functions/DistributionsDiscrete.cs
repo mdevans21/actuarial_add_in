@@ -10,44 +10,35 @@ public static partial class Distributions
     [ExcelFunction(Description = "Poisson PMF: P(X=k) = λ^k * e^(-λ) / k!. Used for modeling claim counts.", Category = "Actuarial.Distributions")]
     public static double ACT_DIST_POISSON_PDF(
         [ExcelArgument(Description = "Value at which to evaluate (non-negative integer)")] int k,
-        [ExcelArgument(Description = "Lambda - rate parameter (> 0). Returns NaN if invalid.")] double lambda)
+        [ExcelArgument(Description = "Lambda - rate parameter (>= 0). Returns NaN if invalid.")] double lambda)
     {
-        if (lambda <= 0) return double.NaN;
+        if (double.IsNaN(lambda) || double.IsInfinity(lambda) || lambda < 0) return double.NaN;
         if (k < 0) return double.NaN;
+        if (lambda == 0) return k == 0 ? 1.0 : 0.0;
         return Poisson.PMF(lambda, k);
     }
 
     [ExcelFunction(Description = "Poisson cumulative distribution function (CDF)", Category = "Actuarial.Distributions")]
     public static double ACT_DIST_POISSON_CDF(
         [ExcelArgument(Description = "Value at which to evaluate")] double x,
-        [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
+        [ExcelArgument(Description = "Lambda - rate parameter (>= 0)")] double lambda)
     {
-        if (lambda <= 0) return double.NaN;
+        if (double.IsNaN(lambda) || double.IsInfinity(lambda) || lambda < 0) return double.NaN;
         if (x < 0) return 0;
+        if (lambda == 0) return 1.0;
         return Poisson.CDF(lambda, x);
     }
 
     [ExcelFunction(Description = "Poisson inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
     public static double ACT_DIST_POISSON_INV(
         [ExcelArgument(Description = "Probability (0 to 1)")] double p,
-        [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
+        [ExcelArgument(Description = "Lambda - rate parameter (>= 0)")] double lambda)
     {
-        if (lambda <= 0) return double.NaN;
-        if (p < 0 || p > 1) return double.NaN;
-
-        // Binary search for inverse CDF
-        int low = 0;
-        int high = (int)Math.Max(1000, lambda * 10);
-        while (low < high)
-        {
-            int mid = (low + high) / 2;
-            double cdf = Poisson.CDF(lambda, mid);
-            if (cdf < p)
-                low = mid + 1;
-            else
-                high = mid;
-        }
-        return low;
+        if (double.IsNaN(lambda) || double.IsInfinity(lambda) || lambda < 0) return double.NaN;
+        if (double.IsNaN(p) || double.IsInfinity(p) || p < 0 || p > 1) return double.NaN;
+        if (p == 1) return double.PositiveInfinity;
+        if (lambda == 0 || p == 0) return 0;
+        return FindDiscreteQuantile(k => Poisson.CDF(lambda, k), p, 0);
     }
 
     #endregion
@@ -83,21 +74,10 @@ public static partial class Distributions
         [ExcelArgument(Description = "Probability of success (0 to 1)")] double p)
     {
         if (r <= 0 || p <= 0 || p > 1) return double.NaN;
-        if (prob < 0 || prob > 1) return double.NaN;
-
-        // Binary search for inverse since MathNet doesn't provide direct inverse
-        int low = 0;
-        int high = 1000000;
-        while (low < high)
-        {
-            int mid = (low + high) / 2;
-            double cdf = NegativeBinomial.CDF(r, p, mid);
-            if (cdf < prob)
-                low = mid + 1;
-            else
-                high = mid;
-        }
-        return low;
+        if (double.IsNaN(prob) || double.IsInfinity(prob) || prob < 0 || prob > 1) return double.NaN;
+        if (prob == 1) return double.PositiveInfinity;
+        if (prob == 0) return 0;
+        return FindDiscreteQuantile(k => NegativeBinomial.CDF(r, p, k), prob, 0);
     }
 
     #endregion
@@ -138,22 +118,10 @@ public static partial class Distributions
         [ExcelArgument(Description = "Lambda - rate parameter (> 0)")] double lambda)
     {
         if (lambda <= 0) return double.NaN;
-        if (p < 0 || p > 1) return double.NaN;
+        if (double.IsNaN(p) || double.IsInfinity(p) || p < 0 || p > 1) return double.NaN;
         if (p == 0) return 1;
-
-        // Binary search for inverse
-        int low = 1;
-        int high = (int)Math.Max(1000, lambda * 10);
-        while (low < high)
-        {
-            int mid = (low + high) / 2;
-            double cdf = ACT_DIST_ZTPOISSON_CDF(mid, lambda);
-            if (cdf < p)
-                low = mid + 1;
-            else
-                high = mid;
-        }
-        return low;
+        if (p == 1) return double.PositiveInfinity;
+        return FindDiscreteQuantile(k => ACT_DIST_ZTPOISSON_CDF(k, lambda), p, 1);
     }
 
     [ExcelFunction(Description = "Zero-Truncated Poisson mean: E[X|X>0] = λ / (1 - e^(-λ))", Category = "Actuarial.Distributions")]
@@ -205,22 +173,10 @@ public static partial class Distributions
         [ExcelArgument(Description = "p - probability of success (0 to 1)")] double p)
     {
         if (r <= 0 || p <= 0 || p > 1) return double.NaN;
-        if (prob < 0 || prob > 1) return double.NaN;
+        if (double.IsNaN(prob) || double.IsInfinity(prob) || prob < 0 || prob > 1) return double.NaN;
         if (prob == 0) return 1;
-
-        // Binary search for inverse
-        int low = 1;
-        int high = 1000000;
-        while (low < high)
-        {
-            int mid = (low + high) / 2;
-            double cdf = ACT_DIST_ZTNEGBIN_CDF(mid, r, p);
-            if (cdf < prob)
-                low = mid + 1;
-            else
-                high = mid;
-        }
-        return low;
+        if (prob == 1) return double.PositiveInfinity;
+        return FindDiscreteQuantile(k => ACT_DIST_ZTNEGBIN_CDF(k, r, p), prob, 1);
     }
 
     [ExcelFunction(Description = "Zero-Truncated Negative Binomial mean: E[X|X>0] = r(1-p) / (p(1 - p^r))", Category = "Actuarial.Distributions")]
@@ -392,23 +348,18 @@ public static partial class Distributions
     }
 
     [ExcelFunction(Description = "Zero-Modified Poisson inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static int ACT_DIST_ZMPOISSON_INV(
+    public static double ACT_DIST_ZMPOISSON_INV(
         [ExcelArgument(Description = "p - probability (0 to 1)")] double p,
         [ExcelArgument(Description = "lambda - Poisson rate parameter (> 0)")] double lambda,
         [ExcelArgument(Description = "p0 - extra probability at zero (0 to 1)")] double p0)
     {
-        if (lambda <= 0 || p0 < 0 || p0 > 1 || p < 0 || p > 1) return -1;
+        if (lambda <= 0 || p0 < 0 || p0 > 1 || double.IsNaN(p) || double.IsInfinity(p) || p < 0 || p > 1) return double.NaN;
 
         // If p <= P(X=0), return 0
         double prob0 = p0 + (1 - p0) * Math.Exp(-lambda);
         if (p <= prob0) return 0;
-
-        // Otherwise find smallest k where CDF >= p
-        for (int k = 1; k < 1000; k++)
-        {
-            if (ACT_DIST_ZMPOISSON_CDF(k, lambda, p0) >= p) return k;
-        }
-        return 999;
+        if (p == 1) return double.PositiveInfinity;
+        return FindDiscreteQuantile(k => ACT_DIST_ZMPOISSON_CDF(k, lambda, p0), p, 1);
     }
 
     [ExcelFunction(Description = "Zero-Modified Poisson mean: E[X] = (1-p0)*lambda", Category = "Actuarial.Distributions")]
@@ -467,24 +418,20 @@ public static partial class Distributions
     }
 
     [ExcelFunction(Description = "Zero-Modified Negative Binomial inverse CDF (quantile function)", Category = "Actuarial.Distributions")]
-    public static int ACT_DIST_ZMNEGBIN_INV(
+    public static double ACT_DIST_ZMNEGBIN_INV(
         [ExcelArgument(Description = "prob - probability (0 to 1)")] double prob,
         [ExcelArgument(Description = "r - number of successes (> 0)")] double r,
         [ExcelArgument(Description = "p - probability of success (0 to 1)")] double p,
         [ExcelArgument(Description = "p0 - extra probability at zero (0 to 1)")] double p0)
     {
-        if (r <= 0 || p <= 0 || p > 1 || p0 < 0 || p0 > 1 || prob < 0 || prob > 1) return -1;
+        if (r <= 0 || p <= 0 || p > 1 || p0 < 0 || p0 > 1
+            || double.IsNaN(prob) || double.IsInfinity(prob) || prob < 0 || prob > 1) return double.NaN;
 
         // If prob <= P(X=0), return 0
         double prob0 = p0 + (1 - p0) * Math.Pow(p, r);
         if (prob <= prob0) return 0;
-
-        // Otherwise find smallest k where CDF >= prob
-        for (int k = 1; k < 10000; k++)
-        {
-            if (ACT_DIST_ZMNEGBIN_CDF(k, r, p, p0) >= prob) return k;
-        }
-        return 9999;
+        if (prob == 1) return double.PositiveInfinity;
+        return FindDiscreteQuantile(k => ACT_DIST_ZMNEGBIN_CDF(k, r, p, p0), prob, 1);
     }
 
     [ExcelFunction(Description = "Zero-Modified Negative Binomial mean: E[X] = (1-p0)*r*(1-p)/p", Category = "Actuarial.Distributions")]
@@ -514,5 +461,32 @@ public static partial class Distributions
     }
 
     #endregion
+
+    private static double FindDiscreteQuantile(Func<int, double> cdf, double probability, int minimum)
+    {
+        int high = Math.Max(1, minimum);
+        while (cdf(high) < probability)
+        {
+            if (high >= int.MaxValue / 2)
+            {
+                high = int.MaxValue;
+                if (cdf(high) < probability)
+                    return double.PositiveInfinity;
+                break;
+            }
+            high *= 2;
+        }
+
+        int low = minimum;
+        while (low < high)
+        {
+            int mid = low + (high - low) / 2;
+            if (cdf(mid) < probability)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
+    }
 
 }

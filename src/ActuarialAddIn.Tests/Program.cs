@@ -31,6 +31,7 @@ class Program
         TestReinsurance();
         TestReturnPeriods();
         TestCatModeling();
+        TestStochasticInputContracts();
         TestInterpolation();
         TestChainLadder();
         TestBootstrapChainLadder();
@@ -169,6 +170,8 @@ class Program
         Log(TableRow(("PDF(k=0)", 12), ($"{pdfK0:F10}", 14), ("0.0067379470", 14), ("`poisson.pmf(0, 5)`", 22), ("1e-6", 6), (FormatMatch(WithinTolerance(pdfK0, 0.006737946999085467, 1e-6)), 5)));
         Log(TableRow(("CDF(k=5)", 12), ($"{cdfK5:F10}", 14), ("0.6159606548", 14), ("`poisson.cdf(5, 5)`", 22), ("1e-6", 6), (FormatMatch(WithinTolerance(cdfK5, 0.615960654833063, 1e-6)), 5)));
         Log(TableRow(("INV(p=0.5)", 12), ($"{poissonInv}", 14), ("5", 14), ("`poisson.ppf(0.5, 5)`", 22), ("0", 6), (FormatMatch(poissonInv == 5), 5)));
+        Log(TableRow(("lambda=0 PMF", 12), ($"{Distributions.ACT_DIST_POISSON_PDF(0, 0)}", 14), ("1", 14), ("degenerate Poisson", 22), ("0", 6), (FormatMatch(Distributions.ACT_DIST_POISSON_PDF(0, 0) == 1.0), 5)));
+        Log(TableRow(("INV(p=1)", 12), ($"{Distributions.ACT_DIST_POISSON_INV(1, 5)}", 14), ("Infinity", 14), ("infinite support", 22), ("0", 6), (FormatMatch(double.IsPositiveInfinity(Distributions.ACT_DIST_POISSON_INV(1, 5))), 5)));
         Log("");
 
         // Negative Binomial Distribution
@@ -197,6 +200,7 @@ class Program
         Log(TableRow(("PDF(k=10)", 12), ($"{nbPdfK10:F10}", 14), ("0.0687101270", 14), ("`nbinom.pmf(10, 5, 0.3)`", 26), ("1e-6", 6), (FormatMatch(WithinTolerance(nbPdfK10, 0.06871012699250698, 1e-6)), 5)));
         Log(TableRow(("CDF(k=10)", 12), ($"{nbCdfK10:F10}", 14), ("0.4845089408", 14), ("`nbinom.cdf(10, 5, 0.3)`", 26), ("1e-6", 6), (FormatMatch(WithinTolerance(nbCdfK10, 0.48450894077315665, 1e-6)), 5)));
         Log(TableRow(("INV(p=0.5)", 12), ($"{nbInv}", 14), ("11", 14), ("`nbinom.ppf(0.5, 5, 0.3)`", 26), ("0", 6), (FormatMatch(nbInv == 11), 5)));
+        Log(TableRow(("INV(p=1)", 12), ($"{Distributions.ACT_DIST_NEGBIN_INV(1, 5, 0.3)}", 14), ("Infinity", 14), ("infinite support", 26), ("0", 6), (FormatMatch(double.IsPositiveInfinity(Distributions.ACT_DIST_NEGBIN_INV(1, 5, 0.3))), 5)));
         Log("");
 
         // Lognormal Distribution
@@ -1114,6 +1118,42 @@ class Program
         {
             Log($"| {Convert.ToDouble(aep[i, 0]):0.00} | {Convert.ToDouble(aep[i, 1]):N0} |");
         }
+        Log("");
+    }
+
+    static void TestStochasticInputContracts()
+    {
+        Log("## Stochastic Input Contracts\n");
+
+        var tiedSamples = Enumerable.Repeat(0.0, 99).Append(100.0).ToArray();
+        double tvar = CatModeling.ACT_TVAR_FROM_SAMPLES(tiedSamples, 0.95);
+        Log($"TVaR tied-threshold mass: {tvar:F6} (expected 20.000000): {FormatMatch(WithinTolerance(tvar, 20.0, 1e-12))}");
+
+        var ylt = CatModeling.ACT_CAT_ELT_TO_YLT(new[] { 50.0 }, new[] { 1.0 }, 10_000, 42, false);
+        double averageCount = Enumerable.Range(0, ylt.GetLength(0)).Average(i => Convert.ToDouble(ylt[i, 3]));
+        Log($"High-rate Poisson mean: {averageCount:F3} (expected 50): {FormatMatch(Math.Abs(averageCount - 50.0) < 0.5)}");
+
+        var invalidSeed = CatModeling.ACT_CAT_ELT_TO_YLT(new[] { 1.0 }, new[] { 1.0 }, 1, 1.5, false);
+        bool seedRejected = Convert.ToString(invalidSeed[0, 0])!.StartsWith("Error: seed", StringComparison.Ordinal);
+        Log($"Fractional seed rejected: {FormatMatch(seedRejected)}");
+
+        var triangle = GetTaylorAsheTriangle();
+        var invalidMask = new double[9, 9];
+        for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; j++)
+            invalidMask[i, j] = 1.0;
+        invalidMask[0, 0] = 0.5;
+        var maskResult = ChainLadder.ACT_CL_BOOTSTRAP(triangle, 2, 42, "EV", "NONCONSTANT", "NONPARAMETRIC", "GAMMA", invalidMask);
+        bool maskRejected = Convert.ToString(maskResult[0, 0])!.StartsWith("Error: mask", StringComparison.Ordinal);
+        Log($"Non-binary mask rejected: {FormatMatch(maskRejected)}");
+
+        var scaleResult = ChainLadder.ACT_CL_BOOTSTRAP(triangle, 2, 42, "EV", "NONCONSTANT", "NONPARAMETRIC", "GAMMA", null, Enumerable.Repeat(-1.0, 10).ToArray());
+        bool scaleRejected = Convert.ToString(scaleResult[0, 0])!.StartsWith("Error: user sqrt scale", StringComparison.Ordinal);
+        Log($"Negative user scale rejected: {FormatMatch(scaleRejected)}");
+
+        var oversizedResult = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(triangle, 1_000_000, 42, "EV");
+        bool oversizedRejected = Convert.ToString(oversizedResult[0, 0])!.StartsWith("Error: Raw bootstrap output", StringComparison.Ordinal);
+        Log($"Oversized raw spill rejected: {FormatMatch(oversizedRejected)}");
         Log("");
     }
 

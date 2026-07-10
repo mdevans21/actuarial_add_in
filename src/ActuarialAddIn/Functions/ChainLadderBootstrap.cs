@@ -5,6 +5,9 @@ namespace ActuarialAddIn.Functions;
 public static partial class ChainLadder
 {
     private const string BootstrapCategory = "Actuarial.Experimental";
+    private const int MaxBootstrapIterations = 1_000_000;
+    private const long MaxStoredSampleValues = 25_000_000;
+    private const long MaxRawOutputCells = 5_000_000;
 
     [ExcelFunction(
         Description = "[EXPERIMENTAL] ODP bootstrap total reserve distribution. EV follows StochasticReserving Main_ODP_Bstrap pathwise; CHAINLADDER-PYTHON retains the legacy basic mode.",
@@ -113,6 +116,8 @@ public static partial class ChainLadder
 
         if (!ValidateCommonInputs(triangle, iterations, normalizedMethod, out string error))
             return Error(error);
+        if (!ValidateRawOutputSize(triangle.GetLength(0), iterations, normalizedOutput, out error))
+            return Error(error);
         if (!TryResolveSeed(seed, out uint resolvedSeed, out error))
             return Error(error);
 
@@ -131,12 +136,23 @@ public static partial class ChainLadder
                 out error))
             return Error(error);
 
+        StochasticReservingOutputs requestedOutputs = normalizedOutput switch
+        {
+            "RESERVES" => StochasticReservingOutputs.Reserves | StochasticReservingOutputs.TotalReserves,
+            "ULTIMATES" => StochasticReservingOutputs.Ultimates,
+            "PSEUDO-LRS" => StochasticReservingOutputs.PseudoLinkRatios,
+            "CUMULATIVES" => StochasticReservingOutputs.Cumulatives,
+            "COMPLETE-CUMULATIVES" => StochasticReservingOutputs.CompleteCumulatives,
+            _ => StochasticReservingOutputs.None
+        };
+
         StochasticReservingBootstrapResult reference;
         try
         {
             reference = StochasticReservingBootstrap.Run(
                 triangle, iterations, resolvedSeed, normalizedScale,
-                normalizedBootstrap, normalizedForecast, parsedMask, parsedUserScale);
+                normalizedBootstrap, normalizedForecast, parsedMask, parsedUserScale,
+                requestedOutputs);
         }
         catch (ArgumentException exception)
         {
@@ -191,7 +207,8 @@ public static partial class ChainLadder
         {
             var result = StochasticReservingBootstrap.Run(
                 triangle, iterations, resolvedSeed, normalizedScale,
-                normalizedBootstrap, normalizedForecast, parsedMask, parsedUserScale);
+                normalizedBootstrap, normalizedForecast, parsedMask, parsedUserScale,
+                StochasticReservingOutputs.Reserves | StochasticReservingOutputs.TotalReserves);
             reserves = result.Reserves;
             totals = result.TotalReserves;
             return true;
@@ -276,6 +293,28 @@ public static partial class ChainLadder
             return false;
         if (!TryParseVector(userSqrtScale, n, "user sqrt scale", out parsedUserScale, out error))
             return false;
+        if (parsedMask is not null)
+        {
+            foreach (double value in parsedMask)
+            {
+                if ((value != 0.0 && value != 1.0) || double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    error = "Error: mask values must be 0 or 1";
+                    return false;
+                }
+            }
+        }
+        if (parsedUserScale is not null)
+        {
+            foreach (double value in parsedUserScale)
+            {
+                if (value < 0.0 || double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    error = "Error: user sqrt scale values must be finite and non-negative";
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -298,6 +337,26 @@ public static partial class ChainLadder
             error = "Error: Iterations must be positive";
             return false;
         }
+        if (iterations > MaxBootstrapIterations)
+        {
+            error = $"Error: Iterations cannot exceed {MaxBootstrapIterations:N0}";
+            return false;
+        }
+        if ((long)iterations * (n + 1L) > MaxStoredSampleValues)
+        {
+            error = "Error: Requested simulation is too large for the in-memory sample limit";
+            return false;
+        }
+        for (int i = 0; i < n; i++)
+        for (int j = 0; j < n - i; j++)
+        {
+            double value = triangle[i, j];
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                error = "Error: Observed triangle cells must be finite";
+                return false;
+            }
+        }
         if (method is not ("EV" or "CHAINLADDER-PYTHON"))
         {
             error = "Error: method must be EV or CHAINLADDER-PYTHON";
@@ -308,14 +367,39 @@ public static partial class ChainLadder
 
     private static bool TryResolveSeed(object? seed, out uint resolvedSeed, out string error)
     {
-        int value = SeedUtil.ResolveSeed(seed) ?? new Random().Next(0, int.MaxValue);
-        if (value < 0)
+        if (!SeedUtil.TryResolveSeed(seed, out int? parsedSeed, out error))
         {
             resolvedSeed = 0;
-            error = "Error: seed must be between 0 and 2147483647";
             return false;
         }
+        int value = parsedSeed ?? new Random().Next(0, int.MaxValue);
         resolvedSeed = (uint)value;
+        error = "";
+        return true;
+    }
+
+    private static bool ValidateRawOutputSize(
+        int n, int iterations, string output, out string error)
+    {
+        long columns = output switch
+        {
+            "RESERVES" => n + 2L,
+            "ULTIMATES" => n + 1L,
+            "PSEUDO-LRS" => n,
+            "CUMULATIVES" or "COMPLETE-CUMULATIVES" => (long)n * n + 1L,
+            _ => 1L
+        };
+        long rows = iterations + 1L;
+        if (rows > 1_048_576L || columns > 16_384L)
+        {
+            error = "Error: Requested output exceeds Excel worksheet dimensions";
+            return false;
+        }
+        if (rows * columns > MaxRawOutputCells)
+        {
+            error = $"Error: Raw bootstrap output cannot exceed {MaxRawOutputCells:N0} cells";
+            return false;
+        }
         error = "";
         return true;
     }

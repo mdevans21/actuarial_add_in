@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ActuarialAddIn.Functions;
+using ExcelDna.Integration;
 
 namespace ActuarialAddIn.Tests;
 
@@ -42,6 +43,7 @@ public static class AddinOutputsEmitter
         EmitBootstrap();
         EmitCopulas();
         EmitVersionMetadata();
+        ValidatePublicFunctionCoverage();
 
         var payload = new
         {
@@ -652,6 +654,9 @@ public static class AddinOutputsEmitter
         var evOrigin = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(tri, 10000, 42, "EV");
         R(g, "ACT_CL_BOOTSTRAP_ORIGIN", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evOrigin);
 
+        var evSamples = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(tri, 64, 42, "EV");
+        R(g, "ACT_CL_BOOTSTRAP_SAMPLES", new object?[] { "TaylorAshe", 64, 42, "EV", "RESERVES" }, evSamples);
+
         var clpTotal = ChainLadder.ACT_CL_BOOTSTRAP(tri, 10000, 42, "CHAINLADDER-PYTHON");
         R(g, "ACT_CL_BOOTSTRAP", new object?[] { "TaylorAshe", 10000, 42, "CHAINLADDER-PYTHON" }, clpTotal);
 
@@ -725,5 +730,19 @@ public static class AddinOutputsEmitter
         // Show the most recent commit; the array is what matters for the dump test.
         R(g, "ACT_COMMIT_INFO",    new object?[] { 1 }, ActuarialAddIn.Functions.Version.ACT_COMMIT_INFO(1));
         R(g, "ACT_COMMIT_HISTORY", new object?[] { }, ActuarialAddIn.Functions.Version.ACT_COMMIT_HISTORY());
+    }
+
+    private static void ValidatePublicFunctionCoverage()
+    {
+        var registered = typeof(Distributions).Assembly
+            .GetTypes()
+            .SelectMany(type => type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static))
+            .Where(method => method.GetCustomAttributes(typeof(ExcelFunctionAttribute), inherit: false).Any())
+            .Select(method => method.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        var emitted = _records.Select(record => record.Function).ToHashSet(StringComparer.Ordinal);
+        var missing = registered.Except(emitted).OrderBy(name => name).ToArray();
+        if (missing.Length > 0)
+            throw new InvalidOperationException($"Public Excel functions missing from the emitter: {string.Join(", ", missing)}");
     }
 }

@@ -1369,17 +1369,27 @@ if ylt_rec:
         reference_source="Poisson compound E[S]",
     ))
 
-# VaR/TVaR self-consistency: VaR(0.99) from samples should bracket P99
+# VaR/TVaR are recomputed from the emitted YLT values using the documented
+# empirical quantile and fractional-threshold expected-shortfall definitions.
 for r in records_for("cat_modeling"):
     if r["function"] not in ("ACT_VAR_FROM_SAMPLES", "ACT_TVAR_FROM_SAMPLES"):
         continue
-    # These return scalar quantiles; no independent reference beyond sanity.
-    v = _to_float(r["result"])
-    ok = np.isfinite(v) and v >= 0
+    alpha = float(r["args"][1])
+    sorted_agg = np.sort(agg)
+    index = max(0, min(int(math.ceil(alpha * len(sorted_agg))) - 1, len(sorted_agg) - 1))
+    var_value = float(sorted_agg[index])
+    if r["function"] == "ACT_VAR_FROM_SAMPLES":
+        reference = var_value
+        source = "empirical order statistic"
+    else:
+        tail_mass = len(sorted_agg) * (1.0 - alpha)
+        tail = sorted_agg[index + 1:]
+        reference = float((np.sum(tail) + (tail_mass - len(tail)) * var_value) / tail_mass)
+        source = "empirical expected shortfall with fractional VaR mass"
     record(SECTION, Result(
         group=r["group"], function=r["function"], args=r["args"],
-        addin=v, reference=v if ok else float("nan"),
-        tolerance=0.0, reference_source="sanity: finite, non-negative",
+        addin=_to_float(r["result"]), reference=reference,
+        tolerance=1e-9, reference_source=source,
     ))
 
 # EP curves: monotonic in return period; finite, non-negative; matches Weibull
@@ -1886,6 +1896,20 @@ for r in records_for("bootstrap"):
                 ))
             except (ValueError, IndexError):
                 pass
+    elif fn == "ACT_CL_BOOTSTRAP_SAMPLES":
+        data = r["result"]
+        try:
+            totals = np.array([_to_float(row[1]) for row in data[1:]])
+            ok = len(totals) > 0 and np.all(np.isfinite(totals))
+            record(SECTION, Result(
+                group=r["group"], function=fn, args=r["args"],
+                addin=float(np.mean(totals)) if ok else float("nan"),
+                reference=float(np.mean(totals)) if ok else float("nan"),
+                tolerance=0.0,
+                reference_source="shape/finite sanity; exact raw paths are checked against the frozen StochasticReserving fixture by the C# harness",
+            ))
+        except (ValueError, IndexError, TypeError):
+            pass
 
 passed, total = section_summary(SECTION)
 print(f"[Experimental] Bootstrap: {passed}/{total} passed")
