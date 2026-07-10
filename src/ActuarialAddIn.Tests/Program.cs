@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json;
 using System.Linq;
 using ActuarialAddIn.Functions;
 
@@ -1294,6 +1295,8 @@ class Program
 
         var triangle = GetTaylorAsheTriangle();
 
+        TestStochasticReservingGoldenPaths(triangle);
+
         Log("### Deterministic Chain Ladder Results");
         var factors = ToDoubleArray(ChainLadder.ACT_CL_FACTORS(triangle));
         Log("Development Factors:");
@@ -1313,8 +1316,8 @@ class Program
 
         // --- EV Method (default) ---
         Log("### EV Method Bootstrap (10,000 iterations, seed=123)");
-        Log("Reference: E&V 2002 ODP Bootstrap with non-constant scale, hat adjustment,");
-        Log("corner exclusion, scaled global pool, Bessel correction, pseudo-diagonal.\n");
+        Log("Reference: StochasticReserving Main_ODP_Bstrap with non-constant scale,");
+        Log("non-parametric pseudo data, Gamma forecast, and NumPy-compatible RNG.\n");
 
         var originStats = (object[,])ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(triangle, 10000, 123, "EV");
 
@@ -1359,6 +1362,179 @@ class Program
         Log(TableRow(("EV AY10 SE", 16), ($"{se10:N0}", 12), ("1,285,560", 12), ($"{se10 / 1285560:P0}", 8), ("10%", 6), (FormatMatch(Math.Abs(se10 / 1285560 - 1.0) <= 0.10), 5)));
         Log(TableRow(("BASIC Total CV", 16), ($"{basicCV:P1}", 12), ("13-17%", 12), ("", 8), ("", 6), (FormatMatch(basicCV >= 0.10 && basicCV <= 0.20), 5)));
         Log("");
+    }
+
+    static void TestStochasticReservingGoldenPaths(double[,] triangle)
+    {
+        Log("### StochasticReserving pathwise golden reconciliation");
+        string fixturePath = Path.Combine(_fixturesPath, "stochastic_reserving_golden.json");
+        using var document = JsonDocument.Parse(File.ReadAllText(fixturePath));
+        JsonElement root = document.RootElement;
+        int iterations = root.GetProperty("iterations").GetInt32();
+        int seed = root.GetProperty("seed").GetInt32();
+        string commit = root.GetProperty("golden_commit").GetString()!;
+        Log($"Golden commit: `{commit}`; iterations={iterations}; seed={seed}\n");
+
+        foreach (JsonElement testCase in root.GetProperty("cases").EnumerateArray())
+        {
+            string scale = testCase.GetProperty("scale").GetString()!;
+            string bootstrapDistribution = testCase.GetProperty("bootstrap_distribution").GetString()!;
+            string forecastDistribution = testCase.GetProperty("forecast_distribution").GetString()!;
+            object? mask = ParseOptionalMatrix(testCase.GetProperty("mask"));
+            object? userSqrtScale = ParseOptionalVector(testCase.GetProperty("user_sqrt_scale"));
+            string optionSuffix = mask is not null ? "/MASK" : userSqrtScale is not null ? "/USER-SCALE" : "";
+            string label = $"{scale}/{bootstrapDistribution}/{forecastDistribution}{optionSuffix}";
+
+            var reserveOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+                triangle, iterations, seed, "EV", scale,
+                bootstrapDistribution, forecastDistribution, "RESERVES", mask, userSqrtScale);
+            RecordGoldenDiff($"{label} TotalReserve", MaxVectorDiff(
+                reserveOutput, 1, testCase.GetProperty("total_reserves")));
+            RecordGoldenDiff($"{label} Reserves", MaxMatrixDiff(
+                reserveOutput, 2, testCase.GetProperty("reserves")));
+
+            var ultimateOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+                triangle, iterations, seed, "EV", scale,
+                bootstrapDistribution, forecastDistribution, "ULTIMATES", mask, userSqrtScale);
+            RecordGoldenDiff($"{label} Ultimates", MaxMatrixDiff(
+                ultimateOutput, 1, testCase.GetProperty("ultimates")));
+
+            var linkRatioOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+                triangle, iterations, seed, "EV", scale,
+                bootstrapDistribution, forecastDistribution, "PSEUDO-LRS", mask, userSqrtScale);
+            RecordGoldenDiff($"{label} Pseudo_LRs", MaxMatrixDiff(
+                linkRatioOutput, 1, testCase.GetProperty("pseudo_link_ratios")));
+
+            var cumulativeOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+                triangle, iterations, seed, "EV", scale,
+                bootstrapDistribution, forecastDistribution, "CUMULATIVES", mask, userSqrtScale);
+            RecordGoldenDiff($"{label} Cumulatives", MaxCubeDiff(
+                cumulativeOutput, testCase.GetProperty("cumulatives")));
+
+            var completeOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+                triangle, iterations, seed, "EV", scale,
+                bootstrapDistribution, forecastDistribution, "COMPLETE-CUMULATIVES", mask, userSqrtScale);
+            RecordGoldenDiff($"{label} Complete_Cumulatives", MaxCubeDiff(
+                completeOutput, testCase.GetProperty("complete_cumulatives")));
+        }
+
+        const int reconciliationIterations = 64;
+        var samples = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+            triangle, reconciliationIterations, 123, "EV");
+        var totals = ExtractColumn(samples, 1, hasHeader: true);
+        var totalSummary = ChainLadder.ACT_CL_BOOTSTRAP(
+            triangle, reconciliationIterations, 123, "EV");
+        double totalMean = totals.Average();
+        double totalStdDev = Math.Sqrt(totals.Select(x => Math.Pow(x - totalMean, 2)).Average());
+        RecordGoldenDiff("Samples reconcile: total mean",
+            Math.Abs(totalMean - Convert.ToDouble(totalSummary[0, 1])));
+        RecordGoldenDiff("Samples reconcile: total stddev",
+            Math.Abs(totalStdDev - Convert.ToDouble(totalSummary[1, 1])));
+
+        var originSummary = ChainLadder.ACT_CL_BOOTSTRAP_ORIGIN(
+            triangle, reconciliationIterations, 123, "EV");
+        double maxOriginDiff = 0.0;
+        for (int origin = 0; origin < triangle.GetLength(0); origin++)
+        {
+            var originSamples = ExtractColumn(samples, origin + 2, hasHeader: true);
+            double mean = originSamples.Average();
+            double stdDev = Math.Sqrt(originSamples.Select(x => Math.Pow(x - mean, 2)).Average());
+            maxOriginDiff = Math.Max(maxOriginDiff, Math.Abs(mean - Convert.ToDouble(originSummary[origin + 1, 1])));
+            maxOriginDiff = Math.Max(maxOriginDiff, Math.Abs(stdDev - Convert.ToDouble(originSummary[origin + 1, 2])));
+        }
+        RecordGoldenDiff("Samples reconcile: origin summaries", maxOriginDiff);
+
+        var invalidOutput = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+            triangle, 1, 42, "EV", "NONCONSTANT", "INVALID", "GAMMA");
+        bool invalidHandled = invalidOutput.GetLength(0) == 1
+            && Convert.ToString(invalidOutput[0, 0])!.StartsWith("Error:", StringComparison.Ordinal);
+        Log($"Invalid option contract: {FormatMatch(invalidHandled)}");
+        Log("");
+    }
+
+    static void RecordGoldenDiff(string label, double maxDifference)
+    {
+        const double tolerance = 2e-8;
+        Log($"{label}: max abs diff={maxDifference:G6}, match={FormatMatch(maxDifference <= tolerance)}");
+    }
+
+    static double MaxVectorDiff(object[,] actual, int actualColumn, JsonElement expected)
+    {
+        double maximum = 0.0;
+        int iteration = 0;
+        foreach (JsonElement value in expected.EnumerateArray())
+        {
+            maximum = Math.Max(maximum,
+                Math.Abs(Convert.ToDouble(actual[iteration + 1, actualColumn]) - value.GetDouble()));
+            iteration++;
+        }
+        return maximum;
+    }
+
+    static double[,]? ParseOptionalMatrix(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Null)
+            return null;
+        int rows = element.GetArrayLength();
+        int columns = element[0].GetArrayLength();
+        var result = new double[rows, columns];
+        int i = 0;
+        foreach (JsonElement row in element.EnumerateArray())
+        {
+            int j = 0;
+            foreach (JsonElement value in row.EnumerateArray())
+                result[i, j++] = value.GetDouble();
+            i++;
+        }
+        return result;
+    }
+
+    static double[]? ParseOptionalVector(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Null)
+            return null;
+        var result = new double[element.GetArrayLength()];
+        int i = 0;
+        foreach (JsonElement value in element.EnumerateArray())
+            result[i++] = value.GetDouble();
+        return result;
+    }
+
+    static double MaxMatrixDiff(object[,] actual, int firstActualColumn, JsonElement expected)
+    {
+        double maximum = 0.0;
+        int iteration = 0;
+        foreach (JsonElement row in expected.EnumerateArray())
+        {
+            int column = 0;
+            foreach (JsonElement value in row.EnumerateArray())
+            {
+                maximum = Math.Max(maximum,
+                    Math.Abs(Convert.ToDouble(actual[iteration + 1, firstActualColumn + column]) - value.GetDouble()));
+                column++;
+            }
+            iteration++;
+        }
+        return maximum;
+    }
+
+    static double MaxCubeDiff(object[,] actual, JsonElement expected)
+    {
+        double maximum = 0.0;
+        int iteration = 0;
+        foreach (JsonElement matrix in expected.EnumerateArray())
+        {
+            int flattenedColumn = 1;
+            foreach (JsonElement row in matrix.EnumerateArray())
+            foreach (JsonElement value in row.EnumerateArray())
+            {
+                maximum = Math.Max(maximum,
+                    Math.Abs(Convert.ToDouble(actual[iteration + 1, flattenedColumn]) - value.GetDouble()));
+                flattenedColumn++;
+            }
+            iteration++;
+        }
+        return maximum;
     }
 
     static void TestCopulas()

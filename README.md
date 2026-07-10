@@ -112,7 +112,7 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 | **Reinsurance layers** | 3 | XOL layer loss & expected loss, Pareto ILF (XOL pricing inputs only) | standard texts |
 | **Return periods** ⚠️ experimental | 3 | RP-loss interpolation, RP table builder, AAL from OEP | standard texts |
 | **Copulas** ⚠️ experimental | 16 | Gaussian, Student-t, Clayton, Frank, Gumbel — samplers, CDFs, τ↔θ, tail dependence | McNeil et al. (2015) |
-| **ODP bootstrap** ⚠️ experimental | 3 | `ACT_CL_BOOTSTRAP`, `_ORIGIN`, and `_SAMPLES`; full E&V 2002 with GLM hat matrix, per-period φⱼ, Bessel correction; reconciles per-origin to England (2010) slide 35 | England & Verrall (2002), England (2010) |
+| **ODP bootstrap** ⚠️ experimental | 3 | `ACT_CL_BOOTSTRAP`, `_ORIGIN`, and `_SAMPLES`; pathwise port of `StochasticReserving.Main_ODP_Bstrap` with NumPy legacy RNG compatibility and selectable scale/bootstrap/forecast distributions | England & Verrall (2006), StochasticReserving |
 | **Interpolation & version info** | 9 | 1D / log / 2D bilinear, version badges inside the sheet | — |
 
 **Total:** 175 worksheet functions. See the
@@ -152,12 +152,12 @@ Five function families carry an additional warning. They are tagged
   coefficients are stable; the Gumbel Marshall-Olkin sampler and the
   Kendall's τ → θ inversion for Frank are under active validation.
 - **ODP bootstrap** (`ACT_CL_BOOTSTRAP`, `ACT_CL_BOOTSTRAP_ORIGIN`, `ACT_CL_BOOTSTRAP_SAMPLES`) —
-  the full England & Verrall 2002 implementation reconciles per-origin
-  to England (2010) slide 35 within Monte Carlo noise on Taylor-Ashe
-  (see [Validation](#validation--tests)). Bootstrap correctness depends
-  on a handful of subtle conventions (hat-matrix construction,
-  per-period scale, pseudo-diagonal IBNR); pathological triangles may
-  expose edge cases the tests don't cover.
+  EV mode ports Peter England's `Main_ODP_Bstrap` and reconciles its raw
+  stochastic paths against the upstream Python implementation with a fixed
+  NumPy-compatible MT19937 stream (see [Validation](#validation--tests)).
+  The API exposes constant/non-constant scale, parametric/non-parametric
+  bootstrap and forecast distributions, link-ratio masks, and user forecast
+  scales. Pathological triangles may still expose untested edge cases.
 - **Aggregate claims** (`ACT_AGGREGATE_*`, `ACT_DISCRETIZE_*`,
   `ACT_PANJER_*`) — Panjer recursion + severity discretisation. The
   individual building blocks reconcile to scipy CDF differences and
@@ -198,18 +198,18 @@ papermill-executable notebook that:
    `AssertionError` if any Basic reconciliation falls outside tolerance —
    which fails CI.
 
-The ODP bootstrap is additionally pinned to England (2010) "Stochastic
-Claims Reserving Made Simple" slide 35 per-origin prediction errors on
-the Taylor & Ashe (1983) `genins` triangle. Reference values, methodology
-walkthrough (M0 → M5: chainladder-python built-in → pseudo diagonal →
-corner exclusion → hat-adjusted residuals → per-period φⱼ → Bessel
-correction), and reconciliation against the Shapland (2016) companion
-Excel and R `ChainLadder::BootChainLadder` are documented in the
-companion repository
+The ODP bootstrap is pinned pathwise to
+[`DrPeterEngland/StochasticReserving`](https://github.com/DrPeterEngland/StochasticReserving)
+on the Taylor & Ashe (1983) `genins` triangle. A frozen fixture checks raw
+reserves, totals, ultimates, pseudo link ratios, cumulative forecasts, and
+complete cumulative forecasts for all distribution combinations used by the
+companion repository's stochastic tests. The C# implementation includes the
+legacy NumPy `RandomState` MT19937 stream and matches its bounded-choice,
+normal, gamma, and lognormal draw ordering. The independent replication and
+methodology notes live in
 [`mdevans21/bootstrapping_exposition`](https://github.com/mdevans21/bootstrapping_exposition).
-Both repos use the same algorithm for the EV mode; the C# implementation
-matches England's published total CV (11.9 %) and per-origin PE pattern
-to within Monte Carlo noise at 10 000 simulations.
+The implementation also retains the published total CV and per-origin
+prediction-error reconciliation within Monte Carlo noise at 10 000 simulations.
 
 Secondary artefacts:
 
@@ -345,14 +345,18 @@ the reconciliation notebook.
 | `ACT_BF_ULTIMATE(tri, factors, apriori)` | Bornhuetter-Ferguson | BF (1972) |
 | `ACT_MACK_FACTOR_SE(tri, [vertical])` | standard error of LDFs | Mack (1993) |
 | `ACT_MACK_RESERVE_SE(tri, [vertical])` | reserve SE by AY | Mack (1993, 1999) |
-| `ACT_CL_BOOTSTRAP(tri, iter, [seed], [method])` ⚠️ | total reserve distribution | England & Verrall (2002) |
-| `ACT_CL_BOOTSTRAP_ORIGIN(tri, iter, [seed], [method])` ⚠️ | reserve distribution by AY | |
-| `ACT_CL_BOOTSTRAP_SAMPLES(tri, iter, [seed], [method])` ⚠️ | raw simulated total and AY reserves for audit/reconciliation | |
+| `ACT_CL_BOOTSTRAP(tri, iter, [seed], [method], [scale], [bootstrapDist], [forecastDist], [mask], [userSqrtScale])` ⚠️ | total reserve distribution | England & Verrall (2006), StochasticReserving |
+| `ACT_CL_BOOTSTRAP_ORIGIN(tri, iter, [seed], [method], [scale], [bootstrapDist], [forecastDist], [mask], [userSqrtScale])` ⚠️ | reserve distribution by AY | |
+| `ACT_CL_BOOTSTRAP_SAMPLES(tri, iter, [seed], [method], [scale], [bootstrapDist], [forecastDist], [output], [mask], [userSqrtScale])` ⚠️ | raw reserves, ultimates, pseudo LRs, or cumulative paths | |
 
-**Bootstrap modes:** pass `method = "EV"` (default) for full
-England & Verrall 2002 non-constant-scale ODP with hat-matrix adjustment
-and per-period φⱼ, or `method = "CHAINLADDER-PYTHON"` for a stripped
-variant that matches `chainladder-python`'s `hat_adj=False` output.
+**Bootstrap modes:** `method = "EV"` (default) follows
+`StochasticReserving.Main_ODP_Bstrap`. Its defaults are `NONCONSTANT` scale,
+`NONPARAMETRIC` bootstrap distribution, and `GAMMA` forecast distribution.
+Both distributions also accept `GAMMA`, `LOGNORMAL`, or `NONPARAMETRIC`.
+`ACT_CL_BOOTSTRAP_SAMPLES` can return `RESERVES`, `ULTIMATES`, `PSEUDO-LRS`,
+`CUMULATIVES`, or `COMPLETE-CUMULATIVES`. Pass
+`method = "CHAINLADDER-PYTHON"` to retain the previous constant-phi basic mode;
+that mode supports reserve output only.
 
 ### Aggregate claims (Panjer recursion)
 
