@@ -643,10 +643,9 @@ public static class AddinOutputsEmitter
         const string g = "bootstrap";
         var tri = TaylorAshe();
 
-        // Seed 42 matches the bootstrapping_exposition repo so per-origin PE
-        // values can be cross-read against England (2010) slide 35 directly
-        // (modulo numpy vs System.Random sequence differences — comparison is
-        // statistical, not bit-exact).
+        // Seed 42 matches both reference repositories. EV uses the same legacy
+        // NumPy RandomState stream and draw order as StochasticReserving; the
+        // England slide comparison below remains a statistical moment check.
         var evTotal = ChainLadder.ACT_CL_BOOTSTRAP(tri, 10000, 42, "EV");
         R(g, "ACT_CL_BOOTSTRAP", new object?[] { "TaylorAshe", 10000, 42, "EV" }, evTotal);
 
