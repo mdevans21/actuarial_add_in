@@ -6,8 +6,8 @@ namespace ActuarialAddIn;
 /// </summary>
 public static class VersionInfo
 {
-    public const string CurrentVersion = "0.8.0";
-    public const string BuildDate = "2026-05-05";
+    public const string CurrentVersion = "0.9.0";
+    public const string BuildDate = "2026-07-10";
     public const string GitHubUrl = "https://github.com/mdevans21/actuarial_add_in";
 
     public record CommitInfo(string ShortHash, string Date, string Message);
@@ -20,6 +20,7 @@ public static class VersionInfo
         // Release history — see GitHub Releases for full notes per tag.
         return new[]
         {
+            new CommitInfo("v0.9.0", "2026-07-10", "ODP bootstrap now reconciles bit-for-bit to Peter England's released StochasticReserving implementation at https://github.com/DrPeterEngland/StochasticReserving. Adds NumPy RandomState-compatible sampling and reduction order, raw reserve/ultimate/link-ratio/cumulative path exports, selectable scale and distribution modes, exclusion masks, user forecast scales, and fixed-seed golden tests. Ships both the default .NET Framework 4.8 Excel XLLs and the .NET 8 performance variants."),
             new CommitInfo("v0.8.0", "2026-05-05", "Multi-target net48 + net8.0-windows. Default release asset (`AddIn64-packed.xll`) now targets .NET Framework 4.8 — preinstalled on every Windows 10 1903+ / Windows 11, so installing the add-in no longer requires a runtime download. A .NET 8 perf variant ships alongside as `AddIn64-packed-net8.xll` for users who install the .NET 8 Desktop Runtime; same C# code, modern JIT and SIMD codegen on heavy stochastic workloads. Root cause of the long-standing v0.5.x .NET 8 hosting failure identified: ExcelDna 1.9.0's host shim formats its own runtimeconfig.json from the `.dna` file's RuntimeVersion attribute, which was set to `v4.0` (causing the host to launch .NET 6 and reject the net8 user assembly). MSBuild XmlPoke target now rewrites it to `v8.0` for the net8 build only."),
             new CommitInfo("v0.7.3", "2026-05-04", "Bundles five post-v0.7.2 fixes for the public surface: Cat Modeling SPILL collision (OEP/AEP curves now sit side-by-side with full 1000-row clearance, confused static Example 2 dropped); dump-iteration ordering (post-Formula2 errors now surface in dump JSON instead of silently shipping); Versions tab spills `=ACT_COMMIT_HISTORY()` live from the XLL instead of a stale `git log` snapshot; CHANGELOG.md / CONTRIBUTING.md / docs/DEVELOPING.md pulled out of the public repo (release notes live in this method + GitHub Releases)."),
             new CommitInfo("v0.7.2", "2026-05-04", "Workbook polish + Experimental retagging. Mack-SE reference column corrected; Cat Modeling EP-curve table populated; Latest Cumulative restored as a formula; Copulas sheet gains Gaussian/Clayton/Frank/Gumbel sections; Interpolation chart shows interpolated overlay; all charts switched from smooth to straight lines; array formulas promoted via Formula2 to spill correctly. `Actuarial.Aggregate`/`Reinsurance` cat-modelling and return-period functions retagged Experimental to match Copulas/Bootstrap."),

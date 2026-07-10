@@ -17,7 +17,10 @@
 Every function is prefixed `ACT_`, has an Insert-Function description, and
 returns spill-friendly arrays for Excel 365. Numerical results are
 reconciled against `scipy`, `chainladder-python`, and published
-actuarial literature in a CI-gated Jupyter notebook (see
+actuarial literature in a CI-gated Jupyter notebook. The ODP bootstrap
+reconciles bit-for-bit to Peter England's released
+[`StochasticReserving`](https://github.com/DrPeterEngland/StochasticReserving)
+implementation (see
 [Validation](#validation--tests)).
 
 ---
@@ -198,7 +201,8 @@ papermill-executable notebook that:
    `AssertionError` if any Basic reconciliation falls outside tolerance —
    which fails CI.
 
-The ODP bootstrap is pinned pathwise to
+The ODP bootstrap reconciles bit-for-bit to Peter England's released
+implementation at
 [`DrPeterEngland/StochasticReserving`](https://github.com/DrPeterEngland/StochasticReserving)
 on the Taylor & Ashe (1983) `genins` triangle. A frozen fixture checks raw
 reserves, totals, ultimates, pseudo link ratios, cumulative forecasts, and
