@@ -175,6 +175,74 @@ public static partial class ChainLadder
         return result;
     }
 
+
+    [ExcelFunction(Description = "[EXPERIMENTAL] ODP Bootstrap reserve simulation samples. Returns one row per iteration with Iteration, Total, and AY reserve columns. Use method='EV' (default) for England & Verrall methodology or 'CHAINLADDER-PYTHON' for compatible basic ODP results.", Category = "Actuarial.Experimental")]
+    public static object[,] ACT_CL_BOOTSTRAP_SAMPLES(
+        [ExcelArgument(Description = "Cumulative triangle (n x n, zeros for future cells)")] double[,] triangle,
+        [ExcelArgument(Description = "Number of bootstrap iterations (recommend 10000+)")] int iterations,
+        [ExcelArgument(Description = "Random seed for reproducibility (leave blank for system seed)")] object? seed = null,
+        [ExcelArgument(Description = "Method: 'EV' (default) = full England & Verrall (2002). 'CHAINLADDER-PYTHON' = chainladder-python compatible with constant phi and original diagonal.")] string method = "EV")
+    {
+        int n = triangle.GetLength(0);
+        if (triangle.GetLength(1) != n)
+            return new object[,] { { "Error: Triangle must be square" } };
+
+        if (iterations <= 0)
+            return new object[,] { { "Error: Iterations must be positive" } };
+
+        var rng = SeedUtil.ResolveSeed(seed) is { } _seed ? new Random(_seed) : new Random();
+        var factors = GetFactorsArray(triangle);
+
+        double[,] fittedIncr;
+        double[] pool;
+        double[]? phiByDev;
+        double phiGlobal;
+        bool isScaledPool, usePseudoDiag;
+        string error;
+
+        string m = string.IsNullOrWhiteSpace(method) ? "EV" : method.Trim().ToUpperInvariant();
+        if (m == "EV")
+        {
+            if (!PrepareEVBootstrap(triangle, factors, n,
+                out fittedIncr, out pool, out phiByDev, out phiGlobal, out error))
+                return new object[,] { { error } };
+            isScaledPool = true;
+            usePseudoDiag = true;
+        }
+        else if (m == "CHAINLADDER-PYTHON")
+        {
+            if (!PrepareBasicBootstrap(triangle, factors, n,
+                out fittedIncr, out pool, out phiGlobal, out error))
+                return new object[,] { { error } };
+            phiByDev = null;
+            isScaledPool = false;
+            usePseudoDiag = false;
+        }
+        else
+        {
+            return new object[,] { { "Error: method must be 'EV' or 'CHAINLADDER-PYTHON'" } };
+        }
+
+        var result = new object[iterations + 1, n + 2];
+        result[0, 0] = "Iteration";
+        result[0, 1] = "Total";
+        for (int i = 0; i < n; i++)
+            result[0, i + 2] = $"AY{i + 1}";
+
+        for (int iter = 0; iter < iterations; iter++)
+        {
+            var ibnr = BootstrapOneIteration(triangle, fittedIncr, pool,
+                phiByDev, phiGlobal, isScaledPool, usePseudoDiag, n, rng);
+            result[iter + 1, 0] = iter + 1;
+            result[iter + 1, 1] = ibnr.Sum();
+            for (int i = 0; i < n; i++)
+                result[iter + 1, i + 2] = ibnr[i];
+        }
+
+        return result;
+    }
+
+
     #endregion
 
 }

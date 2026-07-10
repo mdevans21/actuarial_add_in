@@ -7,7 +7,7 @@
 [![.NET Framework 4.8](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)](https://dotnet.microsoft.com/)
 [![.NET 8.0 (perf)](https://img.shields.io/badge/.NET-8.0%20perf-512BD4)](https://dotnet.microsoft.com/download/dotnet/8.0)
 
-> A native Excel add-in that brings 174 general-insurance actuarial
+> A native Excel add-in that brings 175 general-insurance actuarial
 > functions — **chain ladder**, **Mack standard errors**, **ODP bootstrap**,
 > **MBBEFD / Swiss Re exposure curves**, **Panjer recursion**, **copulas**,
 > **cat modelling (ELT → YLT → OEP)**, **17 loss distributions** with
@@ -112,10 +112,10 @@ the full percentile table (mean, stddev, P1…P99) from an England & Verrall
 | **Reinsurance layers** | 3 | XOL layer loss & expected loss, Pareto ILF (XOL pricing inputs only) | standard texts |
 | **Return periods** ⚠️ experimental | 3 | RP-loss interpolation, RP table builder, AAL from OEP | standard texts |
 | **Copulas** ⚠️ experimental | 16 | Gaussian, Student-t, Clayton, Frank, Gumbel — samplers, CDFs, τ↔θ, tail dependence | McNeil et al. (2015) |
-| **ODP bootstrap** ⚠️ experimental | 2 | `ACT_CL_BOOTSTRAP` + `_ORIGIN`, full E&V 2002 with GLM hat matrix, per-period φⱼ, Bessel correction; reconciles per-origin to England (2010) slide 35 | England & Verrall (2002), England (2010) |
+| **ODP bootstrap** ⚠️ experimental | 3 | `ACT_CL_BOOTSTRAP`, `_ORIGIN`, and `_SAMPLES`; full E&V 2002 with GLM hat matrix, per-period φⱼ, Bessel correction; reconciles per-origin to England (2010) slide 35 | England & Verrall (2002), England (2010) |
 | **Interpolation & version info** | 9 | 1D / log / 2D bilinear, version badges inside the sheet | — |
 
-**Total:** 174 worksheet functions. See the
+**Total:** 175 worksheet functions. See the
 [full function reference](#function-reference) below or use Excel's
 **Insert Function** dialog and pick the `Actuarial.*` category.
 
@@ -151,7 +151,7 @@ Five function families carry an additional warning. They are tagged
   Gumbel samplers and bivariate CDFs. Analytical tail-dependence
   coefficients are stable; the Gumbel Marshall-Olkin sampler and the
   Kendall's τ → θ inversion for Frank are under active validation.
-- **ODP bootstrap** (`ACT_CL_BOOTSTRAP`, `ACT_CL_BOOTSTRAP_ORIGIN`) —
+- **ODP bootstrap** (`ACT_CL_BOOTSTRAP`, `ACT_CL_BOOTSTRAP_ORIGIN`, `ACT_CL_BOOTSTRAP_SAMPLES`) —
   the full England & Verrall 2002 implementation reconciles per-origin
   to England (2010) slide 35 within Monte Carlo noise on Taylor-Ashe
   (see [Validation](#validation--tests)). Bootstrap correctness depends
@@ -347,6 +347,7 @@ the reconciliation notebook.
 | `ACT_MACK_RESERVE_SE(tri, [vertical])` | reserve SE by AY | Mack (1993, 1999) |
 | `ACT_CL_BOOTSTRAP(tri, iter, [seed], [method])` ⚠️ | total reserve distribution | England & Verrall (2002) |
 | `ACT_CL_BOOTSTRAP_ORIGIN(tri, iter, [seed], [method])` ⚠️ | reserve distribution by AY | |
+| `ACT_CL_BOOTSTRAP_SAMPLES(tri, iter, [seed], [method])` ⚠️ | raw simulated total and AY reserves for audit/reconciliation | |
 
 **Bootstrap modes:** pass `method = "EV"` (default) for full
 England & Verrall 2002 non-constant-scale ODP with hat-matrix adjustment
