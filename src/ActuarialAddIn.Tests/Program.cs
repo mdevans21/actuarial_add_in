@@ -1449,6 +1449,12 @@ class Program
         bool invalidHandled = invalidOutput.GetLength(0) == 1
             && Convert.ToString(invalidOutput[0, 0])!.StartsWith("Error:", StringComparison.Ordinal);
         Log($"Invalid option contract: {FormatMatch(invalidHandled)}");
+
+        var invalidOutputSelector = ChainLadder.ACT_CL_BOOTSTRAP_SAMPLES(
+            triangle, int.MaxValue, 42, "EV", "NONCONSTANT", "NONPARAMETRIC", "GAMMA", "INVALID");
+        bool invalidOutputHandled = invalidOutputSelector.GetLength(0) == 1
+            && Convert.ToString(invalidOutputSelector[0, 0])!.StartsWith("Error: output", StringComparison.Ordinal);
+        Log($"Invalid output rejected before simulation: {FormatMatch(invalidOutputHandled)}");
         Log("");
     }
 

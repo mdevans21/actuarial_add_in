@@ -106,6 +106,8 @@ public static partial class ChainLadder
     {
         string normalizedMethod = Normalize(method, "EV");
         string normalizedOutput = Normalize(output, "RESERVES");
+        if (normalizedOutput is not ("RESERVES" or "ULTIMATES" or "PSEUDO-LRS" or "CUMULATIVES" or "COMPLETE-CUMULATIVES"))
+            return Error("Error: output must be RESERVES, ULTIMATES, PSEUDO-LRS, CUMULATIVES, or COMPLETE-CUMULATIVES");
         if (normalizedMethod == "CHAINLADDER-PYTHON" && normalizedOutput != "RESERVES")
             return Error("Error: CHAINLADDER-PYTHON supports RESERVES output only");
 
@@ -148,7 +150,7 @@ public static partial class ChainLadder
             "PSEUDO-LRS" => FormatMatrixSamples(reference.PseudoLinkRatios, "Dev"),
             "CUMULATIVES" => FormatCubeSamples(reference.Cumulatives),
             "COMPLETE-CUMULATIVES" => FormatCubeSamples(reference.CompleteCumulatives),
-            _ => Error("Error: output must be RESERVES, ULTIMATES, PSEUDO-LRS, CUMULATIVES, or COMPLETE-CUMULATIVES")
+            _ => throw new InvalidOperationException("Validated bootstrap output was not handled.")
         };
     }
 
