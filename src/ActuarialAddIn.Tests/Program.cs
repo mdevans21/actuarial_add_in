@@ -1454,8 +1454,7 @@ class Program
 
     static void RecordGoldenDiff(string label, double maxDifference)
     {
-        const double tolerance = 2e-8;
-        Log($"{label}: max abs diff={maxDifference:G6}, match={FormatMatch(maxDifference <= tolerance)}");
+        Log($"{label}: max abs diff={maxDifference:G6}, match={FormatMatch(maxDifference == 0.0)}");
     }
 
     static double MaxVectorDiff(object[,] actual, int actualColumn, JsonElement expected)

@@ -85,20 +85,17 @@ internal static class StochasticReservingBootstrap
                 forecastDistribution,
                 rng);
 
-            double total = 0.0;
             for (int i = 0; i < n; i++)
             {
                 reserves[iteration, i] = forecast.Reserves[i];
                 ultimates[iteration, i] = forecast.Ultimates[i];
-                if (!double.IsNaN(forecast.Reserves[i]))
-                    total += forecast.Reserves[i];
                 for (int j = 0; j < n; j++)
                 {
                     cumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
                     completeCumulatives[iteration, i, j] = forecast.Cumulatives[i, j];
                 }
             }
-            totalReserves[iteration] = total;
+            totalReserves[iteration] = NumpyPairwiseSum(forecast.Reserves);
         }
 
         return new StochasticReservingBootstrapResult
@@ -146,8 +143,8 @@ internal static class StochasticReservingBootstrap
         var factors = new double[n - 1];
         for (int j = 0; j < n - 1; j++)
         {
-            double weightedRatios = 0.0;
-            double weights = 0.0;
+            var weightedRatioTerms = new double[n - 1];
+            var weightTerms = new double[n - 1];
             for (int i = 0; i < n - 1; i++)
             {
                 double numerator = triangle[i, j + 1];
@@ -162,9 +159,11 @@ internal static class StochasticReservingBootstrap
                 double maskedWeight = denominator * mask[i, j];
                 if (double.IsNaN(maskedWeight))
                     continue;
-                weightedRatios += ratio * maskedWeight;
-                weights += maskedWeight;
+                weightedRatioTerms[i] = ratio * maskedWeight;
+                weightTerms[i] = maskedWeight;
             }
+            double weightedRatios = NumpyPairwiseSum(weightedRatioTerms);
+            double weights = NumpyPairwiseSum(weightTerms);
             factors[j] = weights == 0.0 ? 1.0 : weightedRatios / weights;
             if (double.IsNaN(factors[j]))
                 factors[j] = 1.0;
@@ -243,7 +242,7 @@ internal static class StochasticReservingBootstrap
         var sqrtScale = new double[n];
         if (scale == "CONSTANT")
         {
-            double sum = SumIgnoringNaN(scaleSquares);
+            double sum = NumpyPairwiseSum(scaleSquares);
             double value = Math.Sqrt(sum / observations);
             for (int j = 0; j < n; j++)
                 sqrtScale[j] = value;
@@ -258,12 +257,10 @@ internal static class StochasticReservingBootstrap
                 }
                 else
                 {
-                    double sum = 0.0;
+                    var terms = new double[n - j];
                     for (int i = 0; i < n - j; i++)
-                    {
-                        if (!double.IsNaN(scaleSquares[i, j]))
-                            sum += scaleSquares[i, j];
-                    }
+                        terms[i] = scaleSquares[i, j];
+                    double sum = NumpyPairwiseSum(terms);
                     sqrtScale[j] = Math.Sqrt(sum / observationsByDevelopment[j]);
                 }
             }
@@ -286,17 +283,14 @@ internal static class StochasticReservingBootstrap
         }
 
         var adjustedScaled = CreateNaNMatrix(n, n);
-        double adjustedScaledSum = 0.0;
         for (int i = 0; i < n; i++)
         for (int j = 0; j < n - i; j++)
         {
             if (!double.IsNaN(adjustedUnscaled[i, j]) && sqrtScale[j] != 0.0)
-            {
                 adjustedScaled[i, j] = adjustedUnscaled[i, j] / sqrtScale[j];
-                adjustedScaledSum += adjustedScaled[i, j];
-            }
         }
 
+        double adjustedScaledSum = NumpyPairwiseSum(adjustedScaled);
         double averageResidual = adjustedScaledSum / (observations - 2.0);
         var zeroAverage = CreateNaNMatrix(n, n);
         for (int i = 0; i < n; i++)
@@ -477,15 +471,63 @@ internal static class StochasticReservingBootstrap
         return rng.Normal(mean, standardDeviation);
     }
 
-    private static double SumIgnoringNaN(double[,] matrix)
+    private static double NumpyPairwiseSum(double[,] matrix)
     {
-        double sum = 0.0;
-        foreach (double value in matrix)
+        var values = new double[matrix.Length];
+        int index = 0;
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        for (int j = 0; j < matrix.GetLength(1); j++)
+            values[index++] = matrix[i, j];
+        return NumpyPairwiseSum(values);
+    }
+
+    private static double NumpyPairwiseSum(double[] values, int start = 0, int? count = null)
+    {
+        int length = count ?? values.Length;
+        if (length < 8)
         {
-            if (!double.IsNaN(value))
-                sum += value;
+            double result = -0.0;
+            for (int i = 0; i < length; i++)
+            {
+                double value = values[start + i];
+                result += double.IsNaN(value) ? 0.0 : value;
+            }
+            return result;
         }
-        return sum;
+
+        if (length <= 128)
+        {
+            var accumulators = new double[8];
+            for (int i = 0; i < 8; i++)
+            {
+                double value = values[start + i];
+                accumulators[i] = double.IsNaN(value) ? 0.0 : value;
+            }
+
+            int offset = 8;
+            for (; offset < length - 7; offset += 8)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    double value = values[start + offset + i];
+                    accumulators[i] += double.IsNaN(value) ? 0.0 : value;
+                }
+            }
+
+            double result = ((accumulators[0] + accumulators[1]) + (accumulators[2] + accumulators[3]))
+                + ((accumulators[4] + accumulators[5]) + (accumulators[6] + accumulators[7]));
+            for (; offset < length; offset++)
+            {
+                double value = values[start + offset];
+                result += double.IsNaN(value) ? 0.0 : value;
+            }
+            return result;
+        }
+
+        int firstLength = length / 2;
+        firstLength -= firstLength % 8;
+        return NumpyPairwiseSum(values, start, firstLength)
+            + NumpyPairwiseSum(values, start + firstLength, length - firstLength);
     }
 
     private static double[,] CreateNaNMatrix(int rows, int columns)
